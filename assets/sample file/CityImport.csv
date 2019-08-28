@@ -1,0 +1,15 @@
+State Id,City Name,is metro,pool pincode
+14,Testing1,1,530001
+15,Testing2,0,530001
+16,Testing3,1,530001
+17,Testing4,0,530001
+18,Testing5,1,530001
+19,Testing6,1,530001
+20,Testing7,1,530001
+21,Testing8,1,530001
+22,Testing9,1,530001
+23,Testing10,1,530001
+,,,
+,,,
+,,1-> YES,
+,,0->NO,
