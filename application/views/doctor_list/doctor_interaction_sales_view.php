@@ -249,14 +249,14 @@ $team_list=json_decode($users_team);
                 <!--<div class="form-group">-->
                 <div class="box-footer">
 					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save</button>
+					<?php  echo form_close();  ?>
+					<button id="cancel_inter" class="btn btn-danger"> Cancel</button>
                 </div>
             </div>
         </div>
           <!-- /.row -->
           
-          <?php
-          echo form_close();
-          ?>
+
         </div>
         <!-- /.box-body -->
          <!-- /.box -->
@@ -285,9 +285,9 @@ $team_list=json_decode($users_team);
 
               <div class="modal-body">
 
-                  
 
-                  
+
+
 
        <div class="form-group" id="d_list<?=$edit_doctor->doctor_id ?>">
 
@@ -301,17 +301,17 @@ $team_list=json_decode($users_team);
 
            <select multiple="" id="dealer_id<?=$edit_doctor->doctor_id ?>" name="dealer_id[]" class="form-control select5" style="width: 100%;">
 
-                  
 
-                <?php 
+
+                <?php
 
                 foreach($dealer_data as $k_s => $val_s){
 
-                    
+
 
                     /*for dealers id who belogs to this doctor*/
 
-                                if(!empty(($edit_doctor->dealers_id))){   
+                                if(!empty(($edit_doctor->dealers_id))){
 
                                     $dealers_are = explode(',', $edit_doctor->dealers_id);
 
@@ -321,7 +321,7 @@ $team_list=json_decode($users_team);
 
                                     $dealers_are=array();
 
-                                }  
+                                }
 
                     /*end of dealers id who belogs to this doctor */
 
@@ -331,7 +331,7 @@ $team_list=json_decode($users_team);
 
 //                    if($val_s->blocked==0){
 
-                ?>   
+                ?>
 
                <option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> selected=""><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
 
@@ -339,31 +339,31 @@ $team_list=json_decode($users_team);
 
                 if($val_s->status==1){     ?>
 
-                
+
 
                    <option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> ><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
 
-   
 
-               <?php     
+
+               <?php
 
                 } } } ?>
 
-                  
 
-                  
 
-                  
 
-                  <?php 
+
+
+
+                  <?php
 
                 foreach($pharma_list as $k_pl => $val_pl){
 
-                    
+
 
                     /*for dealers id who belogs to this doctor*/
 
-                                if(!empty(($edit_doctor->dealers_id))){   
+                                if(!empty(($edit_doctor->dealers_id))){
 
                                     $dealers_are = explode(',', $edit_doctor->dealers_id);
 
@@ -373,7 +373,7 @@ $team_list=json_decode($users_team);
 
                                     $dealers_are=array();
 
-                                }  
+                                }
 
                     /*end of dealers id who belogs to this doctor */
 
@@ -383,17 +383,17 @@ $team_list=json_decode($users_team);
 
 //                     if($val_pl['blocked']==0){
 
-                ?>   
+                ?>
 
                <option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?> selected=""><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
 
                 <?php }
 
-                
+
 
                 elseif($val_pl['status']==1){
 
-                    
+
 
                  ?>
 
@@ -405,15 +405,15 @@ $team_list=json_decode($users_team);
 
                 }
 
-                
 
-                
+
+
 
                } ?>
 
-                  
 
-                  
+
+
 
               <!--<option value="none" id="none" >NONE</option>-->
 
@@ -425,9 +425,9 @@ $team_list=json_decode($users_team);
 
 
 
-                    
 
-                      
+
+
 
            <?php // } ?>
 
@@ -457,7 +457,7 @@ $team_list=json_decode($users_team);
 
             <!-- /.modal-content -->
 
-          </div>  
+          </div>
 		  
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript">   // for multipile model open
@@ -476,6 +476,13 @@ $team_list=json_decode($users_team);
 
         </script> 
        <script type="text/javascript">
+
+		   /*Cancel Interaction*/
+		   $('#cancel_inter').on("click",function(){
+               if (confirm('Are you sure you want to Cancel this Interaction.?')) {
+                   window.location.href='<?=base_url() ?>interaction/index/';
+               }
+		   });
 
 		$("#save_sample").click(function(e) {
 		   var selectval= $('[name="stay"]:checked').val();
@@ -587,7 +594,7 @@ $team_list=json_decode($users_team);
                $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
 		   });
 
-           
+
 
 
 

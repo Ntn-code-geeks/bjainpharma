@@ -33,7 +33,7 @@ $team_list=json_decode($users_team);
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <?php echo form_open_multipart($action);?>
+
 			<div class="row">
 				<div class="col-md-12">
 				 
@@ -42,7 +42,7 @@ $team_list=json_decode($users_team);
 		<div class="row">
             <div class="col-md-12">
                 <!--<div class="form-group">-->
-				
+				<?php echo form_open_multipart($action);?>
 				<input type="hidden" name="path_info" <?php if($old_data!=''){?>  value="<?=$old_data->path_info;?>"<?php }else{?> value="<?=$path_info;?>"<?php }?>>	
 				<input type="hidden" name="city"  <?php if($old_data!=''){?> value="<?=$old_data->city_code;?>"<?php }else{?> value="<?=$city;?>"<?php }?> >
 				
@@ -157,11 +157,11 @@ $team_list=json_decode($users_team);
 								   <label>Dealer List<span style="color: red;font-size: 20px">*</span></label>
 								   
 							<select id="pharmacy_dealers<?=$edit_pharmacy->id ?>" name="dealer_id" class="form-control select2" style="width: 100%;">
-									   <?php
-								   if(!empty($edit_pharmacy->dealers_id)){
-								   ?>
-										<?php
-										foreach($dealer_data as $k_s => $val_s){
+					   <?php
+			   if(!empty($edit_pharmacy->dealers_id)){
+			   ?>
+					<?php
+					foreach($dealer_data as $k_s => $val_s){
 											
 										/*for dealers id who belogs to this doctor*/
 										if(!empty(($edit_pharmacy->dealers_id))){
@@ -178,14 +178,7 @@ $team_list=json_decode($users_team);
 										  <option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?>><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
 								    <?php } } } ?>
 
-                  
-
-                  
-
-                  
-
-                  <?php 
-
+                  <?php
                 foreach($pharma_list as $k_pl => $val_pl){
 
 
@@ -233,7 +226,7 @@ $team_list=json_decode($users_team);
                    
                 </div>	   
 							
-						</div>
+				</div>
             <div class="form-group" id="rel_doc_box" style="display: none">
               <label>Dealer List</label>                   
               <select  name="rel_doc_id" class="form-control select2" style="width: 100%;">
@@ -296,14 +289,15 @@ $team_list=json_decode($users_team);
 		              			
                 <div class="box-footer">
 					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save</button>
-                </div>
+					<?php  echo form_close();  ?>
+				</div>
+		  <button style="margin-top: -73px; margin-left: 10px;" class="btn btn-danger cancel_inter"> Cancel</button>
+
             </div>
         </div>
           <!-- /.row -->
           
-          <?php
-          echo form_close(); 
-          ?>
+
         </div>
         <!-- /.box-body -->
          <!-- /.box -->
@@ -322,6 +316,14 @@ $team_list=json_decode($users_team);
         </script> 
           
        <script type="text/javascript">
+
+           /*Cancel Interaction*/
+           $('.cancel_inter').on("click",function(){
+               if (confirm('Are you sure you want to Cancel this Interaction.?')) {
+                   window.location.replace('<?= base_url(); ?>interaction/index/');
+               }
+           });
+
            $("#save_sample").click(function(e) {
                var selectval= $('[name="stay"]:checked').val();
                if(typeof  selectval=="undefined"){
@@ -331,19 +333,16 @@ $team_list=json_decode($users_team);
            });
 
            $('#sale_dealer<?=$edit_pharmacy->id ?>').on("change", function(){
-               
-               var sale_value = $(this).val();
-               
+             var sale_value = $(this).val();
              if(sale_value === ''){
                $("#d_list<?=$edit_pharmacy->id ?>").css("display","none");
                   }
                   else{
                       $("#d_list<?=$edit_pharmacy->id ?>").css("display","block");
                   }
-            
            });
            
-            $('#sale<?=$edit_pharmacy->id ?>').on("change", function(){
+           $('#sale<?=$edit_pharmacy->id ?>').on("change", function(){
 //               alert('mee');
                var sale_value = $(this).val();
                

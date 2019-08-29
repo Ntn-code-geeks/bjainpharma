@@ -6,10 +6,8 @@
  * and open the template in the editor.
  */
 
-
 ?>
 <script src="<?php echo base_url().'design/js/ajax.3.2.js'?>"></script>
-
 
 <div class="content-wrapper">
 
@@ -90,13 +88,15 @@
 											
 	                   						<td >
 	                   							<?php if(get_cat_potency($category['category_id'] )){?>
-												<select  catid="<?= $category['category_id'] ?>" name="product_potency[]" id="" class="product_select_potency form-control procat_option_box_potency_<?= $category['category_id'] ?>"  style="width: 100%;">
+												<select  catid="<?= $category['category_id'] ?>"
+														 name="product_potency[]" id="" class="product_select_potency form-control procat_option_box_potency_<?= $category['category_id'] ?>"  style="width: 100%;">
 	                                   	 		
 	                            				</select>
 	                            				<?php }?>
 	                   						</td>
 	                   						<td >
-												<select  catid="<?= $category['category_id'] ?>" name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_<?= $category['category_id'] ?>"  style="width: 100%;">
+												<select  catid="<?= $category['category_id'] ?>"
+														 name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_<?= $category['category_id'] ?>"  style="width: 100%;">
 	                                   	 		            
 	                            				</select>
 	                   						</td>
@@ -149,27 +149,24 @@
 				<label>Payment Terms *</label>
 				<input class="form-control" id="payment" style="display: none" name="payment" placeholder="Enter No. of Days" value="" type="number">               
 	                
-                                <select name="payment_term" id="payment_term"  class="form-control select11" required="" style="width: 100%;">
-                                       <option value="">--Select Payment Terms--</option>
-				       <option value="1">No of Days</option>
-                                       <option value="2">On Delivery</option>
+			<select name="payment_term" id="payment_term" class="form-control select11" required="" style="width: 100%;">
+				    <option value="">--Select Payment Terms--</option>
+   					<option value="1">No of Days</option>
+				    <option value="2">On Delivery</option>
 
 				</select>
                         
                         </div>
                             
-                        <div class="form-group">
+              <div class="form-group">
 				<label>Mode of Payment *</label>
-                                <select name="payment_mode" id="payment_mode"  class="form-control select10" required="" style="width: 100%;">
-                                       <option value="">--Select Mode of Payment--</option>
-				       <option value="1">Cash</option>
-                                       <option value="2">Cheque</option>
+			<select name="payment_mode" id="payment_mode"  class="form-control select10" required="" style="width: 100%;">
+				    <option value="">--Select Mode of Payment--</option>
+					<option value="1">Cash</option>
+				    <option value="2">Cheque</option>
+			</select>
+                </div>
 
-				</select>
-                                
-                        </div>
-                            
-                            
 			</div>
 		
 		<div class="row">
@@ -177,12 +174,12 @@
                 <!--<div class="form-group">-->
                 <div class="box-footer">
 					<button type="submit" class="btn btn-info pull-right">Save</button>
-					<?php	echo form_close();	?>
-					<button id="cancel-order" class="btn btn-danger ">Cancel</button>
+
                 </div>
             </div>
         </div>
-          <!-- /.row -->
+          <!-- /.row --><?php	echo form_close();	?>
+		  <button id="cancel-order" class="btn btn-danger ">Cancel</button>
 
 
         </div>
@@ -194,11 +191,54 @@
     </section>
     <!-- /.content -->
   </div>
+
+
+
+
+
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    $(document).on('click','.cat_list',function(){
+        var cat_ID=$(this).val();
+        if($(this).is(':checked')){
+            $('.procat_option_box_potency_'+cat_ID+' option').each(function(){
+              if($('.procat_option_box_potency_'+cat_ID+' option[value="'+$(this).val()+'"]').length) $(this).remove();
+            });
+            $('.procat_option_box_packsize_'+cat_ID+' option').each(function(){
+              if($('.procat_option_box_packsize_'+cat_ID+' option[value="'+$(this).val()+'"]').length) $(this).remove();
+            });
+
+            $('.procat_option_box_potency_'+cat_ID).prop('selectedIndex',0);
+            $('.procat_option_box_packsize_'+cat_ID).prop('selectedIndex',0);
+
+        }
+        else{
+            var amt= $('.procat_box_'+cat_ID).find('.pro_amt').val();
+            var tot_amount=$('#tot_amt').val();
+            var balance_amt=tot_amount-amt;
+            $('#tot_amt').val(parseFloat(balance_amt).toFixed(2));
+			$('.procat_box_'+cat_ID).find('.pro_mrp_val').val(0);
+            $('.procat_box_'+cat_ID).find('.pro_amt').val(0);
+
+            $('.procat_option_box_potency_'+cat_ID).prop('selectedIndex',0);
+            $('.procat_option_box_packsize_'+cat_ID).prop('selectedIndex',0);
+
+            $('.procat_option_box_potency_'+cat_ID+' option').each(function(){
+             if($('.procat_option_box_potency_'+cat_ID+' option[value="'+$(this).val()+'"]').length) $(this).remove();
+            });
+            $('.procat_option_box_packsize_'+cat_ID+' option').each(function(){
+             if($('.procat_option_box_packsize_'+cat_ID+' option[value="'+$(this).val()+'"]').length) $(this).remove();
+            });
+
+        }
+    });
+</script>
+
 <script type='text/javascript'>
 
   $(document).on('click','.cat_list',function(){
-	  var catid=$(this).val();
+      var catid=$(this).val();
 	  if($(this).is(':checked')){
 			$('.procat_box_'+catid).css('display','table-row');
 			$('#procat_name_'+catid).css('display','table-row');
@@ -218,7 +258,7 @@
 				});	
     		}
 
- if(catid==15) {
+ 			if(catid==15) {
               $(".procat_option_box_packsize_"+catid).css('display','none');
               $.ajax({
                   type: "POST",
@@ -303,7 +343,7 @@
 					}
 
 				}
-			});		
+			});
 	  }
 	  else
 	  {
@@ -314,8 +354,6 @@
   });
    
 </script>
-
-
 
 
 <!--Go Back on previous page with all session and $_GET data-->
@@ -329,6 +367,7 @@
 <script type='text/javascript'>
     $(".add_row").on("click", function(e) {
   		// alert('asa');
+
     	var theElement = $(this);
     	var catid=$(this).attr("catid");
 
@@ -479,6 +518,7 @@
  <script type='text/javascript'>
 	
     $(document).on("click",".product_select_packsize", function() {
+
   		var catid=$(this).attr("catid");
   		//alert(catid);
   		var theElement = $(this);
@@ -503,6 +543,7 @@
  <script type='text/javascript'>
 	
     $(document).on("click",".product_select_potency", function() {
+
   		var catid=$(this).attr("catid");
   		//alert(catid);
   		var theElement = $(this);
@@ -592,11 +633,11 @@
 					}
 				}
 			});
-                                                }else{
-                                                     $(theElement).closest('tr').find('.product_select').html(res);
-                                                     
-                                                }
-                                                }
+					}else{
+						 $(theElement).closest('tr').find('.product_select').html(res);
+
+					}
+					}
 					});
 	    		}
     		}
@@ -610,12 +651,12 @@
 			   success:function(res){ 
 					//$(theElement).append(res);
 //					$(theElement).closest('tr').find('.product_select').html(res);
-                          if(Math.floor(res) == res && $.isNumeric(res)){
-                                                   if(catid==7){
-                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
-                                                     }
-                                                  
-                                                           $.ajax({
+				  if(Math.floor(res) == res && $.isNumeric(res)){
+				   if(catid==7){
+					$(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
+					 }
+
+			   $.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_details/",
 			   data : 'productid='+res,
@@ -659,10 +700,10 @@
 					}
 				}
 			});
-                                                }else{
-                                                     $(theElement).closest('tr').find('.product_select').html(res);
-                                                     
-                                                }
+					}else{
+						 $(theElement).closest('tr').find('.product_select').html(res);
+
+					}
 
 				}
 			});
@@ -689,15 +730,15 @@
 				   success:function(res){ 
                                       // alert(res);
 						//$(theElement).append(res);
-                                                if(Math.floor(res) == res && $.isNumeric(res)){
-                                                     if(catid==11){
-                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
-                                                     }if(catid==7){
-                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
-                                                     }
+					if(Math.floor(res) == res && $.isNumeric(res)){
+						 if(catid==11){
+						$(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
+						 }if(catid==7){
+						$(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
+						 }
                                                      
                                                      
-                                                           $.ajax({
+			   $.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_details/",
 			   data : 'productid='+catid,
@@ -741,10 +782,10 @@
 					}
 				}
 			});
-                                                }else{
-                                                     $(theElement).closest('tr').find('.product_select').html(res);
-                                                     
-                                                }
+				}else{
+					 $(theElement).closest('tr').find('.product_select').html(res);
+
+				}
 						
 					}
 				});
@@ -776,7 +817,7 @@
  		//$('body').on('DOMNodeInserted', 'select', function () {
                 $(".select10").select2(); // for Mode of payment
          var $evenSelect11  = $(".select11").select2(); // for payment terms
- 	 var $evenSelect2   = $(".select3").select2();
+ 		 var $evenSelect2   = $(".select3").select2();
          
          $evenSelect11.on('change',function(e){
              var paymentterm = $(this).val();
@@ -908,4 +949,5 @@
         }
 });
 </script>
+
 

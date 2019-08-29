@@ -508,8 +508,8 @@ class User extends Parent_admin_controller {
 
 
 	public function Secondary_supply_report(){
-		$data['doc_data']=$this->secondary->doctor_interaction_view();
-		$data['pharma_data']=$this->secondary->pharmacy_interaction_view();
+		$data['doc_data']=doctor_interaction_list();
+		$data['pharma_data']=pharmacy_interaction_list();
 		$this->user->secondary_supply($data);
 	}
   

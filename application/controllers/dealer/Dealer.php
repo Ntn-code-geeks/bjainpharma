@@ -602,8 +602,8 @@ else
     
     // for dealer interaction information
     public function dealer_interaction(){
-				pr($this->input->post());
-				die;
+//				pr($this->input->post());
+//				die;
 		if($this->input->post('save')=='secondary_product'){
 			$logdata=$this->input->post();
 			if($this->dealer->logdata($logdata))

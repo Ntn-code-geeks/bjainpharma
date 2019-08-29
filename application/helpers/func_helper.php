@@ -2576,4 +2576,53 @@ function total_doctor_data($sp_code){
 	}
 	return array_sum($var1);
 }
+
+
+
+function doctor_interaction_list($limit='',$start=''){
+	$ci = &get_instance();
+	$arr = " dl.doc_name as doctorname,pid.orignal_sale as actualsale,pid.id,`pid`.`meeting_sale` secondarysale, `pid`.`create_date` as `date_of_interaction`,d.dealer_name ,pl.company_name as pharmaname,pid.close_status";
+	$ci->db->select($arr);
+	$ci->db->from("pharma_interaction_doctor pid");
+	$ci->db->join("doctor_list dl","dl.doctor_id=pid.doc_id");
+	$ci->db->join("dealer d","d.dealer_id=pid.dealer_id","left");
+	$ci->db->join("pharmacy_list pl","pl.pharma_id=pid.dealer_id","left");
+	$ci->db->join("doctor_interaction_with_team team","team.pidoc_id=pid.id","left");
+	$ci->db->where("pid.meeting_sale !=","");
+	$ci->db->where("pid.status =",1);
+	$query = $ci->db->get();
+//    echo $this->db->last_query(); die;
+		if($ci->db->affected_rows()){
+			return json_encode($query->result_array());
+		}
+		else{
+			return FALSE;
+		}
+
+}
+
+function pharmacy_interaction_list($limit='',$start=''){
+	$ci = &get_instance();
+    $arr = " pl.company_name as pharmaname,pip.orignal_sale as actualsale,pip.id,`pip`.`meeting_sale` as secondarysale, `pip`.`create_date` as `date_of_interaction`,d.dealer_name,pip.close_status";
+	$ci->db->select($arr);
+	$ci->db->from("pharma_interaction_pharmacy pip");
+	$ci->db->join("pharmacy_list pl","pl.pharma_id=pip.pharma_id");
+	$ci->db->join("dealer d","d.dealer_id=pip.dealer_id","left");
+	$ci->db->join("pharmacy_interaction_with_team team","team.pipharma_id=pip.id","left");
+	$ci->db->where("pip.meeting_sale !=","");
+	$ci->db->where("pip.status =",1);
+   if($limit!=''){
+	   $ci->db->limit($limit, decode($start));
+	}
+	$query = $ci->db->get();
+// echo $this->db->last_query(); die;
+	if($ci->db->affected_rows()){
+		return json_encode($query->result_array());
+	}
+	else{
+	  return FALSE;
+	}
+
+    }
+
 ?>
