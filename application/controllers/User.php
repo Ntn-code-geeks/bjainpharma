@@ -70,51 +70,28 @@ class User extends Parent_admin_controller {
 
     public function check_login(){
 
-        
-
         $log_data = $this->input->post();
-
-
         if(!empty($log_data)){
-
          $password = md5($log_data['password']);
-
           $email = $log_data['email'];
-
           $user_info =  $this->user->check_user($email);
-
         }
         if(!empty($user_info)){
-         
 
             $stored_pass= $user_info->password;
-//echo $password.'<br>'.$stored_pass; die;
-           
+            //echo $password.'<br>'.$stored_pass; die;
 
                 if ($password===$stored_pass)
-
                     {
-
-
-
                            $sesUser = array(
-
                                                 'userName'=>$user_info->name,
-
 					                        	'userId'=>$user_info->id,
-
 						                        'userEmail'=>$user_info->email_id,
-
                                                 'userCity'=>$user_info->city_id,
-
                                                 'userDesig'=>$user_info->desig_id,
-
                                                 'pharmaAre'=>$user_info->pharma_id,
-
                                                 'doctorAre'=>$user_info->doctor_id,
-
                                                 'userBoss' => $user_info->boss_ids,
-
                                                 'userChild'=>$user_info->child_ids,
 
                         			'switchStatus'=>$user_info->switchStatus,

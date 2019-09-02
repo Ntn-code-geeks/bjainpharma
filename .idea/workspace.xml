@@ -3,14 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e572d146-1042-44b4-88ee-c3dcfb2eed1e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/func_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/func_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/dashboard/admin_home_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/dashboard/admin_home_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/dashboard/home_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/dashboard/home_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/dealer_list/dealer_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/dealer_list/dealer_interaction_sales_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/order/select_product_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/order/select_product_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,7 +51,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/mingw64/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../exam" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
@@ -188,7 +187,9 @@
       <workItem from="1566973329986" duration="126000" />
       <workItem from="1566973468852" duration="255000" />
       <workItem from="1566973803994" duration="17893000" />
-      <workItem from="1567051599610" duration="18995000" />
+      <workItem from="1567051599610" duration="25441000" />
+      <workItem from="1567138305610" duration="10123000" />
+      <workItem from="1567224962106" duration="12694000" />
     </task>
     <task id="LOCAL-00001" summary="phpstorm commit">
       <created>1566982967610</created>
@@ -290,7 +291,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>475</line>
+          <line>474</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">

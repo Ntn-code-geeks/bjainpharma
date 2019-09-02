@@ -1,10 +1,6 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 $edit_doctor=json_decode($edit_doctor_list);
 $dealer_data = json_decode($dealer_list);   // for all active dealers 
@@ -12,8 +8,8 @@ $ms = json_decode($meeting_sample);
 $team_list=json_decode($users_team);
  
 ?>
+<meta http-equiv="Cache-control" content="no-cache">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 
 <div class="content-wrapper">
 

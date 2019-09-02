@@ -802,129 +802,88 @@ $('#searchid').click(function(){
 						  <tbody>
 						  <?php
 						  $ci =&get_instance();
-						  $ci->load->model('Data_report_Analysis');
 						  $ci->load->model('user_model');
-						  $ci->load->model('doctor/Doctor_model');
-						  $ci->load->model('report/report_model');
 						  $userdata =$ci->user_model->users_report();
 						  $userList=json_decode($userdata);
 						  $userID=logged_user_data();
 						  $child_users=get_child_user($userID);  //Get Team total team members
-						 // pr($child_users);
+//							pr($child_users); die;
 						   if(!empty($child_users)){
 							   /*Overall Report*/
-							   foreach($child_users as  $val){
-								   $user_SP=getuserSPcode($val);
-								   $userSP = $user_SP->sp_code;
-								   $user_name=get_user_name($val);
-								   $userid=$val;
-								   $weekly='month';
-								   $get_boss=get_user_boss($val);
-								   $get_boss_name=get_user_name($get_boss[0]['boss_id']);
-								   $bossid=$get_boss[0]['boss_id'];
-								   $get_uid=get_user_id($user_name);
-								   $get_designation=get_designation_name($get_uid->user_designation_id);
-								   $total_doctors = $ci->doctor->total_doctor_data($userSP);  //Total No. of doctors
-								   @$doc_interaction = total_doctor_interaction($userid); //Total Doctor interaction
-								   $child_users=count(get_child_user($userid));  //Get Team total team members
-
-								   for ($iDay = 30; $iDay >= 0; $iDay--) {
-									   @$aDays[31 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));
-								   }
-								   @$total_doc_interaction= count(array_intersect($doc_interaction,$aDays));
-								   @$week_secondary=total_secondary_analysis($weekly,$userid);
-								   @$weekproductive_report =total_productive_analysis($weekly,$userid);
-								   @$weeknoroder_report=total_noorder_met_analysis($weekly,$userid);
-								   @$weeknotmet_report=total_not_met_analysis($weekly,$userid);
-								   /*For this week*/
-								   $weeksecondary_report = $week_secondary->total_secondry;  //for secondary
+							   $data = file_get_contents ("ReportJSON/monthly.json");
+							   $json = json_decode($data, true);
+							   foreach($child_users as  $val) {
+							   foreach ($json as $weekly_data) {
+							   if ($weekly_data['user_id'] == $val) {
 								   ?>
 								   <tr>
-									   <td><?=$user_name ?></td>
-									   <td><?=$get_boss_name ?></td>
-									   <td><?=$get_designation->designation_name ?></td>
-									   <td><?=$total_doctors ?></td>
-									   <td><?=$total_doc_interaction ?></td>
-									   <td><?=$child_users ?></td>
-									   <?php if(!empty($weeksecondary_report)){ ?>
-										   <td><?=number_format($weeksecondary_report,2);?></td>
-									   <?php }else{ ?>
+									   <td><?= $weekly_data['username'] ?></td>
+									   <td><?= $weekly_data['bossname'] ?></td>
+									   <td><?= $weekly_data['designation_name'] ?></td>
+									   <td><?= $weekly_data['total_doctors'] ?></td>
+									   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+									   <td><?= $weekly_data['team_members'] ?></td>
+									   <?php if (!empty($weekly_data['total_secondary'])) { ?>
+										   <td><?= $weekly_data['total_secondary']; ?></td>
+									   <?php } else { ?>
 										   <td>0</td>
 									   <?php } ?>
-									   <?php if(!empty($weekproductive_report)){ ?>
-										   <td><?=$weekproductive_report;?></td>
-									   <?php }else{ ?>
+									   <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+										   <td><?= $weekly_data['total_productive_call']; ?></td>
+									   <?php } else { ?>
 										   <td>0</td>
 									   <?php } ?>
-									   <?php if(!empty($weeknoroder_report)){ ?>
-										   <td><?=$weeknoroder_report;?></td>
-									   <?php }else{ ?>
+									   <?php if (!empty($weekly_data['total_orders'])) { ?>
+										   <td><?= $weekly_data['total_orders']; ?></td>
+									   <?php } else { ?>
 										   <td>0</td>
 									   <?php } ?>
-
-									   <?php if(!empty($weeknotmet_report)){ ?>
-										   <td><?=$weeknotmet_report;?></td>
-									   <?php }else{ ?>
+									   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+										   <td><?= $weekly_data['total_orders_not_met']; ?></td>
+									   <?php } else { ?>
 										   <td>0</td>
 									   <?php } ?>
 								   </tr>
-							   <?php	  }
+							   <?php }
+							   }
+							   }
 						   }
 						   else{
-								   $user_SP=getuserSPcode($userID);
-								   $userSP = $user_SP->sp_code;
-								   $user_name=get_user_name($userID);
-								   $userid=$userID;
-								   $weekly='month';
-								   $get_boss=get_user_boss($userID);
-								   $get_boss_name=get_user_name($get_boss[0]['boss_id']);
-								   $bossid=$get_boss[0]['boss_id'];
-								   $get_uid=get_user_id($user_name);
-								   $get_designation=get_designation_name($get_uid->user_designation_id);
-								   $total_doctors = $ci->doctor->total_doctor_data($userSP);  //Total No. of doctors
-								   @$doc_interaction = total_doctor_interaction($userID); //Total Doctor interaction
-								   $child_users=count(get_child_user($userID));  //Get Team total team members
-
-								   for ($iDay = 30; $iDay >= 0; $iDay--) {
-									   @$aDays[31 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));
-								   }
-								   @$total_doc_interaction= count(array_intersect($doc_interaction,$aDays));
-								   @$week_secondary=total_secondary_analysis($weekly,$userid);
-								   @$weekproductive_report =total_productive_analysis($weekly,$userid);
-								   @$weeknoroder_report=total_noorder_met_analysis($weekly,$userid);
-								   @$weeknotmet_report=total_not_met_analysis($weekly,$userid);
-								   /*For this week*/
-								   $weeksecondary_report = $week_secondary->total_secondry;  //for secondary
-								   ?>
+							   $data = file_get_contents ("ReportJSON/monthly.json");
+							   $json = json_decode($data, true);//for secondary
+							   foreach($json as $weekly_data){
+							   	if($weekly_data['user_id'] == $userID){
+								 ?>
 								   <tr>
-									   <td><?=$user_name ?></td>
-									   <td><?=$get_boss_name ?></td>
-									   <td><?=$get_designation->designation_name ?></td>
-									   <td><?=$total_doctors ?></td>
-									   <td><?=$total_doc_interaction ?></td>
-									   <td><?=$child_users ?></td>
-									   <?php if(!empty($weeksecondary_report)){ ?>
-										   <td><?=number_format($weeksecondary_report,2);?></td>
+									   <td><?= $weekly_data['username'] ?></td>
+									   <td><?=$weekly_data['bossname'] ?></td>
+									   <td><?=$weekly_data['designation_name'] ?></td>
+									   <td><?=$weekly_data['total_doctors'] ?></td>
+									   <td><?=$weekly_data['total_doc_interaction'] ?></td>
+									   <td><?=$weekly_data['team_members'] ?></td>
+									   <?php if(!empty($weekly_data['total_secondary'])){ ?>
+										   <td><?=$weekly_data['total_secondary'];?></td>
 									   <?php }else{ ?>
 										   <td>0</td>
 									   <?php } ?>
-									   <?php if(!empty($weekproductive_report)){ ?>
-										   <td><?=$weekproductive_report;?></td>
+									   <?php if(!empty($weekly_data['total_productive_call'])){ ?>
+										   <td><?=$weekly_data['total_productive_call'];?></td>
 									   <?php }else{ ?>
 										   <td>0</td>
 									   <?php } ?>
-									   <?php if(!empty($weeknoroder_report)){ ?>
-										   <td><?=$weeknoroder_report;?></td>
+									   <?php if(!empty($weekly_data['total_orders'])){ ?>
+										   <td><?=$weekly_data['total_orders'];?></td>
 									   <?php }else{ ?>
 										   <td>0</td>
 									   <?php } ?>
-									   <?php if(!empty($weeknotmet_report)){ ?>
-										   <td><?=$weeknotmet_report;?></td>
+									   <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
+										   <td><?=$weekly_data['total_orders_not_met'];?></td>
 									   <?php }else{ ?>
 										   <td>0</td>
 									   <?php } ?>
 								   </tr>
-							   <?php
+							   <?php }
+ 								}
 						   }
 						   ?>
 						  </tbody>

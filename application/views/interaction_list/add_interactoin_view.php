@@ -1,25 +1,15 @@
 <?php
-
-
-
-/* 
-
- * To change this license header, choose License Headers in Project Properties.
-
- * To change this template file, choose Tools | Templates
-
- * and open the template in the editor.
-
- */
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 ?>
-
+<meta http-equiv="Cache-control" content="no-cache">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
 
 
-
+<input type="hidden" id="user_IDD" name="user_IDD" value="<?=logged_user_data() ?>" style="display: none;">
 <div class="content-wrapper">
 
 
@@ -226,17 +216,24 @@
 
 <script type='text/javascript'>
     var dateToday = new Date();
-    $('#doi').datepicker({
 
-            //format:'dd-mm-yyyy',
-
-            // startDate: '-31d',
-           //startDate: '-10d',
-          // endDate: '+0d' ,   ////future dates
+    var usID=$('#user_IDD').val();
+    // if(usID==23 || usID==31){
+    if(usID){
+        $('#doi').datepicker({
+            // startDate: '-2d',
+            endDate: '+0d' ,   ////future dates
             daysOfWeekDisabled: [0],   //Disable sunday
             autoclose:true
-
-       })  ; 
+        })  ;
+    }else {
+        $('#doi').datepicker({
+            // startDate: '-11d',
+            endDate: '+0d',   ////future dates
+            daysOfWeekDisabled: [0],   //Disable sunday
+            autoclose: true
+        });
+    }
 
     $(function(){
     $('.select2').select2();

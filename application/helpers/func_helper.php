@@ -438,7 +438,6 @@ function send_msg($message='' , $num1='',$num2=''){
 //  $num1 = 9718831223; 
   
     $curl = curl_init();
-
 curl_setopt_array($curl, array(
   CURLOPT_URL => "https://control.msg91.com/api/postsms.php",
   CURLOPT_RETURNTRANSFER => true,
