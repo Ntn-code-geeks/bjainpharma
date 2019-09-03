@@ -1641,9 +1641,6 @@ class Report_model extends CI_Model {
 
 //         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
-         
-
-         
 
          $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
 
@@ -1669,13 +1666,6 @@ class Report_model extends CI_Model {
 
         $doc_travel_info = $query->result_array();
 
-        
-
-        
-
-     
-
-                 
 
          $arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`,GROUP_CONCAT(msm.id SEPARATOR ',') as `sample_id`";
 
@@ -1687,39 +1677,15 @@ class Report_model extends CI_Model {
 
          $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
-        
-
-        
-
         $this->db->where('pid.id',$id);
 
-        
 
         $this->db->group_by('pid.doc_id'); 
 
-        
-
-       
-
         $query = $this->db->get();
-
-//               echo $this->db->last_query(); die;
 
         $doc_travel_info[0]['sample'] = $query->row_array();
 
-                 
-
-         
-
-        
-
-       
-
-        
-
-        
-
-        
 
 //         echo $this->db->last_query(); die;
 

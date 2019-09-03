@@ -844,53 +844,20 @@ public function tp_reports($userid=''){
 			if(!empty($request)){
 				$report_date = explode('-',$request['report_date'] );
 				$followstart_date =  trim($report_date[0]);
-
-
 				$newstartdate = str_replace('/', '-', $followstart_date);
-
-
 				$followend_date =  trim($report_date[1]);
-
-
 				$newenddate = str_replace('/', '-', $followend_date);
-
-
 				$start = date('Y-m-d', strtotime($newstartdate))." 00:00:00";
-
-
 				$end = date('Y-m-d', strtotime($newenddate))." 23:59:59";
-
-
 				$this->load->library('form_validation');
-
-
 				$this->form_validation->set_rules('user_id', 'User', 'required');
-
-
-				$this->form_validation->set_rules('report_date', 'Report Date range', 'required'); 
-
-
+				$this->form_validation->set_rules('report_date', 'Report Date range', 'required');
 				if($this->form_validation->run() == TRUE){
-
-
 					$this->generate_attendance_report($request['user_id'],$start,$end);
-
-
 					//$data['attendance_report'] =$this->user_report->get_attendance_report($request['user_id'],$start,$end);
-
-
-				}else{
-
-
-				  // for false validation
-
-
-				 $this->attendance_report();  
-
-
+				}else{				  // for false validation
+				 $this->attendance_report();
 				}
-
-
 			}
 
 
@@ -907,11 +874,7 @@ public function tp_reports($userid=''){
 
 
 		else{
-
-
 		  redirect('user');
-
-
 		}
 
 

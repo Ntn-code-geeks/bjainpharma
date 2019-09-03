@@ -3,15 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="e572d146-1042-44b4-88ee-c3dcfb2eed1e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Interaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Interaction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/func_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/func_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/doctor/Doctor_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/doctor/Doctor_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/order/Order_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/order/Order_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/reports/Reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/reports/Reports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/dealer/Dealer_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/dealer/Dealer_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/report/Report_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/report/Report_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/report/User_report_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/report/User_report_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/order/select_product_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/order/select_product_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -192,7 +191,7 @@
       <workItem from="1567138305610" duration="10123000" />
       <workItem from="1567224962106" duration="12694000" />
       <workItem from="1567397950786" duration="21109000" />
-      <workItem from="1567484546237" duration="600000" />
+      <workItem from="1567484546237" duration="20110000" />
     </task>
     <task id="LOCAL-00001" summary="phpstorm commit">
       <created>1566982967610</created>
@@ -227,16 +226,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/order/Order_model.php</url>
-          <line>148</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/order/Order_model.php</url>
-          <line>163</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/dealer/Dealer_model.php</url>
           <line>621</line>
@@ -289,17 +278,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/report/Report_model.php</url>
-          <line>2440</line>
+          <line>2406</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/report/Report_model.php</url>
-          <line>2428</line>
+          <line>2394</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/reports/Reports.php</url>
-          <line>1241</line>
+          <line>1204</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -539,21 +528,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
-          <line>153</line>
-          <option name="timeStamp" value="382" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
-          <line>152</line>
-          <option name="timeStamp" value="383" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
-          <line>154</line>
-          <option name="timeStamp" value="384" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
           <line>45</line>
           <option name="timeStamp" value="385" />
         </line-breakpoint>
@@ -569,28 +543,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
-          <line>171</line>
-          <option name="timeStamp" value="393" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
-          <line>7</line>
-          <option name="timeStamp" value="394" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
           <line>8</line>
           <option name="timeStamp" value="395" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
-          <line>257</line>
-          <option name="timeStamp" value="396" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
-          <line>342</line>
-          <option name="timeStamp" value="397" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/order/Order_model.php</url>
@@ -622,9 +576,64 @@
           <line>33</line>
           <option name="timeStamp" value="404" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php</url>
+          <line>37</line>
+          <option name="timeStamp" value="405" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php</url>
+          <line>41</line>
+          <option name="timeStamp" value="406" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php</url>
+          <line>114</line>
+          <option name="timeStamp" value="407" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php</url>
+          <line>109</line>
+          <option name="timeStamp" value="408" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>46</line>
+          <option name="timeStamp" value="410" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/views/order/select_product_view.php</url>
+          <line>9</line>
+          <option name="timeStamp" value="411" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>165</line>
+          <option name="timeStamp" value="420" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>175</line>
+          <option name="timeStamp" value="421" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>157</line>
+          <option name="timeStamp" value="422" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>162</line>
+          <option name="timeStamp" value="424" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/controllers/order/Interaction_order.php</url>
+          <line>155</line>
+          <option name="timeStamp" value="425" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/report/User_report_model.php</url>
-          <line>557</line>
+          <line>555</line>
           <properties>
             <option name="className" value="\User_report_model" />
             <option name="methodName" value="check_leave_holiday" />

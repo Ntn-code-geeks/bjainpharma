@@ -257,8 +257,8 @@ class Dealer_model extends CI_Model {
        $designation_id=get_user_deatils($user_id)->user_designation_id;
        $location_type=0;
        $internet_charge=10;
-       $distance=1;
-       $stp_distance=1; $is_stp_approved=0;
+       $distance=0;
+       $stp_distance=0; $is_stp_approved=0;
        $source_city=get_interaction_source();//one date before from interaction
        $source_city_id=get_interaction_source_id();//one date before from interaction
        $destination_city=0;
@@ -292,7 +292,7 @@ class Dealer_model extends CI_Model {
           $url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=".$source_city."&destinations=".get_user_deatils(logged_user_data())->hq_city_pincode.'&key=AIzaSyBW4XD3HI9gZfK-J36dRizXrw6ynJ_ztJI';
           if($source_city_id==get_user_deatils(logged_user_data())->headquarters_city)
           {
-            $stp_distance=1;
+            $stp_distance=0;
           }
           else
           {
@@ -311,7 +311,7 @@ class Dealer_model extends CI_Model {
 //         echo $url; 
           if($source_city_id==$destination_city_id)
           {
-            $stp_distance=1;
+            $stp_distance=0;
           }
           else
           {
@@ -5884,7 +5884,7 @@ class Dealer_model extends CI_Model {
         $user_id=logged_user_data();
         $designation_id=get_user_deatils($user_id)->user_designation_id;
          $userHQ=get_logged_hq($user_id)->hq_city;   ///logged user cityID
-        $stp_distance=1;
+        $stp_distance=0;
         $is_stp_approved=0;
 
         $dateD=explode("/",$data['doi']);
@@ -5915,7 +5915,7 @@ class Dealer_model extends CI_Model {
 
             if($source_city_id==get_user_deatils(logged_user_data())->headquarters_city)
             {
-                $stp_distance=1;
+                $stp_distance=0;
             }
             else
             {

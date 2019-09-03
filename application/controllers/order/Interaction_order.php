@@ -44,6 +44,7 @@ class Interaction_order extends Parent_admin_controller {
 		$this->load->model('doctor/Doctor_model','doctor');
 		$this->load->model('dealer/Dealer_model','dealer');
 		$this->load->model('permission/permission_model','permission');
+		$this->load->model('pharmacy/pharmacy_model','pharmacy');
 
 	}
 
@@ -151,10 +152,29 @@ public function products_list_get(){
 			$data['category_list'] = $categoryList; 
 		}
 		$data['dealer_list'] = $this->dealer->dealer_list();
-		$data['edit_doctor_list']= $this->doctor->edit_doctor($pId);
 		$data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
+		$doctor_list= $this->doctor->edit_doctor($pId);
+
+		if(!empty($doctor_list)){
+			$data['edit_list']=$doctor_list;
+		}else{
+			$data['edit_list']= $this->pharmacy->edit_pharmacy($pId);
+			$data['doc_rel_pharma']=$this->pharmacy->get_pharmacy_doc($pId);
+		}
 		$data['action'] = "order/interaction_order/add_product_interaction";
-		$this->load->get_view('order/select_product_view',$data);
+
+		$edit_list_data=json_decode($data['edit_list']);
+		$pin=$edit_list_data->id;
+		$D_pin=explode('_',$pin);
+		$pincount=count($D_pin);
+
+		if($pincount <= 1){
+			$this->load->get_view('order/select_product_view',$data);
+		}
+		if($pincount >= 2){
+			$this->load->get_view('order/pharma_product_view',$data);
+		}
+
 		
     }
 
@@ -299,7 +319,7 @@ public function products_list_get(){
 
 	public function add_product_interaction(){
 		$post_data = $this->input->post();
-                // pr($post_data); die;
+              //   pr($post_data); die;
 		foreach($post_data['pro_mrp_val'] as $k=>$val)
 		{
 			if($val!='')

@@ -400,12 +400,7 @@ $('#datepicker_doi<?=$edit_doctor->doctor_id;?>').datepicker({
     });
 </script>
 
-<script type="text/javascript">
 
-
-        
-
-</script>
 <script>
 	$(document).ready(function(){
   	var saledealer_value = $('#sale_dealer<?=$edit_doctor->doctor_id ?>').val();

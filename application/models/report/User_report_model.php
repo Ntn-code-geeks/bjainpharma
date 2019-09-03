@@ -480,8 +480,6 @@ class User_report_model extends CI_Model {
 				}
 
 
-
-
 				/* All Date between Date Range */
 				$startDate= substr($start, 0, 10);
 				$endXt= date('Y-m-d H:i:s', strtotime($end . ' +1 day'));
