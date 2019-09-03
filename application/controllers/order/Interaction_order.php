@@ -41,12 +41,13 @@ class Interaction_order extends Parent_admin_controller {
         $this->load->model('category/category_model','category');
 
         $this->load->model('product/product_model','product');
+		$this->load->model('doctor/Doctor_model','doctor');
+		$this->load->model('dealer/Dealer_model','dealer');
+		$this->load->model('permission/permission_model','permission');
 
-    }
+	}
 
-    
-
-    public function index(){    
+public function index(){
 
 		$data['title'] = "Interaction Order List";
 
@@ -68,9 +69,7 @@ class Interaction_order extends Parent_admin_controller {
 
     }
 
-
-
-	public function complete_order_list(){    
+public function complete_order_list(){
 
 		$data['title'] = "Complete Order List";
 
@@ -92,9 +91,7 @@ class Interaction_order extends Parent_admin_controller {
 
     }
 
-	
-
-	public function cancel_order_list(){    
+public function cancel_order_list(){
 
 		$data['title'] = "Cancel Order List";
 
@@ -116,7 +113,7 @@ class Interaction_order extends Parent_admin_controller {
 
     }
 
-  public function products_list(){
+public function products_list(){
         $data= $this->input->post();
         $productList= json_decode($this->order->products_list($data));
  
@@ -127,7 +124,7 @@ class Interaction_order extends Parent_admin_controller {
             echo $options;
     }
  
-    public function products_list_get(){
+public function products_list_get(){
        $data=$this->input->post();
        $productList=$this->order->products_list_get($data);
        echo $productList;   die;
@@ -153,8 +150,10 @@ class Interaction_order extends Parent_admin_controller {
 		{
 			$data['category_list'] = $categoryList; 
 		}
-		
-		$data['action'] = "order/interaction_order/add_product_interaction"; 
+		$data['dealer_list'] = $this->dealer->dealer_list();
+		$data['edit_doctor_list']= $this->doctor->edit_doctor($pId);
+		$data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
+		$data['action'] = "order/interaction_order/add_product_interaction";
 		$this->load->get_view('order/select_product_view',$data);
 		
     }
@@ -325,15 +324,15 @@ class Interaction_order extends Parent_admin_controller {
 
 //                if(!in_array(11,$post_data['category_list']) &&  !in_array(7,$post_data['category_list'])){
                     
-                      if(!isset($post_data['product_name']))
-                      {
-                              $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-                      }
+				  if(!isset($post_data['product_name']))
+				  {
+						  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+				  }
 
-                      if(!array_filter($post_data['product_name']))
-                      {
-                              $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-                      }   
+				  if(!array_filter($post_data['product_name']))
+				  {
+						  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+				  }
                       
 //                }
 

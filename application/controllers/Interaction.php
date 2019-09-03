@@ -169,44 +169,78 @@ class Interaction extends Parent_admin_controller {
          * Asm interaction save
          * 
          */
-        public function save_asm_interaction_report()
+	public function save_asm_interaction_report()
         {
-
             $interaction_data = $this->input->post();
-            if($interaction_data['stay'] || $interaction_data['up']){
-                $success = $this->dealer->save_asm_dsr($interaction_data);
-                if ($success = 1) {
-                    set_flash('<div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Success!</h4>
-            interaction are being saved for this
-            </div>');
-                    redirect('interaction/index/');
 
+            $summaryArr=array(
+				'summry1'=>'THE PRIMARY / SECONDARY ORDER RATIO : '.$interaction_data['remark'][0],
+				'summry2'=>'THE CURRENT RATION OF TARGET TO ACHIEVEMENT : '.$interaction_data['remark'][1],
+				'summry3'=>'THE DAILY CALL AVERAGE : '.$interaction_data['remark'][2],
+				'summry4'=>'DOCTORS VISITED MORE THAN 3 TIMES BUT NO ORDER : '.$interaction_data['remark'][3],
+				'summry5'=>'SECONDARY PAYMENT OVERDUE IN MARKET : '.$interaction_data['remark'][4]
+			);
+
+         	if($interaction_data['stay'] || $interaction_data['up']){
+                $success = $this->dealer->save_asm_dsr($interaction_data);
+
+				if ($success = 1) {
+                	/*Mail to Boss(Manager), Ajay rana & Nishant */
+					$joint_with=$interaction_data['joint_workwith'];
+					$joint_with_name=get_user_name($joint_with);
+					$boss_userID=logged_user_boss();
+					$boss_mail=get_boss_email_user($boss_userID);
+					$date_Time= date("d-M-Y/D");
+					$user_ID=logged_user_data();
+					$user_name=get_user_name($user_ID);
+					$user_email=get_boss_email_user($user_ID);
+
+					$mailArr=array(
+						'boss'=> $boss_mail,
+						'nishant'=> 'nishant@bjain.com',
+						'ajay'=> 'pharmamarketing@bjain.com',
+						'user' => $user_email,
+						'nitin'=> 'php@bjaintech.com'
+					);
+
+					foreach ($mailArr as $mailID){
+						$dealeremailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center><h3>Dear,</h3> <p>Here\'s the summary of Joint Interaction '.$user_name.' with '.$joint_with_name.' on '.$date_Time.'. 	</p> <ul>';
+
+					$body2=array();
+					foreach($summaryArr as $anwsers)
+					{	$body2[] = "<li>". $anwsers. "</li>";	}
+					$dealeremailbody2=implode(' ',$body2);
+
+					$dealeremailbody3='</ul> <p style="font-size: 11px; text-align: center;"><i>(This is an auto-generated email.)</i></p><div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
+
+					$message= $dealeremailbody.$dealeremailbody2.$dealeremailbody3;
+					$subject="Joint Interaction of ".$user_name. "with ".$joint_with_name." Summary Report on "
+						.$date_Time;
+
+/*Open on Server for mailing */
+//					$mail_Send = send_email($mailID, 'pharma.reports@bjain.com',$subject, $message);
+
+					}
+
+					set_flash('<div class="alert alert-success alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-check"></i> Success!</h4>
+					Interaction are being saved for this.</div>');
+					redirect('interaction/index/');
                 }
                 else {
-
-                    set_flash('<div class="alert alert-danger alert-dismissible">
-
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-
-               interaction are not saved please try latter..
-
-              </div>');
-
-                    redirect('interaction/index/');
-
-
+					set_flash('<div class="alert alert-danger alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+					Interaction was not saved please try later..</div>');
+					redirect('interaction/index/');
                 }
             }else{
-                set_flash('<div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-               Stay / Not Stay - Features Not Used..
-              </div>');
-                redirect('interaction/index/');
+					set_flash('<div class="alert alert-danger alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+					Stay / Not Stay - Features Not Used..</div>');
+					redirect('interaction/index/');
             }
 
 
@@ -1060,20 +1094,23 @@ class Interaction extends Parent_admin_controller {
 
 
   public function  checkmail(){
-      $dealerSms="Dear Received SMS Working";
-      $dealerNumber='8130775272';
-     $smsSend= send_msg($dealerSms,$dealerNumber);
-     if($smsSend){
-         pr($smsSend);
-     }else{
-         echo "err";
-     }
-//      $dealerEmail="php@bjaintech.com";
-//      $senderemail="php@bjaintech.com";
-//      $subject="New mail helo";
-//      $dealeremailbody="hello mail";
-//      $success =send_email($dealerEmail, $senderemail, $subject, $dealeremailbody);
-//      pr($success);
+//      $dealerSms="Dear Received SMS Working";
+//      $dealerNumber='8130775272';
+//     $smsSend= send_msg($dealerSms,$dealerNumber);
+//     if($smsSend){
+//         pr($smsSend);
+//     }else{
+//         echo "err";
+//     }
+
+
+	  $dealeremailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center><h3>Dear,</h3> <p>NTITIN kumar</p> Email Body data Comes Here.<p><i>This is an auto generated email.</i></p><div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
+
+      $dealerEmail="php@bjaintech.com";
+      $senderemail="php@bjaintech.com";
+      $subject="New mail helo";
+      $success =send_email($dealerEmail, $senderemail, $subject, $dealeremailbody);
+      pr($success);
   }
 
 }

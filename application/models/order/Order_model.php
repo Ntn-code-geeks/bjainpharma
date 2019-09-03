@@ -203,6 +203,8 @@ class Order_model extends CI_Model {
                             'payment_mode'=>$data['payment_mode'],
             
                             'interaction_person_id'=>$data['person_id'],
+                            'provider'=>$data['dealer_id'],
+							'mail_provider'=>$data['dealer_mail'],
                             'crm_user_id'=> logged_user_data(),
                             'order_id'=> $orderId,
                             'status'=> 1,

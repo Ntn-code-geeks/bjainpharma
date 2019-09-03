@@ -1165,7 +1165,7 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
     }
 	
 	public function get_orderamount($id){
-      	$arr = "order_amount";
+      	$arr = "order_amount,provider,mail_provider";
         $this->db->select($arr);
         $this->db->from("interaction_order");
         $this->db->where("interaction_id",0);
@@ -1173,7 +1173,7 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
         $this->db->where("interaction_person_id",$id);
         $query = $this->db->get();
         if($this->db->affected_rows()){
-			return $result=$query->row()->order_amount;
+			return $result=$query->row();
 		}
         else{
             return FALSE;

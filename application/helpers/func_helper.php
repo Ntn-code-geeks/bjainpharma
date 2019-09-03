@@ -99,18 +99,14 @@ function get_boss_email_user($userid){
         $ci->db->select('pu.email_id');
         $ci->db->from('pharma_users pu');
         $ci->db->where('pu.id',$userid);
-
-    $query = $ci->db->get();
+    	$query = $ci->db->get();
 //     echo $ci->db->last_query(); die;
-
             if($ci->db->affected_rows()){
-
-                return $query->row()->email_id; 
-
+                return $query->row()->email_id;
             }else{
                 return FALSE;
             }
-    
+
     
 }
 

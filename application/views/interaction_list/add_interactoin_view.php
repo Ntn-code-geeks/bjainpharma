@@ -222,14 +222,14 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     if(usID){
         $('#doi').datepicker({
             // startDate: '-2d',
-            endDate: '+0d' ,   ////future dates
+            // endDate: '+0d' ,   ////future dates
             daysOfWeekDisabled: [0],   //Disable sunday
             autoclose:true
         })  ;
     }else {
         $('#doi').datepicker({
             // startDate: '-11d',
-            endDate: '+0d',   ////future dates
+            // endDate: '+0d',   ////future dates
             daysOfWeekDisabled: [0],   //Disable sunday
             autoclose: true
         });

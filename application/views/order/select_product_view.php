@@ -5,7 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+$edit_doctor=json_decode($edit_doctor_list);
+$dealer_data = json_decode($dealer_list);   // for all active dealers
 ?>
 <script src="<?php echo base_url().'design/js/ajax.3.2.js'?>"></script>
 
@@ -158,7 +159,7 @@
                         
                         </div>
                             
-              <div class="form-group">
+            <div class="form-group">
 				<label>Mode of Payment *</label>
 			<select name="payment_mode" id="payment_mode"  class="form-control select10" required="" style="width: 100%;">
 				    <option value="">--Select Mode of Payment--</option>
@@ -167,7 +168,68 @@
 			</select>
                 </div>
 
+
+			<div class="form-group" id="d_list<?=$edit_doctor->doctor_id ?>" style="">
+				<label>Dealer/pharmacy List<span style="color: red;font-size: 20px">*</span></label>
+				<select id="dealer_id<?=$edit_doctor->doctor_id ?>" name="dealer_id" class="form-control select2" style="width: 100%;">
+					<?php
+					if(!empty($edit_doctor->dealers_id)){
+						foreach($dealer_data as $k_s => $val_s){
+							/*for dealers id who belogs to this doctor*/
+							if(!empty(($edit_doctor->dealers_id))){
+								$dealers_are = explode(',', $edit_doctor->dealers_id);
+							}
+							else{
+								$dealers_are=array();
+							}
+							/*end of dealers id who belogs to this doctor */
+							if(in_array($val_s->dealer_id,$dealers_are)){
+								if($val_s->blocked==0){     ?>
+									<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?>><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
+								<?php } } } ?>
+
+						<?php
+						foreach($pharma_list as $k_pl => $val_pl){
+							/*for dealers id who belogs to this doctor*/
+							if(!empty(($edit_doctor->dealers_id))){
+								$dealers_are = explode(',', $edit_doctor->dealers_id);
+							}
+							else{
+								$dealers_are=array();
+							}
+							/*end of dealers id who belogs to this doctor */
+							if(in_array($val_pl['id'],$dealers_are)){
+								if($val_pl['blocked']==0){          ?>
+									<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?>><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
+								<?php } } } ?>
+
+						<!--<option value="none" id="none" >NONE</option>-->
+					<?php }else{ ?>
+
+						<!--   <button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#modal_add_dealer<?=$edit_doctor->doctor_id ?>">Add Dealer/Sub Dealer  </button>
+
+         <a href="<?= base_url()?>doctors/doctor/edit_doctor/<?php echo urisafeencode($edit_doctor->doctor_id); ?>" style="color: #fff"><button type="button" class="btn btn-warning">Add Dealer/Sub Dealer  </button></a> -->
+					<?php } ?>
+				</select>
+				<br/>
+
+				<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#modal_add_dealer<?=$edit_doctor->doctor_id ?>">Add Dealer/Sub Dealer  </button>
+				<span class="control-label" id="dealer_id_help<?=$edit_doctor->doctor_id ?>" for="inputError" style="color: red"><?php echo form_error('dealer_id'); ?></span>
+
+
+
 			</div>
+			<div class="form-group">
+				<label>Send Mail to Dealer/Sub Dealer &nbsp; : &nbsp;&nbsp;</label>
+				<br>
+				<input  type="radio" class="form-check-input" checked name="dealer_mail" id="" value="1">
+				&nbsp;Yes &nbsp;
+				<input type="radio" class="form-check-input" name="dealer_mail" id="" value="0">
+				&nbsp;  No &nbsp;
+			</div>
+
+
+		</div>
 		
 		<div class="row">
             <div class="col-md-12">
@@ -193,8 +255,148 @@
   </div>
 
 
+<div class="modal modal-info fade" id="modal_add_dealer<?=$edit_doctor->doctor_id ?>">
+
+	<form id="<?=$edit_doctor->doctor_id ?>">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Add Dealer/Sub Dealer</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" id="d_list<?=$edit_doctor->doctor_id ?>">
+						<label>Dealer/pharmacy List</label>
+						<select multiple="" id="dealer_id<?=$edit_doctor->doctor_id ?>" name="dealer_id[]" class="form-control select5" style="width: 100%;">
+							<?php
+							foreach($dealer_data as $k_s => $val_s){
+								/*for dealers id who belogs to this doctor*/
+								if(!empty(($edit_doctor->dealers_id))){
+									$dealers_are = explode(',', $edit_doctor->dealers_id);
+								}
+								else{
+									$dealers_are=array();
+								}
+								/*end of dealers id who belogs to this doctor */
+								if(in_array($val_s->dealer_id,$dealers_are)){
+//                    if($val_s->blocked==0){
+									?>
+									<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> selected=""><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
+								<?php  } else{
+									if($val_s->status==1){     ?>
+										<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> ><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
+										<?php
+									} } } ?>
+
+							<?php
+							foreach($pharma_list as $k_pl => $val_pl){
+								/*for dealers id who belogs to this doctor*/
+								if(!empty(($edit_doctor->dealers_id))){
+									$dealers_are = explode(',', $edit_doctor->dealers_id);
+								}
+								else{
+									$dealers_are=array();
+								}
+								/*end of dealers id who belogs to this doctor */
+								if(in_array($val_pl['id'],$dealers_are)){
+//                     if($val_pl['blocked']==0){
+									?>
+									<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?> selected=""><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
+								<?php }
+
+								elseif($val_pl['status']==1){
+									?>
+									<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?> ><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
+
+									<?php
+								}
+
+							} ?>
+
+							<!--<option value="none" id="none" >NONE</option>-->
+
+						</select> <br/>
+
+						<?php // } ?>
+
+						<span class="control-label" id="dealer_id_help<?=$edit_doctor->doctor_id ?>" for="inputError" style="color: red"><?php echo form_error('dealer_id'); ?></span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+				<button id="submit" type="submit" class="btn btn-outline submit" >Save changes</button>
+			</div>
+		</div>
+	</form>
+	<?php // echo form_close(); ?>
+	<!-- /.modal-content -->
+</div>
 
 
+<script type="text/javascript">   // for multipile model open
+    $("#modal_add_dealer<?=$edit_doctor->doctor_id ?>").on('hidden.bs.modal', function (event) {
+        if ($('.modal:visible').length) //check if any modal is open
+        {
+            $('body').addClass('modal-open');//add class to body
+        }
+    });
+
+    $(document).ready(function() {
+        var dp;
+        var $eventSelect5 = $('.select5').select2();
+        $eventSelect5.on("change", function (e) {
+            var dealer_pharma = $(this).val();
+            dp = dealer_pharma;
+            //alert(dealer_pharma);
+        });
+
+
+    $(".submit").click(function(){
+            var newdealer_pharma =  dp;
+            var formid = $(this).closest("form").attr('id');
+            var dataString = 'dealerpharma='+ newdealer_pharma+'&doctor_id='+formid;
+            if(newdealer_pharma=='' || formid=='')
+            {
+                alert("Please Fill All Fields");
+            }
+            else
+            {
+// AJAX Code To Submit Form.
+                var urlData=<?php echo "'".base_url()."doctors/doctor/add_dealer_pharma/"."'";?>;
+                $.ajax({
+                    type: "POST",
+                    url: urlData,
+                    data: dataString,
+                    cache: false,
+                    success: function(result){
+                        alert(result);
+                        $('#modal_add_dealer<?=$edit_doctor->doctor_id;?>').modal('toggle');
+                        if(dataString!=''){
+                            var urlData1=<?php echo "'".base_url()."doctors/doctor/dealer_pharma_list/"."'";?>;
+                            $.ajax({
+                                type: "POST",
+                                url: urlData1+formid,
+                                cache: false,
+                                success: function(result){
+                                    $("#dealer_id"+formid).html(result);
+                                }
+                            });
+                        }
+                    }
+                });
+
+            }
+            return false;
+        });
+    });
+
+</script>
 
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
@@ -354,7 +556,6 @@
   });
    
 </script>
-
 
 <!--Go Back on previous page with all session and $_GET data-->
 <script type="text/javascript">
@@ -538,7 +739,6 @@
     });
   
 </script>
-
 
  <script type='text/javascript'>
 	

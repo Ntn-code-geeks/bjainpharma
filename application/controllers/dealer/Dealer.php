@@ -254,12 +254,12 @@ public function dealer_list_for_group(){
 			$data['order_amount']=$this->doctor->get_orderamount($docid);
 		}
 
-                $data['users_team'] = $this->permission->user_team(); // show child and boss users  
-                $data['meeting_sample'] = $this->doctor->meeting_sample_master();
-                $data['title'] = "Dealer Details";
-                $data['page_name'] = "Dealer Details";
-                $data['statename'] = $this->dealer->state_list();
-                $data['edit_dealer_list']= $this->dealer->edit_dealer($docid);
+		$data['users_team'] = $this->permission->user_team(); // show child and boss users
+		$data['meeting_sample'] = $this->doctor->meeting_sample_master();
+		$data['title'] = "Dealer Details";
+		$data['page_name'] = "Dealer Details";
+		$data['statename'] = $this->dealer->state_list();
+		$data['edit_dealer_list']= $this->dealer->edit_dealer($docid);
                 
 		/* pr(json_decode($data['edit_dealer_list']));
 		die; */
@@ -602,8 +602,8 @@ else
     
     // for dealer interaction information
     public function dealer_interaction(){
-//				pr($this->input->post());
-//				die;
+//					pr($this->input->post());
+//					die;
 		if($this->input->post('save')=='secondary_product'){
 			$logdata=$this->input->post();
 			if($this->dealer->logdata($logdata))
