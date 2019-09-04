@@ -118,19 +118,7 @@ class Dealer_model extends CI_Model {
         }
     }
 
-    
 
-    /*
-
-     * @author: Niraj Kumar
-
-     * Dated:03-nov-2017
-
-     * 
-
-     * for Dealer list for interaction
-
-     */
 
     public function add_edit_dealer_list(){
         $cities_are = logged_user_cities();
@@ -195,10 +183,6 @@ class Dealer_model extends CI_Model {
         
 
     }
-
-
-
-
 
     /*code for add Dealer with filter by state,city*/
 
@@ -5941,7 +5925,8 @@ class Dealer_model extends CI_Model {
            if ($status == 'OK' && $response_a->rows[0]->elements[0]->status == 'OK')
         {
             //$distance=explode(' ',$response_a->rows[0]->elements[0]->distance->text)[0];
-            $maindistance=explode(' ',$response_a->rows[0]->elements[0]->distance->text)[0];
+			$dist=explode(' ',$response_a->rows[0]->elements[0]->distance->text)[0];
+			$maindistance=str_replace("," , "" , $dist);
         }
         else
         {

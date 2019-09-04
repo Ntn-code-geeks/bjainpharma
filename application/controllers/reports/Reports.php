@@ -978,7 +978,7 @@ public function generate_attendance_report_all($start,$end)
 					}	
 					elseif($result==3){
 						$phpColor->setRGB('33acff'); 
-						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'Absent');
+						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'Absent / Not Interacted / Leave Not Applied.');
 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
 					}
 				} 

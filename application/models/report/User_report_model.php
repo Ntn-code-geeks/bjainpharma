@@ -208,7 +208,7 @@ class User_report_model extends CI_Model {
 		/* Geting Transit Information  */
 		/*$arr = "transit.crm_user_id as user_name,transit.transit_date as transit_date,transit.transit_date as date";
         $this->db->select($arr);
-        $this->db->from("user_transit transit");
+			$this->db->from("user_transit transit");
         $this->db->where('transit.crm_user_id',$userid);
         $this->db->where('transit.transit_date  >=', $start);
         $this->db->where('transit.transit_date  <=', $end);

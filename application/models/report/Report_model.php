@@ -433,70 +433,38 @@ class Report_model extends CI_Model {
 
     public function total_doctor_interaction($userid='',$start='',$end=''){
 
-        
-
-        $arr = "pid.id,pid.remark,pid.orignal_sale as order_supply,pid.date_of_supply,`pid`.`meeting_sale` as `secondary_sale`, `pid`.`meet_or_not_meet` as `metnotmet`,pid.create_date as date,pid.doc_id,doc.doc_name as customer,c.city_name as city,pu.name as user,msm.sample_name as sample";
+    $arr = "pid.id,pid.remark,pid.orignal_sale as order_supply,pid.date_of_supply,`pid`.`meeting_sale` as `secondary_sale`, `pid`.`meet_or_not_meet` as `metnotmet`,pid.create_date as date,pid.doc_id,doc.doc_name as customer,c.city_name as city,pu.name as user,msm.sample_name as sample";
 
         $this->db->select($arr);
-
         $this->db->from("pharma_interaction_doctor pid");
-
         $this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
 
-        
-
          $this->db->join("pharma_users pu" , "pu.id=pid.crm_user_id","Left");
-
          $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-
          $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
-         
-
-         
-
          $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
-
-         $this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");
-
-//       
-
+         $this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");//
         $this->db->join("city c" , "c.city_id=doc.city_id");
-
         $this->db->join("state st" , "st.state_id=doc.state_id");
-
-        
-
        $this->db->where('pid.status',1);
-
-         
-
         if($userid > 0){
-
         //$this->db->where('team.team_id',$userid);
       //  (`team`.`team_id` = '92' OR `pid`.`crm_user_id` = '92')
-
         $this->db->where('(team.team_id='.$userid.' OR pid.crm_user_id='.$userid.') ');
         //$this->db->or_where('pid.crm_user_id',$userid);
-
         }
-
 //        $this->db->where('pid.create_date >=', $start);
 //
 //        $this->db->where('pid.create_date <=', $end);
-        
-
-        
 
         $this->db->group_by('pid.id');
+        $this->db->order_by('pid.doc_id','ASC');
 
-        $this->db->order_by('pid.doc_id','ASC'); 
+		$query = $this->db->get();
+//		echo $this->db->last_query(); die;
 
-        
-
-        $query = $this->db->get();
-      
-         if($this->db->affected_rows()){
+		if($this->db->affected_rows()){
 
              
 
@@ -746,139 +714,47 @@ class Report_model extends CI_Model {
         $this->db->order_by('pid.doc_id','ASC'); 
         $query = $this->db->get();
         $doc_travel_info = $query->result_array();
-       
-        
 
 //         echo $this->db->last_query(); die;
-
          if($this->db->affected_rows()){
-
-             
-
 //             pr($doc_travel_info); die;
-
               $team_interaction = array();
-
-             foreach ($doc_travel_info as $k=>$val){
-
-              
-
-                 $arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`";
-
-        $this->db->select($arr);
-
-        $this->db->from("pharma_interaction_doctor pid");
-
-          $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-
-         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
-
-        
-
-        
-
-        $this->db->where('disr.pidoc_id',$val['id']);
-
-        
-
-        $this->db->group_by('pid.doc_id'); 
-
-        
-
-       
-
-        $query = $this->db->get();
-
+         foreach ($doc_travel_info as $k=>$val){
+			$arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`";
+			$this->db->select($arr);
+			$this->db->from("pharma_interaction_doctor pid");
+			$this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
+			$this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
+			$this->db->where('disr.pidoc_id',$val['id']);
+			$this->db->group_by('pid.doc_id');
+			$query = $this->db->get();
 //               echo $this->db->last_query(); die;
-
-        $doc_travel_info[$k]['sample'] = $query->row_array();
-
-                 
-
-                 
-
-                 
-
-        $arr = "pid.doc_id,GROUP_CONCAT(`pus`.`name` SEPARATOR ',') as `team_user`,team.team_id,team.crm_user_id,pid.crm_user_id as userid";
-
-        
-
-        $this->db->select($arr);
-
-        
-
-        $this->db->from("pharma_interaction_doctor pid");
-
-        
-
-        $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id");
-
-        $this->db->join("pharma_users pus" , "pus.id=team.team_id");
-
-        
-
-        $this->db->where('team.pidoc_id',$val['id']);
-
-        
-
-//        if($userid > 0){
-
-//        $this->db->where('team.team_id',$userid);
-
-//         }
-
-        
-
-        $this->db->where('pid.create_date >=', $start);
-
-        $this->db->where('pid.create_date <=', $end);
-
-        
-
-        $this->db->group_by('team.pidoc_id'); 
-
-        
-
-//        $this->db->having('total_visits >=1 ');
-
-        
-
-        $query = $this->db->get();
-
-//               echo $this->db->last_query(); die;
-
-        $team_interaction[] = $query->row_array();
-
-                 
-
-             }
-
-//             pr($team_interaction); die;
-
-             
-
-             
-
-           $result = array('doc_info'=>$doc_travel_info,'team_info'=>$team_interaction);  
-
+			$doc_travel_info[$k]['sample'] = $query->row_array();
+			$arr = "pid.doc_id,GROUP_CONCAT(`pus`.`name` SEPARATOR ',') as `team_user`,team.team_id,team.crm_user_id,pid.crm_user_id as userid";
+			$this->db->select($arr);
+			$this->db->from("pharma_interaction_doctor pid");
+			$this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id");
+			$this->db->join("pharma_users pus" , "pus.id=team.team_id");
+			$this->db->where('team.pidoc_id',$val['id']);
+	//        if($userid > 0){
+	//        $this->db->where('team.team_id',$userid);
+	//         }
+			$this->db->where('pid.create_date >=', $start);
+			$this->db->where('pid.create_date <=', $end);
+			$this->db->group_by('team.pidoc_id');
+	//        $this->db->having('total_visits >=1 ');
+			$query = $this->db->get();
+	//               echo $this->db->last_query(); die;
+			$team_interaction[] = $query->row_array();
+				 }
+	//             pr($team_interaction); die;
+            $result = array('doc_info'=>$doc_travel_info,'team_info'=>$team_interaction);
 //             pr($result); die;
-
-             
-
             return $result;
-
         }
-
         else{
-
-            
-
             return FALSE;
-
-        } 
-
-        
-
+        }
     }
 
     

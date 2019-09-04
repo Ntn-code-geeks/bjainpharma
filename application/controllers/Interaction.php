@@ -251,48 +251,34 @@ class Interaction extends Parent_admin_controller {
 
 
         public function doctor_interaction(){
-        
-        $data['title'] = "Doctor Interaction View";
-        $data['page_name']="List of Doctor Interaction";
+			$data['title'] = "Doctor Interaction View";
+			$data['page_name']="List of Doctor Interaction";
 //        $end = date('Y-m-d', strtotime(savedate()))." 23:59:59";
 //        $start = date('Y-m-d', strtotime('-1 month'))." 00:00:00";
-        if(!is_admin()){
-			$total_record = $this->report->total_doctor_interaction(logged_user_data(),$start='',$end='');
-        }
-        else{
 
-           $total_record = $this->report->total_doctor_interaction(0,$start='',$end='');
-
-          }
-
-       $url ="interaction/doctor_interaction";
-
-       
-
-       $pagination_value = pharma_pagination($url, $total_record);
+			/*Count Total Interaction for Pagination*/
+//        if(!is_admin()){
+//			$total_record = $this->report->total_doctor_interaction(logged_user_data(),$start='',$end='');
+//        }
+//        else{
+//			$total_record = $this->report->total_doctor_interaction(0,$start='',$end='');
+//          }
+//
+//       $url ="interaction/doctor_interaction";
+//
+//       $pagination_value = pharma_pagination($url, $total_record);
 
 //       pr($pagination_value); die;
 
-       
-
-      if(!is_admin()){ 
-
-      $data['doctor_interaction'] = $this->report->travel_report_doctor(logged_user_data(),$start='',$end='',$pagination_value['per_page'],$pagination_value['page']); // for doctor
-
+      if(!is_admin()){
+//      $data['doctor_interaction'] = $this->report->travel_report_doctor(logged_user_data(),$start='',$end='',$pagination_value['per_page'],$pagination_value['page']); // for doctor
       }
-
       else{
-
-             $data['doctor_interaction'] = $this->report->travel_report_doctor(0,$start='',$end='',$pagination_value['per_page'],$pagination_value['page']); // for doctor
-
-   
-
+             $data['doctor_interaction'] = $this->report->travel_report_doctor(0,$start='',$end='',0,0); // for doctor
+		  pr($data['doctor_interaction']); die;
       }
-
       
      $data['links'] = $pagination_value['links'];
-
-
 
        $this->load->get_view('interaction_list/interaction_doc_details_view',$data);
     }

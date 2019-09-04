@@ -259,7 +259,7 @@ $team_list=json_decode($users_team);
              if(sale_value === ''){
                $("#sale<?=$edit_pharmacy->id ?>").css("display","none");
                $("#sample<?=$edit_pharmacy->id ?>").css("display","none");
-               $("#jw_<?=$edit_pharmacy->id ?>").css("display","none");
+               //$("#jw_<?//=$edit_pharmacy->id ?>//").css("display","none");
                   }
                   else{
                       $("#sale<?=$edit_pharmacy->id ?>").css("display","block");
@@ -279,7 +279,7 @@ $team_list=json_decode($users_team);
              if(sale_value === ''){
                $("#sale<?=$edit_pharmacy->id ?>").css("display","none");
                $("#sample<?=$edit_pharmacy->id ?>").css("display","none");
-                $("#jw_<?=$edit_pharmacy->id ?>").css("display","none");
+                //$("#jw_<?//=$edit_pharmacy->id ?>//").css("display","none");
                   }
                   else{
                       $("#sale<?=$edit_pharmacy->id ?>").css("display","block");

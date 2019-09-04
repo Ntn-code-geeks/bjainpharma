@@ -676,15 +676,15 @@ else
                      echo '<br/>'.'telephoninc';
                    }
                    die;*/
-                    if (!isset($interaction_data['telephonic'])) {
+                    if ((isset($interaction_data['telephonic'])) || (isset($interaction_data['meet_or_not'])) ) {
                         $interactionDate = $interaction_data['doi_doc'];
                         $result = $this->dealer->checkleave($interactionDate);
                         if (!$result) {
                             set_flash('<div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                    You have taken leave  or holiday on that day please change date!!
-                    </div>');
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+						You have taken leave  or holiday on that day please change date!!
+						</div>');
                             redirect($_SERVER['HTTP_REFERER']);
                         }
                     }
@@ -847,12 +847,13 @@ else
 									$success = send_email($docEmail, $senderemail, $subject, $emailbody);//send message to doctor	//send message to doctor
 									//send_email('niraj@bjain.com', $senderemail, $subject, $emailbody);
 								}
-							} catch (Exception $e) {
+							}
+							catch (Exception $e) {
 								set_flash('<div class="alert alert-danger alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icon fa fa-ban"></i> Alert!</h4>
-			   Something went wrong.
-			  </div>');
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+								<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+							   Something went wrong.
+							  </div>');
 								redirect($_SERVER['HTTP_REFERER']);
 							}
 
@@ -939,13 +940,15 @@ else
 												//$success =send_email('android@bjain.com', $senderemail, $subject, $dealeremailbody);//send message to pharmacy/dealer
 											}
 										}
-									} else if (isset($interaction_data['m_sample']))// only sample
+									}
+									else if (isset($interaction_data['m_sample']))// only sample
 									{
 										$sms = 'Thank you Dear Sub Dealer for your valuable time. Kindly give your feedback for samples.';
 										$emailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{ margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		<h3>Dear,</h3> <p>' . $sms . '</p><p><i>This is an auto generated email.</i></p>
 		<div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
-									} else if (isset($interaction_data['m_sale']))//only product
+									}
+									else if (isset($interaction_data['m_sale']))//only product
 									{
 										$sms = 'Thank you Dear Sub Dealer for your support to B. Jain Pharma. I am happy to receive your order which is mentioned below.';
 										$sms1 = $sms;
@@ -980,10 +983,10 @@ else
 								}
 							} catch (Exception $e) {
 								set_flash('<div class="alert alert-danger alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icon fa fa-ban"></i> Alert!</h4>
-			   Something went wrong.
-			  </div>');
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+						   Something went wrong.
+						  </div>');
 								redirect($_SERVER['HTTP_REFERER']);
 							}
 						}
@@ -1000,7 +1003,8 @@ else
 									$emailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{ margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		<h3>Dear,</h3> <p>' . $sms . '</p><p><i>This is an auto generated email.</i></p>
 		<div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
-								} else {
+								}
+								else {
 									$sms = 'Dealer I visited today but was unable to meet you. May I request you for a suitable time for a meeting when I can see you.';
 									$emailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{ margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		<h3>Dear,</h3> <p>' . $sms . '</p><p><i>This is an auto generated email.</i></p>
@@ -1016,7 +1020,8 @@ else
 			 margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		  <h3>Dear,</h3> <p>' . $sms . '</p>' . $emailorderdata . '<p><i>This is an auto generated email.</i></p>
 		  <div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
-								} else if (isset($interaction_data['m_sample']))// only sample
+								}
+								else if (isset($interaction_data['m_sample']))// only sample
 								{
 									$sms = 'Thank you Dear Dealer for your valuable time. Kindly give your feedback for samples.';
 									$emailbody = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{ margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
@@ -1084,14 +1089,16 @@ else
 			 margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		  <h3>Dear,</h3> <p>' . $userbossms1 . '</p>' . $emailorderdata . '<p><i>This is an auto generated email.</i></p>
 		  <div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
-							} else if (isset($interaction_data['com_name'])) {
+							}
+							else if (isset($interaction_data['com_name'])) {
 								$userbossms = 'Mr.' . $username . ' Has placed an order from Sub Dealer  ' . $interaction_data['com_name'] . '. To M/S ' . $msname . ' the order details are as. ' . $orderData;
 								$userbossms1 = 'Mr.' . $username . ' Has placed an order from Sub Dealer  ' . $interaction_data['com_name'] . '. To M/S ' . $msname . ' the order details are as. ';
 								$userbosemail = '<html><head><title>BJain Pharmaceuticals</title><style type="text/css">body{padding:0;margin:0;font-family: calibri;}.content{ width:40%; margin:0 auto;}.regards_box{float:left;margin-top:20px;}p.user_name_brand{ margin:0px;}h3.user_name_regards{
 			 margin:0px;padding-bottom:10px;}img.email_logo{ margin:15px 0px;}</style></head><body><div class="content"><center><img src="' . base_url() . '/design/bjain_pharma/bjain_logo.png" class="email_logo" style="width:250px;" /></center>  
 		  <h3>Dear,</h3> <p>' . $userbossms1 . '</p>' . $emailorderdata . '<p><i>This is an auto generated email.</i></p>
 		  <div class="regards_box"><h3 class="user_name_regards">Regards,</h3><p class="user_name_brand">' . get_user_name(logged_user_data()) . '<br>BJain Pharmaceuticals Pvt. Ltd.</p></div></div></body></html>';
-							} else if (isset($interaction_data['d_name'])) {
+							}
+							else if (isset($interaction_data['d_name'])) {
 
 								$userbossms = 'Mr.' . $username . ' Has placed an order to Dealer ' . $interaction_data['d_name'] . '. The order details are as. ' . $orderData;
 								$userbossms1 = 'Mr.' . $username . ' Has placed an order to Dealer ' . $interaction_data['d_name'] . '. The order details are as. ';
@@ -1168,9 +1175,9 @@ else
 						}
 						else {
 							set_flash('<div class="alert alert-success alert-dismissible">  
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
-			<h4><i class="icon fa fa-check"></i> Success!</h4>     
-			interaction are being saved for this </div>');
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+							<h4><i class="icon fa fa-check"></i> Success!</h4>     
+							interaction are being saved for this </div>');
 							redirect('interaction/add_direct_inteaction/' . urisafeencode($interaction_data['doi_doc']) . '/' . urisafeencode($interaction_data['city']));
 						}
 						}
@@ -1210,10 +1217,10 @@ else
 					}
 					else if (empty($interaction_data['doi_doc'])) {
 						set_flash('<div class="alert alert-danger alert-dismissible">
-		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-		 Please Select Date Of Interaction.
-		</div>');
+						  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+						Please Select Date Of Interaction.
+						</div>');
 					}
 					redirect($_SERVER['HTTP_REFERER']);
                     }

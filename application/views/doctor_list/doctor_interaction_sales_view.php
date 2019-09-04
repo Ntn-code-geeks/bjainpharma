@@ -276,7 +276,7 @@ $team_list=json_decode($users_team);
 
 		   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
 
-		   $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+		   //$("#jw_<?//=$edit_doctor->doctor_id ?>//").css("display","none");
 
 			  }
 
@@ -306,7 +306,7 @@ $team_list=json_decode($users_team);
 		 if(notmeet_value === ''){
 		   $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
 		   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
-		   $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+		   //$("#jw_<?//=$edit_doctor->doctor_id ?>//").css("display","none");
 		  }
 		  else{
 			  $("#sale<?=$edit_doctor->doctor_id ?>").css("display","block");
@@ -408,7 +408,7 @@ $('#datepicker_doi<?=$edit_doctor->doctor_id;?>').datepicker({
   	if(saledealer_value != '' && typeof  saledealer_value != 'undefined'){
   	  $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","block");
   	  $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
-          $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
+      $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
   	}
   });
 </script>
