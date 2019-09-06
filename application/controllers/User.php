@@ -31,7 +31,6 @@ class User extends Parent_admin_controller {
 
         parent::__construct();
 
-         
 
         $this->load->model('User_model','user');
         $this->load->model('doctor/Doctor_model','doctor');
@@ -489,7 +488,12 @@ class User extends Parent_admin_controller {
 		$data['pharma_data']=pharmacy_interaction_list();
 		$this->user->secondary_supply($data);
 	}
-  
+
+	public function Interaction_summary_report(){
+    	$data['doc_data']=$this->user->interaction_doctor_report();
+    	$data['pharma_data']=$this->user->interaction_pharmacy_report();
+    	$data['dealer_data']=$this->user->interaction_dealer_report();
+	}
   
 }
 

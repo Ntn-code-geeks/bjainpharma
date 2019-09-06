@@ -250,38 +250,12 @@ class Interaction extends Parent_admin_controller {
 
 
 
-        public function doctor_interaction(){
-			$data['title'] = "Doctor Interaction View";
-			$data['page_name']="List of Doctor Interaction";
-//        $end = date('Y-m-d', strtotime(savedate()))." 23:59:59";
-//        $start = date('Y-m-d', strtotime('-1 month'))." 00:00:00";
+	public function doctor_interaction(){
+		$data['title'] = "Doctor Interaction View";
+		$data['page_name']="List of Doctor Interaction";
 
-			/*Count Total Interaction for Pagination*/
-//        if(!is_admin()){
-//			$total_record = $this->report->total_doctor_interaction(logged_user_data(),$start='',$end='');
-//        }
-//        else{
-//			$total_record = $this->report->total_doctor_interaction(0,$start='',$end='');
-//          }
-//
-//       $url ="interaction/doctor_interaction";
-//
-//       $pagination_value = pharma_pagination($url, $total_record);
-
-//       pr($pagination_value); die;
-
-      if(!is_admin()){
-//      $data['doctor_interaction'] = $this->report->travel_report_doctor(logged_user_data(),$start='',$end='',$pagination_value['per_page'],$pagination_value['page']); // for doctor
-      }
-      else{
-             $data['doctor_interaction'] = $this->report->travel_report_doctor(0,$start='',$end='',0,0); // for doctor
-		  pr($data['doctor_interaction']); die;
-      }
-      
-     $data['links'] = $pagination_value['links'];
-
-       $this->load->get_view('interaction_list/interaction_doc_details_view',$data);
-    }
+		$this->load->get_view('interaction_list/interaction_doc_details_view',$data);
+	}
 
     
 
@@ -539,55 +513,9 @@ class Interaction extends Parent_admin_controller {
 
 
     public function dealer_interaction(){
-
-
         $data['title'] = "Dealer Interaction View";
-
         $data['page_name']="List of Dealer Interaction";
-
-//        $end = date('Y-m-d', strtotime(savedate()))." 23:59:59";
-//
-//       
-//
-//        $start = date('Y-m-d', strtotime('-1 month'))." 00:00:00";
-           $start=''; $end='';
-
-
-        if(!is_admin()){ 
-
-            $total_record = $this->report->total_dealer_interaction(logged_user_data(),$start,$end);   
-
-        }
-        else{
-
-            $total_record = $this->report->total_dealer_interaction(0,$start,$end);  
-        }
-
-        $url ="interaction/dealer_interaction";
-
-       
-
-        $pagination_value = pharma_pagination($url, $total_record);
-
-            if(!is_admin()){ 
-
-                $data['dealer_interaction'] = $this->report->travel_report_dealer(logged_user_data(),$start,$end,$pagination_value['per_page'],$pagination_value['page']);   // for dealer
-
-            }
-            else{
-
-                    $data['dealer_interaction'] = $this->report->travel_report_dealer(0,$start,$end,$pagination_value['per_page'],$pagination_value['page']);   // for dealer
-
-
-
-             }
-
-          $data['links'] = $pagination_value['links'];     
-
-
-       $this->load->get_view('interaction_list/interaction_dealer_details_view',$data);
- 
-
+        $this->load->get_view('interaction_list/interaction_dealer_details_view',$data);
     }
 
     
@@ -839,28 +767,7 @@ class Interaction extends Parent_admin_controller {
     public function pharmacy_interaction(){
       $data['title'] = "Sub Dealer Interaction View";
       $data['page_name']="List of Sub Dealer Interaction";
-//      $end = date('Y-m-d', strtotime(savedate()))." 23:59:59";
-//      $start = date('Y-m-d', strtotime('-1 month'))." 00:00:00";
-      $start='';$end='';
-      if(!is_admin()){ 
-         $total_record = $this->report->total_pharmacy_interaction(logged_user_data(),$start,$end);   
-      }
-      else{
-        $total_record = $this->report->total_pharmacy_interaction(0,$start,$end);  
-      }
-      $url ="interaction/pharmacy_interaction";
-      $pagination_value = pharma_pagination($url, $total_record);
-      if(!is_admin()){ 
-          $data['pharma_interaction'] =$this->report->travel_report_pharmacy(logged_user_data(),$start,$end,$pagination_value['per_page'],$pagination_value['page']);   // for pharmacy
-        }
-
-        else{
-          $data['pharma_interaction'] =$this->report->travel_report_pharmacy(0,$start,$end,$pagination_value['per_page'],$pagination_value['page']);   // for pharmacy
-        }
-
-       $data['links'] = $pagination_value['links'];
-       // $data['action'] = 'global_search/search';
-       $this->load->get_view('interaction_list/interaction_pharma_details_view',$data);
+      $this->load->get_view('interaction_list/interaction_pharma_details_view',$data);
     }
 
     

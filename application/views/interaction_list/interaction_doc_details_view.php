@@ -1,17 +1,31 @@
 <?php
-
 /* 
- * Developer: Niraj Kumar
- * Dated: 20-nov-2017
+ * Developer: Nitin Kumar
+ * Dated: 05-09-2019
  * Email: sss.shailesh@gmail.com
  * 
  * for show doctor interaction 
  * 
  */
-    $doc_int = $doctor_interaction;
-  $secondary_sum=0; 
-//    pr($doc_int); die;
-    
+$data = file_get_contents ("ReportJSON/IntrctionDocSumry.json");
+$json = json_decode($data, true);
+
+if(!is_admin()){
+	$usrID=logged_user_data();
+	$uID=array($usrID);
+	$childData=get_child_user($usrID);
+	$childCount=count(get_child_user($usrID));
+	if($childCount > 1){
+		$childArr=array_merge($childData,$uID);
+	}else{
+		$childArr=$uID;
+	}
+	$doc_info=$json;
+}else{
+	$doc_info=$json;
+}
+
+$secondary_sum=0;
     
 ?>
 
@@ -31,18 +45,15 @@
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
 	<?php if(is_admin()){  ?>
-        <script type="text/javascript" class="init">
-
-            $(document).ready(function() {
-                    var table = $('#example').DataTable( {
-                            lengthChange: false,
-                            buttons: [ 'excel']
-                    } );
-
-                    table.buttons().container()
-                            .appendTo( '#example_wrapper .col-sm-6:eq(0)' );
-            } );
-
+	<script type="text/javascript" class="init">
+		$(document).ready(function() {
+		var table = $('#example').DataTable( {
+				lengthChange: false,
+				buttons: [ 'excel']
+		} );
+		table.buttons().container()
+		.appendTo( '#example_wrapper .col-sm-6:eq(0)' );
+		} );
 	</script>
         <?php } ?>
 <div class="content-wrapper">
@@ -54,73 +65,139 @@
             <div class="box box-default">
                 
         <div class="box-header with-border">
-<!--             <a href="<?= base_url();?>interaction/interaction/interaction_oncall_view"> 
-                    <h3 class="box-title"><button type="button" class="btn btn-block btn-success">Show On Call Interaction</button></h3>
-                </a>-->
 
-                     
         </div>
             <!-- /.box-header -->
             <div class="box-body">
-                
-                <table id="example" class="table table-bordered table-striped">             					 <thead>						<tr>						  <th>Date</th>				
-                		  <th>Interaction With</th>						  <th>Interaction By</th>						  <th>City</th>						  <th>Sample</th>						  <th>Met/Not Met</th>						  <th>Secondary Sale</th>						  <th>Remark</th>						  <th>Action</th>						</tr>					</thead>			
-        <tbody>
+			<table id="example" class="table table-bordered table-striped">
+				<thead>
+				<tr>
+					<th>Date</th>
+					<th>Interaction With</th>
+					<th>Interaction By</th>
+					<th>City</th>
+					<th>Sample</th>
+					<th>Met/Not Met</th>
+					<th>Secondary Sale</th>
+					<th>Remark</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+			<tbody>
                 <?php
-                 if(!empty($doc_int)){
-                  foreach($doc_int['doc_info'] as $k_doc=>$val_doc){
-                  ?>
-                    <tr>	                                     <td>
-                        <?= date('Y/m/d',strtotime($val_doc['date'])); ?>
-                     </td>
-                      <td>
-                        <?=$val_doc['customer'];?>
-                      </td>
-                     <td>
-                        <?=$val_doc['user'];?>
-                     </td>
-                     <td>
-                        <?=$val_doc['city'];?>
-                     </td>
-                      <td>
-                        <?=$val_doc['sample']['sample'];?>
-                     </td>
-                      <td>
-                        <?php
-                        
-                         if($val_doc['metnotmet']==TRUE ){
-                           echo "Met";
-                         }
-                         else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
-                             
-                             echo "Not Met" ;
-                         }
-                      ?>
-                            
-                     </td>
-                      
-                     <td>
-                        <?=$val_doc['secondary_sale'];?>
-                        <?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
-                         <?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
-                        <br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
-                         <?php }?>
-                      </td>
-                      
-                      <td>
-                        <?=$val_doc['remark'];?>
-                      </td>
-                        
-                      <td>
-                        <?php   if(is_admin()){ ?>   
-                         <a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                        <?php } ?>
-                      </td>
-                    </tr>
-               <?php  } } ?>
+                 if(!empty($doc_info)){
+                 	if(is_admin()){
+						foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
+							?>
+							<tr>
+								<td>
+									<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+								</td>
+								<td>
+									<?=$val_doc['customer'];?>
+								</td>
+								<td>
+									<?=$val_doc['user'];?>
+								</td>
+								<td>
+									<?=$val_doc['city'];?>
+								</td>
+								<td>
+									<?=$val_doc['sample']['sample'];?>
+								</td>
+								<td>
+									<?php
+
+									if($val_doc['metnotmet']==TRUE ){
+										echo "Met";
+									}
+									else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
+
+										echo "Not Met" ;
+									}
+									?>
+
+								</td>
+
+								<td>
+									<?=$val_doc['secondary_sale'];?>
+									<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
+									<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
+										<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
+									<?php }?>
+								</td>
+
+								<td>
+									<?=$val_doc['remark'];?>
+								</td>
+
+								<td>
+									<?php   if(is_admin()){ ?>
+										<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+									<?php } ?>
+								</td>
+							</tr>
+						<?php  }
+					}else{
+							foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
+								if(in_array($val_doc['user_id'],$childArr)){  ?>
+									<tr>
+										<td>
+											<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+										</td>
+										<td>
+											<?=$val_doc['customer'];?>
+										</td>
+										<td>
+											<?=$val_doc['user'];?>
+										</td>
+										<td>
+											<?=$val_doc['city'];?>
+										</td>
+										<td>
+											<?=$val_doc['sample']['sample'];?>
+										</td>
+										<td>
+											<?php
+
+											if($val_doc['metnotmet']==TRUE ){
+												echo "Met";
+											}
+											else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
+
+												echo "Not Met" ;
+											}
+											?>
+
+										</td>
+
+										<td>
+											<?=$val_doc['secondary_sale'];?>
+											<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
+											<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
+												<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
+											<?php }?>
+										</td>
+
+										<td>
+											<?=$val_doc['remark'];?>
+										</td>
+
+										<td>
+											<?php   if(is_admin()){ ?>
+												<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+											<?php } ?>
+										</td>
+									</tr>
+							<?php	}
+							}
+
+					}
+                 } ?>
 </tbody>
 <?php if($secondary_sum!=0){?>
-<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan="" style=""><strong><?=$secondary_sum?></strong></td></tr></tfooter>
+<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan=""
+																					   style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
 <?php }?>
 </table>
             </div>

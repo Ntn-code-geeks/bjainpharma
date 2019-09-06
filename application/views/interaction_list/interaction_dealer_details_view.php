@@ -1,27 +1,29 @@
 <?php
-
-
-
-/* 
-
- * Developer: Niraj Kumar
-
- * Dated: 20-nov-2017
-
+/*
+ * Developer: Nitin Kumar
+ * Dated: 05-09-2019
  * Email: sss.shailesh@gmail.com
-
- * 
-
- * for show Dealer interaction 
-
- * 
-
+ *
+ * for show doctor interaction
+ *
  */
+$data = file_get_contents ("ReportJSON/IntrctionDealerSumry.json");
+$json = json_decode($data, true);
 
-
-
-
-    $dealer_int = $dealer_interaction;
+if(!is_admin()){
+	$usrID=logged_user_data();
+	$uID=array($usrID);
+	$childData=get_child_user($usrID);
+	$childCount=count(get_child_user($usrID));
+	if($childCount > 1){
+		$childArr=array_merge($childData,$uID);
+	}else{
+		$childArr=$uID;
+	}
+	$dealer_int=$json;
+}else{
+	$dealer_int=$json;
+}
     $secondary_sum = 0; 
 
     
@@ -47,17 +49,14 @@
 	
         <?php if(is_admin()){  ?>
         <script type="text/javascript" class="init">
-
             $(document).ready(function() {
                     var table = $('#example').DataTable( {
                             lengthChange: false,
                             buttons: [ 'excel']
-                    } );
-
+                    });
                     table.buttons().container()
-                            .appendTo( '#example_wrapper .col-sm-6:eq(0)' );
-            } );
-
+                    .appendTo( '#example_wrapper .col-sm-6:eq(0)' );
+            });
 	</script>
         <?php } ?>
 <style>
@@ -183,111 +182,210 @@
                 <?php
 
                  if(!empty($dealer_int)){
+                 	if(is_admin()){
+						foreach($dealer_int['dealer_info'] as $k_d=>$val_d){
+							?>
+							<tr>
 
-                  foreach($dealer_int['dealer_info'] as $k_d=>$val_d){
+								<td>
 
-                  ?>
+									<?= date('Y/m/d',strtotime($val_d['date'])); ?>
 
-                                <tr>
+								</td>
+
+								<td>
+
+									<?=$val_d['customer'];?>
+
+								</td>
+
+								<td>
+
+									<?=$val_d['user'];?>
+
+								</td>
+
+								<td>
+
+									<?=$val_d['city'];?>
+
+								</td>
+
+								<td>
+
+									<?php
+
+
+
+									if($val_d['metnotmet']==TRUE ){
+
+										echo "Met";
+
+									}
+
+									else if($val_d['metnotmet']==FALSE && $val_d['metnotmet']!=NULL ){
+
+
+
+										echo "Not Met" ;
+
+									}
+
+									?>
+
+								</td>
+
+								<td>
+
+									<?=$val_d['sale'];?>
+									<?php $secondary_sum=$secondary_sum+$val_d['sale']?>
+									<?php if(!empty($val_d['sale'])){?>
+										<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_d['id']).'/'. urisafeencode($val_d['d_id']);?>"  target="_blank">View Product</a>
+									<?php }?>
+								</td>
+
+								<td>
+
+									<?=$val_d['payment'];?>
+
+								</td>
+
+								<td>
+
+									<?=$val_d['stock'];?>
+
+								</td>
+
+								<td>
+
+									<?=$val_d['remark'];?>
+
+								</td>
+
+								<td>
+
+									<?php
+
+									if(is_admin()){
+
+										?>
+
+
+
+										<a href="<?php echo base_url()."interaction/edit_dealer_interaction/". urisafeencode($val_d['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+
+
+
+									<?php } ?>
+
+								</td>
+
+							</tr>
+
+						<?php  }
+					}else{
+						foreach($dealer_int['dealer_info'] as $k_d=>$val_d) {
+							if (in_array($val_d['user_id'], $childArr)) {	?>
+								<tr>
 
 									<td>
 
-										<?= date('Y/m/d',strtotime($val_d['date'])); ?>
+										<?= date('Y/m/d', strtotime($val_d['date'])); ?>
 
 									</td>
 
-                                    <td>
+									<td>
 
-										<?=$val_d['customer'];?>
-
-									</td>
-
-                                    <td>
-
-										<?=$val_d['user'];?>
+										<?= $val_d['customer']; ?>
 
 									</td>
 
-                                    <td>
+									<td>
 
-                                         <?=$val_d['city'];?>
+										<?= $val_d['user']; ?>
 
 									</td>
 
-                                    <td>
+									<td>
 
-                                    <?php
+										<?= $val_d['city']; ?>
 
-                                    
+									</td>
 
-                                     if($val_d['metnotmet']==TRUE ){
+									<td>
 
-                                       echo "Met";
+										<?php
 
-                                     }
 
-                                     else if($val_d['metnotmet']==FALSE && $val_d['metnotmet']!=NULL ){
+										if ($val_d['metnotmet'] == TRUE) {
 
-                                         
+											echo "Met";
 
-                                         echo "Not Met" ;
+										} else if ($val_d['metnotmet'] == FALSE && $val_d['metnotmet'] != NULL) {
 
-                                     }
 
-                                  ?>
+											echo "Not Met";
 
-                                  </td>
+										}
 
-                                    <td>
+										?>
 
-                                    <?=$val_d['sale'];?>
-                                     <?php $secondary_sum=$secondary_sum+$val_d['sale']?>
-                                    <?php if(!empty($val_d['sale'])){?>
-                                    <br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_d['id']).'/'. urisafeencode($val_d['d_id']);?>"  target="_blank">View Product</a>
-                                    <?php }?>
-                                  </td>
+									</td>
 
-                                    <td>
+									<td>
 
-                                    <?=$val_d['payment'];?>
+										<?= $val_d['sale']; ?>
+										<?php $secondary_sum = $secondary_sum + $val_d['sale'] ?>
+										<?php if (!empty($val_d['sale'])) { ?>
+											<br><a
+												href="<?php echo base_url() . "order/interaction_order/view_order/" . urisafeencode($val_d['id']) . '/' . urisafeencode($val_d['d_id']); ?>"
+												target="_blank">View Product</a>
+										<?php } ?>
+									</td>
 
-                                  </td>
+									<td>
 
-                                    <td>
+										<?= $val_d['payment']; ?>
 
-                                    <?=$val_d['stock'];?>
+									</td>
 
-                                  </td>
+									<td>
 
-                                    <td>
+										<?= $val_d['stock']; ?>
 
-                                    <?=$val_d['remark'];?>
+									</td>
 
-                                  </td>
+									<td>
 
-                                    <td>
+										<?= $val_d['remark']; ?>
 
-                                      <?php
+									</td>
 
-        if(is_admin()){
+									<td>
 
-        ?>   
+										<?php
 
-                                        
+										if (is_admin()) {
 
-          <a href="<?php echo base_url()."interaction/edit_dealer_interaction/". urisafeencode($val_d['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+											?>
 
-               
 
-        <?php } ?>
+											<a href="<?php echo base_url() . "interaction/edit_dealer_interaction/" . urisafeencode($val_d['id']); ?>">
+												<button type="button" class="btn btn-info"><i
+														class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+											</a>
 
-                                   </td>
 
-                                   </tr>
+										<?php } ?>
 
-                                   
+									</td>
 
-                    <?php  } } ?>
+								</tr>
+							<?php }
+						}
+					}
+
+                 } ?>
 
                  
 

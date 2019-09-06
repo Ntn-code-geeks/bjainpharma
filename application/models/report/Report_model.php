@@ -434,20 +434,19 @@ class Report_model extends CI_Model {
     public function total_doctor_interaction($userid='',$start='',$end=''){
 
     $arr = "pid.id,pid.remark,pid.orignal_sale as order_supply,pid.date_of_supply,`pid`.`meeting_sale` as `secondary_sale`, `pid`.`meet_or_not_meet` as `metnotmet`,pid.create_date as date,pid.doc_id,doc.doc_name as customer,c.city_name as city,pu.name as user,msm.sample_name as sample";
+	$this->db->select($arr);
+	$this->db->from("pharma_interaction_doctor pid");
+	$this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
 
-        $this->db->select($arr);
-        $this->db->from("pharma_interaction_doctor pid");
-        $this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
+	$this->db->join("pharma_users pu" , "pu.id=pid.crm_user_id","Left");
+	$this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
+	$this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
-         $this->db->join("pharma_users pu" , "pu.id=pid.crm_user_id","Left");
-         $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
-
-         $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
-         $this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");//
-        $this->db->join("city c" , "c.city_id=doc.city_id");
-        $this->db->join("state st" , "st.state_id=doc.state_id");
-       $this->db->where('pid.status',1);
+	$this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
+	$this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");//
+	$this->db->join("city c" , "c.city_id=doc.city_id");
+	$this->db->join("state st" , "st.state_id=doc.state_id");
+	$this->db->where('pid.status',1);
         if($userid > 0){
         //$this->db->where('team.team_id',$userid);
       //  (`team`.`team_id` = '92' OR `pid`.`crm_user_id` = '92')
@@ -455,36 +454,21 @@ class Report_model extends CI_Model {
         //$this->db->or_where('pid.crm_user_id',$userid);
         }
 //        $this->db->where('pid.create_date >=', $start);
-//
 //        $this->db->where('pid.create_date <=', $end);
 
         $this->db->group_by('pid.id');
         $this->db->order_by('pid.doc_id','ASC');
-
 		$query = $this->db->get();
 //		echo $this->db->last_query(); die;
 
 		if($this->db->affected_rows()){
-
-             
-
-     $doc_travel_info = $query->num_rows();
-
-//  pr($doc_travel_info); die;
-
+		 $doc_travel_info = $query->num_rows();			/* Return Number of rows fetch */
+		//  pr($doc_travel_info); die;
             return $doc_travel_info;
-
         }
-
         else{
-
-            
-
             return FALSE;
-
-        } 
-
-        
+        }
 
     }
 
@@ -492,49 +476,26 @@ class Report_model extends CI_Model {
 
     public  function total_dealer_interaction($userid='',$start='',$end=''){
 
-        
-
-        
-
         $arr = "pi.id,pi.remark,dl.gd_id as is_cf,pi.create_date as date,`pi`.`d_id`, `dl`.`dealer_name` as `customer`, `c`.`city_name` as `city`, `pu`.`name` as `user`,pi.meeting_sale as sale,pi.meeting_payment as payment,pi.meeting_stock as stock,pi.meet_or_not_meet as metnotmet ";
-
         $this->db->select($arr);
-
         $this->db->from("pharma_interaction_dealer pi");
-
         $this->db->join("dealer dl" , "dl.dealer_id=pi.d_id");
-
-        
-
         $this->db->join("pharma_users pu" , "pu.id=pi.crm_user_id","left");
-
-         
-
         $this->db->join("dealer_interaction_with_team  team" , "team.pidealer_id=pi.id","left");
-
         $this->db->join("pharma_users pus" , "pus.id=team.team_id","left");
-
          
 
 //         $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-
 //         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
-//       
-
         $this->db->join("city c" , "c.city_id=dl.city_id");
-
         $this->db->join("state st" , "st.state_id=dl.state_id");
-
-        
-
         $this->db->where('pi.status',1);
-
         if($userid > 0){
 
-         
 
-         
+
+
 
           $this->db->where('team.team_id',$userid);
 

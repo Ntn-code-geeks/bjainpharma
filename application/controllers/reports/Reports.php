@@ -1115,6 +1115,7 @@ public function generate_attendance_report_all($start,$end)
         $data['page_name'] = "TA DA Report";
 //        if(is_admin()){
           $request = $this->input->post();
+
 //echo $request['report_date'].'<br>'; 
           
 //          echo $request['report_date']; die;
@@ -1126,9 +1127,7 @@ public function generate_attendance_report_all($start,$end)
           $follow_month =  trim($report_date[0]); $follow_year =  trim($report_date[1]);
           $newstartdate =    $follow_month.'/01/'.$follow_year;         
 //          str_replace('/', '-', $followstart_month);
-          
-          $newenddate =  $follow_month.'/20/'.$follow_year;  
-                  
+          $newenddate =  $follow_month.'/20/'.$follow_year;
 //                  str_replace('/', '-', $followend_date);
           $start = date('Y-m-d', strtotime($newstartdate))." 00:00:00";
           $end = date('Y-m-t', strtotime($newenddate))." 23:59:59";
@@ -1141,8 +1140,8 @@ public function generate_attendance_report_all($start,$end)
              $data['tada_report'] =$this->report->get_tada_report(logged_user_data(),$start,$end);
              
 //             pr($data['tada_report'] ); die;
-              $data['action'] ="reports/reports/send_for_approval";
-             
+             $data['action'] ="reports/reports/send_for_approval";
+             // pr($data); die;
              $this->load->get_view('report/ta_da_report_view',$data);
              
 //            $this->show_tada_report($request['user_id'],$start,$end);
@@ -1152,8 +1151,8 @@ public function generate_attendance_report_all($start,$end)
               $this->get_tada_report();  
           }
 
-        }else{
-              
+        }
+        else{
               $this->get_tada_report(); 
           } 
 //        else{
