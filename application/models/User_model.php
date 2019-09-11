@@ -551,6 +551,8 @@ class User_model extends CI_Model {
     	$doc=array();
 		foreach($doctor_data as $doc_data){
 			$doc[]=array(
+				'user_id' => $doc_data->user_id,
+				'city_id' => $doc_data->city_id,
 				'doctorname' => $doc_data->doctorname,
 				'actualsale' => $doc_data->actualsale,
 				'id' => $doc_data->id,
@@ -570,6 +572,8 @@ class User_model extends CI_Model {
 		$phar=array();
 		foreach($pharma_data as $phr_data){
 			$phar[]=array(
+				'user_id' => $phr_data->user_id,
+				'city_id' => $phr_data->city_id,
 				'pharmaname' => $phr_data->pharmaname,
 				'actualsale' => $phr_data->actualsale,
 				'id' => $phr_data->id,

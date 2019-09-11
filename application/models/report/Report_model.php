@@ -567,8 +567,6 @@ class Report_model extends CI_Model {
 
          $this->db->join("pharmacy_list pl","pl.pharma_id=pip.pharma_id");
 
-       
-
          $this->db->join("pharma_users pu" , "pu.id=pip.crm_user_id","Left");
 
          $this->db->join("pharmacy_interaction_sample_relation  pisr" , "pisr.pipharma_id=pip.id","Left");
@@ -718,13 +716,7 @@ class Report_model extends CI_Model {
         }
     }
 
-    
 
-    
-
-    
-
-    
 
      // Travel report for dealer
 
@@ -2508,13 +2500,6 @@ class Report_model extends CI_Model {
          
         
     }
-   
 
-    
-    
-    
-    
-    
-    
     
 }

@@ -406,13 +406,14 @@ $('#searchid_sidebar').click(function(){
       <li><a href="<?= base_url();?>product/product/"><i class="fa fa-circle-o text-red"></i><span>Product</span></a></li>
       
       <li><a href="<?= base_url();?>admin_control/report/expense_chart"><i class="fa fa-circle-o text-red"></i><span>Expense Chart</span></a></li>
+		<li><a href="<?= base_url();?>interaction/se_report"><i class="fa fa-circle-o
+		text-red"></i><span>SE Report</span></a></li>
     <?php } ?>
    
       </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
-  
   
   
   

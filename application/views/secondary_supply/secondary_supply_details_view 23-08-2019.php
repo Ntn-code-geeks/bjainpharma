@@ -106,114 +106,109 @@ td {	padding-left: 60% !important;		}
 
                     <?php
 
-                                if(!empty($doc_secondary_list)){
+					if(!empty($doc_secondary_list)){
 
-                                 foreach($doc_secondary_list as $k_c=>$val_c){
+					 foreach($doc_secondary_list as $k_c=>$val_c){
 
-                                      if($val_c->secondarysale!=''){
+						  if($val_c->secondarysale!=''){
 
-                                 ?>
-
-                        
-
-                                <tr>
-
-									<td>
-
-                                    <?=date('Y/m/d', strtotime($val_c->date_of_interaction));?>
-
-                                  </td>
-
-                                    <td>
-
-                                   <?=$val_c->doctorname;?>
-
-                                  </td>
-
-                                    <td>
-
-                                    <?=$val_c->dealer_name;?>
-
-                                  </td>
-
-                                    <td>
-
-                                    <?=$val_c->secondarysale;?>
-
-                                </td>
-
-                                    <td>
-
-                                    <?php
-
-                                    if($val_c->actualsale!=0){
-
-                                       //$remais = ($val_c->secondarysale)-($val_c->actualsale);
-                                       $remais = ($val_c->actualsale);
-
-                                       echo $remais;
-
-                                    }
-
-                                    else{
-
-                                        echo "--";
-
-                                    }
-
-                                    
-
-                                    ?>
-
-                                  </td>
-
-                                    <td>
-
-                                      <?php
-
-                                      if($val_c->close_status==0){
-
-                                      ?>
-
-                                        <a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/".urisafeencode($val_c->id);?>" onclick="return confirm('Are you sure want to Close this Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
-
-                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_info_doctor<?=$val_c->id ?>">
-
-                                        Supply
-
-                                        </button>
+					 ?>
 
 
 
-                                         <?php }else{ ?>
+					<tr>
 
-                                      <button type="button" class="btn btn-success">Closed</button>
+						<td>
 
-                                      <?php } ?>
+						<?=date('Y/m/d', strtotime($val_c->date_of_interaction));?>
 
-                                      
+					  </td>
 
-           
+						<td>
 
-                     
+					   <?=$val_c->doctorname;?>
 
-                                      
+					  </td>
 
-                                   </td>
+						<td>
 
-                                    
+						<?=$val_c->dealer_name;?>
 
-                                </tr>
+					  </td>
 
-								<?php  } } }?>
+						<td>
 
-								
+						<?=$val_c->secondarysale;?>
 
-								    
+					</td>
 
-           <?php // for pharma interaction list
+						<td>
 
-                                if(!empty($pharma_secondary_list)){
+						<?php
+
+						if($val_c->actualsale!=0){
+
+						   //$remais = ($val_c->secondarysale)-($val_c->actualsale);
+						   $remais = ($val_c->actualsale);
+
+						   echo $remais;
+
+						}
+
+						else{
+
+							echo "--";
+
+						}
+
+
+
+						?>
+
+					  </td>
+
+						<td>
+
+						  <?php
+
+						  if($val_c->close_status==0){
+
+						  ?>
+
+							<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/".urisafeencode($val_c->id);?>" onclick="return confirm('Are you sure want to Close this Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+
+						 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_info_doctor<?=$val_c->id ?>">
+
+							Supply
+
+							</button>
+
+
+
+							 <?php }else{ ?>
+
+						  <button type="button" class="btn btn-success">Closed</button>
+
+						  <?php } ?>
+
+
+
+
+
+
+
+
+
+					   </td>
+
+
+
+					</tr>
+
+					<?php  } } }
+
+
+					if(!empty($pharma_secondary_list)){
 
                                  foreach($pharma_secondary_list as $k_c=>$val_c){
 
@@ -298,7 +293,6 @@ td {	padding-left: 60% !important;		}
 
 									<?php  } } }?>
 
-                            
 
 		</tbody>
 

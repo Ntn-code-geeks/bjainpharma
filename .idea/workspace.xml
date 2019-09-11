@@ -2,18 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e572d146-1042-44b4-88ee-c3dcfb2eed1e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDealerSumry.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReportJSON/IntrctionPharmaSumry.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReportJSON/doc_secondary_supply.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/doc_secondary_supply.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Interaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Interaction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/reports/Reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/reports/Reports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/func_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/func_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/User_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/User_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/report/Report_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/report/Report_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/interaction_dealer_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/interaction_dealer_details_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/interaction_doc_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/interaction_doc_details_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/interaction_pharma_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/interaction_pharma_details_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/elements/left_sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/elements/left_sidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/secondary_supply/secondary_supply_details_view 23-08-2019.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/secondary_supply/secondary_supply_details_view 23-08-2019.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +53,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../exam" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
@@ -197,6 +196,11 @@
       <workItem from="1567484546237" duration="22100000" />
       <workItem from="1567572144837" duration="19311000" />
       <workItem from="1567656990280" duration="20284000" />
+      <workItem from="1567744682443" duration="6432000" />
+      <workItem from="1567831000897" duration="3612000" />
+      <workItem from="1568004452993" duration="12681000" />
+      <workItem from="1568089696605" duration="21632000" />
+      <workItem from="1568175881244" duration="8881000" />
     </task>
     <task id="LOCAL-00001" summary="phpstorm commit">
       <created>1566982967610</created>
@@ -291,12 +295,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/report/Report_model.php</url>
-          <line>2243</line>
+          <line>2235</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/report/Report_model.php</url>
-          <line>2231</line>
+          <line>2223</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -416,12 +420,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
-          <line>958</line>
+          <line>947</line>
           <option name="timeStamp" value="324" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
-          <line>959</line>
+          <line>948</line>
           <option name="timeStamp" value="332" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -651,7 +655,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/report/Report_model.php</url>
-          <line>650</line>
+          <line>648</line>
           <option name="timeStamp" value="431" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
@@ -692,7 +696,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>589</line>
+          <line>593</line>
           <properties>
             <option name="className" value="\User_model" />
             <option name="methodName" value="interaction_doctor_report" />
@@ -710,7 +714,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
-          <line>988</line>
+          <line>1021</line>
           <properties>
             <option name="className" value="\Interaction" />
             <option name="methodName" value="checkmail" />
@@ -728,7 +732,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>640</line>
+          <line>644</line>
           <properties>
             <option name="className" value="\User_model" />
             <option name="methodName" value="interaction_pharmacy_report" />
@@ -737,7 +741,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
-          <line>766</line>
+          <line>757</line>
           <properties>
             <option name="className" value="\Interaction" />
             <option name="methodName" value="pharmacy_interaction" />
@@ -746,7 +750,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>688</line>
+          <line>692</line>
           <properties>
             <option name="className" value="\User_model" />
             <option name="methodName" value="travel_report_dealer" />
@@ -755,12 +759,30 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
-          <line>514</line>
+          <line>508</line>
           <properties>
             <option name="className" value="\Interaction" />
             <option name="methodName" value="dealer_interaction" />
           </properties>
           <option name="timeStamp" value="441" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
+          <line>993</line>
+          <properties>
+            <option name="className" value="\Interaction" />
+            <option name="methodName" value="doc_generate_monthly_mr" />
+          </properties>
+          <option name="timeStamp" value="442" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/application/controllers/Interaction.php</url>
+          <line>976</line>
+          <properties>
+            <option name="className" value="\Interaction" />
+            <option name="methodName" value="se_report" />
+          </properties>
+          <option name="timeStamp" value="448" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
