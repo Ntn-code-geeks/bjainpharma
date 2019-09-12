@@ -32,27 +32,30 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 				<br>
 				<?php echo form_open_multipart($action);?>
 				<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
+				<div class="form-group">
+					<label>Select Date* </label>
+					<div class="input-group date">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i></div>
+					<input name="start_date" class="form-control pull-right" id="reservation2" type="text" value="<?php echo date('d/m/Y').' - '. date('d/m/Y'); ?>">
+					</div>
+					<span class="control-label" for="inputError" style="color: red"><?php echo form_error('start_date'); ?></span>
+				</div>
+					</div>
+				<div class="col-md-6" style="margin-top: 22px !important;">
 
-					<div class="form-group" style="margin-bottom: 50px !important;">
+					<div class="form-group" style="">
+					<label>Sales Executives List : </label>
+					<select name="working_user_id" id="working_user_id"  class="form-control select3" style="width: 45%;">
+					<option value="">--Select Employee--</option>
+					<?php foreach($child_user_list as $k_cul=>$val_cul){ echo $val_cul['username']; ?>
+					<option value="<?=$val_cul['userid']?>" ><?=$val_cul['username'];?></option>
+					<?php }  ?>
+					</select>
+					<span class="control-label" for="inputError" style="color: red"><?php echo form_error('working_user_id'); ?></span>
 
-						<label>Sales Executives List : </label>
-
-						<select name="working_user_id" id="working_user_id"  class="form-control select3" style="width: 45%;">
-
-							<option value="">--Select Employee--</option>
-
-							<?php foreach($child_user_list as $k_cul=>$val_cul){ echo $val_cul['username']; ?>
-
-								<option value="<?=$val_cul['userid']?>" ><?=$val_cul['username'];?></option>
-
-							<?php }  ?>
-
-						</select>
-
-						<span class="control-label" for="inputError" style="color: red"><?php echo form_error('working_user_id'); ?></span>
-
-						<button type="submit" class="btn btn-info pull-right" style="margin-right: 365px;">Save</button>
+						<button type="submit" class="btn btn-info pull-right" style="">Save</button>
 
 					</div>
 
@@ -95,20 +98,10 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 <script type='text/javascript'>
     // var dateToday = new Date();
-    var usID=$('#user_IDD').val();
-    var datearray = ["09/14/2019","09/15/2019","09/16/2019"];    ///Dates to be disabled in calendar
 
-    $('#doi').datepicker({
-        format: 'mm/dd/yyyy',
-        // startDate: '-2d',
-        // endDate: '+0d' ,   ////future dates
-        datesDisabled: datearray,     ////Gazetted Holidays
-        daysOfWeekDisabled: [0],   //Disable sunday
-        autoclose:true,
-        todayHighlight: true,
-    })  ;
-
-
+    $('#datepickerend').datepicker({
+        autoclose: true
+    }) ;
 
 
     $(function(){

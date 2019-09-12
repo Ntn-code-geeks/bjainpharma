@@ -810,7 +810,7 @@ class Permission_model extends CI_Model {
 
     public function pharmacy_list($id){
       $cityid = explode(',',$id );
-      $arr = "pl.pharma_id as id,pl.company_name as com_name,c.city_name,pl.pharmacy_status as status,pl.blocked";
+      $arr = "pl.sp_code as sp_code,pl.pharma_id as id,pl.company_name as com_name,c.city_name,pl.pharmacy_status as status,pl.blocked";
       $this->db->select($arr);
       $this->db->from("pharmacy_list pl");
       $this->db->join("city c","c.city_id=pl.city_id");

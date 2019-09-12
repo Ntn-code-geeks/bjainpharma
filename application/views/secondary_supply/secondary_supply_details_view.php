@@ -75,107 +75,209 @@ td {	padding-left: 60% !important;		}
 						</tr>
 					</thead>
 					<tbody>
-                    <?php
-					if(!empty($doc_secondary_list)){
-
-
+              <?php
+			   if(!empty($doc_secondary_list)){
 			  foreach($doc_secondary_list as $k_c=>$val_c){
-						  if($val_c['secondarysale']!=''){
-					 ?>
-					<tr>
-						<td>
-						<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
-					  </td>
+			  	if(!is_admin()){
+						if(in_array($val_c['user_id'], $allchilds)){
+							if($val_c['secondarysale']!=''){
+								?>
+								<tr>
+									<td>
+										<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+									</td>
 
-						<td>
-					   <?=$val_c['doctorname'];?>
-					  </td>
-						<td>
-						<?=$val_c['dealer_name'];?>
-					  </td>
+									<td>
+										<?=$val_c['doctorname'];?>
+									</td>
+									<td>
+										<?=$val_c['dealer_name'];?>
+									</td>
 
-						<td>
-						<?=$val_c['secondarysale'];?>
-					</td>
+									<td>
+										<?=$val_c['secondarysale'];?>
+									</td>
 
-						<td>
-						<?php
-						if($val_c['actualsale']!=0){
-						   //$remais = ($val_c->secondarysale)-($val_c->actualsale);
-						   $remais = ($val_c['actualsale']);
-						   echo $remais;
-						}
-						else{
-							echo "--";
-						}
-						?>
+									<td>
+										<?php
+										if($val_c['actualsale']!=0){
+											//$remais = ($val_c->secondarysale)-($val_c->actualsale);
+											$remais = ($val_c['actualsale']);
+											echo $remais;
+										}
+										else{
+											echo "--";
+										}
+										?>
 
-					  </td>
-						<td>
-						  <?php
-						  if($val_c['close_status']==0){
-						  ?>
-							<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/"
-								.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close ' +
+									</td>
+									<td>
+										<?php
+										if($val_c['close_status']==0){
+											?>
+											<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/"
+												.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close ' +
 								 'this Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
 
-						 <button type="button" class="btn btn-info" data-toggle="modal"
-								 data-target="#modal_info_doctor<?=$val_c['id'] ?>">
+											<button type="button" class="btn btn-info" data-toggle="modal"
+													data-target="#modal_info_doctor<?=$val_c['id'] ?>">
 
-							Supply
+												Supply
 
-							</button>
+											</button>
 
-							 <?php }else{ ?>
-						  <button type="button" class="btn btn-success">Closed</button>
-						  <?php } ?>
-					   </td>
-					</tr>
-					<?php  } }
-					}?>
-           		<?php // for pharma interaction list
+										<?php }else{ ?>
+											<button type="button" class="btn btn-success">Closed</button>
+										<?php } ?>
+									</td>
+								</tr>
+							<?php  }
+						}
+				}else{
+					if($val_c['secondarysale']!=''){
+						?>
+						<tr>
+							<td>
+								<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+							</td>
 
-				if(!empty($pharma_secondary_list)){
-				 foreach($pharma_secondary_list as $k_c=>$val_c){
-					 if($val_c['secondarysale']!=''){
-					 ?>
-				<tr>
-					<td>
-					<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
-				  </td>
-					<td>
-				   <?=$val_c['pharmaname'];?>
-				 </td>
-					<td>
-					<?=$val_c['dealer_name'];?>
-				  </td>
-					<td>
-					<?=$val_c['secondarysale'];?>
-				  </td>
-					<td>
-					<?php
-					if($val_c['actualsale']!=0){
-					  // $remais = ($val_c->secondarysale)-($val_c->actualsale);
-					   $remais = $val_c['actualsale'];
-					   echo $remais;
+							<td>
+								<?=$val_c['doctorname'];?>
+							</td>
+							<td>
+								<?=$val_c['dealer_name'];?>
+							</td>
+
+							<td>
+								<?=$val_c['secondarysale'];?>
+							</td>
+
+							<td>
+								<?php
+								if($val_c['actualsale']!=0){
+									//$remais = ($val_c->secondarysale)-($val_c->actualsale);
+									$remais = ($val_c['actualsale']);
+									echo $remais;
+								}
+								else{
+									echo "--";
+								}
+								?>
+
+							</td>
+							<td>
+								<?php
+								if($val_c['close_status']==0){
+									?>
+									<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/"
+										.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close ' +
+								 'this Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+
+									<button type="button" class="btn btn-info" data-toggle="modal"
+											data-target="#modal_info_doctor<?=$val_c['id'] ?>">
+
+										Supply
+
+									</button>
+
+								<?php }else{ ?>
+									<button type="button" class="btn btn-success">Closed</button>
+								<?php } ?>
+							</td>
+						</tr>
+					<?php  }
+				}
+
+			     }
+			   }
+           		 // for pharma interaction list
+			  if(!empty($pharma_secondary_list)){
+			 foreach($pharma_secondary_list as $k_c=>$val_c){
+				if(!is_admin()){
+					if(in_array($val_c['user_id'], $allchilds)){
+						if($val_c['secondarysale']!=''){
+							?>
+							<tr>
+								<td>
+									<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+								</td>
+								<td>
+									<?=$val_c['pharmaname'];?>
+								</td>
+								<td>
+									<?=$val_c['dealer_name'];?>
+								</td>
+								<td>
+									<?=$val_c['secondarysale'];?>
+								</td>
+								<td>
+									<?php
+									if($val_c['actualsale']!=0){
+										// $remais = ($val_c->secondarysale)-($val_c->actualsale);
+										$remais = $val_c['actualsale'];
+										echo $remais;
+									}
+									else{
+										echo "--";
+									}
+									?>
+								</td>
+								<td>
+									<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary_pharmacy/"
+										.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close this ' +
+							   'Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+
+									<button type="button" class="btn btn-info" data-toggle="modal"
+											data-target="#modal_info_pharmacy<?=$val_c['id'] ?>">Supply</button>
+
+								</td>
+							</tr>
+						<?php  }
 					}
-					else{
-						echo "--";
-					}
-					?>
-				  </td>
-					<td>
-					  <a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary_pharmacy/"
-						  .urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close this ' +
-						   'Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+				}else{
+					if($val_c['secondarysale']!=''){
+						?>
+						<tr>
+							<td>
+								<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+							</td>
+							<td>
+								<?=$val_c['pharmaname'];?>
+							</td>
+							<td>
+								<?=$val_c['dealer_name'];?>
+							</td>
+							<td>
+								<?=$val_c['secondarysale'];?>
+							</td>
+							<td>
+								<?php
+								if($val_c['actualsale']!=0){
+									// $remais = ($val_c->secondarysale)-($val_c->actualsale);
+									$remais = $val_c['actualsale'];
+									echo $remais;
+								}
+								else{
+									echo "--";
+								}
+								?>
+							</td>
+							<td>
+								<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary_pharmacy/"
+									.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close this ' +
+							   'Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
 
-				   <button type="button" class="btn btn-info" data-toggle="modal"
-						   data-target="#modal_info_pharmacy<?=$val_c['id'] ?>">Supply</button>
+								<button type="button" class="btn btn-info" data-toggle="modal"
+										data-target="#modal_info_pharmacy<?=$val_c['id'] ?>">Supply</button>
 
-					</td>
-					</tr>
-					<?php  } }
-				}?>
+							</td>
+						</tr>
+					<?php  }
+				}
+
+			 }
+				}
+				?>
 
 		</tbody>
 </table>

@@ -188,12 +188,11 @@ public function dealer_list_for_group(){
 			  $data['date_interact']=$date1;
 			}
 		}
-		
-        
-        
-         $data['users_team'] = $this->permission->user_team(); // show child and boss users  
-        
-         $data['meeting_sample'] = $this->doctor->meeting_sample_master();
+
+	  $data['users_team'] = $this->permission->user_team(); // show child and boss users
+
+	  $data['meeting_sample'] = $this->doctor->meeting_sample_master();
+
 //         pr($data['meeting_sample']);
         $data['title'] = "Dealer Details";
         $data['page_name'] = "Dealer Details";
@@ -214,7 +213,7 @@ public function dealer_list_for_group(){
 			$page = ($this->uri->segment(4))? encode($this->uri->segment(4)) : 0;
 			$data['dealer_data'] = $this->dealer->dealermaster_info($per_page, $page);
 		}
-
+//	  pr(json_decode($data['dealer_data'])); die;
         $data['action'] = 'global_search/dealer_search';
         // $data["links"] = $this->pagination->create_links();
 		    // pr($data); die;

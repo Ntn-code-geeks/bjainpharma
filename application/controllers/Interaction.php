@@ -975,14 +975,14 @@ class Interaction extends Parent_admin_controller {
 
   /* SE/MR Monthly Secondary report */
   public function se_report(){
-	  $data['title'] = "SE Monthly Secondary Report";
-	  $data['page_name']="SE Monthly Secondary Report";
+	  $data['title'] = "SE Secondary Report";
+	  $data['page_name']="SE Secondary Report";
 	  $user_list = $this->permission->user_child_team();
 	  $users=array();
 	  foreach ($user_list as $list){
 		$details=get_user_deatils($list['userid']);
 	  	$desgID=$details->user_designation_id;
-	  	if($desgID=='6'){
+	  	if($desgID=='3' || $desgID=='4' || $desgID=='5' || $desgID=='6'){
 	  		$users[]=$list;			///All SE list / MR
 		}
 	  }
@@ -990,33 +990,75 @@ class Interaction extends Parent_admin_controller {
 	  $data['action'] = 'interaction/doc_generate_monthly_mr';
 	  $this->load->get_view('interaction_list/se_report',$data);
   }
-
   public function doc_generate_monthly_mr(){
 	  $data['title'] = "MR Monthly Secondary Report";
 	  $data['page_name']="MR Monthly Secondary Report";
 	  $inputData=$this->input->post();
+	  $dateInt=explode(' - ',$inputData['start_date']);
+
+	  $date1 = str_replace('/', '-', $dateInt[0] );
+	  $strtDate = date("Y-m-d", strtotime($date1));     ////Start Date of DateRange.
+
+	  $date2 = str_replace('/', '-', $dateInt[1] );
+	  $endDate = date("Y-m-d", strtotime($date2));		////End Date of DateRange.
+
+	  $allDateArr = getDatesFromRange($strtDate, $endDate);    //All dates Array.
+
 	  $data['userID'] = $inputData['working_user_id'];
 $data['doc_secondary_list']=json_decode(file_get_contents("ReportJSON/doc_secondary_supply.json"),true);
 $date['pharma_secondary_list']=json_decode(file_get_contents("ReportJSON/phar_secondary_supply.json"),true);
 
-	  $todayDate=date('Y-m-d');
-	  $oneMonthAgo = new \DateTime('1 month ago');
-	  $monthAgo= $oneMonthAgo->format('Y-m-d');
-	  $period = new DatePeriod(
-		  new DateTime($monthAgo),
-		  new DateInterval('P1D'),
-		  new DateTime($todayDate)
-	  );
 
-		$doi=array();
-		foreach ($period as $key => $value) {
-			$doi[]=$value->format('Y-m-d').' 00:00:00';
-		}
-		$data['month_date']=$doi;    /////last month from today Array Dates.
+	  $data['month_date']=$allDateArr;    /////last month from today Array Dates.
 
 	  $this->load->get_view('interaction_list/mr_monthly_reports',$data);
 
   }
+
+  	/*Dealers/Sub-dealers -wise Secondary Report */
+	public function dealer_report(){
+		$data['title'] = "Dealer Secondary Report";
+		$data['page_name']="Dealer Secondary Report";
+
+		/*Get Dealers and sub-dealers assigned to particular user*/
+
+		$dealer_list = $this->dealer->dealer_list();
+		$data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
+		$data['dealer_list']=json_decode($dealer_list);
+		pr($data['dealer_list']);
+		pr($data['pharma_list']);
+
+//		$user_list = $this->permission->user_child_team();
+//		$users=array();
+//		foreach ($user_list as $list){
+//			$details=get_user_deatils($list['userid']);
+//			$desgID=$details->user_designation_id;
+//			if($desgID=='6'){
+//				$users[]=$list;			///All SE list / MR
+//			}
+//		}
+//		$data['child_user_list']=$users;
+
+		$data['action'] = 'interaction/doc_generate_monthly_mr';
+		//$this->load->get_view('interaction_list/se_report',$data);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   public function  checkmail(){
