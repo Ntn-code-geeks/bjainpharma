@@ -253,6 +253,7 @@ public function dealer_list_for_group(){
 			$data['order_amount']=$this->doctor->get_orderamount($docid);
 		}
 
+
 		$data['users_team'] = $this->permission->user_team(); // show child and boss users
 		$data['meeting_sample'] = $this->doctor->meeting_sample_master();
 		$data['title'] = "Dealer Details";

@@ -217,7 +217,16 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     </section>
 
     <!-- /.content -->
-
+	<?php
+	/*Gazetted Holidays Dynamic DB*/
+	$currnt_year=date('Y');
+	$gazzete_list=array();
+	foreach ($yearly_holidays as $yr_data){
+		$gazzete_list[]="'".$yr_data->date_holiday."-".$currnt_year."'";
+	}
+		$date_list=implode(',',$gazzete_list);
+	?>
+<input type="hidden" id="yearly_holidays" value="<?=$date_list?>">
   </div>
 
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
@@ -225,7 +234,10 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 <script type='text/javascript'>
     // var dateToday = new Date();
     var usID=$('#user_IDD').val();
-    var datearray = ["09/14/2019","09/15/2019","09/16/2019"];    ///Dates to be disabled in calendar
+
+    // var datearray = ["09-14-2019","09-15-2019","09-16-2019"];    ///Dates to be disabled in calendar
+    var datearray = $('#yearly_holidays').val();
+
 
 	$('#doi').datepicker({
         format: 'mm/dd/yyyy',

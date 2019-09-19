@@ -7,6 +7,17 @@ $dealer_data = json_decode($dealer_list);   // for all active dealers
 $ms = json_decode($meeting_sample);
 $team_list=json_decode($users_team);
 
+@$odDate=$old_data->interaction_date;
+@$nete=date('d-m-Y',strtotime($date_interact));
+
+if($nete != '01-01-1970'){
+	$newDate=$nete;
+}else{
+	$newDate=$odDate;
+}
+//pr($old_data->interaction_date);
+//pr($newDate);
+//die;//   //15-08-2019
 ?>
 <meta http-equiv="Cache-control" content="no-cache">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -60,7 +71,9 @@ $team_list=json_decode($users_team);
 
                           <label>Date of Interaction<span style="color: red;font-size: 20px">*</span></label>
 
-              <input required class="form-control" value="<?php if($old_data!=''){ echo $old_data->interaction_date;}?>" name="doi_doc" id="datepicker_doi<?=$edit_doctor->doctor_id ?>" type="text">
+              <input required class="form-control" value="<?php if($old_data!='' && ($newDate==$odDate) ){ echo
+			  $old_data->interaction_date;
+              }?>" name="doi_doc" id="datepicker_doi<?=$edit_doctor->doctor_id ?>" type="text">
 
                       </div>
 
@@ -93,18 +106,23 @@ $team_list=json_decode($users_team);
 
 				  <label id="meet_sec_pob<?=$edit_doctor->doctor_id ?>" style="display: block">
 					  <input name="telephonic" id="rec_per<?=$edit_doctor->doctor_id ?>" value="0" <?php if
-					  ($order_amount!='' && $old_data->telephonic=='0'){ echo 'checked'; }?> type="radio">
+					  ($order_amount!='' && $old_data->telephonic=='0' && ($newDate==$odDate) ){ echo 'checked'; }?>
+							 type="radio">
 					  Order Received POB-In Person
 				  </label>
 
 				 <div style="display: inline-flex;">
 				  <label id="meet_sec_tele<?=$edit_doctor->doctor_id ?>" style="display: block">
 					  <input name="telephonic" id="rec_pob<?=$edit_doctor->doctor_id ?>" value="1" <?php if
-					  ($order_amount!='' && $old_data->telephonic=='1'){ echo 'checked'; }?> type="radio">
+					  ($order_amount!='' && $old_data->telephonic=='1' && ($newDate==$odDate)){ echo 'checked'; }?>
+							 type="radio">
 					  Order Received POB-Telephonic
 				  </label>
 
-				<?php if($order_amount!=''){ ?>
+				<?php
+
+				if( ($order_amount!='') && ($newDate==$odDate) ){
+					?>
 					<td style="padding: 40px; width: 20%;"> Secondary Sales:
 						<input class="form-control" readonly id="sale_dealer<?=$edit_doctor->doctor_id;?>"
 							   name="m_sale" value='<?=$order_amount->order_amount?>' type="text" > </td>
@@ -123,7 +141,9 @@ $team_list=json_decode($users_team);
 						<option value="">---Sample Name---</option>
 						<?php
 						foreach($ms as $k_ms => $val_ms){     ?>
-							<option value="<?=$val_ms->id?>" <?php if($old_data!=''){ $jointarr=explode(',',$old_data->sample); echo in_array($val_ms->id,$jointarr)?'selected':''; }  ?> <?php if(isset($_POST['m_sample'])){echo set_select('m_sample',  $val_ms->id);} ?>><?=$val_ms->sample_name;?></option>
+							<option value="<?=$val_ms->id?>" <?php if($old_data!='' && ($newDate==$odDate) ){
+								$jointarr=explode(',',
+								$old_data->sample); echo in_array($val_ms->id,$jointarr)?'selected':''; }  ?> <?php if(isset($_POST['m_sample'])){echo set_select('m_sample',  $val_ms->id);} ?>><?=$val_ms->sample_name;?></option>
 						<?php }  ?>
 						<!--<option value="none" id="none" >NONE</option>-->
 					</select> </td>

@@ -68,7 +68,8 @@
 						</tr>
 					</thead>
 					<tbody>
-  					<?php  if(!empty($d_info)){ foreach($d_info as $k_d=>$val_d){
+  					<?php  if(!empty($d_info)){
+  						foreach($d_info as $k_d=>$val_d){
   						if(is_admin()){       ?>
 					<tr>
 						<td> <?=$val_d->d_name;?></td>
@@ -103,7 +104,8 @@
 						
 					</tr>
 					<?php }
-  						else{ if(check_user_sp_dealer($val_d->sp_code)){?>
+  						else{
+  							if(check_user_sp_dealer($val_d->sp_code)){?>
 					<tr>
 						<td> <?=$val_d->d_name;?></td>
 						<td><?=$val_d->d_email;?></td>

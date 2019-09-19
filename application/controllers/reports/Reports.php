@@ -872,7 +872,6 @@ public function tp_reports($userid=''){
 
 		}
 
-
 		else{
 		  redirect('user');
 		}
@@ -900,15 +899,33 @@ public function generate_attendance_report_all($start,$end)
 
 		$k_num = 2;
 		if(!empty($data['attendance_report'])){
-			foreach ( $data['attendance_report']as $row){ 
+			$gazetted_holidays=get_gazetted_holiday();
+			$yearly_holidays=json_decode($gazetted_holidays);
+			$gazt_date_list=array();
+			$currnt_yr=date('Y');
+			foreach ($yearly_holidays as $yr_data){
+				$gazt_date_list[]= $currnt_yr.'-'.$yr_data->date_holiday;
+			}
+			$strt_date=substr($start, 0, -9);
+			$ed_date=substr($end, 0, -9);
+			$allDates=remove_sunday_range($strt_date,$ed_date);
+
+			$gaz_count=count(array_intersect($allDates,$gazt_date_list));
+			if($gaz_count > 0){
+				$gaztted_holidays=$gaz_count;
+			}else{
+				$gaztted_holidays=0;
+			}
+
+			foreach ( $data['attendance_report']as $row){
 				$this->excel->getActiveSheet()->setCellValue('A'.$k_num, $row['user_emp']);
 				$this->excel->getActiveSheet()->setCellValue('B'.$k_num, $row['user_name']);
 				$this->excel->getActiveSheet()->setCellValue('C'.$k_num, $row['tot_day']);
 				$this->excel->getActiveSheet()->setCellValue('D'.$k_num, $row['working_day']);
 				$this->excel->getActiveSheet()->setCellValue('E'.$k_num, $row['sunday']);
 				$this->excel->getActiveSheet()->setCellValue('F'.$k_num, $row['leave_day']);
-				$this->excel->getActiveSheet()->setCellValue('G'.$k_num, $row['holiday']);
-				$this->excel->getActiveSheet()->setCellValue('H'.$k_num, $row['absent']);
+				$this->excel->getActiveSheet()->setCellValue('G'.$k_num, $row['holiday'] + $gaztted_holidays);
+				$this->excel->getActiveSheet()->setCellValue('H'.$k_num, $row['absent'] - $gaztted_holidays);
 				$k_num++;
 			}
 		}
@@ -940,10 +957,21 @@ public function generate_attendance_report_all($start,$end)
 		$this->excel->getActiveSheet()->setCellValue('E1', 'Leave To Date');
 		$data['attendance_report'] =$this->user_report->get_attendance_report($userid,$start,$end);
 		$k_num = 2;
-//		 pr($data['attendance_report']);die;
+		 pr($data['attendance_report']);die;
 		/* For Attendance */
 		if(!empty($data['attendance_report'])){
-			foreach ( $data['attendance_report']as $row){ 
+			$gazetted_holidays=get_gazetted_holiday();
+			$yearly_holidays=json_decode($gazetted_holidays);
+			$gazt_holidayz=array();
+			$gazt_date_list=array();
+			$currnt_yr=date('Y');
+			foreach ($yearly_holidays as $yr_data){
+				$gazt_holidayz[]=$yr_data->date_holiday.'-'.$currnt_yr.','.$yr_data->name_holiday;
+				$gazt_date_list[]=$yr_data->date_holiday.'-'.$currnt_yr;
+			}
+
+			foreach ( $data['attendance_report']as $row){
+				$row_date=date('m-d-Y',strtotime($row['date']));
 				$this->excel->getActiveSheet()->setCellValue('A'.$k_num, get_user_name($userid));
 				$this->excel->getActiveSheet()->setCellValue('B'.$k_num, date('d.m.Y',strtotime($row['date'])));
 				if(array_key_exists("day",$row)){
@@ -977,9 +1005,21 @@ public function generate_attendance_report_all($start,$end)
 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
 					}	
 					elseif($result==3){
-						$phpColor->setRGB('33acff'); 
-						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'Absent / Not Interacted / Leave Not Applied.');
-						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
+						if(in_array($row_date,$gazt_date_list)){
+							foreach ($gazt_holidayz as $val_g ){
+								$gaz=explode(',',$val_g);
+								if($gaz[0]==$row_date){
+								$phpColor->setRGB('ff3336');
+								$this->excel->getActiveSheet()->setCellValue('C'.$k_num, $gaz[1]);
+								$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
+								}
+							}
+
+						}else{
+							$phpColor->setRGB('33acff');
+							$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'Absent / Not Interacted / Leave Not Applied.');
+							$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
+						}
 					}
 				} 
 					

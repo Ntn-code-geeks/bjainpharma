@@ -50,8 +50,10 @@ class Interaction extends Parent_admin_controller {
                  
 //                     pr($data['child_user_list']); die;
                  }
-                
-                
+
+	    $gazetted_holidays=get_gazetted_holiday();
+		$data['yearly_holidays']=json_decode($gazetted_holidays);
+
 //                pr($data['city_list']); die;
 		$data['action'] = "interaction/add_direct_inteaction";
         $this->load->get_view('interaction_list/add_interactoin_view',$data); 
@@ -70,7 +72,7 @@ class Interaction extends Parent_admin_controller {
 
 			if($this->form_validation->run() == TRUE ){
 
-                            if(check_serialize_date($post_data['doi'], logged_user_data(),$post_data['interaction_city'])){
+				if(check_serialize_date($post_data['doi'], logged_user_data(),$post_data['interaction_city'])){
                                // pr($post_data); die;
 				$datablank='';
 				$page='';
@@ -1019,28 +1021,44 @@ $date['pharma_secondary_list']=json_decode(file_get_contents("ReportJSON/phar_se
 	public function dealer_report(){
 		$data['title'] = "Dealer Secondary Report";
 		$data['page_name']="Dealer Secondary Report";
-
 		/*Get Dealers and sub-dealers assigned to particular user*/
-
-		$dealer_list = $this->dealer->dealer_list();
+		//$dealer_list = $this->dealer->dealer_list();
+		$dealer_list = $this->dealer->dealermaster_info('','', '','','');
 		$data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
 		$data['dealer_list']=json_decode($dealer_list);
-		pr($data['dealer_list']);
-		pr($data['pharma_list']);
 
-//		$user_list = $this->permission->user_child_team();
-//		$users=array();
-//		foreach ($user_list as $list){
-//			$details=get_user_deatils($list['userid']);
-//			$desgID=$details->user_designation_id;
-//			if($desgID=='6'){
-//				$users[]=$list;			///All SE list / MR
-//			}
-//		}
-//		$data['child_user_list']=$users;
+		$data['action'] = 'interaction/dealer_generate_secondary';
+		$this->load->get_view('interaction_list/dealer_report',$data);
+	}
+	public function dealer_generate_secondary(){
+		$data['title'] = "Dealer Secondary Report";
+		$data['page_name']="Dealer Secondary Report";
+		$inputData=$this->input->post();
 
-		$data['action'] = 'interaction/doc_generate_monthly_mr';
-		//$this->load->get_view('interaction_list/se_report',$data);
+		$dateInt=explode(' - ',$inputData['start_date']);
+
+		$date1 = str_replace('/', '-', $dateInt[0] );
+		$strtDate = date("Y-m-d", strtotime($date1));     ////Start Date of DateRange.
+
+		$date2 = str_replace('/', '-', $dateInt[1] );
+		$endDate = date("Y-m-d", strtotime($date2));		////End Date of DateRange.
+
+		$allDateArr = getDatesFromRange($strtDate, $endDate);    //All dates Array.
+
+		$dealerID = $inputData['dealer_user_id'];
+		$dealer_name=get_dealer_name($dealerID);
+		if($dealer_name==' '){
+			$data['dealer_name']=get_pharmacy_name($dealerID);
+		}else{
+			$data['dealer_name']=$dealer_name;
+		}
+
+		$data['doc_secondary_list']=json_decode(file_get_contents("ReportJSON/doc_secondary_supply.json"),true);
+		$date['pharma_secondary_list']=json_decode(file_get_contents("ReportJSON/phar_secondary_supply.json"),true);
+
+		$data['month_date']=$allDateArr;    /////last month from today Array Dates.
+
+		$this->load->get_view('interaction_list/dealer_sec_reports',$data);
 	}
 
 

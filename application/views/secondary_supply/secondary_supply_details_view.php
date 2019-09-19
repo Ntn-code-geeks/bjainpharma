@@ -76,9 +76,12 @@ td {	padding-left: 60% !important;		}
 					</thead>
 					<tbody>
               <?php
+			  $chCount=count($allchilds);
+			  $userID=logged_user_data();
 			   if(!empty($doc_secondary_list)){
 			  foreach($doc_secondary_list as $k_c=>$val_c){
 			  	if(!is_admin()){
+					if($chCount > 1){
 						if(in_array($val_c['user_id'], $allchilds)){
 							if($val_c['secondarysale']!=''){
 								?>
@@ -133,6 +136,63 @@ td {	padding-left: 60% !important;		}
 								</tr>
 							<?php  }
 						}
+					}else{
+						if($userID==$val_c['user_id']){
+							if($val_c['secondarysale']!=''){
+								?>
+								<tr>
+									<td>
+										<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+									</td>
+
+									<td>
+										<?=$val_c['doctorname'];?>
+									</td>
+									<td>
+										<?=$val_c['dealer_name'];?>
+									</td>
+
+									<td>
+										<?=$val_c['secondarysale'];?>
+									</td>
+
+									<td>
+										<?php
+										if($val_c['actualsale']!=0){
+											//$remais = ($val_c->secondarysale)-($val_c->actualsale);
+											$remais = ($val_c['actualsale']);
+											echo $remais;
+										}
+										else{
+											echo "--";
+										}
+										?>
+
+									</td>
+									<td>
+										<?php
+										if($val_c['close_status']==0){
+											?>
+											<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary/"
+												.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close ' +
+								 'this Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+
+											<button type="button" class="btn btn-info" data-toggle="modal"
+													data-target="#modal_info_doctor<?=$val_c['id'] ?>">
+
+												Supply
+
+											</button>
+
+										<?php }else{ ?>
+											<button type="button" class="btn btn-success">Closed</button>
+										<?php } ?>
+									</td>
+								</tr>
+							<?php  }
+						}
+					}
+
 				}else{
 					if($val_c['secondarysale']!=''){
 						?>
@@ -194,45 +254,92 @@ td {	padding-left: 60% !important;		}
 			  if(!empty($pharma_secondary_list)){
 			 foreach($pharma_secondary_list as $k_c=>$val_c){
 				if(!is_admin()){
-					if(in_array($val_c['user_id'], $allchilds)){
-						if($val_c['secondarysale']!=''){
-							?>
-							<tr>
-								<td>
-									<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
-								</td>
-								<td>
-									<?=$val_c['pharmaname'];?>
-								</td>
-								<td>
-									<?=$val_c['dealer_name'];?>
-								</td>
-								<td>
-									<?=$val_c['secondarysale'];?>
-								</td>
-								<td>
-									<?php
-									if($val_c['actualsale']!=0){
-										// $remais = ($val_c->secondarysale)-($val_c->actualsale);
-										$remais = $val_c['actualsale'];
-										echo $remais;
-									}
-									else{
-										echo "--";
-									}
-									?>
-								</td>
-								<td>
-									<a href="<?php echo base_url()."secondary_supply/secondary_supply/close_secondary_pharmacy/"
-										.urisafeencode($val_c['id']);?>" onclick="return confirm('Are you sure want to Close this ' +
-							   'Secondary Sale.')" class=""><button type="button" class="btn btn-warning">Close</button></a>
+					if($chCount > 1) {
+						if (in_array($val_c['user_id'], $allchilds)) {
+							if ($val_c['secondarysale'] != '') {
+								?>
+								<tr>
+									<td>
+										<?= date('Y/m/d', strtotime($val_c['date_of_interaction'])); ?>
+									</td>
+									<td>
+										<?= $val_c['pharmaname']; ?>
+									</td>
+									<td>
+										<?= $val_c['dealer_name']; ?>
+									</td>
+									<td>
+										<?= $val_c['secondarysale']; ?>
+									</td>
+									<td>
+										<?php
+										if ($val_c['actualsale'] != 0) {
+											// $remais = ($val_c->secondarysale)-($val_c->actualsale);
+											$remais = $val_c['actualsale'];
+											echo $remais;
+										} else {
+											echo "--";
+										}
+										?>
+									</td>
+									<td>
+										<a href="<?php echo base_url() . "secondary_supply/secondary_supply/close_secondary_pharmacy/"
+											. urisafeencode($val_c['id']); ?>" onclick="return confirm('Are you sure want to Close this ' +
+							   'Secondary Sale.')" class="">
+											<button type="button" class="btn btn-warning">Close</button>
+										</a>
 
-									<button type="button" class="btn btn-info" data-toggle="modal"
-											data-target="#modal_info_pharmacy<?=$val_c['id'] ?>">Supply</button>
+										<button type="button" class="btn btn-info" data-toggle="modal"
+												data-target="#modal_info_pharmacy<?= $val_c['id'] ?>">Supply
+										</button>
 
-								</td>
-							</tr>
-						<?php  }
+									</td>
+								</tr>
+							<?php }
+						}
+					}else{
+						if($userID==$val_c['user_id']) {
+							if ($val_c['secondarysale'] != '') {
+								?>
+								<tr>
+									<td>
+										<?= date('Y/m/d', strtotime($val_c['date_of_interaction'])); ?>
+									</td>
+									<td>
+										<?= $val_c['pharmaname']; ?>
+									</td>
+									<td>
+										<?= $val_c['dealer_name']; ?>
+									</td>
+									<td>
+										<?= $val_c['secondarysale']; ?>
+									</td>
+									<td>
+										<?php
+										if ($val_c['actualsale'] != 0) {
+											// $remais = ($val_c->secondarysale)-($val_c->actualsale);
+											$remais = $val_c['actualsale'];
+											echo $remais;
+										} else {
+											echo "--";
+										}
+										?>
+									</td>
+									<td>
+										<a href="<?php echo base_url() . "secondary_supply/secondary_supply/close_secondary_pharmacy/"
+											. urisafeencode($val_c['id']); ?>" onclick="return confirm('Are you sure want to Close this ' +
+							   'Secondary Sale.')" class="">
+											<button type="button" class="btn btn-warning">Close</button>
+										</a>
+
+										<button type="button" class="btn btn-info" data-toggle="modal"
+												data-target="#modal_info_pharmacy<?= $val_c['id'] ?>">Supply
+										</button>
+
+									</td>
+								</tr>
+							<?php }
+						}
 					}
 				}else{
 					if($val_c['secondarysale']!=''){

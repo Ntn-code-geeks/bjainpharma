@@ -2635,5 +2635,29 @@ function getDatesFromRange($start, $end, $format = 'Y-m-d') {
 }
 
 
+function get_gazetted_holiday(){
+	$ci = &get_instance();
+	$arr='date_holiday,name_holiday';
+	$ci->db->select($arr);
+	$ci->db->from("gazetted_holiday");
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		return json_encode($query->result_array());
+	}else{
+		return FALSE;
+	}
+}
+
+function remove_sunday_range($start, $end, $step = '+1 day', $format = 'Y-m-d' ) {
+	$dates = array();
+	$current = strtotime($start);
+	$last = strtotime($end);
+	while( $current <= $last ) {
+		if (date("D", $current) != "Sun")
+			$dates[] = date($format, $current);
+		$current = strtotime($step, $current);
+	}
+	return $dates;
+}
 
 ?>

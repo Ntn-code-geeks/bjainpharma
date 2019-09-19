@@ -333,15 +333,20 @@ $('#searchid_sidebar').click(function(){
         </li>
 
         <?php if(is_admin() || logged_user_child() ){ ?>
-        <li><a href="<?= base_url();?>interaction/summary_report">
-                <i class="fa fa-bar-chart"></i>
-                <span>Secondary Report</span>
-            </a>
-        </li>
-			<li><a href="<?= base_url();?>interaction/se_report"><i class="fa fa-circle-o
-		text-red"></i><span> SE Report</span></a></li>
-			<li><a href="<?= base_url();?>interaction/dealer_report"><i class="fa fa-circle-o
-		text-yellow"></i><span> Dealer Report</span></a></li>
+		  <li class="treeview">
+		  <a href="#"><i class="fa fa-line-chart"></i>
+		  <span>Secondary Reports</span>
+		  <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i>
+          </span></a>
+		  <ul class="treeview-menu">
+		<li><a href="<?= base_url();?>interaction/summary_report"><i class="fa fa-circle-o
+		text-blue"></i><span> Interaction Summary Report</span></a></li>
+		<li><a href="<?= base_url();?>interaction/se_report"><i class="fa fa-circle-o
+	text-red"></i><span> Secondary Report</span></a></li>
+		<li><a href="<?= base_url();?>interaction/dealer_report"><i class="fa fa-circle-o text-yellow"></i><span>
+					Dealer/Sub Dealer Report</span></a></li>
+			  </ul>
+		  </li>
         <?php } ?>
 
     <?php

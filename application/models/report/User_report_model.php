@@ -131,18 +131,15 @@ class User_report_model extends CI_Model {
     }
 
 	
-
-	public function get_attendance_report($userid='',$start='',$end=''){
+	/*User-wise Attendance Report*/
+  public function get_attendance_report($userid='',$start='',$end=''){
 
 		$leave=array();
 		$MonthSun=array();
 		$holiday=array();
 		$leaveDate=array();
 		$inteactionDate=array();
-		//$sundayDate1=array();
-
 		$asm_reporting = array();
-
 		$sundayDate=array();
 		$range = [];
 		$leaveNotApply=array();
@@ -153,6 +150,8 @@ class User_report_model extends CI_Model {
         $dealerIntearction=array();
         $meeting=array();
         //$transit=array();
+
+		/*Getting pharma interaction with doctor*/
         $arr = "doc.crm_user_id as user_name,doc.create_date as inteaction_date,doc.create_date as date";
 		$this->db->distinct();
         $this->db->select($arr);
@@ -179,45 +178,62 @@ class User_report_model extends CI_Model {
         if($this->db->affected_rows()){
 			$pharmaIntearction=$queryIntearction->result_array();
         }
-		
-		/* Geting Dealer Interaction */
+
+		/*Getting Interacted with dealers*/
+        $arr = "dealer.crm_user_id as user_name,dealer.create_date as inteaction_date,dealer.create_date  as date";
+		$this->db->select($arr);
+		$this->db->from("pharma_interaction_dealer dealer");
+		$this->db->where('dealer.crm_user_id',$userid);
+		$this->db->where('dealer.create_date  >=', $start);
+		$this->db->where('dealer.create_date  <=', $end);
+		$queryDealer = $this->db->get();
+		if($this->db->affected_rows()){
+			$dealerIntearction=$queryDealer->result_array();
+		}
 
 
+		/*asm reporting form submision information*/
+		$arr = "asm.crm_user_id as user_name,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d 00:00:00') as inteaction_date,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d') as date";
+		$this->db->distinct();
+		$this->db->select($arr);
+		$this->db->from("asm_interaction asm");
+		$this->db->where('asm.crm_user_id',$userid);
+		// $this->db->where('asm.interaction_date >=', strtotime($start));
+		// $this->db->where('asm.interaction_date <=', strtotime($end));
+		$this->db->where('asm.doi >=', date('Y-m-d', strtotime($start)));
+		$this->db->where('asm.doi <=', date('Y-m-d', strtotime($end)));
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		if($this->db->affected_rows()){
+			$asm_reporting=$query->result_array();
+//			pr($asm_reporting); die;
+		}
 
 
-/*asm reporting form submision information*/
- 				 $arr = "asm.crm_user_id as user_name,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d') as inteaction_date,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d') as date";
-				$this->db->distinct();
-		        $this->db->select($arr);
-		        $this->db->from("asm_interaction asm");
-		        $this->db->where('asm.crm_user_id',$userid);
-//		        $this->db->where('asm.interaction_date >=', strtotime($start));
-//		        $this->db->where('asm.interaction_date <=', strtotime($end));
+		/*Getting from TA DA Report*/
+		$arr = "tdr.user_id as user_name,tdr.doi as interaction_date,tdr.doi as date";
+		$this->db->distinct();
+		$this->db->select($arr);
+		$this->db->from(" ta_da_report tdr");
+		$this->db->where('tdr.user_id',$userid);
+		$this->db->where('tdr.doi >=', date('Y-m-d', strtotime($start)));
+		$this->db->where('tdr.doi <=', date('Y-m-d', strtotime($end)));
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		if($this->db->affected_rows()){
+			$tdr_reporting=$query->result_array();
+			$newra=array();
+			foreach ($tdr_reporting as $td){
+				$newra[]=array(
+					'user_name' => $td['user_name'],
+					'interaction_date' => $td['interaction_date'].' 00:00:00',
+					'date' => $td['date'].' 00:00:00');
+			}
+			$tada_report = $newra;
+			//pr($tada_report); die;
+		}
 
-		        $this->db->where('asm.doi >=', date('Y-m-d', strtotime($start)));
-		        $this->db->where('asm.doi <=', date('Y-m-d', strtotime($end)));
 
-		        $query = $this->db->get();
-		        //echo $this->db->last_query(); die;
-		        if($this->db->affected_rows()){
-					$asm_reporting=$query->result_array();
-//					 pr($asm_reporting); die;
-			    }
-//		pr($asm_reporting); die;
-
-		/* Geting Transit Information  */
-		/*$arr = "transit.crm_user_id as user_name,transit.transit_date as transit_date,transit.transit_date as date";
-        $this->db->select($arr);
-			$this->db->from("user_transit transit");
-        $this->db->where('transit.crm_user_id',$userid);
-        $this->db->where('transit.transit_date  >=', $start);
-        $this->db->where('transit.transit_date  <=', $end);
-		//$this->db->where('transit.transit_time_start  >=', '09:00:00');
-        //$this->db->where('transit.transit_time_start  <=', '18:00:00');
-        $queryTransit = $this->db->get();
-        if($this->db->affected_rows()){
-			$transit=$queryTransit->result_array();
-        }*/
 
 		/* Geting Meeting Information  */
 		$arr = "meeting.crm_user_id as user_name,meeting.meeting_date as meeting_date,meeting.meeting_date as date";
@@ -230,13 +246,13 @@ class User_report_model extends CI_Model {
         if($this->db->affected_rows()){
 			$meeting=$queryMeeting->result_array();
         }
-		$resultData=array_merge($docInteraction,$pharmaIntearction,$dealerIntearction,$meeting,$asm_reporting) ;
 
-
+		/*Merging All Interactions Array.*/
+		$resultData=array_merge($docInteraction,$pharmaIntearction,$dealerIntearction,$meeting,$asm_reporting,$tada_report) ;
 		foreach($resultData as $dateData){
-			$inteactionDate[]= substr($dateData['date'],0,10);
+			$inteactionDate[]= substr($dateData['date'],0,10);   ///Removing H:M:I from all dates
 		}
-//pr($inteactionDate); die;
+
 		/* Geting Leave Information  */
 		$arr = "leave.user_id as user_name,leave.from_date as from_date,leave.to_date as to_date,leave.from_date as date";
         $this->db->select($arr);
@@ -265,10 +281,10 @@ class User_report_model extends CI_Model {
 			}
 		}
 
-		/* All Date between Date Range */
+		/* Getting Sunday in All Date between Date Range */
 		$startDate= substr($start, 0, 10);
-		$endXt= date('Y-m-d H:i:s', strtotime($end . ' +1 day'));
-		$endDate= substr($endXt, 0, 10);
+		$endXt= date('Y-m-d', strtotime($end . ' +1 day'));
+		$endDate= $endXt;
 		$begin = new DateTime($startDate);
 		$end1 = new DateTime($endDate);
 		$interval = new DateInterval('P1D'); // 1 Day
@@ -283,29 +299,23 @@ class User_report_model extends CI_Model {
 			}
 		}
 
-
-
 		$leaveSunday=array_merge($leaveDate,$sundayDate);
-		$working=  array_diff($range, $leaveSunday);
+		$working=  array_diff($range, $leaveSunday);  //All Dates without Leave Applied
 		$interaction=array_unique($inteactionDate);
-		//pr($interaction); die;
-		$leaveNotApply=array_diff($working, $interaction);
-		foreach($interaction as $wd)
-		{
+		foreach($interaction as $wd){
 			$workingday[]=array('date' =>$wd,'day'=>'Working');
-		} 
-		foreach($leaveNotApply as $lv)
-		{
+		}
+		$leaveNotApply=array_diff($working, $interaction);
+		foreach($leaveNotApply as $lv){
 			$leave[]=array('user_name' =>$userid,'from_date'=>$lv,'to_date'=>$lv,'date'=>$lv);
 		}
+		/* Merging All Interactions, Leaves & Working days*/
 		$result=array_merge($leave,$MonthSun,$workingday);
 		$dateCom = array();
-		foreach ($result as $key => $row)
-		{
+		foreach ($result as $key => $row){
 			$dateCom[$key] = $row['date'];
 		}
 		array_multisort($dateCom, SORT_ASC, $result);
-
 		return $result;
     }
 

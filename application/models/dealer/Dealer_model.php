@@ -2516,7 +2516,7 @@ class Dealer_model extends CI_Model {
 
                             'd_id'=>$data['d_id'],
 
-                      'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+                      		'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
 
                            'meeting_sale'=>isset($data['m_sale'])? $data['m_sale']:NULL,
                            'meeting_payment'=>$data['m_payment'],

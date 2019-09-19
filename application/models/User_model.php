@@ -256,9 +256,13 @@ class User_model extends CI_Model {
 				$weeksecondary_report = $week_secondary->total_secondry;  //for secondary
 			}
 
+			$u_data=get_user_deatils($val->userid);
+			$city_name=get_city_name($u_data->headquarters_city);   ///CityID -> City Name
+
 			$weekly_dataArray[$userid]=array(
 					'user_id'=> $userid,
 					'username'=> $user_name,
+					'city_name' => $city_name,
 					'bossname'=> $get_boss_name,
 					'designation_name'=> $get_designation->designation_name,
 					'total_doctors'=> $total_doctors,
@@ -345,10 +349,13 @@ class User_model extends CI_Model {
 			}else {
 				$secondary_month_report = $secondary_month->total_secondry;  //for secondary
 			}
+			$u_data=get_user_deatils($val->userid);
+			$city_name=get_city_name($u_data->headquarters_city);   ///CityID -> City Name
 
 			$monthly_dataArray[$userid]=array(
 				'user_id'=> $userid,
 				'username'=> $user_name,
+				'city_name' => $city_name,
 				'bossname'=> $get_boss_name,
 				'designation_name'=> $get_designation->designation_name,
 				'total_doctors'=> $total_doctors,
@@ -434,10 +441,13 @@ class User_model extends CI_Model {
 				$secondary_quarter_report = $secondary_quarter->total_secondry;  //for secondary
 			}
 
+			$u_data=get_user_deatils($val->userid);
+			$city_name=get_city_name($u_data->headquarters_city);   ///CityID -> City Name
 
 			$quart_dataArray[$userid]=array(
 				'user_id'=> $userid,
 				'username'=> $user_name,
+				'city_name' => $city_name,
 				'bossname'=> $get_boss_name,
 				'designation_name'=> $get_designation->designation_name,
 				'total_doctors'=> $total_doctors,
@@ -523,9 +533,13 @@ class User_model extends CI_Model {
 				$secondary_year_report = $secondary_year->total_secondry;  // for see Doctor
 			}
 
+			$u_data=get_user_deatils($val->userid);
+			$city_name=get_city_name($u_data->headquarters_city);
+
 			$yearly_dataArray[$userid]=array(
 				'user_id'=> $userid,
 				'username'=> $user_name,
+				'city_name' => $city_name,
 				'bossname'=> $get_boss_name,
 				'designation_name'=> $get_designation->designation_name,
 				'total_doctors'=> $total_doctors,

@@ -61,18 +61,17 @@ class Secondary_supply extends Parent_admin_controller {
     
 
     public function index(){
-
-        $data['title'] = "Secondary Supply List";
+         $data['title'] = "Secondary Supply List";
          $data['page_name'] = "Secondary Supply";
 		$userID=logged_user_data();
-        if(!is_admin()){
-			$uid=array($userID);
-			$childs=get_child_user($uid);
-			$data['allchilds']=array_merge($uid,$childs);		//Including user itself with childs
-		} else{
+		$childs=get_child_user($userID);
+		if(empty($childs)){
 			$data['allchilds']=$userID;
+		}else{
+			$uid=array($userID);
+			$data['allchilds']=array_merge($uid,$childs);		//Including user itself with childs
 		}
-        $this->load->get_view('secondary_supply/secondary_supply_details_view',$data);
+	    $this->load->get_view('secondary_supply/secondary_supply_details_view',$data);
 
     }
 

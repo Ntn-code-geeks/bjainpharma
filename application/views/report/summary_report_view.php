@@ -47,6 +47,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Reporting Manager</th>
+                                <th>City Name</th>
                                 <th>Designation</th>
                                 <th>Total No. of Doctors</th>
                                 <th>Total No. of Doctors Interaction</th>
@@ -68,10 +69,11 @@
                        if($timeline==''){
 						   $data = file_get_contents ("ReportJSON/weekly.json");
 						   $json = json_decode($data, true);
-						   foreach($json as $weekly_data){	 ?>
+						   foreach($json as $weekly_data){ ?>
 							   <tr>
 								   <td><?= $weekly_data['username'] ?></td>
 								   <td><?=$weekly_data['bossname'] ?></td>
+								   <td><?=$weekly_data['city_name'] ?></td>
 								   <td><?=$weekly_data['designation_name'] ?></td>
 								   <td><?=$weekly_data['total_doctors'] ?></td>
 								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
@@ -106,6 +108,7 @@
 							   <tr>
 								   <td><?= $weekly_data['username'] ?></td>
 								   <td><?=$weekly_data['bossname'] ?></td>
+								   <td><?=$weekly_data['city_name'] ?></td>
 								   <td><?=$weekly_data['designation_name'] ?></td>
 								   <td><?=$weekly_data['total_doctors'] ?></td>
 								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
@@ -140,6 +143,7 @@
 							   <tr>
 								   <td><?= $weekly_data['username'] ?></td>
 								   <td><?=$weekly_data['bossname'] ?></td>
+								   <td><?=$weekly_data['city_name'] ?></td>
 								   <td><?=$weekly_data['designation_name'] ?></td>
 								   <td><?=$weekly_data['total_doctors'] ?></td>
 								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
@@ -174,6 +178,7 @@
 							   <tr>
 								   <td><?= $weekly_data['username'] ?></td>
 								   <td><?=$weekly_data['bossname'] ?></td>
+								   <td><?=$weekly_data['city_name'] ?></td>
 								   <td><?=$weekly_data['designation_name'] ?></td>
 								   <td><?=$weekly_data['total_doctors'] ?></td>
 								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
@@ -216,6 +221,7 @@
 								<tr>
 									<td><?=$user['username'] ?></td>
 									<td><?=$user['bossname'] ?></td>
+									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
 									<td><?=$user['total_doc_interaction'] ?></td>
@@ -255,6 +261,7 @@
 								<tr>
 									<td><?=$user['username'] ?></td>
 									<td><?=$user['bossname'] ?></td>
+									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
 									<td><?=$user['total_doc_interaction'] ?></td>
@@ -294,6 +301,7 @@
 								<tr>
 									<td><?=$user['username'] ?></td>
 									<td><?=$user['bossname'] ?></td>
+									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
 									<td><?=$user['total_doc_interaction'] ?></td>
@@ -333,6 +341,7 @@
 									<tr>
 										<td><?=$user['username'] ?></td>
 										<td><?=$user['bossname'] ?></td>
+										<td><?=$user['city_name'] ?></td>
 										<td><?=$user['designation_name'] ?></td>
 										<td><?=$user['total_doctors'] ?></td>
 										<td><?=$user['total_doc_interaction'] ?></td>
@@ -385,7 +394,12 @@
     $(function () {
         $('#example2').DataTable({
             dom: 'Bfrtip',
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
             buttons: [
+                'pageLength',
                'csv', 'print',
             ],
             'responsive' : true,
