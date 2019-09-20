@@ -198,10 +198,6 @@ public function tp_reports($userid=''){
 
     }
 
-
-	
-
-
     public function get_travel_report(){
         if(is_admin()){
 			$request = $this->input->post();
@@ -252,10 +248,6 @@ public function tp_reports($userid=''){
 
 
     }
-
-
-	
-
 
 	public function generate_travel_report($userid,$start,$end)
 
@@ -742,10 +734,6 @@ public function tp_reports($userid=''){
 
 	}
 
-
-	
-
-
 	public function attendance_report(){
 
 
@@ -879,13 +867,11 @@ public function tp_reports($userid=''){
 
     }
 
-
+/*Overall Attendance Report*/
 public function generate_attendance_report_all($start,$end)
     {
 		$this->excel->setActiveSheetIndex(0);
-        //name the worksheet
-		$this->excel->getActiveSheet()->setTitle('Attendance Report');
-		//set cell A1 content with some text
+        $this->excel->getActiveSheet()->setTitle('Attendance Report');
 		$this->excel->getActiveSheet()->setCellValue('A1', 'Employee Code');
 		$this->excel->getActiveSheet()->setCellValue('B1', 'Name');
 		$this->excel->getActiveSheet()->setCellValue('C1', 'Total Day');
@@ -899,23 +885,7 @@ public function generate_attendance_report_all($start,$end)
 
 		$k_num = 2;
 		if(!empty($data['attendance_report'])){
-			$gazetted_holidays=get_gazetted_holiday();
-			$yearly_holidays=json_decode($gazetted_holidays);
-			$gazt_date_list=array();
-			$currnt_yr=date('Y');
-			foreach ($yearly_holidays as $yr_data){
-				$gazt_date_list[]= $currnt_yr.'-'.$yr_data->date_holiday;
-			}
-			$strt_date=substr($start, 0, -9);
-			$ed_date=substr($end, 0, -9);
-			$allDates=remove_sunday_range($strt_date,$ed_date);
 
-			$gaz_count=count(array_intersect($allDates,$gazt_date_list));
-			if($gaz_count > 0){
-				$gaztted_holidays=$gaz_count;
-			}else{
-				$gaztted_holidays=0;
-			}
 
 			foreach ( $data['attendance_report']as $row){
 				$this->excel->getActiveSheet()->setCellValue('A'.$k_num, $row['user_emp']);
@@ -924,8 +894,8 @@ public function generate_attendance_report_all($start,$end)
 				$this->excel->getActiveSheet()->setCellValue('D'.$k_num, $row['working_day']);
 				$this->excel->getActiveSheet()->setCellValue('E'.$k_num, $row['sunday']);
 				$this->excel->getActiveSheet()->setCellValue('F'.$k_num, $row['leave_day']);
-				$this->excel->getActiveSheet()->setCellValue('G'.$k_num, $row['holiday'] + $gaztted_holidays);
-				$this->excel->getActiveSheet()->setCellValue('H'.$k_num, $row['absent'] - $gaztted_holidays);
+				$this->excel->getActiveSheet()->setCellValue('G'.$k_num, $row['holiday'] );
+				$this->excel->getActiveSheet()->setCellValue('H'.$k_num, $row['absent'] );
 				$k_num++;
 			}
 		}
@@ -943,8 +913,8 @@ public function generate_attendance_report_all($start,$end)
 		$objWriter->save('php://output');
 	}
 
-
-	public function generate_attendance_report($userid,$start,$end)
+/*User-wise Attendance Report*/
+public function generate_attendance_report($userid,$start,$end)
     {
 		$this->excel->setActiveSheetIndex(0);
         //name the worksheet
@@ -957,7 +927,7 @@ public function generate_attendance_report_all($start,$end)
 		$this->excel->getActiveSheet()->setCellValue('E1', 'Leave To Date');
 		$data['attendance_report'] =$this->user_report->get_attendance_report($userid,$start,$end);
 		$k_num = 2;
-		 pr($data['attendance_report']);die;
+		 //pr($data['attendance_report']);die;
 		/* For Attendance */
 		if(!empty($data['attendance_report'])){
 			$gazetted_holidays=get_gazetted_holiday();
@@ -1052,86 +1022,6 @@ public function generate_attendance_report_all($start,$end)
 		$objWriter->save('php://output');
 	}
 
-// 	public function generate_attendance_report($userid,$start,$end)
-//     {
-// 		$this->excel->setActiveSheetIndex(0);
-//         //name the worksheet
-// 		$this->excel->getActiveSheet()->setTitle('Attendance Report');
-// 		//set cell A1 content with some text
-// 		$this->excel->getActiveSheet()->setCellValue('A1', 'Customer');
-// 		$this->excel->getActiveSheet()->setCellValue('B1', 'Date');
-// 		$this->excel->getActiveSheet()->setCellValue('C1', 'Status');
-// 		$this->excel->getActiveSheet()->setCellValue('D1', 'Leave From Date');
-// 		$this->excel->getActiveSheet()->setCellValue('E1', 'Leave To Date');
-// 		$data['attendance_report'] =$this->user_report->get_attendance_report($userid,$start,$end);
-// 		$k_num = 2;
-// 		/* pr($data['attendance_report']);die; */ 
-// 		/* For Attendance */
-// 		if(!empty($data['attendance_report'])){
-// 			foreach ( $data['attendance_report']as $row){ 
-// 				$this->excel->getActiveSheet()->setCellValue('A'.$k_num, get_user_name($userid));
-// 				$this->excel->getActiveSheet()->setCellValue('B'.$k_num, date('d.m.Y',strtotime($row['date'])));
-// 				if(array_key_exists("day",$row)){
-// 					if($row['day']=='Sunday'){
-// 						$phpColor = new PHPExcel_Style_Color();
-// 						$phpColor->setRGB('FFC300');  
-// 						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, $row['day']);
-// 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
-// 					}
-// 					elseif($row['day']=='Working')
-// 					{
-// 						$phpColor = new PHPExcel_Style_Color();
-// 						$phpColor->setRGB('008000');  
-// 						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, $row['day']);
-// 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
-// 					}
-// 				}
-// 				else{
-// 					$phpColor = new PHPExcel_Style_Color();
-// 					$result=$this->user_report->check_leave_holiday($row['date'],$userid);
-// 					if($result==1)
-// 					{
-// 						$phpColor->setRGB('FF0000'); 
-// 						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'On Leave');
-// 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
-// 					}
-// 					else
-// 					{
-// 						$phpColor->setRGB('33acff'); 
-// 						$this->excel->getActiveSheet()->setCellValue('C'.$k_num, 'Holiday');
-// 						$this->excel->getActiveSheet()->getStyle('C'.$k_num)->getFont()->setColor( $phpColor );
-// 					}	
-// 				} 
-					
-// 				if(array_key_exists("from_date",$row)){
-// 					$this->excel->getActiveSheet()->setCellValue('D'.$k_num,  date('d.m.Y',strtotime($row['from_date'])));
-// 				}
-// 				else{
-// 					$this->excel->getActiveSheet()->setCellValue('D'.$k_num, '--------');
-// 				}
-// 				if(array_key_exists("to_date",$row)){
-// 					$this->excel->getActiveSheet()->setCellValue('E'.$k_num, date('d.m.Y',strtotime($row['to_date'])));
-// 				}
-// 				else{
-// 					$this->excel->getActiveSheet()->setCellValue('E'.$k_num, '--------');
-// 				}
-// 				$k_num++;
-// 			}
-// 		}
-// 		$this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-// 		$this->excel->getActiveSheet()->getStyle('B1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-// 		$this->excel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-// 		$name=preg_replace('/\s+/', '', ucfirst(get_user_name($userid)));
-// 		$filename=$name.'AttendanceReport.xls'; //save our workbook as this file name
-// 		header('Content-Type: application/vnd.ms-excel'); //mime type
-// 		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
-// 		header('Cache-Control: max-age=0'); //no cache
-// 		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
-// 		//ob_end_clean();
-// 		//ob_start();
-// 		$objWriter->save('php://output');
-// 	}
-        
         
         
     // for user base    
