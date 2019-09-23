@@ -617,7 +617,6 @@ else
 			 	 </div>');
 			  	redirect($_SERVER['HTTP_REFERER']);
 			}
-			
 		}
 		elseif($this->input->post('save')=='save_data'){
             $logdata=$this->input->post();
@@ -654,6 +653,7 @@ else
 					201301, Uttar Pradesh 
 					Tel: +91-120-49 33 333';
                     $interaction_data = $this->input->post();
+                    //pr($interaction_data); die;
                     $senderemail = get_user_email(logged_user_data());
 
                     //$log_info=$this->dealer->get_log_path($interaction_data);
@@ -672,10 +672,7 @@ else
                         $emailorderdata = ' <h2>Your Order Details</h2> <table cellspacing="0" cellpadding="5" border="1" style="width:100%; border-color:#222;" ><thead><tr><th>Product</th><th>MRP</th><th>Qty.</th><th>Discount</th><th>Amount</th> </tr></thead> 
         <tbody>' . $emailordt . '</tbody><tfoot><tr><th colspan="4" style="text-align:right; border-right:none !important;">Total</th> <th colspan="4" style="text-align:right; border-left:none;">Rs.' . $total_cost . '</th><tr></tfoot></table> ';
                     }
-                    /*if(isset($interaction_data['meet_or_not'])){
-                     echo '<br/>'.'telephoninc';
-                   }
-                   die;*/
+
                     if ((isset($interaction_data['telephonic'])) || (isset($interaction_data['meet_or_not'])) ) {
                         $interactionDate = $interaction_data['doi_doc'];
                         $result = $this->dealer->checkleave($interactionDate);
@@ -1138,32 +1135,32 @@ else
 
 						if ($interaction_data['path_info'] == '' || $interaction_data['path_info'] == 0) {
 
-							if (!is_numeric($interaction_data['dealer_view_id'])) {
-								if (substr($interaction_data['dealer_view_id'], 0, 3) == 'doc') {
-									set_flash('<div class="alert alert-success alert-dismissible">     
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>         
-				<h4><i class="icon fa fa-check"></i> Success!</h4>      
-				interaction are being saved for this         
-				</div>');
-									redirect('doctors/doctor/');
-								} else {
-									set_flash('<div class="alert alert-success alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>  
-					<h4><i class="icon fa fa-check"></i> Success!</h4>  
-					interaction are being saved for this      
-					</div>');
-									redirect('pharmacy/pharmacy/');
-								}
-							} else {
-								$gd_id = json_decode($this->dealer->edit_dealer($interaction_data['dealer_view_id']));
-
+						if (!is_numeric($interaction_data['dealer_view_id'])) {
+							if (substr($interaction_data['dealer_view_id'], 0, 3) == 'doc') {
+								set_flash('<div class="alert alert-success alert-dismissible">     
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>         
+			<h4><i class="icon fa fa-check"></i> Success!</h4>      
+			interaction are being saved for this         
+			</div>');
+								redirect('doctors/doctor/');
+							}
+							else {
+								set_flash('<div class="alert alert-success alert-dismissible">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>  
+								<h4><i class="icon fa fa-check"></i> Success!</h4>interaction are being saved for this
+								</div>');
+								redirect('pharmacy/pharmacy/');
+							}
+						} else {
+							$gd_id = json_decode($this->dealer->edit_dealer($interaction_data['dealer_view_id']));
 								if ($gd_id->gd_id == '') {
 									set_flash('<div class="alert alert-success alert-dismissible">  
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
 					<h4><i class="icon fa fa-check"></i> Success!</h4>     
 					interaction are being saved for this </div>');
 									redirect('dealer/dealer/dealer_view');
-								} else {
+								}
+								else {
 									set_flash('<div class="alert alert-success alert-dismissible">  
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
 					<h4><i class="icon fa fa-check"></i> Success!</h4>     
@@ -1184,17 +1181,9 @@ else
 					else {
 					  set_flash('<div class="alert alert-danger alert-dismissible">
 					  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-					  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-					 interaction are not saved please try latter..
-					</div>');
+					  <h4><i class="icon fa fa-ban"></i> Alert!</h4>interaction are not saved please try latter..
+					  </div>');
 							redirect($_SERVER['HTTP_REFERER']);
-							// if(empty($interaction_data['gs_id']) && !isset($interaction_data['gs_id'])){
-							// redirect('dealer/dealer_add/view_dealer_for_doctor/'.$id);
-							// }
-							// else{
-							// redirect('dealer/dealer_add/view_group_dealer_for_doctor/'.$id);
-							// }
-
 						}
 
 					}
@@ -1216,11 +1205,9 @@ else
 			  </div>');
 					}
 					else if (empty($interaction_data['doi_doc'])) {
-						set_flash('<div class="alert alert-danger alert-dismissible">
-						  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-						Please Select Date Of Interaction.
-						</div>');
+					  set_flash('<div class="alert alert-danger alert-dismissible">
+					  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					  <h4><i class="icon fa fa-ban"></i> Alert!</h4>Please Select Date Of <Interaction></Interaction>.</div>');
 					}
 					redirect($_SERVER['HTTP_REFERER']);
                     }

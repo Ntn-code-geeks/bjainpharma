@@ -655,7 +655,6 @@ class User_model extends CI_Model {
 			return FALSE;
 		}
 	}
-
 	public function interaction_pharmacy_report(){
 		$arr = "pu.id as user_id,pip.pharma_id,pip.telephonic as oncall,pip.id, pip.remark,pip.orignal_sale as order_supply,pip.date_of_supply,`pip`.`pharma_id`, `pl`.`company_name` as `customer`, `c`.`city_name` as `city`, `pu`.`name` as `user`,`pip`.`meeting_sale` as `secondary_sale`, `pip`.`meet_or_not_meet` as `metnotmet`,pip.create_date as date,pip.dealer_id ";
 		$this->db->select($arr);
@@ -703,7 +702,6 @@ class User_model extends CI_Model {
 			return FALSE;
 		}
 	}
-
 	public function interaction_dealer_report(){
 
 		$arr = "pu.id as user_id,pi.telephonic as oncall,pi.id,pi.remark,dl.gd_id as is_cf,pi.create_date as date,`pi`.`d_id`, `dl`.`dealer_name` as `customer`, `c`.`city_name` as `city`, `pu`.`name` as `user`,pi.meeting_sale as sale,pi.meeting_payment as payment,pi.meeting_stock as stock,pi.meet_or_not_meet as metnotmet,pi.d_id ";
@@ -754,6 +752,153 @@ class User_model extends CI_Model {
 
 	}
 
+	/* TA DA Report New Module - JSON */
+	public function ta_da_data(){
+		/* Geting TA DA report Information  */
+		$arr = "report.user_id as user_name,report.doi as doi,"
+			. "report.source_city as source_city,report.destination_city as destination_city,"
+			. "report.ta as ta,report.designation_id as designation_id,"
+			. "report.internet_charge as internet_charge,report.distance as distance,"
+			. "report.meet_id as meet_id,report.is_stay as is_stay,report.up_down as up_down,report.is_stp_approved,"
+			. "report.created_date as created_date,report.stp_distance as stp_distance,report.stp_ta as stp_ta";
+		$this->db->select($arr);
+		$this->db->from("ta_da_report report");
+		$this->db->order_by('report.doi', 'asc');
+		$query = $this->db->get();
+		// echo $this->db->last_query(); die;
+		if($this->db->affected_rows()){
+			$ta_da_result=$query->result_array();
+			return $ta_da_result;
+		}
+	}
+	public function pharma_doctor_interact(){
+		/*Doctor Interaction Data*/
+		$arr = "pid.crm_user_id as user_id,pid.create_date as doi,doc.city_pincode as source_city";
+		$this->db->distinct();
+		$this->db->select($arr);
+		$this->db->from("pharma_interaction_doctor pid");
+		$this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
+		$query = $this->db->get();
+		if($this->db->affected_rows()){
+			$docInteraction=$query->result_array();
+			return $docInteraction;
+		}
+
+	}
+	public function pharma_pharmacy_interact(){
+		$arr = "pharma.crm_user_id as user_id,pharma.create_date as doi";
+		$this->db->select($arr);
+		$this->db->from("pharma_interaction_pharmacy pharma");
+		$queryIntearction = $this->db->get();
+		if($this->db->affected_rows()){
+			$pharmaIntearction=$queryIntearction->result_array();
+			return $pharmaIntearction;
+		}
+	}
+	public function pharma_dealer_interact(){
+		$arr = "dealer.crm_user_id as user_name,dealer.create_date as doi";
+		$this->db->select($arr);
+		$this->db->from("pharma_interaction_dealer dealer");
+		$queryDealer = $this->db->get();
+		if($this->db->affected_rows()){
+			$dealerIntearction=$queryDealer->result_array();
+			return $dealerIntearction;
+		}
+	}
+	public function all_active_users(){
+		$arr = "user.id as user_id,user.name as user_name,user.hq_city as city_id,user.hq_city_pincode as user_pincode, user.user_designation_id as designation";
+		$this->db->select($arr);
+		$this->db->from("pharma_users user");
+		$this->db->where("user_status",1);
+		$queryuser = $this->db->get();
+		if($this->db->affected_rows()){
+			$allUsers=$queryuser->result_array();
+			return $allUsers;
+		}
+	}
+	public function all_users_da(){
+		$arr = "da.user_id as user_id,da.designation as design,da.hq as head_quatr,da.ex as ex_head, da.out_st as out_station, da.transit as transit";
+		$this->db->select($arr);
+		$this->db->from("userwise_da da");
+		$this->db->where("status",1);
+		$queryuser = $this->db->get();
+		if($this->db->affected_rows()){
+			$allDa=$queryuser->result_array();
+			return $allDa;
+		}
+	}
+
+	public function ta_da_overall_data($data){
+		$fp = fopen('ReportJSON/ta_da_overall_data.json', 'w');
+		fwrite($fp, json_encode($data));
+		fclose($fp);
+	}
+
+	public function update_ta_da_report(){
+		$ta_da_data = json_decode(file_get_contents ("ReportJSON/ta_da_overall_data.json"),true);
+//		pr($ta_da_data['ta_da_report'][0]);
+//		pr($ta_da_data['doc_interact'][0]);
+//		pr($ta_da_data['pharmacy_interact'][0]);
+//		pr($ta_da_data['dealer_interact'][0]);
+//		pr($ta_da_data['all_users'][0]);
+//		pr($ta_da_data['users_da'][0]);
+
+		$month=date('m');
+		$year=date('Y');
+		$start_date = "01-".$month."-".$year;
+		$start_time = strtotime($start_date);
+		$end_time = strtotime("+1 month", $start_time);
+		$list=array();
+		for($i=$start_time; $i<$end_time; $i+=86400) {
+			$list_date= date('Y-m-d', $i);
+			$listshow = date('d-m-Y', $i);
+			$day = date('D', $i);    //Day
+			if($day!='Sun'){
+				$list[]=$list_date;			////All Date List in current month.
+			}
+		}
+
+		$doi_Arr=array();
+		$ta_da=$ta_da_data['ta_da_report'];
+		foreach($ta_da as $tada){
+			$doi_Arr[]=$tada['doi'];
+		}
+		$ta_da_doi=array_unique($doi_Arr);		////All DOI IN TA DA Report Table.
+
+		$allusers=$ta_da_data['all_users'];		////All Active Users.
+		$phar_doc_interact=$ta_da_data['doc_interact'];    ///All interaction with Doctor.
+		$phar_pharmacy_interact=$ta_da_data['pharmacy_interact'];    ///All interaction with Sub_Dealer/Pharmacy.
+		$phar_dealer_interact=$ta_da_data['dealer_interact'];    ///All interaction with Dealer.
+
+//		pr($phar_dealer_interact); die;
+		foreach ($allusers as $user){
+			$user_id=$user['user_id'];
+			foreach ($list as $p_dates){
+				if(in_array($p_dates,$ta_da_doi)){
+					$final_ta_da_Arr[]=$ta_da_doi;  //////All Data required in ta_da_report.
+				}else{
+					/*Interaction with Doctor*/
+					pr($phar_doc_interact); die;
+					if(in_array($p_dates,$phar_doc_interact)){
+
+
+					}
+					else if(in_array($p_dates,$phar_pharmacy_interact)){
+
+					}
+					else if(in_array($p_dates,$phar_dealer_interact)){
+					}
+
+
+				}
+			}
+
+			//pr($final_ta_da_Arr); die;
+
+		}
+
+
+	}
 
 }
 

@@ -1961,7 +1961,7 @@ function get_distance_hq($userid,$meetid){
      //dealer 
       $destination_city=get_destination_interaction('dealer',$meetid,3);
   }
-  $url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=".$source_city."&destinations=".$destination_city;
+  $url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=".$source_city."&destinations=".$destination_city.'&key=AIzaSyBW4XD3HI9gZfK-J36dRizXrw6ynJ_ztJI';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -2658,6 +2658,21 @@ function remove_sunday_range($start, $end, $step = '+1 day', $format = 'Y-m-d' )
 		$current = strtotime($step, $current);
 	}
 	return $dates;
+}
+
+function get_userwise_da($id){
+	$ci = &get_instance();
+	$arr = "*";
+	$ci->db->select($arr);
+	$ci->db->from("userwise_da");
+	$ci->db->where("user_id" , $id);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var=$query->row();
+		return $var;
+	}else{
+		return false;
+	}
 }
 
 ?>

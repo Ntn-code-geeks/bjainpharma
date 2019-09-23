@@ -2156,9 +2156,12 @@ class Report_model extends CI_Model {
 	}
 
     public function get_tada_report($userid='',$start='',$end=''){
-    
-            $result=array();
-            /* Geting Leave Information  */
+
+		$ta_da_result=array();
+		$docInteraction=array();
+
+
+            /* Geting TA DA report Information  */
             $arr = "report.user_id as user_name,report.doi as doi,"
                     . "report.source_city as source_city,report.destination_city as destination_city,"
                     . "report.ta as ta,report.designation_id as designation_id,"
@@ -2175,11 +2178,11 @@ class Report_model extends CI_Model {
             $query = $this->db->get();
             // echo $this->db->last_query(); die;
             if($this->db->affected_rows()){
-                $result=$query->result_array();
-                
-                
+                $ta_da_result=$query->result_array();
             }
-            return $result;
+//		pr($ta_da_result);
+
+            return $ta_da_result;
     }
     
     

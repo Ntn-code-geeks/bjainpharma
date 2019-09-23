@@ -36,8 +36,10 @@ class User extends Parent_admin_controller {
         $this->load->model('doctor/Doctor_model','doctor');
         $this->load->model('pharma_nav/customer_nav_model','cust_nav');
         $this->load->model('data_analysis_model','analysis');
-
 		$this->load->model('secondary_supply/secondary_model','secondary');
+
+		$this->load->model('report/report_model','report');
+		$this->load->model('report/user_report_model','user_report');
         
 
     }
@@ -482,7 +484,6 @@ class User extends Parent_admin_controller {
 		$this->user->yearlyReportData($data);
 	}
 
-
 	public function Secondary_supply_report(){
 		$data['doc_data']=doctor_interaction_list();
 		$data['pharma_data']=pharmacy_interaction_list();
@@ -493,6 +494,22 @@ class User extends Parent_admin_controller {
     	$data['doc_data']=$this->user->interaction_doctor_report();
     	$data['pharma_data']=$this->user->interaction_pharmacy_report();
     	$data['dealer_data']=$this->user->interaction_dealer_report();
+	}
+
+
+	public function ta_da_reports()
+	{
+		$data['ta_da_report'] = $this->user->ta_da_data();
+		$data['doc_interact'] = $this->user->pharma_doctor_interact();
+		$data['pharmacy_interact'] = $this->user->pharma_pharmacy_interact();
+		$data['dealer_interact'] = $this->user->pharma_dealer_interact();
+		$data['all_users'] = $this->user->all_active_users();
+		$data['users_da'] = $this->user->all_users_da();
+		$this->user->ta_da_overall_data($data);
+	}
+
+	public function update_ta_da_report(){
+    	$this->user->update_ta_da_report();
 	}
   
 }

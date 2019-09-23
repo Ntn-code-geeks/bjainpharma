@@ -150,7 +150,6 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
     //
     if($val['destination_city']!=$val['source_city'] || $val['is_stay'] || $ft==0 || $crdate!=$val['doi']) {
         $crdate = $val['doi'];
-
         $da = 0;
         $hqdistance = 0;
         $nxtdestination = 0;
@@ -161,35 +160,43 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
 
         $lenght = count($tada_report) - 1;
         $day = date('D', strtotime($val['doi']));
-        if ($k != 0 && $tada_report[$k - 1]['doi'] == $val['doi']) {
-            $da=get_user_da(1, $designation_id, $is_metro);
+		/*New DA Concept*/
+		$userDA=get_userwise_da($val['user_name']);
+
+		if ($k != 0 && $tada_report[$k - 1]['doi'] == $val['doi']) {
+				$da=$userDA->hq;
            //$da = 0;
-        } else {
+        }
+        else {
             if ($val['is_stay'] == 1 && $val['destination_city'] == $lastdaydestination && $hqdistance > 75) {
-                $da = get_user_da(5, $designation_id, $is_metro);
-            } elseif ($val['is_stay'] != 1 && $val['destination_city'] != $hq) {
-                $da = get_user_da(3, $designation_id, $is_metro);
-            } elseif ($hqdistance > 450 && $tpinfo) {
-                $da = get_user_da(2, $designation_id, $is_metro);
-            } elseif ($val['is_stay'] == 1 && $day == 'Sat') {
+				$da = $userDA->out_st;
+            }
+            elseif ($val['is_stay'] != 1 && get_state_id($val['destination_city']) != get_state_id($hq)) {
+				$da=$userDA->ex;
+            }
+            elseif ($hqdistance > 450 && $tpinfo) {
+				$da=$userDA->transit ;
+            }
+            elseif ($val['is_stay'] == 1 && $day == 'Sat') {
             if ($k == $lenght) {
-                if ($val['destination_city'] != $hq) {
-                    $da = get_user_da(5, $designation_id, $is_metro) + get_user_da(2, $designation_id, $is_metro);
+                if (get_state_id($val['destination_city']) != get_state_id($hq)) {
+					$da=$userDA->transit + $userDA->out_st;
                 } else {
-                    $da = get_user_da(1, $designation_id, $is_metro);
+					$da=$userDA->hq;
                 }
             } else {
-                //                pr($tada_report); die;
                 if (date('D', strtotime($tada_report[$k + 1]['doi'])) == 'Mon' && $tada_report[$k + 1]['destination_city'] == $val['destination_city']) {
-                    $da = get_user_da(5, $designation_id, $is_metro) + get_user_da(2, $designation_id, $is_metro);
+					$da=$userDA->transit + $userDA->out_st;
                 } else {
-                    $da = get_user_da(5, $designation_id, $is_metro);
+                    $da = $userDA->out_st;
                 }
             }
-        } else {
-            $da = get_user_da(1, $designation_id, $is_metro);
+        }
+            else {
+				$da=$userDA->hq;
         }
     }
+
 
         if (date('Y-m-d', strtotime($crtddate)) == date('Y-m-d', strtotime($val['created_date']))) {
             //$val['internet_charge'] = 0;

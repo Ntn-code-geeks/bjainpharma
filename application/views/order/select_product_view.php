@@ -238,7 +238,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
             <div class="col-md-12">
                 <!--<div class="form-group">-->
                 <div class="box-footer">
-					<button type="submit" class="btn btn-info pull-right">Save</button>
+					<button type="submit" id="save_product" class="btn btn-info pull-right">Save</button>
 
                 </div>
             </div>
@@ -400,6 +400,14 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script>
+	$(document).on('click','#save_product',function(){
+	    var sel=$('select[name="dealer_id"]').val();
+	    if(sel == null){
+            alert("Adding Dealer/Sub-Dealer is Mandatory.!");
+            return false;
+		}
+	});
+
     $(document).on('click','.cat_list',function(){
         var cat_ID=$(this).val();
         if($(this).is(':checked')){

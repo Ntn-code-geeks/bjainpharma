@@ -1046,9 +1046,6 @@ public function generate_attendance_report($userid,$start,$end)
 //        if(is_admin()){
           $request = $this->input->post();
 
-//echo $request['report_date'].'<br>'; 
-          
-//          echo $request['report_date']; die;
           
         if($this->report->first_time_genrate($request['report_date'], logged_user_data())){
           
@@ -1065,17 +1062,12 @@ public function generate_attendance_report($userid,$start,$end)
 //          $this->form_validation->set_rules('user_id', 'User', 'required');
           $this->form_validation->set_rules('report_date', 'Report Date range', 'required'); 
           if($this->form_validation->run() == TRUE){
-//              echo $start; echo '<br>'.$end;
              $data['report_date'] = $request['report_date'];
              $data['tada_report'] =$this->report->get_tada_report(logged_user_data(),$start,$end);
-             
-//             pr($data['tada_report'] ); die;
+
              $data['action'] ="reports/reports/send_for_approval";
-             // pr($data); die;
-             $this->load->get_view('report/ta_da_report_view',$data);
-             
-//            $this->show_tada_report($request['user_id'],$start,$end);
-            //$data['attendance_report'] =$this->user_report->get_attendance_report($request['user_id'],$start,$end);
+			 $this->load->get_view('report/ta_da_report_view',$data);
+
           }else{
               // for false validation
               $this->get_tada_report();  

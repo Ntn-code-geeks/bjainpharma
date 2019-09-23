@@ -1937,364 +1937,90 @@ class Dealer_model extends CI_Model {
     // save ineraction data
 
     public function save_interaction($data){
-
-//        pr($data);
-//
+//        pr($data);//
 //        die;
-
         $duplicate_product=0;
-
         if(isset($data['meet_or_not'])){
             $meet_or_not = $data['meet_or_not'];
         }
-        elseif(!empty ($data['m_sale'])){
+        else if(!empty ($data['m_sale'])){
              $meet_or_not=1;
-        }elseif(!empty ($data['m_sample'])){
+        }
+        else if(!empty ($data['m_sample'])){
              $meet_or_not=1;  
         }
 
+        /* For Pharma Doctor Interaction */
         if(isset($data['doc_id'])){   // for Doctor interaction
-
-            
             if(!empty($data['m_sample'])){  // for multipile sample data
-
-
                if(!empty($data['m_sale'])){
                 $interaction_info = array(
-
-                            'doc_id'=>$data['doc_id'],
-
-                            'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'meeting_sale'=>$data['m_sale'],
-
-                            'meet_or_not_meet'=>$meet_or_not,
-
-                            'remark'=>$data['remark'],
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])): NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),    
-
-                      );
+					'doc_id'=>$data['doc_id'],
+					'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
+					'meeting_sale'=>$data['m_sale'],
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])): NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                    );
                }
                else{
                    $interaction_info = array(
-
-                            'doc_id'=>$data['doc_id'],
-
-                            'meet_or_not_meet'=>$meet_or_not,
-
-                            'remark'=>$data['remark'],
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])): NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),    
-
-                      ); 
+					'doc_id'=>$data['doc_id'],
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])): NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                   );
                }
-
-                 $insert = $this->db->insert('pharma_interaction_doctor',$interaction_info);
+               $insert = $this->db->insert('pharma_interaction_doctor',$interaction_info);
 
                 
-//                 echo $this->db->last_query(); die;
-//                echo $insert; die;
-
+//               echo $this->db->last_query(); die;
+//               echo $insert; die;
                     $pi_doc = $this->db->insert_id();
-                        $replica_data = array(
-                           'interaction_with'=>$data['dealer_view_id'],
-                           'crm_user_id'=> logged_user_data(),
-                        ); 
+					$replica_data = array(
+					   'interaction_with'=>$data['dealer_view_id'],
+					   'crm_user_id'=> logged_user_data(),
+					);
                     $insert = $this->db->insert('intearction_replica',$replica_data);
                    if(isset($pi_doc)){
-
-            
-
                         $order_data = array(
-
                             'interaction_id'=> $pi_doc,
-
                             'interaction_with_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'updated_date'=>savedate(),                  
-
+                            'updated_date'=>savedate(),
                         );
-
                         $this->db->set($order_data);
-
-                        $this->db->where('interaction_id',0); 
-
-                        $this->db->where('interaction_person_id',$data['doc_id']); 
-
-                        $this->db->where('crm_user_id',logged_user_data()); 
-
-                        $this->db->update('interaction_order'); 
-
+                        $this->db->where('interaction_id',0);
+                        $this->db->where('interaction_person_id',$data['doc_id']);
                         $this->db->where('crm_user_id',logged_user_data());
-
+                        $this->db->update('interaction_order');
+                        $this->db->where('crm_user_id',logged_user_data());
                         $this->db->where('person_id',$data['doc_id']);
-
                         $this->db->delete('log_interaction_data');
-
                     }
 
                   if(isset($pi_doc)){
-
                      foreach($data['m_sample'] as $kms=>$val_ms){
-
                          $sample_doc_interraction_rel = array(
-
                              'pidoc_id'=>$pi_doc,
-
                              'sample_id'=>$val_ms,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
                          );
-
-                         
-
                       $status = $this->db->insert('doctor_interaction_sample_relation',$sample_doc_interraction_rel);
-
-                       
-
-                       
-
-                     } 
-
+                     }
                   }
 
                   
 
                   if(isset($pi_doc) && isset($data['team_member'])){
-
-                     foreach($data['team_member'] as $k_tm=>$val_tm){
-
-                         $team_doc_interraction_rel = array(
-
-                             'pidoc_id'=>$pi_doc,
-
-                             'team_id'=>$val_tm,
-
-                             'crm_user_id'=> logged_user_data(),
-
-                             'last_update'=> savedate(),
-
-                             'doc_id'=>$data['doc_id'],
-
-                             'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
-
-                         );
-
-                         
-
-                       $team_status = $this->db->insert('doctor_interaction_with_team',$team_doc_interraction_rel);
-
-                       
-
-                       
-
-                     } 
-
-                  }
-
-                  
-
-                  
-
-             if(!empty($data['m_sample']) && isset($data['team_member'])){ 
-
-          if ($insert == TRUE && $status == 1 && $team_status==1)
-
-                           {
-
-//                        echo $insert."<br>"; echo "smaple".$status."<br>"; die;
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-             }
-
-             elseif(!empty($data['m_sample']) && !isset($data['team_member'])){
-
-                 
-
-                  if ($insert== TRUE && $status == 1)
-
-                           {
-
-//                        echo $insert."<br>"; echo "smaple".$status."<br>"; die; 
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-                 
-
-             }
-
-                 
-
-                 
-
-            }
-
-            else{  
-
-                
-
-                
-
-         if(!empty($data['m_sale'])){       
-
-        $interaction_info = array(
-
-                            'doc_id'=>$data['doc_id'],
-
-                            'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'meeting_sale'=>$data['m_sale'],
-
-                            'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
-
-                          
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                           
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-            );
-
-         }
-
-         else{
-
-             $interaction_info = array(
-
-                            'doc_id'=>$data['doc_id'],
-
-                           'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                           
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-                 );
-
-         }
-
-        
-
-        $insert =  $this->db->insert('pharma_interaction_doctor',$interaction_info);
-
-//           echo $this->db->last_query(); die;
-
-           $pi_doc = $this->db->insert_id();   
-           $replica_data = array(
-                       'interaction_with'=>$data['dealer_view_id'],
-                       'crm_user_id'=> logged_user_data(),
-                    ); 
-                    $insert = $this->db->insert('intearction_replica',$replica_data);
-           
-
-           if(isset($pi_doc)){
-
-                    $order_data = array(
-
-                        'interaction_id'=> $pi_doc,
-
-                        'interaction_with_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                        'updated_date'=>savedate(),                  
-
-                    );
-
-                    $this->db->set($order_data);
-
-                    $this->db->where('interaction_id',0); 
-
-                    $this->db->where('interaction_person_id',$data['dealer_view_id']); 
-
-                    $this->db->where('crm_user_id',logged_user_data()); 
-
-                    $this->db->update('interaction_order'); 
-
-                    $this->db->where('crm_user_id',logged_user_data());
-
-            $this->db->where('person_id',$data['dealer_view_id']);
-
-            $this->db->delete('log_interaction_data');
-
-                }
-
-           if(isset($pi_doc) && isset($data['team_member'])){
                      foreach($data['team_member'] as $k_tm=>$val_tm){
                          $team_doc_interraction_rel = array(
                              'pidoc_id'=>$pi_doc,
@@ -2308,17 +2034,101 @@ class Dealer_model extends CI_Model {
 
                      }
                   }
+
+             if(!empty($data['m_sample']) && isset($data['team_member'])){
+				  if ($insert == TRUE && $status == 1 && $team_status==1){
+			//       echo $insert."<br>"; echo "smaple".$status."<br>"; die;
+					  return true;
+				   }else{
+					   return false;
+				   }
+             }
+             elseif(!empty($data['m_sample']) && !isset($data['team_member'])){
+                  if ($insert== TRUE && $status == 1){
+//           echo $insert."<br>"; echo "smaple".$status."<br>"; die;
+                    return true;
+				   }else{
+					   return false;
+				   }
+             }
+
+            }else{
+
+
+         if(!empty($data['m_sale'])){
+        $interaction_info = array(
+				'doc_id'=>$data['doc_id'],
+				'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
+				'meeting_sale'=>$data['m_sale'],
+				'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+				'meet_or_not_meet'=>$meet_or_not,
+				'remark'=>$data['remark'],
+				'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+				'status'=>1,
+				'crm_user_id'=> logged_user_data(),
+				'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+				'last_update' => savedate(),
+            );
+         }else{
+             $interaction_info = array(
+				'doc_id'=>$data['doc_id'],
+				'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+				'meet_or_not_meet'=>$meet_or_not,
+				'remark'=>$data['remark'],
+				'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+				'status'=>1,
+				'crm_user_id'=> logged_user_data(),
+				'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+				'last_update' => savedate(),
+              );
+         }
+
+        $insert =  $this->db->insert('pharma_interaction_doctor',$interaction_info);
+//           echo $this->db->last_query(); die;
+           $pi_doc = $this->db->insert_id();   
+           $replica_data = array(
+                       'interaction_with'=>$data['dealer_view_id'],
+                       'crm_user_id'=> logged_user_data(),
+                    ); 
+            $insert = $this->db->insert('intearction_replica',$replica_data);
+           if(isset($pi_doc)){
+                    $order_data = array(
+                        'interaction_id'=> $pi_doc,
+                        'interaction_with_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
+                        'updated_date'=>savedate(),
+                    );
+                    $this->db->set($order_data);
+                    $this->db->where('interaction_id',0);
+                    $this->db->where('interaction_person_id',$data['dealer_view_id']);
+                    $this->db->where('crm_user_id',logged_user_data());
+                    $this->db->update('interaction_order');
+                    $this->db->where('crm_user_id',logged_user_data());
+					$this->db->where('person_id',$data['dealer_view_id']);
+           			$this->db->delete('log_interaction_data');
+                }
+
+           if(isset($pi_doc) && isset($data['team_member'])){
+                     foreach($data['team_member'] as $k_tm=>$val_tm){
+                         $team_doc_interraction_rel = array(
+                             'pidoc_id'=>$pi_doc,
+                             'team_id'=>$val_tm,
+                             'crm_user_id'=> logged_user_data(),
+                             'last_update'=> savedate(),
+                             'doc_id'=>$data['doc_id'],
+                             'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
+                         );
+                       $team_status = $this->db->insert('doctor_interaction_with_team',$team_doc_interraction_rel);
+                     }
+                  }
          
 
             if(isset($data['team_member'])){
-
-          if ($insert == TRUE && $team_status==1) {
-                  return true;
-                           }else{
-                               return false;
-                           } 
-                   }
-                   else{
+				  if ($insert == TRUE && $team_status==1) {
+						  return true;
+					   }else{
+						   return false;
+					   }
+			 }else{
                        if ($insert == TRUE){
                   				return true;
                            }else{
@@ -2328,52 +2138,32 @@ class Dealer_model extends CI_Model {
 
             }
         }
-
+		/* For Pharma Dealer Interaction */
         else if(isset($data['d_id'])){   // for dealer interaction
-
              if(!empty($data['m_sample'])){  // for multipile sample data
-
             $interaction_info = array(
-
                 'd_id'=>$data['d_id'],
-
                 'meeting_sale'=>isset($data['m_sale'])? $data['m_sale']:NULL,
                 'meeting_payment'=>$data['m_payment'],
-
                 'meeting_stock'=>$data['m_stock'],
-
                 'meet_or_not_meet'=>$meet_or_not,
-
                 'remark'=>$data['remark'],
-
                 'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
                 'status'=>1,
-
                 'crm_user_id'=> logged_user_data(),
-
                 'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
                 'last_update' => savedate(),
-
             );
 
-           
+         $insert = $this->db->insert('pharma_interaction_dealer',$interaction_info);
 
-       $insert = $this->db->insert('pharma_interaction_dealer',$interaction_info);
-
-
-
-        $pi_dealer = $this->db->insert_id();    
-
+        $pi_dealer = $this->db->insert_id();
         $replica_data = array(
                        'interaction_with'=>$data['dealer_view_id'],
                        'crm_user_id'=> logged_user_data(),
                     ); 
-                    $insert = $this->db->insert('intearction_replica',$replica_data);
-
+        $insert = $this->db->insert('intearction_replica',$replica_data);
         if(isset($pi_dealer)){
-
                 $order_data = array(
                     'interaction_id'=> $pi_dealer,
                     //'interaction_with_id'=> $data['dealer_id'],
@@ -2387,167 +2177,69 @@ class Dealer_model extends CI_Model {
                 $this->db->where('crm_user_id',logged_user_data());
                 $this->db->where('person_id',$data['dealer_view_id']);
                 $this->db->delete('log_interaction_data');
-
             }
 
                   if(isset($pi_dealer)){
-
                      foreach($data['m_sample'] as $kms=>$val_ms){
-
                          $sample_dealer_interaction_rel = array(
-
                              'pidealer_id'=>$pi_dealer,
-
                              'sample_id'=>$val_ms,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
-                            
-
                          );
-
-                         
-
-                      $status= $this->db->insert('dealer_interaction_sample_relation',$sample_dealer_interaction_rel);
-
-                       
-
-                       
-
-                     } 
-
-                  }
-
-        
-
-                  
-
-                  
-
-           if(isset($pi_dealer) && isset($data['team_member'])){
-
-                     foreach($data['team_member'] as $k_tm=>$val_tm){
-
-                         $team_dealer_interraction_rel = array(
-
-                             'pidealer_id'=>$pi_dealer,
-
-                             'team_id'=>$val_tm,
-
-                             'crm_user_id'=> logged_user_data(),
-
-                             'last_update'=> savedate(),
-
-                             'dealer_id'=>$data['d_id'],
-
-                             'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
-
-                         );
-
-                         
-
-                       $team_status = $this->db->insert('dealer_interaction_with_team',$team_dealer_interraction_rel);
-
-                       
-
-                       
-
-                     } 
-
-                  }
-
-                  
-
-                  
-
-             if(!empty($data['m_sample']) && isset($data['team_member'])){ 
-
-                    if ($insert == TRUE && $status == 1 && $team_status==1)
-
-                   {
-
-                       return true;                           
-
-                   }
-
-                   else{
-
-
-
-                       return false;
-
-
-
-                   } 
-
+                  $status= $this->db->insert('dealer_interaction_sample_relation',$sample_dealer_interaction_rel);
+                 	  }
                 }
 
+
+
+           if(isset($pi_dealer) && isset($data['team_member'])){
+                     foreach($data['team_member'] as $k_tm=>$val_tm){
+                         $team_dealer_interraction_rel = array(
+                             'pidealer_id'=>$pi_dealer,
+                             'team_id'=>$val_tm,
+                             'crm_user_id'=> logged_user_data(),
+                             'last_update'=> savedate(),
+                             'dealer_id'=>$data['d_id'],
+                             'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
+                         );
+                       $team_status = $this->db->insert('dealer_interaction_with_team',$team_dealer_interraction_rel);
+                     }
+                  }
+
+             if(!empty($data['m_sample']) && isset($data['team_member'])){
+                   if ($insert == TRUE && $status == 1 && $team_status==1){
+                       return true;
+                   }else{
+                       return false;
+                   }
+                }
              elseif(!empty($data['m_sample']) && !isset($data['team_member'])){
 
-                 
-
-                  if ( $insert == TRUE && $status == 1)
-                     {
-
-                              return true;                           
-
-                           }
-                           else{
-
-                                   return false;
-
-                           } 
-
-                 
-
+                  if ( $insert == TRUE && $status == 1){
+                       return true;
+				   }else{
+						   return false;
+				   }
              }
 
-                           
-
-             }
-
-             else{  // for non sample data
-
-                 
-
+             }else{  // for non sample data
                  $interaction_info = array(
-
-                            'd_id'=>$data['d_id'],
-
-                      		'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
-
-                           'meeting_sale'=>isset($data['m_sale'])? $data['m_sale']:NULL,
-                           'meeting_payment'=>$data['m_payment'],
-
-                           'meeting_stock'=>$data['m_stock'],
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                           
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-                     );
-
-           
+					'd_id'=>$data['d_id'],
+					'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+					'meeting_sale'=>isset($data['m_sale'])? $data['m_sale']:NULL,
+					'meeting_payment'=>$data['m_payment'],
+					'meeting_stock'=>$data['m_stock'],
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                  );
 
         $insert = $this->db->insert('pharma_interaction_dealer',$interaction_info);
-
-        
 
           $pi_doc = $this->db->insert_id();  
                     $replica_data = array(
@@ -2556,324 +2248,145 @@ class Dealer_model extends CI_Model {
                     ); 
                     $insert = $this->db->insert('intearction_replica',$replica_data);
           if(isset($pi_doc)){
-
                 $order_data = array(
-
                     'interaction_id'=> $pi_doc,
-
-                    'updated_date'=>savedate(),                  
-
+                    'updated_date'=>savedate(),
                 );
-
                 $this->db->set($order_data);
-
-                $this->db->where('interaction_id',0); 
-
-                $this->db->where('interaction_person_id',$data['dealer_view_id']); 
-
-                $this->db->where('crm_user_id',logged_user_data()); 
-
-                $this->db->update('interaction_order'); 
-
+                $this->db->where('interaction_id',0);
+                $this->db->where('interaction_person_id',$data['dealer_view_id']);
                 $this->db->where('crm_user_id',logged_user_data());
-
+                $this->db->update('interaction_order');
+                $this->db->where('crm_user_id',logged_user_data());
                 $this->db->where('person_id',$data['dealer_view_id']);
-
                 $this->db->delete('log_interaction_data');
-
             }
 
-          
-
            if(isset($pi_doc) && isset($data['team_member'])){
-
                      foreach($data['team_member'] as $k_tm=>$val_tm){
-
                          $team_dealer_interraction_rel = array(
-
                              'pidealer_id'=>$pi_doc,
-
                              'team_id'=>$val_tm,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
                              'dealer_id'=>$data['d_id'],
-
                              'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
-
                          );
-
-                         
-
                        $team_status = $this->db->insert('dealer_interaction_with_team',$team_dealer_interraction_rel);
-
-                       
-
-                       
-
-                     } 
-
+                     }
                   }
 
-         
 
-            if(isset($data['team_member'])){      
+            if(isset($data['team_member'])){
+				  if ($insert == TRUE && $team_status==1){
+						  return true;
+				   }else{
+					   return false;
+				   }
 
-          if ($insert == TRUE && $team_status==1)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-                   }
-
+            }
                    else{
-
-                     
-
-                       if ($insert == TRUE)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
+                       if ($insert == TRUE){
+                  				return true;
+                           }else{
                                return false;
-
-
-
-                           } 
-
-                       
-
+                           }
                    }
-
-                 
-
-                 
 
              }
 
         }
-
-
-        elseif(isset($data['pharma_id'])){   // for pharmacy interaction
-
+		/* For Pharma Sub-Dealer/Pharmacy Interaction */
+        else if(isset($data['pharma_id'])){   // for pharmacy interaction
             $dup_count=0;
-
             $dup_product='';
-
             if(isset($data['rel_doc_id']))
-
             {
-
                 $duplicate_product=$this->check_duplicate_value($data);
-
                 $dup_count=$duplicate_product['dp_count'];
-
                 $dup_product=$duplicate_product['dp_value'];
-
             }
-
             if(!empty($data['m_sample'])){  // for multipile sample data
-
-                  
-
-                if(!empty($data['m_sale'])){ 
-
+                if(!empty($data['m_sale'])){
                 $interaction_info = array(
-
-                            'pharma_id'=>$data['pharma_id'],
-
-                            'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
-
-                            'duplicate_secondary'=>$dup_count,
-
-                            'duplicate_product'=>$dup_product,
-
-                            'meeting_sale'=>$data['m_sale'],
-
-                        
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                          
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
+					'pharma_id'=>$data['pharma_id'],
+					'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
+					'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
+					'duplicate_secondary'=>$dup_count,
+					'duplicate_product'=>$dup_product,
+					'meeting_sale'=>$data['m_sale'],
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
                      );
-
-                }
-
-                else{
-
+                }else{
                    $interaction_info = array(
-
-                            'pharma_id'=>$data['pharma_id'],
-
-                              'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
-
-                            'duplicate_secondary'=>$dup_count,
-
-                            'duplicate_product'=>$dup_product,                    
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                          
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-                     ); 
+					'pharma_id'=>$data['pharma_id'],
+					'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
+					'duplicate_secondary'=>$dup_count,
+					'duplicate_product'=>$dup_product,
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                    );
 
                 }
-
-             
 
                  $insert = $this->db->insert('pharma_interaction_pharmacy',$interaction_info);
-
                 $replica_data = array(
                        'interaction_with'=>$data['dealer_view_id'],
                        'crm_user_id'=> logged_user_data(),
                     ); 
-                    $insert = $this->db->insert('intearction_replica',$replica_data);
-
+                 $insert = $this->db->insert('intearction_replica',$replica_data);
                   $pi_doc = $this->db->insert_id();
-
                     if(isset($pi_doc)){
-
-            
-
                         $order_data = array(
-
                             'interaction_id'=> $pi_doc,
-
                             'interaction_with_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'updated_date'=>savedate(),                  
-
+                            'updated_date'=>savedate(),
                         );
 
                         $this->db->set($order_data);
-
-                        $this->db->where('interaction_id',0); 
-
-                        $this->db->where('interaction_person_id',$data['dealer_view_id']); 
-
-                        $this->db->where('crm_user_id',logged_user_data()); 
-
-                        $this->db->update('interaction_order'); 
-
+                        $this->db->where('interaction_id',0);
+                        $this->db->where('interaction_person_id',$data['dealer_view_id']);
                         $this->db->where('crm_user_id',logged_user_data());
-
+                        $this->db->update('interaction_order');
+                        $this->db->where('crm_user_id',logged_user_data());
                         $this->db->where('person_id',$data['dealer_view_id']);
-
                         $this->db->delete('log_interaction_data');
 
-
-
-
-                        if(isset($data['rel_doc_id']))
-                        {
-
+                        if(isset($data['rel_doc_id'])){
                             $order_data = array(
-
                                 'duplicate_status'=> 1,
-
-                                'updated_date'=>savedate(),                  
-
+                                'updated_date'=>savedate(),
                             );
-
                             $this->db->set($order_data);
-
                             $this->db->where('crm_user_id',logged_user_data());
-
                             $this->db->where('duplicate_status',0);
-
-                            $this->db->where('interaction_with_id',$data['dealer_view_id']); 
-
-                            $this->db->where('interaction_person_id',$data['rel_doc_id']); 
-
+                            $this->db->where('interaction_with_id',$data['dealer_view_id']);
+                            $this->db->where('interaction_person_id',$data['rel_doc_id']);
                             $this->db->update('interaction_order'); 
                         }
 
                     }
 
                   if(isset($pi_doc)){
-
                      foreach($data['m_sample'] as $kms=>$val_ms){
-
                          $sample_doc_interraction_rel = array(
-
                              'pipharma_id'=>$pi_doc,
-
                              'sample_id'=>$val_ms,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
                          );
-
-                         
-
                       $status= $this->db->insert('pharmacy_interaction_sample_relation',$sample_doc_interraction_rel);
-
-                       
-
-                       
 
                      } 
 
@@ -2882,362 +2395,148 @@ class Dealer_model extends CI_Model {
                   
 
                    if(isset($pi_doc) && isset($data['team_member'])){
-
                      foreach($data['team_member'] as $k_tm=>$val_tm){
-
                          $team_interraction_rel = array(
-
                              'pipharma_id'=>$pi_doc,
-
                              'team_id'=>$val_tm,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
                              'pharma_id'=>$data['pharma_id'],
-
                              'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
-
                          );
-
-                         
-
                        $team_status = $this->db->insert('pharmacy_interaction_with_team',$team_interraction_rel);
-
-                       
-
-                       
-
                      } 
 
                   }
 
-                  
 
-               
-
-             if(!empty($data['m_sample']) && isset($data['team_member'])){ 
-
-          if ($insert == TRUE && $status == 1 && $team_status==1)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
+             if(!empty($data['m_sample']) && isset($data['team_member'])){
+          	  if ($insert == TRUE && $status == 1 && $team_status==1){
+                  return true;
+			   } else{
+				   return false;
+			   }
              }
-
              elseif(!empty($data['m_sample']) && !isset($data['team_member'])){
-
-                 
-
-                  if ($insert == TRUE && $status == 1)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-                 
-
+                  if ($insert == TRUE && $status == 1)  {
+                  		return true;
+				   }else{
+					   return false;
+				   }
              }
-
-                 
-
-                 
-
-                 
 
             }
 
             else{
-
                 if(!empty($data['m_sale'])){
-
-        $interaction_info = array(
-
-                            'pharma_id'=>$data['pharma_id'],
-
-                            'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                            'meeting_sale'=>$data['m_sale'],
-
-                           'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
-
-                          'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
-
-                            'duplicate_secondary'=>$dup_count,
-
-                            'duplicate_product'=>$dup_product,
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                           
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-            
-
-                );
+       			 $interaction_info = array(
+					'pharma_id'=>$data['pharma_id'],
+					'dealer_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
+					'meeting_sale'=>$data['m_sale'],
+					'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+					'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
+					'duplicate_secondary'=>$dup_count,
+					'duplicate_product'=>$dup_product,
+					'meet_or_not_meet'=>$meet_or_not,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                    );
 
                 }
-
                 else{
-
-                    $interaction_info = array(
-
-                            'pharma_id'=>$data['pharma_id'],
-
-                             'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,                        
-
-                           'meet_or_not_meet'=>$meet_or_not,
-
-                           'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
-
-                           'duplicate_secondary'=>$dup_count,
-
-                            'duplicate_product'=>$dup_product,
-
-                           'remark'=>$data['remark'],
-
-                           
-
-                            'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
-
-                            'status'=>1,
-
-                            'crm_user_id'=> logged_user_data(),
-
-                            'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
-
-                            'last_update' => savedate(),
-
-            
-
-                ); 
-
-                    
+                $interaction_info = array(
+					'pharma_id'=>$data['pharma_id'],
+					'telephonic' => isset($data['telephonic'])? $data['telephonic']:NULL,
+					'meet_or_not_meet'=>$meet_or_not,
+					'doctor_id'=>isset($data['rel_doc_id'])?$data['rel_doc_id']:NULL,
+					'duplicate_secondary'=>$dup_count,
+					'duplicate_product'=>$dup_product,
+					'remark'=>$data['remark'],
+					'follow_up_action'=>$data['fup_a']!='' ? date('Y-m-d', strtotime($data['fup_a'])):NULL,
+					'status'=>1,
+					'crm_user_id'=> logged_user_data(),
+					'create_date'=> $data['doi_doc']!='' ? date('Y-m-d', strtotime($data['doi_doc'])):savedate(),
+					'last_update' => savedate(),
+                );
 
             }
 
-        
-
         $insert = $this->db->insert('pharma_interaction_pharmacy',$interaction_info);
-
-           
-
-         $pi_doc = $this->db->insert_id();  
-
+         $pi_doc = $this->db->insert_id();
          $replica_data = array(
                        'interaction_with'=>$data['dealer_view_id'],
                        'crm_user_id'=> logged_user_data(),
                     ); 
-                    $insert = $this->db->insert('intearction_replica',$replica_data);
-
+         $insert = $this->db->insert('intearction_replica',$replica_data);
          if(isset($pi_doc)){
-
-            
-
                 $order_data = array(
-
                     'interaction_id'=> $pi_doc,
-
                     'interaction_with_id'=>isset($data['dealer_id'])?$data['dealer_id']:NULL,
-
-                    'updated_date'=>savedate(),                  
-
+                    'updated_date'=>savedate(),
                 );
 
                 $this->db->set($order_data);
-
-                $this->db->where('interaction_id',0); 
-
-                $this->db->where('interaction_person_id',$data['pharma_id']); 
-
-                $this->db->where('crm_user_id',logged_user_data()); 
-
-                $this->db->update('interaction_order'); 
-
-                
-
+                $this->db->where('interaction_id',0);
+                $this->db->where('interaction_person_id',$data['pharma_id']);
                 $this->db->where('crm_user_id',logged_user_data());
-
+                $this->db->update('interaction_order');
+                $this->db->where('crm_user_id',logged_user_data());
                 $this->db->where('person_id',$data['pharma_id']);
-
                 $this->db->delete('log_interaction_data');
-
-
-                if(isset($data['rel_doc_id']))
-                {
+                if(isset($data['rel_doc_id'])){
                     $order_data = array(
-
                     'duplicate_status'=> 1,
-
-                    'updated_date'=>savedate(),                  
-
+                    'updated_date'=>savedate(),
                     );
-
                     $this->db->set($order_data);
-
                     $this->db->where('crm_user_id',logged_user_data());
-
                     $this->db->where('duplicate_status',0);
-
-                    $this->db->where('interaction_with_id',$data['dealer_view_id']); 
-
-                    $this->db->where('interaction_person_id',$data['rel_doc_id']); 
-
-                    $this->db->update('interaction_order'); 
+                    $this->db->where('interaction_with_id',$data['dealer_view_id']);
+                    $this->db->where('interaction_person_id',$data['rel_doc_id']);
+                    $this->db->update('interaction_order');
                 }
-        
 
             }
-
             if(isset($pi_doc) && isset($data['team_member'])){
-
                      foreach($data['team_member'] as $k_tm=>$val_tm){
-
                          $team_interraction_rel = array(
-
                              'pipharma_id'=>$pi_doc,
-
                              'team_id'=>$val_tm,
-
                              'crm_user_id'=> logged_user_data(),
-
                              'last_update'=> savedate(),
-
                              'pharma_id'=>$data['pharma_id'],
-
                              'interaction_date'=>  date('Y-m-d', strtotime($data['doi_doc'])),
-
                          );
-
-                         
-
                        $team_status = $this->db->insert('pharmacy_interaction_with_team',$team_interraction_rel);
-
-                       
-
-                       
-
-                     } 
-
+                     }
                   }
 
-         
-
-          if(isset($data['team_member'])){      
-
+          if(isset($data['team_member'])){
           if ($insert == TRUE && $team_status==1)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-                   }
-
+               {
+                  return true;
+               }else{
+          		  return false;
+               }
+           }
                    else{
-
-                     
-
-                       if ($insert == TRUE)
-
-                           {
-
-                        
-
-                  return true;                           
-
-
-
-                           }
-
-                           else{
-
-
-
-                               return false;
-
-
-
-                           } 
-
-                       
+				   if ($insert == TRUE){
+			  				return true;
+					   }else{
+						   return false;
+					   }
 
                    }
 
-                   
 
             }
 
 
         }
-
-    
-
-            
-
-        
 
     }
 
