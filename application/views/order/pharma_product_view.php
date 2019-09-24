@@ -612,7 +612,9 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
             var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td> <select catid="'+catid+'" name="product_potency[]" id="" class="product_select_potency form-control  procat_option_box_potency_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
             $(theElement).closest('tr').before(strVar);
         }
-        else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
+        else if(catid==1 || catid==2 || catid==3 || catid==5 || catid==4 || catid==6 || catid==10 || catid==7 ||
+			catid==14	||
+			catid==13)
         {
             var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control  procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
             $(theElement).closest('tr').before(strVar);
@@ -872,7 +874,8 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
                 }
             }
         }
-        else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
+        else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==5 || catid==6 || catid==10 || catid==7 || catid==14 ||
+			catid==13)
         {
             $.ajax({
                 type:"POST",

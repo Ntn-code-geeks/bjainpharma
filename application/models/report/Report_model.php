@@ -2504,5 +2504,39 @@ class Report_model extends CI_Model {
         
     }
 
-    
+
+
+    public function update_users_da($data,$id){
+		$dataArr=array(
+			'hq' => $data['hq_rates'],
+			'ex' => $data['ex_hq_rates'],
+			'out_st' => $data['out_st_rates'],
+			'transit' => $data['trans_rate'],
+				);
+		$this->db->where('user_id',$id);
+		$this->db->update('userwise_da',$dataArr);
+		if($this->db->affected_rows() == 1){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+
+	}
+
+	public function add_users_da($data){
+		$dataArr=array(
+			'user_id' => $data['user_name'],
+			'designation' => $data['user_desg'],
+			'hq' => $data['hq_rates'],
+			'ex' => $data['ex_hq_rates'],
+			'out_st' => $data['out_st_rates'],
+			'transit' => $data['trans_rate'],
+		);
+		$this->db->insert('userwise_da',$dataArr);
+		if($this->db->affected_rows() == 1){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
 }

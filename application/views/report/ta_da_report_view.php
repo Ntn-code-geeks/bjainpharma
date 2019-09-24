@@ -160,9 +160,12 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
 
         $lenght = count($tada_report) - 1;
         $day = date('D', strtotime($val['doi']));
-		/*New DA Concept*/
-		$userDA=get_userwise_da($val['user_name']);
 
+		/**
+		 * NITIN KUMAR 24-09-2019
+		 * New DA Concept
+		 * */
+		$userDA=get_userwise_da($val['user_name']);
 		if ($k != 0 && $tada_report[$k - 1]['doi'] == $val['doi']) {
 				$da=$userDA->hq;
            //$da = 0;
@@ -196,6 +199,7 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
 				$da=$userDA->hq;
         }
     }
+		/*DA CONCEPT CLOSE HERE*/
 
 
         if (date('Y-m-d', strtotime($crtddate)) == date('Y-m-d', strtotime($val['created_date']))) {

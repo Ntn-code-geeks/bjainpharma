@@ -394,6 +394,10 @@ $('#searchid_sidebar').click(function(){
     ?>
         
       <li class="header">Admin Panel Control</li>
+
+		<li><a href="<?= base_url();?>reports/reports/users_da"><i class="fa fa-circle-o
+	text-blue"></i><span>Users DA</span></a></li>
+
       <li><a href="<?= base_url();?>admin_control/user_permission"><i class="fa fa-circle-o text-red"></i><span>Users Permission</span></a></li>
       <li><a href="<?= base_url();?>admin_control/sample_master"><i class="fa fa-circle-o text-yellow"></i><span>Sample Master</span></a></li>
       <li><a href="<?= base_url();?>admin_control/report"><i class="fa fa-circle-o text-green"></i><span>Users Report</span></a></li>
@@ -415,6 +419,7 @@ $('#searchid_sidebar').click(function(){
       <li><a href="<?= base_url();?>product/product/"><i class="fa fa-circle-o text-red"></i><span>Product</span></a></li>
       
       <li><a href="<?= base_url();?>admin_control/report/expense_chart"><i class="fa fa-circle-o text-red"></i><span>Expense Chart</span></a></li>
+
 
     <?php } ?>
    

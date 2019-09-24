@@ -2634,7 +2634,6 @@ function getDatesFromRange($start, $end, $format = 'Y-m-d') {
 	return $array;
 }
 
-
 function get_gazetted_holiday(){
 	$ci = &get_instance();
 	$arr='date_holiday,name_holiday';
@@ -2669,6 +2668,20 @@ function get_userwise_da($id){
 	$query = $ci->db->get();
 	if($ci->db->affected_rows()){
 		$var=$query->row();
+		return $var;
+	}else{
+		return false;
+	}
+}
+
+function get_users_da(){
+	$ci = &get_instance();
+	$arr = "*";
+	$ci->db->select($arr);
+	$ci->db->from("userwise_da");
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var=$query->result_array();
 		return $var;
 	}else{
 		return false;

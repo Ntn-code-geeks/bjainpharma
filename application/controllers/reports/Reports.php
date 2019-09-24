@@ -1206,72 +1206,71 @@ public function generate_attendance_report($userid,$start,$end)
                }
                
                // my ta da report
-               public function my_ta_da_report(){
+	public function my_ta_da_report(){
 
-                  $data['title'] = "TA/DA List";
-                  $data['page_name']="TA/DA List";
-                  $data['user_tada_report'] = $this->report->tada_report_list();
+	$data['title'] = "TA/DA List";
+	$data['page_name']="TA/DA List";
+	$data['user_tada_report'] = $this->report->tada_report_list();
 
-                  $this->load->get_view('report/myta_da_details_view',$data);
+	$this->load->get_view('report/myta_da_details_view',$data);
 
-             //        pr($data['user_tada_report']); die;
-               } 
-               
-                 public function my_ta_da_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+	//        pr($data['user_tada_report']); die;
+	}
 
-                $tada_id = urisafedecode($id);
-                 $data['title'] = "TA/DA";
-                 $data['page_name']="TA/DA";
+	public function my_ta_da_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
 
-                     $data['month_year']=urisafedecode($month_year);
-                     $data['name']=urisafedecode($name);
-                     $data['grand_total']=urisafedecode($grant_total);
+	$tada_id = urisafedecode($id);
+	$data['title'] = "TA/DA";
+	$data['page_name']="TA/DA";
 
-
-                     $data['manager_total_amount'] = urisafedecode($manager_approved);
-
-//                 if(!empty($admin_approved)){
-                     $data['admin_total_amount'] = urisafedecode($admin_approved);
-//                 }
-                     $data['tada_report'] =$this->report->genrated_tada_report($tada_id);
-
-         //             pr($data['tada_report'] ); die;
-//                      $data['action'] ="reports/reports/approved_by_admin/$id";
-
-                      $this->load->get_view('report/myta_da_detail_view',$data);
+	$data['month_year']=urisafedecode($month_year);
+	$data['name']=urisafedecode($name);
+	$data['grand_total']=urisafedecode($grant_total);
 
 
-           }
-               
-               
-         public function ta_da_admin_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+	$data['manager_total_amount'] = urisafedecode($manager_approved);
 
-                $tada_id = urisafedecode($id);
-                 $data['title'] = "TA/DA";
-                 $data['page_name']="TA/DA";
-                 $data['month_year']=urisafedecode($month_year);
-                 $data['name']=urisafedecode($name);
+	//                 if(!empty($admin_approved)){
+	$data['admin_total_amount'] = urisafedecode($admin_approved);
+	//                 }
+	$data['tada_report'] =$this->report->genrated_tada_report($tada_id);
 
-                 $data['manager_total_amount'] = urisafedecode($manager_approved);
-                 $data['grand_total']=urisafedecode($grant_total);
+	//             pr($data['tada_report'] ); die;
+	//                      $data['action'] ="reports/reports/approved_by_admin/$id";
 
-                 if(!empty($admin_approved)){
-                     $data['admin_total_amount'] = urisafedecode($admin_approved);
-                 }
+	$this->load->get_view('report/myta_da_detail_view',$data);
 
 
-            // pr($data); die;
-             $data['tada_report'] =$this->report->genrated_tada_report($tada_id);
-             //   pr($data); die;
-         //             pr($data['tada_report'] ); die;
-                      $data['action'] ="reports/reports/approved_by_admin/$id";
+	}
 
-                      $this->load->get_view('report/ta_da_admin_detail_view',$data);
+	public function ta_da_admin_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+
+	$tada_id = urisafedecode($id);
+	$data['title'] = "TA/DA";
+	$data['page_name']="TA/DA";
+	$data['month_year']=urisafedecode($month_year);
+	$data['name']=urisafedecode($name);
+
+	$data['manager_total_amount'] = urisafedecode($manager_approved);
+	$data['grand_total']=urisafedecode($grant_total);
+
+	if(!empty($admin_approved)){
+	$data['admin_total_amount'] = urisafedecode($admin_approved);
+	}
 
 
-           }
-  
-      public function approved_by_admin($id){
+	// pr($data); die;
+	$data['tada_report'] =$this->report->genrated_tada_report($tada_id);
+	//   pr($data); die;
+	//             pr($data['tada_report'] ); die;
+	$data['action'] ="reports/reports/approved_by_admin/$id";
+
+	$this->load->get_view('report/ta_da_admin_detail_view',$data);
+
+
+	}
+
+    public function approved_by_admin($id){
        $tada_id = urisafedecode($id);
       $post = $this->input->post();
       
@@ -1296,8 +1295,118 @@ public function generate_attendance_report($userid,$start,$end)
       
   }
   
-  
-  
+
+  	/**NITIN KUMAR
+  	 * Dynamic User's DA
+  	 * */
+	public function users_da(){
+	$data['title'] = "User's DA List";
+	$data['page_name']="User's DA List";
+	$data['users_da']=get_users_da();
+	$this->load->get_view('users_da/list_users_da',$data);
+	}
+
+	public function edit_user_da($id=''){
+	  if($id!=''){
+		  $data['title']="Edit DA";
+		  $data['page_name'] = "Edit DA";
+		  $data['action'] = "reports/reports/save_user_da/$id";
+		  $cm_id= urisafedecode($id);
+		  $data['user_da'] = get_userwise_da($cm_id);
+		  $this->load->get_view('users_da/user_da_edit_view',$data);
+	  }
+	}
+
+	public function add_user_da(){
+	  $data['title'] = "Add User's DA";
+	  $data['page_name']="Add User's DA";
+	  $data['users']=get_all_paharma_user();
+	  $data['action']="reports/reports/save_new_user_da";
+	  $this->load->get_view('users_da/add_users_da',$data);
+	}
+
+	public function get_designation_name(){
+		$post=$this->input->post();
+		$data=get_user_deatils($post['desg_id']);
+		$desg_name=get_designation_name($data->user_designation_id);
+		echo $desg_name->designation_name.'-'.$data->user_designation_id;
+	}
+
+	public function save_new_user_da(){
+
+	$this->load->library('form_validation');
+	  $this->form_validation->set_rules('hq_rates', 'Headquarter rates', 'required');
+	  $this->form_validation->set_rules('ex_hq_rates', 'Ex Headquarter rates', 'required');
+	  $this->form_validation->set_rules('out_st_rates', 'Out station rates', 'required');
+	  $this->form_validation->set_rules('trans_rate', 'Transit rates', 'required');
+
+	  if($this->form_validation->run() == TRUE){
+		  $pos=$this->input->post();
+		  $success = $this->report->add_users_da($pos);
+		  if($success=1){  // on sucess
+			  set_flash('<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4><i class="icon fa fa-check"></i> Success!</h4>
+		   User\'s DA Created Successfully.
+		  </div>');
+			  $this->users_da();
+		  }
+		  else{ // on unsuccess
+			  set_flash('<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+		   User\'s DA does not Save. Plaese Try again !!
+		  </div>');
+			  $this->users_da();
+		  }
+
+	  }
+
+
+
+	}
+
+	public function save_user_da($id=''){
+
+	  $this->load->library('form_validation');
+	  $this->form_validation->set_rules('hq_rates', 'Headquarter rates', 'required');
+	  $this->form_validation->set_rules('ex_hq_rates', 'Ex Headquarter rates', 'required');
+	  $this->form_validation->set_rules('out_st_rates', 'Out station rates', 'required');
+	  $this->form_validation->set_rules('trans_rate', 'Transit rates', 'required');
+
+	  if($this->form_validation->run() == TRUE){
+		  $sm_id= urisafedecode($id);
+		  $post_data = $this->input->post();
+
+		  $success = $this->report->update_users_da($post_data,$sm_id);
+		  if($success=1){  // on sucess
+			set_flash('<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4><i class="icon fa fa-check"></i> Success!</h4>
+		   User\'s DA Updated Successfully.
+		  </div>');
+			  $this->users_da();
+		  }
+		  else{ // on unsuccess
+			set_flash('<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+		   User\'s DA does not Save. Plaese Try again !!
+		  </div>');
+			  $this->users_da();
+		  }
+
+	  }
+	  else{  // for false validation
+		  if($id!=''){  // go to edit if id have
+			  $this->edit_user_da($id);
+		  }else{
+			  $this->users_da();
+		  }
+
+	  }
+
+	}
         
 }
 ?>

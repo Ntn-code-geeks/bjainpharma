@@ -151,6 +151,90 @@ class Product extends Parent_admin_controller {
 		}
     }
 
+
+/*Import Product via CSV*/
+    public function import_product(){
+		if(is_admin()){
+			$data['title']="Import Product";
+			$data['page_name'] = "Import Product";
+			$data['action'] = "product/product/save_bulk_product";
+			$this->load->get_view('product/product_import_view',$data);
+		}
+		else{
+			redirect('user');
+		}
+	}
+
+    public function save_bulk_product(){
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('user', 'User', 'required');
+		if($this->form_validation->run() == FALSE){
+			return $this->import_doctor();
+
+		}
+		else{
+			$mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
+			if(in_array($_FILES['file']['type'],$mimes)){
+				$filename=$_FILES["file"]["tmp_name"];
+				if($_FILES["file"]["size"] > 0)
+				{
+					$file = fopen($filename, "r");
+					$row=1;
+					$count=0;
+					while (($importdata = fgetcsv($file, 1000000, ",")) !== FALSE)
+					{
+						if($row == 1){ $row++; continue; }
+						if($importdata[5] != ''){
+							$id=$this->doctor->doc_last_id()+1;
+							$doctor_id='doc_'.$id;
+							$data = array(
+//								'doctor_id' =>$doctor_id,
+//								'doc_name' => $importdata[0],
+//								'doc_email' => $importdata[6],
+//								'doc_phone' => $importdata[5],
+//								'doc_address' => $importdata[2],
+//								'city_id' => $importdata[3],
+//								'state_id' => $importdata[4],
+//								'doc_gender' => $importdata[1],
+//								'city_pincode'=>$importdata[7],
+//								'sp_code'=>$importdata[8],
+//								'crm_user_id' => $this->input->post('user'),
+//								'last_update' => savedate(),
+//								'doc_status' =>1,
+//								'blocked' =>0,
+							);
+							$insert = $this->doctor->doc_import_save($data);
+							if(!$insert)
+							{
+								$count=$count+1;
+							}
+						}
+					}
+					fclose($file);
+					set_flash('<div class="alert alert-success alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-check"></i> Success!</h4>
+					Doctor are imported successfully.'.$count.' Duplicate Mobile Found. </div>');
+					redirect('doctors/doctor/import_doctor');
+				}else{
+					set_flash('<div class="alert alert-danger alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+					Empty File !!
+					</div>');
+					redirect('doctors/doctor/import_doctor');
+				}
+			} else {
+				set_flash('<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+				Sorry file not allowed. Try again !!
+				</div>');
+				redirect('doctors/doctor/import_doctor');
+			}
+		}
+	}
+
 }
 
 ?>
