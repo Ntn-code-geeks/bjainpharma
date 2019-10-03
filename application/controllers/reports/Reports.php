@@ -1041,10 +1041,10 @@ public function generate_attendance_report($userid,$start,$end)
 
 
  public function generate_tada_report(){
-       $data['title'] = "TA DA Report";
+        $data['title'] = "TA DA Report";
         $data['page_name'] = "TA DA Report";
 //        if(is_admin()){
-          $request = $this->input->post();
+        $request = $this->input->post();
 
           
         if($this->report->first_time_genrate($request['report_date'], logged_user_data())){
@@ -1064,6 +1064,18 @@ public function generate_attendance_report($userid,$start,$end)
           if($this->form_validation->run() == TRUE){
              $data['report_date'] = $request['report_date'];
              $data['tada_report'] =$this->report->get_tada_report(logged_user_data(),$start,$end);
+             $gazetted_holidays=get_gazetted_holiday();
+             $gaz_holid=json_decode($gazetted_holidays);
+             $year_d=date('Y');
+			 $date_gz_list=array();
+             $gz_list=array();
+             foreach ($gaz_holid as $gz){
+             	 $date_gz=$year_d.'-'.$gz->date_holiday;
+				 $date_gz_list[]=$date_gz;
+             	 $gz_list[]= $date_gz .';'. $gz->name_holiday ;
+			 }
+             $data['date_gz_holiday']=$date_gz_list;
+             $data['gazetted_holidays']=$gz_list;
 
              $data['action'] ="reports/reports/send_for_approval";
 			 $this->load->get_view('report/ta_da_report_view',$data);
@@ -1115,7 +1127,7 @@ public function generate_attendance_report($userid,$start,$end)
          $data['title'] = "TA/DA List";
          $data['page_name']="TA/DA List";
          $data['user_tada_report'] = $this->report->tada_report_list();
-      
+
          $this->load->get_view('report/ta_da_details_view',$data);
          
 //        pr($data['user_tada_report']); die;
@@ -1144,7 +1156,7 @@ public function generate_attendance_report($userid,$start,$end)
       
 //   }
 
- public function ta_da_manager_view($id,$name='',$month_year='',$grant_total='',$is_approved=''){
+  	public function ta_da_manager_view($id,$name='',$month_year='',$grant_total='',$is_approved=''){
       
        $tada_id = urisafedecode($id);
         $data['title'] = "TA/DA";
@@ -1170,7 +1182,7 @@ public function generate_attendance_report($userid,$start,$end)
     public function send_for_admin($id){
        $tada_id = urisafedecode($id);
       $post = $this->input->post();
-
+//pr($post); die;
       $success =$this->report->save_tada_approved_report_of_manager($post,$tada_id);
       
       
@@ -1194,7 +1206,7 @@ public function generate_attendance_report($userid,$start,$end)
   
   
   
-            public function ta_da_aprroved_report(){
+    public function ta_da_aprroved_report(){
 
                   $data['title'] = "TA/DA List";
                   $data['page_name']="TA/DA List";
@@ -1305,7 +1317,6 @@ public function generate_attendance_report($userid,$start,$end)
 	$data['users_da']=get_users_da();
 	$this->load->get_view('users_da/list_users_da',$data);
 	}
-
 	public function edit_user_da($id=''){
 	  if($id!=''){
 		  $data['title']="Edit DA";
@@ -1316,7 +1327,6 @@ public function generate_attendance_report($userid,$start,$end)
 		  $this->load->get_view('users_da/user_da_edit_view',$data);
 	  }
 	}
-
 	public function add_user_da(){
 	  $data['title'] = "Add User's DA";
 	  $data['page_name']="Add User's DA";
@@ -1324,14 +1334,12 @@ public function generate_attendance_report($userid,$start,$end)
 	  $data['action']="reports/reports/save_new_user_da";
 	  $this->load->get_view('users_da/add_users_da',$data);
 	}
-
 	public function get_designation_name(){
 		$post=$this->input->post();
 		$data=get_user_deatils($post['desg_id']);
 		$desg_name=get_designation_name($data->user_designation_id);
 		echo $desg_name->designation_name.'-'.$data->user_designation_id;
 	}
-
 	public function save_new_user_da(){
 
 	$this->load->library('form_validation');
@@ -1365,7 +1373,6 @@ public function generate_attendance_report($userid,$start,$end)
 
 
 	}
-
 	public function save_user_da($id=''){
 
 	  $this->load->library('form_validation');

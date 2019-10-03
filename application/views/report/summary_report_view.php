@@ -63,148 +63,308 @@
 					<?php
 					$userList=json_decode($userdata);
 
+					/*Blocked User's In Report*/
+					/*
+					 * nitin => 23,
+					 * nishant => 29,
+					 * kuldeep => 32,
+					 * admin => 28,
+					 * twinkle => 205,
+					 * naresh => 209,
+					 * ajay mahajan => 190
+					 * */
+					$blockArr=array('23','28','205','209','29','32','190');
+
                     if($w_user_id==''){
                         /*Overall Report*/
-                      $timeline = $period;
+                       $timeline = $period;
                        if($timeline==''){
+
 						   $data = file_get_contents ("ReportJSON/weekly.json");
 						   $json = json_decode($data, true);
-						   foreach($json as $weekly_data){ ?>
-							   <tr>
-								   <td><?= $weekly_data['username'] ?></td>
-								   <td><?=$weekly_data['bossname'] ?></td>
-								   <td><?=$weekly_data['city_name'] ?></td>
-								   <td><?=$weekly_data['designation_name'] ?></td>
-								   <td><?=$weekly_data['total_doctors'] ?></td>
-								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
-								   <td><?=$weekly_data['team_members'] ?></td>
-								   <?php if(!empty($weekly_data['total_secondary'])){ ?>
-									   <td><?=$weekly_data['total_secondary'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_productive_call'])){ ?>
-									   <td><?=$weekly_data['total_productive_call'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders'])){ ?>
-									   <td><?=$weekly_data['total_orders'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
-									   <td><?=$weekly_data['total_orders_not_met'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-							   </tr>
-						   <?php }
+						   foreach($json as $weekly_data) {
+						   	if(is_admin()){
+								if (!in_array($weekly_data['user_id'], $blockArr)) { ?>
+									<tr>
+										<td><?= $weekly_data['username'] ?></td>
+										<td><?= $weekly_data['bossname'] ?></td>
+										<td><?= $weekly_data['city_name'] ?></td>
+										<td><?= $weekly_data['designation_name'] ?></td>
+										<td><?= $weekly_data['total_doctors'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['team_members'] ?></td>
+										<?php if (!empty($weekly_data['total_secondary'])) { ?>
+											<td><?= $weekly_data['total_secondary']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											<td><?= $weekly_data['total_productive_call']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders'])) { ?>
+											<td><?= $weekly_data['total_orders']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											<td><?= $weekly_data['total_orders_not_met']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+									</tr>
+								<?php }
+							}else{
+								if (in_array($weekly_data['user_id'], $childs_users)) { ?>
+									<tr>
+										<td><?= $weekly_data['username'] ?></td>
+										<td><?= $weekly_data['bossname'] ?></td>
+										<td><?= $weekly_data['city_name'] ?></td>
+										<td><?= $weekly_data['designation_name'] ?></td>
+										<td><?= $weekly_data['total_doctors'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['team_members'] ?></td>
+										<?php if (!empty($weekly_data['total_secondary'])) { ?>
+											<td><?= $weekly_data['total_secondary']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											<td><?= $weekly_data['total_productive_call']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders'])) { ?>
+											<td><?= $weekly_data['total_orders']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											<td><?= $weekly_data['total_orders_not_met']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+									</tr>
+								<?php }
+							}
+
+						   }
 					   }
                        if($timeline=='month'){
 						   $data = file_get_contents ("ReportJSON/monthly.json");
 						   $json = json_decode($data, true);
-						   foreach($json as $weekly_data){	 ?>
-							   <tr>
-								   <td><?= $weekly_data['username'] ?></td>
-								   <td><?=$weekly_data['bossname'] ?></td>
-								   <td><?=$weekly_data['city_name'] ?></td>
-								   <td><?=$weekly_data['designation_name'] ?></td>
-								   <td><?=$weekly_data['total_doctors'] ?></td>
-								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
-								   <td><?=$weekly_data['team_members'] ?></td>
-								   <?php if(!empty($weekly_data['total_secondary'])){ ?>
-									   <td><?=$weekly_data['total_secondary'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_productive_call'])){ ?>
-									   <td><?=$weekly_data['total_productive_call'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders'])){ ?>
-									   <td><?=$weekly_data['total_orders'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
-									   <td><?=$weekly_data['total_orders_not_met'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-							   </tr>
-						   <?php }
+						   foreach($json as $weekly_data) {
+								if(is_admin()){
+								if (!in_array($weekly_data['user_id'], $blockArr)) { ?>
+									<tr>
+										<td><?= $weekly_data['username'] ?></td>
+										<td><?= $weekly_data['bossname'] ?></td>
+										<td><?= $weekly_data['city_name'] ?></td>
+										<td><?= $weekly_data['designation_name'] ?></td>
+										<td><?= $weekly_data['total_doctors'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['team_members'] ?></td>
+										<?php if (!empty($weekly_data['total_secondary'])) { ?>
+											<td><?= $weekly_data['total_secondary']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											<td><?= $weekly_data['total_productive_call']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders'])) { ?>
+											<td><?= $weekly_data['total_orders']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											<td><?= $weekly_data['total_orders_not_met']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+									</tr>
+								<?php }
+								}else{
+								if (in_array($weekly_data['user_id'], $childs_users)) { ?>
+									<tr>
+										<td><?= $weekly_data['username'] ?></td>
+										<td><?= $weekly_data['bossname'] ?></td>
+										<td><?= $weekly_data['city_name'] ?></td>
+										<td><?= $weekly_data['designation_name'] ?></td>
+										<td><?= $weekly_data['total_doctors'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['team_members'] ?></td>
+										<?php if (!empty($weekly_data['total_secondary'])) { ?>
+											<td><?= $weekly_data['total_secondary']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											<td><?= $weekly_data['total_productive_call']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders'])) { ?>
+											<td><?= $weekly_data['total_orders']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											<td><?= $weekly_data['total_orders_not_met']; ?></td>
+										<?php } else { ?>
+											<td>0</td>
+										<?php } ?>
+									</tr>
+								<?php }
+								}
+						   }
 					   }
                        if($timeline=='quarter'){
 						   $data = file_get_contents ("ReportJSON/quarterly.json");
 						   $json = json_decode($data, true);
-						   foreach($json as $weekly_data){	 ?>
-							   <tr>
-								   <td><?= $weekly_data['username'] ?></td>
-								   <td><?=$weekly_data['bossname'] ?></td>
-								   <td><?=$weekly_data['city_name'] ?></td>
-								   <td><?=$weekly_data['designation_name'] ?></td>
-								   <td><?=$weekly_data['total_doctors'] ?></td>
-								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
-								   <td><?=$weekly_data['team_members'] ?></td>
-								   <?php if(!empty($weekly_data['total_secondary'])){ ?>
-									   <td><?=$weekly_data['total_secondary'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_productive_call'])){ ?>
-									   <td><?=$weekly_data['total_productive_call'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders'])){ ?>
-									   <td><?=$weekly_data['total_orders'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
-									   <td><?=$weekly_data['total_orders_not_met'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-							   </tr>
-						   <?php }
+						   foreach($json as $weekly_data) {
+							   if(is_admin()){
+								   if (!in_array($weekly_data['user_id'], $blockArr)) { ?>
+									   <tr>
+										   <td><?= $weekly_data['username'] ?></td>
+										   <td><?= $weekly_data['bossname'] ?></td>
+										   <td><?= $weekly_data['city_name'] ?></td>
+										   <td><?= $weekly_data['designation_name'] ?></td>
+										   <td><?= $weekly_data['total_doctors'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['team_members'] ?></td>
+										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
+											   <td><?= $weekly_data['total_secondary']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											   <td><?= $weekly_data['total_productive_call']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders'])) { ?>
+											   <td><?= $weekly_data['total_orders']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+									   </tr>
+								   <?php }
+							   }else{
+								   if (in_array($weekly_data['user_id'], $childs_users)) { ?>
+									   <tr>
+										   <td><?= $weekly_data['username'] ?></td>
+										   <td><?= $weekly_data['bossname'] ?></td>
+										   <td><?= $weekly_data['city_name'] ?></td>
+										   <td><?= $weekly_data['designation_name'] ?></td>
+										   <td><?= $weekly_data['total_doctors'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['team_members'] ?></td>
+										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
+											   <td><?= $weekly_data['total_secondary']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											   <td><?= $weekly_data['total_productive_call']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders'])) { ?>
+											   <td><?= $weekly_data['total_orders']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+									   </tr>
+								   <?php }
+							   }
+
+						   }
 					   }
                        if($timeline=='year'){
 						   $data = file_get_contents ("ReportJSON/yearly.json");
 						   $json = json_decode($data, true);
-						   foreach($json as $weekly_data){	 ?>
-							   <tr>
-								   <td><?= $weekly_data['username'] ?></td>
-								   <td><?=$weekly_data['bossname'] ?></td>
-								   <td><?=$weekly_data['city_name'] ?></td>
-								   <td><?=$weekly_data['designation_name'] ?></td>
-								   <td><?=$weekly_data['total_doctors'] ?></td>
-								   <td><?=$weekly_data['total_doc_interaction'] ?></td>
-								   <td><?=$weekly_data['team_members'] ?></td>
-								   <?php if(!empty($weekly_data['total_secondary'])){ ?>
-									   <td><?=$weekly_data['total_secondary'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_productive_call'])){ ?>
-									   <td><?=$weekly_data['total_productive_call'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders'])){ ?>
-									   <td><?=$weekly_data['total_orders'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-								   <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
-									   <td><?=$weekly_data['total_orders_not_met'];?></td>
-								   <?php }else{ ?>
-									   <td>0</td>
-								   <?php } ?>
-							   </tr>
-						   <?php }
+						   foreach($json as $weekly_data) {
+							   if(is_admin()){
+								   if (!in_array($weekly_data['user_id'], $blockArr)) { ?>
+									   <tr>
+										   <td><?= $weekly_data['username'] ?></td>
+										   <td><?= $weekly_data['bossname'] ?></td>
+										   <td><?= $weekly_data['city_name'] ?></td>
+										   <td><?= $weekly_data['designation_name'] ?></td>
+										   <td><?= $weekly_data['total_doctors'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['team_members'] ?></td>
+										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
+											   <td><?= $weekly_data['total_secondary']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											   <td><?= $weekly_data['total_productive_call']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders'])) { ?>
+											   <td><?= $weekly_data['total_orders']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+									   </tr>
+								   <?php }
+							   }else{
+								   if (in_array($weekly_data['user_id'], $childs_users)) { ?>
+									   <tr>
+										   <td><?= $weekly_data['username'] ?></td>
+										   <td><?= $weekly_data['bossname'] ?></td>
+										   <td><?= $weekly_data['city_name'] ?></td>
+										   <td><?= $weekly_data['designation_name'] ?></td>
+										   <td><?= $weekly_data['total_doctors'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['team_members'] ?></td>
+										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
+											   <td><?= $weekly_data['total_secondary']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+											   <td><?= $weekly_data['total_productive_call']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders'])) { ?>
+											   <td><?= $weekly_data['total_orders']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
+										   <?php } else { ?>
+											   <td>0</td>
+										   <?php } ?>
+									   </tr>
+								   <?php }
+							   }
+
+						   }
 					   }
 
                     }

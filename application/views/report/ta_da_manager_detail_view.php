@@ -1,16 +1,5 @@
 <?php
 
-/* 
-
- * To change this license header, choose License Headers in Project Properties.
-
- * To change this template file, choose Tools | Templates
-
- * and open the template in the editor.
-
- */
-
-
 $designation_id = get_user_deatils(logged_user_data())->user_designation_id;
 $tada_data = json_decode($tada_report);
 //pr($admin_total_amount); die;
@@ -18,15 +7,81 @@ $tada_data = json_decode($tada_report);
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
+
     @media print {
-        * {
-            display: none;
-        }
         #printableTable {
             display: block;
         }
     }
 </style>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var total = 0;
+        $('.other_amt').each(function() {
+            var other_amount=$(this).val();
+            if(other_amount > 0){
+                total += Number($(this).val());
+			}
+
+        });
+        $('#usr_total').append(parseFloat(total));
+        var sum = 0;
+        $(".mng_amt").each(function(){
+            sum += +$(this).val();
+        });
+        console.log(sum);
+		if(sum > 0){
+             $(".total").val(sum);
+            var grnd_total=$('#gt_amt').text();
+            var overalltot=parseFloat(grnd_total)+parseFloat(total);
+            $('#over_amt').val(parseFloat(overalltot));
+		}else if(sum == '0'){
+            var grnd_total=$('#gt_amt').text();
+            var overalltot=parseFloat(grnd_total)+parseFloat(total);
+            $('#over_amt').val(parseFloat(overalltot));
+		}
+		else{
+            var grnd_total=$('#gt_amt').text();
+            var overalltot=parseFloat(grnd_total)+parseFloat(total);
+            $('#over_amt').val(parseFloat(overalltot));
+		}
+
+
+		var sum_gtr=$('#sumgt').text();
+		var spc= " + ";
+		if(total > 0){
+            var finall_sum=sum_gtr +spc+  parseFloat(total);
+            $('#consolidate').append(finall_sum);
+        }else{
+            var finall_sum=sum_gtr;
+            $('#consolidate').append(finall_sum);
+		}
+
+    });
+
+
+    $(document).on("change", ".mng_amt", function() {
+        var sum = 0;
+        $(".mng_amt").each(function(){
+            sum += +$(this).val();
+        });
+        $(".total").val(sum);
+        var totalval=$(".totval").val();
+        var user_imp=$('#usr_total').text();
+        var grandtotal= parseFloat(totalval)+parseFloat(user_imp)+parseFloat(sum);
+        $("#over_amt").val(grandtotal);
+        // console.log(user_imp);
+    });
+
+    $(document).on("click", "#submit_manager", function() {
+        var amt_submit=$('#over_amt').val();
+        $('#final_total').val(amt_submit);
+    });
+
+
+
+</script>
 
 
 <div class="content-wrapper">
@@ -43,19 +98,19 @@ $tada_data = json_decode($tada_report);
         <div class="box-body" id="printableTable">
              <span style="text-align: center !important;">
 
-                     <?php
-                     $uID=get_user_id($name);
-                     $usrID=$uID->user_designation_id;
-                     $userDesg=get_designation_name($usrID);
-                     ?>
-                    <p><strong><?=$name.' ('.$userDesg->designation_name.')' ?></strong></p>
-                    <?php
-                    $year=explode('-',$month_year);
-                    $ExDate='1-'.$month_year;
-                    @$monthReport= date("F", strtotime($ExDate));
-                    ?>
-                    <p><strong>Report Month: </strong><?= $monthReport.'-'.$year[1];?></p>
-                </span>
+			 <?php
+			 $uID=get_user_id($name);
+			 $usrID=$uID->user_designation_id;
+			 $userDesg=get_designation_name($usrID);
+			 ?>
+			<p><strong><?=$name.' ('.$userDesg->designation_name.')' ?></strong></p>
+			<?php
+			$year=explode('-',$month_year);
+			$ExDate='1-'.$month_year;
+			@$monthReport= date("F", strtotime($ExDate));
+			?>
+			<p><strong>Report Month: </strong><?= $monthReport.'-'.$year[1];?></p>
+		    </span>
           <?php   echo form_open_multipart($action);   ?>
                 <table id="example2" class="table table-bordered table-striped">
                 <thead>
@@ -71,7 +126,7 @@ $tada_data = json_decode($tada_report);
                     <th>Any other Charge Name</th>
                     <th>Any other Charge Amount</th>
                     <th>Manager Total Amount </th>
-                    <th>Admin Total Amount </th>
+<!--                    <th>Admin Total Amount </th>-->
                   </tr>
                </thead>
                 <tbody>
@@ -95,17 +150,14 @@ $tada_data = json_decode($tada_report);
                       $day = date('D', $i);             //Day
                       $listDate = array();
                       foreach ($tada_data as $k_tada=>$val_tada){
-
                           $listDate[]= $val_tada->ineraction_date;
                           $huy=array_count_values($listDate);
                           $datval=$huy[$val_tada->ineraction_date];
-
                           if($datval>=2){
                               $totalrow = $val_tada->ta + 0 + 0;
                           }else{
                               $totalrow = $val_tada->ta + $val_tada->da + $val_tada->postage;
                           }
-
 
                           if(($val_tada->ineraction_date==$list) && ($day!='Sun')){
                               $gtrow = $gtrow+$val_tada->total_amount;
@@ -131,7 +183,6 @@ $tada_data = json_decode($tada_report);
                                   $val_tada->city_worked;?>" style="width: 125px; padding: 2px; ">
 
                               </td>
-
                               <td>
                                   <input readonly class="form-control pull-right" value="<?php echo
                                   $val_tada->distance;?>" style="width: 52px;     padding: 2px;">
@@ -140,7 +191,6 @@ $tada_data = json_decode($tada_report);
                                   <input readonly class="form-control pull-right" value="<?php echo $val_tada->ta;
                                   ?>" style="width: 52px;     padding: 2px;">
                               </td>
-
 
                               <?php if($datval>=2){  ?>
                                   <td colspan="2">
@@ -153,20 +203,16 @@ $tada_data = json_decode($tada_report);
                                              name="totalrow[]"
                                              id="totalrow"
                                              value="<?= $totalrow; ?>" style="width: 62px; padding: 2px;">
-
                                   </td>
-
                               <?php } else{ ?>
                               <td>
                                   <input readonly class="form-control pull-right" value="<?php echo $val_tada->da;
                                   ?>" style="width: 52px;     padding: 2px;">
                               </td>
-
                               <td>
                                   <input readonly class="form-control pull-right" value="<?=$val_tada->postage; ?>" style="width: 52px; padding: 2px;">
 
                               </td>
-
                               <td>
                                   <input readonly class="form-control pull-right"
                                          value="<?=$val_tada->total_amount; ?>" style="width: 52px;     padding: 2px;">
@@ -177,28 +223,29 @@ $tada_data = json_decode($tada_report);
                               <td>
                                   <input readonly class="form-control pull-right" value="<?=$val_tada->aoc_name; ?>">
                               </td>
-
                               <td>
-                                  <input readonly class="form-control pull-right" value="<?=$val_tada->aoc_amount;
-                                  ?>" style="width: 52px;     padding: 2px;">
+							  <?php
+							  if($val_tada->aoc_amount > 0){ ?>
+								  <input readonly class="form-control pull-right other_amt"
+										 value="<?=$val_tada->aoc_amount;
+										 ?>" style="padding: 2px; text-align: center;">
+							  <?php }else{ ?>
+								  <input readonly class="form-control pull-right other_amt"
+										 value="" style="padding: 2px; text-align: center;">
+								  <?php } ?>
                               </td>
 
 
                               <td>
-                                  <input  class="form-control pull-right"
-                                          value="<?=$val_tada->manager_remark; ?>" style="width: 52px;     padding: 2px;">
-
+								  <?php if($val_tada->manager_remark){  ?>
+									  <input readonly class="form-control mng_amt" name="manage_amt[]"
+											 value="<?=$val_tada->manager_remark; ?>" style="padding: 2px;  text-align: center;">
+								  <?php }else{ ?>
+ 								  <input type="number" class="form-control mng_amt" name="manage_amt[]"
+										 value="" style="padding: 2px;  text-align: center;">
+								  <?php } ?>
                               </td>
 
-                              <td>
-                                  <?php if(isset($admin_total_amount) && !empty($admin_total_amount)){ ?>
-                                      <input readonly class="form-control pull-right"
-                                             value="<?=$val_tada->admin_remark; ?>" style="width: 52px;     padding: 2px;">
-                                  <?php  }else{ ?>
-                                      <input type="number" name="admin_remark[]" value="" style="width: 52px;     padding: 2px;">
-                                  <?php } ?>
-
-                              </td>
 
                           </tr>
                           <?php    }
@@ -211,16 +258,15 @@ $tada_data = json_decode($tada_report);
                                   <input readonly class="form-control pull-right" type="text" name=""
                                          id="doi" value="<?= $listshow ?>" style="width:
                                    100px;">
-
                               </td>
-
                               <?php if($day=='Sun'){  ?>
-                                  <td colspan="9" style=" opacity: 0.50;">
+                                  <td colspan="10" style=" opacity: 0.50;">
                                       <input readonly class="form-control pull-right" type="text" name="source_ci" id="source_city" value="Sunday" style="color:red; text-align: center; width:100%; padding: 2px;
                                             ;">
                                   </td>
-                              <?php   }else{ ?>
-                                  <td colspan="9" style=" opacity: 0.50;">
+                              <?php   }
+                              else{ ?>
+                                  <td colspan="10" style=" opacity: 0.50;">
                                       <input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city" value="On Leave / No Interaction" style="color: blue; text-align: center;
                                        width:100%;
                                        padding:
@@ -236,7 +282,7 @@ $tada_data = json_decode($tada_report);
                                   <input readonly class="form-control pull-right" type="text" name="" id="doi" value="<?= $listshow ?>" style="width:
                                    100px;">
                               </td>
-                              <td colspan="9" style=" opacity: 0.50;">
+                              <td colspan="10" style=" opacity: 0.50;">
                                   <input readonly class="form-control pull-right" type="text" name="source_ci" id="source_city" value="Sunday" style="color:red; text-align: center; width:100%; padding: 2px;">
                               </td>
                           </tr>
@@ -247,46 +293,70 @@ $tada_data = json_decode($tada_report);
 
 
                  ?>
-                              <tr>
-                                  <td colspan="4"><strong> TOTAL</strong></td>
-                                  <td><strong><?=$gtta?></strong></td>
-                                  <td><strong><?=$gtda?></strong></td>
-                                  <td style="text-align: center;"><strong><?=$gtpostage?></strong></td>
-                                  <td colspan="3"><strong><?=$gtrow?></strong>
+				  <tr>
+					  <td colspan="4"><strong> TOTAL</strong></td>
+					  <td><strong><?=$gtta?></strong></td>
+					  <td><strong><?=$gtda?></strong></td>
+					  <td style="text-align: center;"><strong><?=$gtpostage?></strong></td>
+					  <td colspan="2"><strong><?=$gtrow?></strong>
+						  <input type="hidden" name="user" value=" <?= logged_user_data()?>">
+						  <input type="hidden" name="grant_total" value=" <?=$gtrow; ?>" >
+					  </td>
+					  <td style="text-align: center;">
 
-                                      <input type="hidden" name="user" value=" <?= logged_user_data()?>">
-                                      <input type="hidden" name="grant_total" value=" <?=$gtrow; ?>" >
-                                  </td>
-                                  <td> <?php if(isset($manager_total_amount) && !empty($manager_total_amount)){ ?>
-                                             <strong><?=$manager_total_amount; ?> </strong>
-                                            <?php  }else{ ?>
-                                      <input type="text" name="manager_grant_total" value="" required="" style="width:52px;    padding: 2px;">
-                                            <?php } ?>
-                                  </td>
-                                   <td> <?php if(isset($admin_total_amount) && !empty($admin_total_amount)){ ?>
-                                             <strong><?=$admin_total_amount; ?> </strong>
-                                            <?php  }else{ ?>
-                                      <input type="text" name="admin_grant_total" value="" required="" style="width:52px; padding: 2px;">
-                                            <?php } ?>
-                                  </td>
-                                  
-                              </tr>
+						 <strong id="usr_total"></strong>
+
+					  </td>
+					  <td>
+						  <input type="text" value="" readonly class="total" style="text-align: center; border: 0;
+						  font-weight: 700;">
+					  </td>
+
+
+				  </tr>
 
                   <tr>
-                      <?php
-                      $metro_Allwnce=$grand_total- $gtrow;
-                      if($metro_Allwnce == 1000){
-                      ?>
-                      <td><strong>GRAND TOTAL</strong></td>
-                      <td colspan="11"><strong style="float: right;"><?=$metro_Allwnce ?> + <?=$gtrow ?></strong></td>
-                      <tr>
-                          <td colspan="12">
-                              <strong style="float: right;"><?=$metro_Allwnce + $gtrow ?></strong></td>
-                      </tr>
+				  <?php
+				  $metro_Allwnce=$grand_total- $gtrow;
+				  $sumBT = $metro_Allwnce + $gtrow; ?>
+				  <input type="hidden" class="totval" style="display: none;" value="<?= $sumBT ?>">
+				 <?php
+
+				  if($metro_Allwnce == 1000){
+				  ?>
+				  <td><strong>GRAND TOTAL</strong></td>
+				  <td colspan="11">
+				  <strong id="sumgt" style="display: none;" ><?=$metro_Allwnce ?> + <?=$gtrow ?></strong>
+				  <strong id="consolidate" style="float: right;"></strong>
+				  </td>
+				  <tr>
+				  <td colspan="12">
+					  <strong id="gt_amt" style="display: none;"><?=$metro_Allwnce + $gtrow ?></strong>
+					  <input type="text" id="over_amt" readonly value="" style="float: right; text-align: right; border: 0px;  font-weight: 700;">
+					  <input type="hidden" id="final_total" name="overall_total" value="">
+				  </td>
+				  </tr>
                   <?php }
                   else{ ?>
                       <td><strong>GRAND TOTAL</strong></td>
-                      <td colspan="11"><strong style="float: right;"><?=$grand_total ?></strong></td>
+					  <strong id="gt_amt" style="display: none;"><?= $gtrow ?></strong>
+				  <?php
+				  if(isset($manager_total_amount) && !empty($manager_total_amount)){
+				  if($manager_total_amount > 0){ 	?>
+				  <td colspan="12">
+					  <input name="overall_total" type="text" id="over_amt" readonly value="<?=$manager_total_amount; ?>" style="float: right; text-align: right;  border:0px; font-weight: 700;">
+				  </td>
+				  <?php }else{ ?>
+					  <td colspan="12">
+						  <input name="overall_total" type="text" id="over_amt" readonly value="" style="float: right;
+						  text-align: right;  border:0px; font-weight: 700;">
+					  </td>
+				 <?php }
+				  } ?>
+					  <td colspan="12">
+						  <input name="overall_total" type="text" id="over_amt" readonly value="" style="float: right;
+						  text-align: right;  border:0px; font-weight: 700;">
+					  </td>
                   <?php }
                   ?>
                   </tr>
@@ -299,12 +369,12 @@ $tada_data = json_decode($tada_report);
               <div class="col-md-12">
                   <!--<div class="form-group">-->
                   <div class="box-footer">
-                      <?php  if(!isset($admin_total_amount)){ ?>
-      	           <button type="submit" class="btn btn-info pull-right">Save</button>
+                      <?php // if(!isset($admin_total_amount)){ ?>
+      	           <button type="submit" id="submit_manager" class="btn btn-info pull-right">Save</button>
                           <?php echo form_close();  ?>
-                          <button id="printReport" onclick="printDiv()" class="btn btn-primary hidden-print"><span class="glyphicon
-                   glyphicon-print" aria-hidden="true"></span> Print</button>
-                      <?php } ?>
+<!--			  <button id="printReport" onclick="printDiv()" class="btn btn-primary hidden-print"><span class="glyphicon-->
+<!--	   glyphicon-print" aria-hidden="true"></span> Print</button>-->
+                      <?php// } ?>
                   </div>
               </div>
           </div>
@@ -319,13 +389,14 @@ $tada_data = json_decode($tada_report);
 </div>
 
 <script type='text/javascript'>
-    function printDiv() {
+    // function printDiv() {
+    //     var divToPrint=document.getElementById('printableTable');
+    //     var newWin=window.open('','Print-Window','width=1000,height=800,top=100,left=100');
+    //     newWin.document.open();
+    //     newWin.document.write('<html><head><style>#in {display:none}</style><body '+'onload="window.print()' +
+	// 		'">'+divToPrint.innerHTML+'</body></html>');
+    //     newWin.document.close();
+    //     setTimeout(function(){newWin.close();},10);
+    // }
 
-        var divToPrint=document.getElementById('printableTable');
-        var newWin=window.open('','Print-Window','width=900,height=500,top=100,left=100');
-        newWin.document.open();
-        newWin.document.write('<html><head><style>#in {display:none}</style><body   onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-        newWin.document.close();
-        setTimeout(function(){newWin.close();},10);
-    }
 </script>

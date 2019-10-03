@@ -47,8 +47,7 @@ class Interaction extends Parent_admin_controller {
                  if(is_admin() || logged_user_child()){
                      
                      $data['child_user_list'] = $this->permission->user_child_team();
-                 
-//                     pr($data['child_user_list']); die;
+				 //  pr($data['child_user_list']); die;
                  }
 
 	    $gazetted_holidays=get_gazetted_holiday();
@@ -129,23 +128,13 @@ class Interaction extends Parent_admin_controller {
 
                     $this->load->get_view('interaction_list/list_all_person_view',$data);
 
-
-
-
             }
 			else{
-                                 set_flash('<div class="alert alert-danger alert-dismissible">
-
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-
-                                   Interaction Date & City are Mandatory.
-
-                                  </div>');
-
-
-                                  redirect('interaction/index/');
+					set_flash('<div class="alert alert-danger alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<h4><i class="icon fa fa-ban"></i> Alert!</h4>
+				   Interaction Date & City are Mandatory. </div>');
+				  redirect('interaction/index/');
 //				  $this->index();
 			}
 		}
@@ -167,10 +156,9 @@ class Interaction extends Parent_admin_controller {
 
 
         
-        /*
-         * Asm interaction save
-         * 
-         */
+	/*
+	 * Asm interaction save
+	 */
 	public function save_asm_interaction_report()
         {
             $interaction_data = $this->input->post();
@@ -261,9 +249,6 @@ class Interaction extends Parent_admin_controller {
 
 
     // edit doctor interaction
-
-    
-
     public function edit_doc_interaction($id=''){
 
         
@@ -299,7 +284,6 @@ class Interaction extends Parent_admin_controller {
     
 
     // update doc interaction
-
     public function update_doc_interaction($id){
 
         
@@ -949,6 +933,13 @@ class Interaction extends Parent_admin_controller {
 
       $data['userdata']=$this->user->users_report();
       $data['total_doctors']=$this->doctor->total_doctors();
+
+	  $child_user_list = $this->permission->user_child_team();
+	  $child_users=array();
+	  foreach ($child_user_list as $childs){
+	  	$child_users[]=$childs['userid'];
+	  }
+	  $data['childs_users']=$child_users;
 
       $request = $this->input->post();
       @$first_btn=$request['send1'];

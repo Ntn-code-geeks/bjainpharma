@@ -394,28 +394,34 @@ if (!in_array($list, $listDate)){  ?>
 
 </td>
 
-<?php if($day=='Sun'){  ?>
+<?php if($day=='Sun'){   //pr("here"); ?>
     <td colspan="9" style=" opacity: 0.50;">
         <input readonly class="form-control pull-right" type="text" name="source_ci"
                id="source_city"
                value="Sunday" style="color:red; text-align: center; width:100%; padding: 2px;
             ;">
-        <!--                            <input type="hidden" name="source_city[]" value="">-->
-
     </td>
-<?php   }else{ ?>
-    <td colspan="9" style=" opacity: 0.50;">
-        <input readonly class="form-control pull-right" type="text" name="source_ci"
-               id="source_city"
-               value="On Leave / No Interaction" style="color: blue; text-align: center;
-       width:100%;
-       padding:
-       2px;
-            ;">
-        <!--                                <input type="hidden" name="source_city[]" value="">-->
-    </td>
+<?php   }else{
 
-<?php  }  ?>
+	if(in_array($list,$date_gz_holiday)){
+		foreach($gazetted_holidays as $gz){
+			$gz_name=explode(';',$gz);
+			if($gz_name[0]==$list){ ?>
+			<td colspan="9" style=" opacity: 0.50;">
+			<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+				   value="<?=$gz_name[1] ?>" style="color: red; text-align: center; width:100%;  padding: 2px;">
+				</td>
+		<?php	}
+		}
+	}else{
+		?>
+		<td colspan="9" style=" opacity: 0.50;">
+			<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+				   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
+       padding: 2px;">
+		</td>
+<?php	}
+	}  ?>
 
 
 </tr>
@@ -502,7 +508,5 @@ window.frames["print_frame"].document.body.innerHTML = document.getElementById("
 window.frames["print_frame"].window.focus();
 window.frames["print_frame"].window.print();
 }
-
-
 
 </script>

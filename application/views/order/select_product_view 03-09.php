@@ -5,11 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//$edit_doctor=json_decode($edit_doctor_list);
-$dealer_data = json_decode($dealer_list);
-$edit_list_data=json_decode($edit_list);// for all active dealers
+
+
 ?>
 <script src="<?php echo base_url().'design/js/ajax.3.2.js'?>"></script>
+
 
 <div class="content-wrapper">
 
@@ -90,15 +90,13 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 											
 	                   						<td >
 	                   							<?php if(get_cat_potency($category['category_id'] )){?>
-												<select  catid="<?= $category['category_id'] ?>"
-														 name="product_potency[]" id="" class="product_select_potency form-control procat_option_box_potency_<?= $category['category_id'] ?>"  style="width: 100%;">
+												<select  catid="<?= $category['category_id'] ?>" name="product_potency[]" id="" class="product_select_potency form-control procat_option_box_potency_<?= $category['category_id'] ?>"  style="width: 100%;">
 	                                   	 		
 	                            				</select>
 	                            				<?php }?>
 	                   						</td>
 	                   						<td >
-												<select  catid="<?= $category['category_id'] ?>"
-														 name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_<?= $category['category_id'] ?>"  style="width: 100%;">
+												<select  catid="<?= $category['category_id'] ?>" name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_<?= $category['category_id'] ?>"  style="width: 100%;">
 	                                   	 		            
 	                            				</select>
 	                   						</td>
@@ -151,77 +149,42 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 				<label>Payment Terms *</label>
 				<input class="form-control" id="payment" style="display: none" name="payment" placeholder="Enter No. of Days" value="" type="number">               
 	                
-			<select name="payment_term" id="payment_term" class="form-control select11" required="" style="width: 100%;">
-				    <option value="">--Select Payment Terms--</option>
-   					<option value="1">No of Days</option>
-				    <option value="2">On Delivery</option>
+                                <select name="payment_term" id="payment_term"  class="form-control select11" required="" style="width: 100%;">
+                                       <option value="">--Select Payment Terms--</option>
+				       <option value="1">No of Days</option>
+                                       <option value="2">On Delivery</option>
 
 				</select>
                         
                         </div>
                             
-            <div class="form-group">
+                        <div class="form-group">
 				<label>Mode of Payment *</label>
-			<select name="payment_mode" id="payment_mode"  class="form-control select10" required="" style="width: 100%;">
-				    <option value="">--Select Mode of Payment--</option>
-					<option value="1">Cash</option>
-				    <option value="2">Cheque</option>
-			</select>
-                </div>
+                                <select name="payment_mode" id="payment_mode"  class="form-control select10" required="" style="width: 100%;">
+                                       <option value="">--Select Mode of Payment--</option>
+				       <option value="1">Cash</option>
+                                       <option value="2">Cheque</option>
 
-
-		<div class="form-group" id="d_list" style="">
-			<label>Dealer/pharmacy List<span style="color: red;font-size: 20px">*</span></label>
-			<select id="dealer_id" name="dealer_id" class="form-control select72"
-					style="width: 100%;">
-
-					<option value=""> -- Select Dealers/Sub Dealers -- </option>
-				<?php  foreach($sp_dealers as $val_pl){   ?>
-							<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
-							('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
-				<?php 	} ?>
-				<?php  foreach($sp_subDealers as $val_sb){   ?>
-				<option value="<?=$val_sb->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',
-					$val_sb->id);} ?>><?=$val_sb->com_name.', (Sub Dealer)';?></option>
-				<?php 	} ?>
-						<!--<option value="none" id="none" >NONE</option>-->
-
-
-					<?php //} ?>
 				</select>
-				<br/>
-
-
+                                
+                        </div>
+                            
+                            
 			</div>
-
-
-
-			<div class="form-group">
-				<label>Send Mail to Dealer/Sub Dealer &nbsp; : &nbsp;&nbsp;</label>
-				<br>
-				<input  type="radio" class="form-check-input" checked name="dealer_mail" id="" value="1">
-				&nbsp;Yes &nbsp;
-				<input type="radio" class="form-check-input" name="dealer_mail" id="" value="0">
-				&nbsp;  No &nbsp;
-			</div>
-
-
-		</div>
 		
 		<div class="row">
             <div class="col-md-12">
                 <!--<div class="form-group">-->
                 <div class="box-footer">
-					<button type="submit" id="save_product" class="btn btn-info pull-right">Save Details</button>
+					<button type="submit" class="btn btn-info pull-right">Save</button>
 					<?php	echo form_close();	?>
-					 <button id="cancel-order" class="btn btn-danger ">Cancel</button>
+					<button id="cancel-order" class="btn btn-danger ">Cancel</button>
                 </div>
             </div>
         </div>
           <!-- /.row -->
-		 
-
-
+          
+        
         </div>
         <!-- /.box-body -->
         
@@ -231,63 +194,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     </section>
     <!-- /.content -->
   </div>
-
-
-	<?php // echo form_close(); ?>
-	<!-- /.modal-content -->
-</div>
-	<script type="text/javascript">   // for multipile model open
-
-        $(document).ready(function() {
-            var dp;
-            var $eventSelect5 = $('.select5').select2();
-            $eventSelect5.on("change", function (e) {
-                var dealer_pharma = $(this).val();
-                dp = dealer_pharma;
-                //alert(dealer_pharma);
-            });
-
-
-            $(".submit").click(function(){
-                var newdealer_pharma =  dp;
-                var formid = $(this).closest("form").attr('id');
-                var dataString = 'dealerpharma='+ newdealer_pharma+'&doctor_id='+formid;
-                if(newdealer_pharma=='' || formid=='')
-                {
-                    alert("Please Fill All Fields");
-                }
-                else
-                {
-// AJAX Code To Submit Form.
-                    var urlData=<?php echo "'".base_url()."doctors/doctor/add_dealer_pharma/"."'";?>;
-                    $.ajax({
-                        type: "POST",
-                        url: urlData,
-                        data: dataString,
-                        cache: false,
-                        success: function(result){
-                            alert(result);
-                            $('#modal_add_dealer<?=$edit_list_data->doctor_id;?>').modal('toggle');
-                            if(dataString!=''){
-                                var urlData1=<?php echo "'".base_url()."doctors/doctor/dealer_pharma_list/"."'";?>;
-                                $.ajax({
-                                    type: "POST",
-                                    url: urlData1+formid,
-                                    cache: false,
-                                    success: function(result){
-                                        $("#dealer_id"+formid).html(result);
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                }
-                return false;
-            });
-        });
-	</script>
-
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script>
@@ -327,19 +233,11 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     });
 </script>
 
+
 <script type='text/javascript'>
 
-	$(document).on('click','#save_product',function(){
-	    var sel=$('select[name="dealer_id"]').val();
-	    if(sel == null){
-            alert("Adding Dealer/Sub-Dealer is Mandatory.!");
-            return false;
-		}
-	});
-
-
   $(document).on('click','.cat_list',function(){
-      var catid=$(this).val();
+	  var catid=$(this).val();
 	  if($(this).is(':checked')){
 			$('.procat_box_'+catid).css('display','table-row');
 			$('#procat_name_'+catid).css('display','table-row');
@@ -359,7 +257,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 				});	
     		}
 
- 			if(catid==15) {
+ if(catid==15) {
               $(".procat_option_box_packsize_"+catid).css('display','none');
               $.ajax({
                   type: "POST",
@@ -444,7 +342,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					}
 
 				}
-			});
+			});		
 	  }
 	  else
 	  {
@@ -456,6 +354,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
    
 </script>
 
+
 <!--Go Back on previous page with all session and $_GET data-->
 <script type="text/javascript">
     $("#cancel-order").click(function (){
@@ -463,11 +362,13 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     });
 </script>
 
+
 <!-- Get details of product on product change -->
+
+
 <script type='text/javascript'>
     $(".add_row").on("click", function(e) {
   		// alert('asa');
-
     	var theElement = $(this);
     	var catid=$(this).attr("catid");
 
@@ -481,7 +382,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     		var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td> <select catid="'+catid+'" name="product_potency[]" id="" class="product_select_potency form-control  procat_option_box_potency_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
     	 	$(theElement).closest('tr').before(strVar);
     	 }
-    	 else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==5 || catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
+    	 else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
     	 {
     	  	var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control  procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
     	 	$(theElement).closest('tr').before(strVar);
@@ -618,7 +519,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
  <script type='text/javascript'>
 	
     $(document).on("click",".product_select_packsize", function() {
-
   		var catid=$(this).attr("catid");
   		//alert(catid);
   		var theElement = $(this);
@@ -639,10 +539,10 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   
 </script>
 
+
  <script type='text/javascript'>
 	
     $(document).on("click",".product_select_potency", function() {
-
   		var catid=$(this).attr("catid");
   		//alert(catid);
   		var theElement = $(this);
@@ -732,16 +632,16 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					}
 				}
 			});
-					}else{
-						 $(theElement).closest('tr').find('.product_select').html(res);
-
-					}
-					}
+                                                }else{
+                                                     $(theElement).closest('tr').find('.product_select').html(res);
+                                                     
+                                                }
+                                                }
 					});
 	    		}
     		}
     	}
-		else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==5 ||  catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
+		else if(catid==1 || catid==2 || catid==3 || catid==4 || catid==6 || catid==10 || catid==7 || catid==14 || catid==13)
 		{
    			$.ajax({
 			   type:"POST",
@@ -750,12 +650,12 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 			   success:function(res){ 
 					//$(theElement).append(res);
 //					$(theElement).closest('tr').find('.product_select').html(res);
-				  if(Math.floor(res) == res && $.isNumeric(res)){
-				   if(catid==7){
-					$(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
-					 }
-
-			   $.ajax({
+                          if(Math.floor(res) == res && $.isNumeric(res)){
+                                                   if(catid==7){
+                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
+                                                     }
+                                                  
+                                                           $.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_details/",
 			   data : 'productid='+res,
@@ -799,10 +699,10 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					}
 				}
 			});
-					}else{
-						 $(theElement).closest('tr').find('.product_select').html(res);
-
-					}
+                                                }else{
+                                                     $(theElement).closest('tr').find('.product_select').html(res);
+                                                     
+                                                }
 
 				}
 			});
@@ -829,15 +729,15 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 				   success:function(res){ 
                                       // alert(res);
 						//$(theElement).append(res);
-					if(Math.floor(res) == res && $.isNumeric(res)){
-						 if(catid==11){
-						$(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
-						 }if(catid==7){
-						$(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
-						 }
+                                                if(Math.floor(res) == res && $.isNumeric(res)){
+                                                     if(catid==11){
+                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
+                                                     }if(catid==7){
+                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11583">MOTHER TINCTURES</option>');
+                                                     }
                                                      
                                                      
-			   $.ajax({
+                                                           $.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_details/",
 			   data : 'productid='+catid,
@@ -881,10 +781,10 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					}
 				}
 			});
-				}else{
-					 $(theElement).closest('tr').find('.product_select').html(res);
-
-				}
+                                                }else{
+                                                     $(theElement).closest('tr').find('.product_select').html(res);
+                                                     
+                                                }
 						
 					}
 				});
@@ -915,9 +815,8 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     $(function(){
  		//$('body').on('DOMNodeInserted', 'select', function () {
                 $(".select10").select2(); // for Mode of payment
-               $(".select72").select2(); // for Mode of payment
          var $evenSelect11  = $(".select11").select2(); // for payment terms
- 		 var $evenSelect2   = $(".select3").select2();
+ 	 var $evenSelect2   = $(".select3").select2();
          
          $evenSelect11.on('change',function(e){
              var paymentterm = $(this).val();
@@ -1049,5 +948,3 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
         }
 });
 </script>
-
-

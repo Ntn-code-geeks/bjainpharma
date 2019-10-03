@@ -2266,39 +2266,33 @@ class Report_model extends CI_Model {
 //        pr($data);
 //        echo $tada_id; die;
         $genrated_ta_da_master_data = array(
-                                   
-            			'manager_total_amount'=>$data['manager_grant_total'],
+            			'manager_total_amount'=>$data['overall_total'],
+//            			'manager_total_amount'=>$data['manager_grant_total'],
             //			'pharma_user_id'=>$data['user_id'],
             			'manager_id'=>logged_user_data(),
                                     'crm_user_id'=> logged_user_data(),
-//                                    'create_date'=>savedate(),                  
-                                    'update_date'=>savedate(),                  
-
+//                                  'create_date'=>savedate(),
+                                    'update_date'=>savedate(),
                                  );
                 $this->db->where('id',$tada_id);
-		$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data); 
-                
+				$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data);
                 $last_id = $this->db->insert_id();
                 if($this->db->affected_rows() == 1){
                     
-                    foreach($data['manager_remark'] as $k_tada=>$val_tada){
-                        
+//                    foreach($data['manager_remark'] as $k_tada=>$val_tada){
+                    foreach($data['manage_amt'] as $k_tada=>$val_tada){
                           $genrated_ta_da_detail_data = array(
                                     'manager_remark'=>$val_tada,
-                              
                                     'crm_user_id'=> logged_user_data(),
-//                                    'create_date'=>savedate(),                  
+//                                  'create_date'=>savedate(),
                                     'last_update'=>savedate(),                  
 
                                  );
                  $this->db->where('ta_da_master_id',$tada_id); 
                  $this->db->where('id',$data['tada_detail_id'][$k_tada]); 
-		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data); 
-                        
+		 		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data);
                     }
-                   return TRUE;  
-                    
-                    
+                   return TRUE;
                 }else{
                     return false;
                 }

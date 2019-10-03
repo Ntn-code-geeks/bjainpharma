@@ -165,27 +165,6 @@
 					<div class="row">
 
 
-<!--						<div class="col-md-6">
-
-
-							<div class="form-group">
-
-
-								<label>SOURCE : </label>
-
-
-								<select required name="source_city" id="source_city"  class="form-control select2" style="width: 100%;">
-								  <option value="">--Select Source City --</option>
-									<?php foreach($city_data as $city){ ?>   
-										<option value="<?=$city['city_id']?>" ><?=$city['city_name'].'('.$city['state_name'].')'?></option>
-									<?php }  ?>
-								</select>
-
-
-							</div>
-
-
-						</div>-->
 
 
 						<div class="col-md-12">
@@ -198,6 +177,9 @@
 
 
 								<select required name="dest_city" id="dest_city"  class="form-control select2" style="width: 100%;">
+									<?php
+									//pr($city_data);
+									?>
 								    <option value="">--Select City--</option>
 									<?php foreach($city_data as $city){ ?>   
 										<option value="<?=$city['city_id']?>" ><?=$city['city_name'].'('.$city['state_name'].')'?></option>

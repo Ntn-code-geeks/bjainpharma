@@ -216,13 +216,13 @@ $team_list=json_decode($users_team);
                }
            });
 
-           $("#save_sample").click(function(e) {
-               var selectval= $('[name="stay"]:checked').val();
-               if(typeof  selectval=="undefined"){
-                   alert("Please Select Stay / Not Stay.!");
-                   e.preventDefault();
-               }
-           });
+           // $("#save_sample").click(function(e) {
+           //     var selectval= $('[name="stay"]:checked').val();
+           //     if(typeof  selectval=="undefined"){
+           //         alert("Please Select Stay / Not Stay.!");
+           //         e.preventDefault();
+           //     }
+           // });
 
            $('#sale_dealer<?=$edit_pharmacy->id ?>').on("change", function(){
              var sale_value = $(this).val();

@@ -563,7 +563,6 @@ else
       $result= $this->dealer->insert_ta_da($data);
     }
     
-    
     public function view_group_dealer_for_doctor($id=''){
         if($id!=''){
             
@@ -1132,16 +1131,14 @@ else
 
 							send_email('pharma.reports@bjain.com', $senderemail, $subject, $userbosemail);//send only email to H.O.
 						}
-
 						if ($interaction_data['path_info'] == '' || $interaction_data['path_info'] == 0) {
 
 						if (!is_numeric($interaction_data['dealer_view_id'])) {
 							if (substr($interaction_data['dealer_view_id'], 0, 3) == 'doc') {
 								set_flash('<div class="alert alert-success alert-dismissible">     
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>         
-			<h4><i class="icon fa fa-check"></i> Success!</h4>      
-			interaction are being saved for this         
-			</div>');
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>         
+					<h4><i class="icon fa fa-check"></i> Success!</h4>      
+					interaction are being saved for this  </div>');
 								redirect('doctors/doctor/');
 							}
 							else {
@@ -1227,10 +1224,6 @@ else
     }
 
 
-
-
-
-    
     // inactive to active dealer
     public function inactive_dealer($id=''){
         
@@ -1293,7 +1286,6 @@ else
     }
     
     
-    
      // Remain to blocked dealer
     public function blocked_dealer($id=''){
         
@@ -1354,7 +1346,6 @@ else
             
         }  
     }
-    
     
     
     // send email to the admin if duplicate record will entered for the same person on the same day.

@@ -67,8 +67,8 @@ class Tour_plan extends Parent_admin_controller {
 		$*/
 		//$custcity=explode(',',logged_user_cities());
 		 if(!is_admin()){
-                      $spcode = $this->session->userdata('sp_code');
-		$data['city_data']= get_all_city($spcode);
+				$spcode = $this->session->userdata('sp_code');
+				$data['city_data']= get_all_city($spcode);
 	        }else{
 	            $data['city_data']= get_all_city();
 	        }

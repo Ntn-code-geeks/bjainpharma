@@ -62,8 +62,8 @@
 						<tr>
 							<th> Employee Name</th>
 							<th> Month</th>
-							<th>Grant Total </th>
-                                                        <th>Manager Approved or Not</th>
+<!--							<th>Grant Total </th>-->
+							<th>Manager Approved or Not</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -72,14 +72,16 @@
 								<tr>
 									<td> <?=$val_c->name;?></td>
 									<td><?=$val_c->month_year;?></td>
-									<td><?=$val_c->grant_total;?></td>
-                                                                        <td><?php 
-                                                                                if(empty($val_c->manager_id)){
-                                                                                    echo 'Not Aproved';
-                                                                                }else{
-                                                                                    echo 'Approved by Manager';
-                                                                                }
-                                                                         ?></td>
+<!--									<td>-->
+										<?php //echo $val_c->grant_total;?>
+<!--									</td>-->
+									<td><?php
+									if(empty($val_c->manager_id)){
+										echo 'Not Aproved';
+									}else{
+										echo 'Approved by Manager';
+									}
+								 ?></td>
                                                                         
                                                                         
 								<td>

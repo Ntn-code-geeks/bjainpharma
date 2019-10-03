@@ -27,7 +27,7 @@ class Pharmacy extends Parent_admin_controller {
     }
     
     public function index($date='',$city=''){
-        $city1=urisafedecode($city);
+    	$city1=urisafedecode($city);
 		$data['date_interact']='';
 		if(!is_numeric($date))
 		{

@@ -169,53 +169,31 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					</select>
 				</div>
 
+				<?php
+				//pr($edit_list_data);
 
-				<div class="form-group" id="d_list<?=$edit_list_data->id ?>" >
+				?>
+				<div class="form-group" id="d_list<?=$edit_list_data->d_id ?>" >
 					<label>Dealer List<span style="color: red;font-size: 20px">*</span></label>
 
-					<select id="pharmacy_dealers<?=$edit_list_data->id ?>" name="dealer_id" class="form-control select2" style="width: 100%;">
-						<?php
-						if(!empty($edit_list_data->dealers_id)){
+					<select id="pharmacy_dealers<?=$edit_list_data->d_id ?>" name="dealer_id" class="form-control
+					select72" style="width: 100%;">
+						<option value=""> -- Select Dealers/Sub Dealers -- </option>
+						<?php  foreach($sp_dealers as $val_pl){   ?>
+							<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
+							('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
+						<?php 	} ?>
+						<?php  foreach($sp_subDealers as $val_sb){   ?>
+							<option value="<?=$val_sb->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',
+								$val_sb->id);} ?>><?=$val_sb->com_name.', (Sub Dealer)';?></option>
+						<?php 	} ?>
 
-							foreach($dealer_data as $k_s => $val_s){
-								/*for dealers id who belogs to this doctor*/
-								if(!empty(($edit_list_data->dealers_id))){
-									$dealers_are = explode(',', $edit_list_data->dealers_id);
-								}
-								else{
-									$dealers_are=array();
-								}
-								/*end of dealers id who belogs to this doctor */
 
-								if(in_array($val_s->dealer_id,$dealers_are)){
-									if($val_s->blocked==0){		?>
-										<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?>><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
-									<?php } } } ?>
-
-							<?php
-							foreach($pharma_list as $k_pl => $val_pl){
-								/*for dealers id who belogs to this doctor*/
-								if(!empty(($edit_list_data->dealers_id))){
-									$dealers_are = explode(',', $edit_list_data->dealers_id);
-								}
-								else{
-									$dealers_are=array();
-								}
-								/*end of dealers id who belogs to this doctor */
-
-								if(in_array($val_pl['id'],$dealers_are)){
-									if($val_pl['blocked']==0){	 ?>
-
-										<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?>><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
-
-									<?php } } } ?>
-							<!--<option value="none" id="none" >NONE</option>-->
-						<?php }else{ ?>
-
-						<?php } ?>
 						<!--<option value="none" id="none" >NONE</option>-->
 					</select><br/>
-					<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#modal_add_dealer<?=$edit_list_data->id ?>">Add Dealer/Sub Dealer</button>
+<!--					<button type="button" class="btn btn-warning"  data-toggle="modal" -->
+<!--							data-target="#modal_add_dealer--><?php ////echo $edit_list_data->d_id ?><!--">Add Dealer/Sub -->
+<!--						Dealer</button>-->
 
 					<div class="form-group">
 						<label id="doc_rel_label" >Duplicate Secondary &nbsp;: &nbsp;
@@ -227,15 +205,16 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 				</div>
 				<div class="form-group" id="rel_doc_box" style="display: none;">
 						<label>Dealer List</label>
-						<select  name="rel_doc_id" class="form-control select2" style="width: 100%;">
-							<?php
-							if(!empty($doc_rel_pharma)){	?>
-								<?php
-								foreach($doc_rel_pharma as $docInfo){ ?>
-									<option value="<?=$docInfo['doctor_id']?>"><?=$docInfo['doc_name'];?></option>
-								<?php } ?>
-								<!--<option value="none" id="none" >NONE</option>-->
-							<?php }?>
+						<select  name="rel_doc_id" class="form-control select21" style="width: 100%;">
+							<option value=""> -- Select Dealers/Sub Dealers -- </option>
+							<?php  foreach($sp_dealers as $val_pl){   ?>
+								<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
+								('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
+							<?php 	} ?>
+							<?php  foreach($sp_subDealers as $val_sb){   ?>
+								<option value="<?=$val_sb->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',
+									$val_sb->id);} ?>><?=$val_sb->com_name.', (Sub Dealer)';?></option>
+							<?php 	} ?>
 
 							<!--<option value="none" id="none" >NONE</option>-->
 						</select>
@@ -278,8 +257,8 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 </div>
 
 
-	<div class="modal modal-info fade" id="modal_add_dealer<?=$edit_list_data->id ?>">
-		<form id="<?=$edit_list_data->id ?>">
+	<div class="modal modal-info fade" id="modal_add_dealer<?=$edit_list_data->d_id ?>">
+		<form id="<?=$edit_list_data->d_id ?>">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -288,65 +267,27 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 						<h4 class="modal-title">Add Dealer</h4>
 					</div>
 					<div class="modal-body">
-						<div class="form-group" id="d_list<?=$edit_list_data->id ?>">
+						<div class="form-group" id="d_list<?=$edit_list_data->d_id ?>">
 							<label>Dealer List</label>
 							<?php
 							//           if(!empty($edit_pharmacy->dealers_id)){
 							?>
-							<select multiple="" id="dealer_id<?=$edit_list_data->id ?>" name="dealer_id[]" class="form-control select5" style="width: 100%;">
-
-								<?php
-								foreach($dealer_data as $k_s => $val_s){
-
-									/*for dealers id who belogs to this doctor*/
-									if(!empty(($edit_list_data->dealers_id))){
-										$dealers_are = explode(',', $edit_list_data->dealers_id);
-									}
-									else{
-										$dealers_are=array();
-									}
-									/*end of dealers id who belogs to this doctor */
-
-									if(in_array($val_s->dealer_id,$dealers_are)){
-//                    if($val_s->blocked==0){
-										?>
-										<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> selected=""><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
-									<?php  } else{
-										if($val_s->status==1){     ?>
-
-											<option value="<?=$val_s->dealer_id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_s->dealer_id);} ?> ><?=$val_s->dealer_name.','.$val_s->city_name;?></option>
-											<?php
-										} } } ?>
-
-								<?php
-								foreach($pharma_list as $k_pl => $val_pl){
-
-									/*for dealers id who belogs to this doctor*/
-									if(!empty(($edit_list_data->dealers_id))){
-										$dealers_are = explode(',', $edit_list_data->dealers_id);
-									}
-									else{
-										$dealers_are=array();
-									}
-									/*end of dealers id who belogs to this doctor */
-
-									if(in_array($val_pl['id'],$dealers_are)){
-//                     if($val_pl['blocked']==0){
-										?>
-										<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?> selected=""><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
-									<?php }
-									elseif($val_pl['status']==1){
-										?>
-										<option value="<?=$val_pl['id']?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',  $val_pl['id']);} ?> ><?=$val_pl['com_name'].', (Sub Dealer)';?></option>
-										<?php
-									}
-								} ?>
-								<option value="none" id="none" >NONE</option>-->
+							<select multiple="" id="dealer_id<?=$edit_list_data->d_id ?>" name="dealer_id[]" class="form-control select5" style="width: 100%;">
+								<option value=""> -- Select Dealers/Sub Dealers -- </option>
+								<?php  foreach($sp_dealers as $val_pl){   ?>
+									<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
+									('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
+								<?php 	} ?>
+								<?php  foreach($sp_subDealers as $val_sb){   ?>
+									<option value="<?=$val_sb->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select('dealer_id',
+										$val_sb->id);} ?>><?=$val_sb->com_name.', (Sub Dealer)';?></option>
+								<?php 	} ?>
+								<option value="none" id="none" >NONE</option>
 
 							</select> <br/>
 
 							<?php // } ?>
-							<span class="control-label" id="dealer_id_help<?=$edit_list_data->id ?>" for="inputError" style="color: red"><?php echo form_error('dealer_id'); ?></span>
+							<span class="control-label" id="dealer_id_help<?=$edit_list_data->d_id ?>" for="inputError" style="color: red"><?php echo form_error('dealer_id'); ?></span>
 
 						</div>
 					</div>
@@ -360,8 +301,9 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 		<?php // echo form_close(); ?>
 		<!-- /.modal-content -->
 	</div>
+
 	<script type="text/javascript">
-        $("#modal_add_dealer<?=$edit_list_data->id ?>").on('hidden.bs.modal', function (event) {
+        $("#modal_add_dealer<?=$edit_list_data->d_id ?>").on('hidden.bs.modal', function (event) {
             if ($('.modal:visible').length) //check if any modal is open
             {
                 $('body').addClass('modal-open');//add class to body
@@ -375,7 +317,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
             $eventSelect5.on("change",function(e){
                 var  dealer_pharma = $(this).val();
                 dp =  dealer_pharma;
-                //alert(dealer_pharma);
+               // alert(dealer_pharma);
             });
             $(".submit").click(function(){
                 var newdealer_pharma =  dp;
@@ -388,7 +330,8 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
                 else
                 {
                     var urlData1=<?php echo "'".base_url()."pharmacy/pharmacy/add_dealer_pharma/"."'";?>;
-                    var urlData=<?php echo "'".base_url()."pharmacy/pharmacy/pharmacy_dealer_list/"."'";?>;
+					var urlData=<?php echo "'".base_url()."pharmacy/pharmacy/pharmacy_dealer_list/"."'";?>;
+
 // AJAX Code To Submit Form.
                     $.ajax({
                         type: "POST",
@@ -397,15 +340,15 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
                         cache: false,
                         success: function(result){
                             alert(result);
-                            $('#modal_add_dealer<?=$edit_list_data->id;?>').modal('toggle');
+                            $('#modal_add_dealer<?=$edit_list_data->d_id;?>').modal('toggle');
                             $.ajax({
                                 type: "POST",
-                                url: urlData+formid,
+                                url: urlData+newdealer_pharma,
                                 cache: false,
                                 success: function(result){
-//            alert(result);
-                                    $("#pharmacy_dealers"+formid).html(result);
-                                    //$("#dealer_id"+formid).append(result);
+//            							alert(result);
+//                                     $("#pharmacy_dealers"+formid).html(result);
+                                    $("#pharmacy_dealers"+formid).append(result);
 
                                 }
                             });
@@ -420,7 +363,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 
         $("#doc_rel").click(function(){
             $("#rel_doc_box").toggle(this.checked);
-
         });
 
 	</script>
@@ -1048,6 +990,8 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 <script type='text/javascript'>
     $(function(){
         //$('body').on('DOMNodeInserted', 'select', function () {
+        $(".select72").select2();
+        $(".select21").select2();
         $(".select10").select2(); // for Mode of payment
         var $evenSelect11  = $(".select11").select2(); // for payment terms
         var $evenSelect2   = $(".select3").select2();

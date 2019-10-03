@@ -242,13 +242,13 @@ if($nete != '01-01-1970'){
                }
 		   });
 
-		$("#save_sample").click(function(e) {
-		   var selectval= $('[name="stay"]:checked').val();
-		   if(typeof  selectval=="undefined"){
-			   alert("Please Select Stay / Not Stay.!");
-			   e.preventDefault();
-		   }
-		});
+			// $("#save_sample").click(function(e) {
+			//    var selectval= $('[name="stay"]:checked').val();
+			//    if(typeof  selectval=="undefined"){
+			// 	   alert("Please Select Stay / Not Stay.!");
+			// 	   e.preventDefault();
+			//    }
+			// });
 
 		$('#sale_dealer<?=$edit_doctor->doctor_id ?>').on("change", function(){
 		   var saledealer_value = $(this).val();
