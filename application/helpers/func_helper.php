@@ -2674,6 +2674,21 @@ function get_userwise_da($id){
 	}
 }
 
+function get_trip_details($userid){
+	$ci = &get_instance();
+	$arr='user_id,from_date,to_date,remarks';
+	$ci->db->select($arr);
+	$ci->db->from("user_trip");
+	$ci->db->where('status',1);
+	$ci->db->where('user_id',$userid);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		return $query->row();
+	}else{
+		return FALSE;
+	}
+}
+
 function get_users_da(){
 	$ci = &get_instance();
 	$arr = "*";
@@ -2687,5 +2702,8 @@ function get_users_da(){
 		return false;
 	}
 }
+
+
+
 
 ?>

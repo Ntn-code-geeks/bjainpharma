@@ -195,7 +195,8 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
                 }
             }
         }
-            else {
+        else {
+
 				$da=$userDA->hq;
         }
     }
@@ -388,12 +389,9 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
 if (!in_array($list, $listDate)){  ?>
 <tr>
 <td>
-    <input readonly class="form-control pull-right" type="text" name=""
-           id="doi" value="<?= $listshow ?>" style="width:
+    <input readonly class="form-control pull-right" type="text" name="" id="doi" value="<?= $listshow ?>" style="width:
    100px;">
-
 </td>
-
 <?php if($day=='Sun'){   //pr("here"); ?>
     <td colspan="9" style=" opacity: 0.50;">
         <input readonly class="form-control pull-right" type="text" name="source_ci"
@@ -414,19 +412,30 @@ if (!in_array($list, $listDate)){  ?>
 		<?php	}
 		}
 	}else{
-		?>
-		<td colspan="9" style=" opacity: 0.50;">
-			<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
-				   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
+		if(in_array($list,$tripDateList)){ ?>
+			<td colspan="9" style=" opacity: 0.50;">
+				<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+					   value="<?=$tripName ?>" style="color: red; text-align: center; width:100%;  padding: 2px;">
+			</td>
+	<?php	}else{  ?>
+			<td colspan="9" style=" opacity: 0.50;">
+				<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+					   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
        padding: 2px;">
-		</td>
+			</td>
+	<?php	} ?>
+
 <?php	}
 	}  ?>
 
 
 </tr>
 
-<?php }  } ?>
+<?php }
+else{
+
+}
+} ?>
 
 <tr>
 <td colspan="4"><strong> TOTAL</strong></td>

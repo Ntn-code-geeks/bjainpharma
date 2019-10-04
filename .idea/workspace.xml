@@ -3,27 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e572d146-1042-44b4-88ee-c3dcfb2eed1e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Interaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Interaction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/dealer/Dealer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/pharmacy/Pharmacy.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/pharmacy/Pharmacy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionPharmaSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionPharmaSumry.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/holiday/Holiday.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/holiday/Holiday.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/reports/Reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/reports/Reports.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/tour_plan/Tour_plan.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/tour_plan/Tour_plan.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/helpers/common_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/common_helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/pharmacy/Pharmacy_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/pharmacy/Pharmacy_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/report/Report_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/report/Report_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/doctor_list/doctor_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/doctor_list/doctor_details_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/doctor_list/doctor_interaction_sales_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/order/pharma_product_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/order/pharma_product_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/order/select_product_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/order/select_product_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/pharmacy_list/pharmacy_interaction_sales_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/summary_report.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/summary_report.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/summary_report_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/summary_report_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_details_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_manager_detail_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_manager_detail_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/helpers/func_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/func_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/holiday/Holiday_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/holiday/Holiday_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_report_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_report_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/tour_plan/tour_plan_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/tour_plan/tour_plan_view.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -229,7 +215,8 @@
       <workItem from="1569643781585" duration="25284000" />
       <workItem from="1569818442106" duration="15243000" />
       <workItem from="1569905623026" duration="15888000" />
-      <workItem from="1570078048408" duration="6936000" />
+      <workItem from="1570078048408" duration="16614000" />
+      <workItem from="1570162955329" duration="10154000" />
     </task>
     <task id="LOCAL-00001" summary="phpstorm commit">
       <created>1566982967610</created>
@@ -334,7 +321,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/reports/Reports.php</url>
-          <line>1137</line>
+          <line>1149</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -374,7 +361,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/views/report/ta_da_report_view.php</url>
-          <line>215</line>
+          <line>216</line>
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -389,7 +376,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/views/report/ta_da_report_view.php</url>
-          <line>212</line>
+          <line>213</line>
           <option name="timeStamp" value="179" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -688,14 +675,14 @@
           <option name="timeStamp" value="520" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/report/ta_da_report_view.php</url>
-          <line>167</line>
-          <option name="timeStamp" value="524" />
+          <url>file://$PROJECT_DIR$/application/models/holiday/Holiday_model.php</url>
+          <line>12</line>
+          <option name="timeStamp" value="556" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/views/report/ta_da_report_view.php</url>
-          <line>200</line>
-          <option name="timeStamp" value="530" />
+          <url>file://$PROJECT_DIR$/application/models/holiday/Holiday_model.php</url>
+          <line>19</line>
+          <option name="timeStamp" value="557" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/report/User_report_model.php</url>
@@ -852,7 +839,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>2676</line>
+          <line>2691</line>
           <properties>
             <option name="className" value="" />
             <option name="methodName" value="\get_users_da" />
@@ -894,6 +881,15 @@
             <option name="methodName" value="save_tada_approved_report_of_manager" />
           </properties>
           <option name="timeStamp" value="550" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/application/controllers/User.php</url>
+          <line>499</line>
+          <properties>
+            <option name="className" value="\User" />
+            <option name="methodName" value="ta_da_reports" />
+          </properties>
+          <option name="timeStamp" value="555" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

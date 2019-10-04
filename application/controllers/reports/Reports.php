@@ -1077,6 +1077,18 @@ public function generate_attendance_report($userid,$start,$end)
              $data['date_gz_holiday']=$date_gz_list;
              $data['gazetted_holidays']=$gz_list;
 
+			  $trip_details=get_trip_details(logged_user_data());
+				$from=$trip_details->from_date;
+				$to=$trip_details->to_date;
+				$data['tripName']=$trip_details->remarks;
+				$tripDateBetw=getDatesFromRange($from,$to);
+				$dateTrip=array();
+				foreach ($tripDateBetw as $daTrp){
+					$dateTrip[]=substr($daTrp, 0, 10);
+				}
+				$data['tripDateList']=$dateTrip;
+
+
              $data['action'] ="reports/reports/send_for_approval";
 			 $this->load->get_view('report/ta_da_report_view',$data);
 
