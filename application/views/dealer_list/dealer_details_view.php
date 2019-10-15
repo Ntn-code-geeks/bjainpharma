@@ -143,7 +143,7 @@
     </section>
     <!-- /.content -->
   </div>
-
+<input type="hidden" id="user_id" value="<?= logged_user_data()?>" style="display: none;">
 <script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 
 <script src="<?= base_url()?>design/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -160,6 +160,24 @@
 		  'autoWidth'   : true,
 		})
 	})
+
+    $(document).ready(function() {
+        var table = $('#example2').dataTable();
+        var total_records=table.fnSettings().fnRecordsTotal();
+        var userID=$('#user_id').val();
+        var DataArr={
+            'records' : total_records,
+			'user_id' : userID
+		};
+
+        $.ajax({
+			type:"POST",
+            url:"<?= base_url();?>dealer/dealer/update_dealers_row/",
+            data : DataArr,
+            success:function(res){  }
+
+        });
+    });
 </script>
 
 

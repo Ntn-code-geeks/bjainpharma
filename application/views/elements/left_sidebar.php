@@ -249,7 +249,8 @@ $('#searchid_sidebar').click(function(){
       <li class="treeview">
         <a href="#">
           <i class="fa fa-handshake-o"></i>
-          <span>Interaction Summary</span>
+<!--          <span>Interaction Summary</span>-->
+          <span>Daily Sales Report(DSR)</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
@@ -345,6 +346,8 @@ $('#searchid_sidebar').click(function(){
 	text-red"></i><span> Secondary Report</span></a></li>
 		<li><a href="<?= base_url();?>interaction/dealer_report"><i class="fa fa-circle-o text-yellow"></i><span>
 					Dealer/Sub Dealer Report</span></a></li>
+		  <li><a href="<?= base_url();?>interaction/doctor_report"><i class="fa fa-circle-o text-red"></i><span>
+				Doctor-wise Report</span></a></li>
 			  </ul>
 		  </li>
         <?php } ?>

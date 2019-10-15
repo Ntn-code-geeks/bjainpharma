@@ -69,6 +69,16 @@ $secondary_sum=0;
         </div>
             <!-- /.box-header -->
             <div class="box-body">
+				<div class="row" style="padding: 10px 175px 25px;">
+					<div class="col-md-12">
+						<strong>To Date('Month/Date/Year'):</strong>
+						<input name="min" id="min" type="text" style="text-align: center;margin-left: 7px;">
+						&nbsp;&nbsp;&nbsp;<strong style="margin-left: 30px;">From Date('Month/Date/Year'):</strong>
+						<input name="max" id="max" type="text" style="text-align: center;margin-left: 5px;">
+					</div>
+				</div>
+
+
 			<table id="example" class="table table-bordered table-striped">
 				<thead>
 				<tr>
@@ -76,11 +86,13 @@ $secondary_sum=0;
 					<th>Interaction With</th>
 					<th>Interaction By</th>
 					<th>City</th>
-					<th>Sample</th>
+<!--					<th>Sample</th>-->
 					<th>Met/Not Met</th>
 					<th>Secondary Sale</th>
 					<th>Remark</th>
+					<?php if(is_admin()){ ?>
 					<th>Action</th>
+					<?php } ?>
 				</tr>
 				</thead>
 			<tbody>
@@ -102,9 +114,9 @@ $secondary_sum=0;
 								<td>
 									<?=$val_doc['city'];?>
 								</td>
-								<td>
-									<?=$val_doc['sample']['sample'];?>
-								</td>
+<!--								<td>-->
+<!--									--><?//=$val_doc['sample']['sample'];?>
+<!--								</td>-->
 								<td>
 									<?php
 
@@ -138,7 +150,8 @@ $secondary_sum=0;
 								</td>
 							</tr>
 						<?php  }
-					}else{
+					}
+                 	else{
 							foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
 								if(in_array($val_doc['user_id'],$childArr)){  ?>
 									<tr>
@@ -154,9 +167,9 @@ $secondary_sum=0;
 										<td>
 											<?=$val_doc['city'];?>
 										</td>
-										<td>
-											<?=$val_doc['sample']['sample'];?>
-										</td>
+<!--										<td>-->
+<!--											--><?//=$val_doc['sample']['sample'];?>
+<!--										</td>-->
 										<td>
 											<?php
 
@@ -182,12 +195,11 @@ $secondary_sum=0;
 										<td>
 											<?=$val_doc['remark'];?>
 										</td>
-
+										<?php   if(is_admin()){ ?>
 										<td>
-											<?php   if(is_admin()){ ?>
 												<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-											<?php } ?>
 										</td>
+										<?php } ?>
 									</tr>
 							<?php	}
 							}
@@ -196,8 +208,7 @@ $secondary_sum=0;
                  } ?>
 </tbody>
 <?php if($secondary_sum!=0){?>
-<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan=""
-																					   style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
+<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan="" style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
 <?php }?>
 </table>
             </div>
@@ -229,3 +240,31 @@ $secondary_sum=0;
           })
         </script>
   <?php } ?>
+
+<script>
+    $(document).ready(function(){
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = $('#min').datepicker("getDate");
+                var max = $('#max').datepicker("getDate");
+                var startDate = new Date(data[0]);
+                if (min == null && max == null) { return true; }
+                if (min == null && startDate <= max) { return true;}
+                if(max == null && startDate >= min) {return true;}
+                if (startDate <= max && startDate >= min) { return true; }
+                return false;
+            }
+        );
+
+        $("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true, autoclose: true });
+        $("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true , autoclose: true});
+        var table = $('#example').DataTable();
+
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#min, #max').change(function () {
+            table.draw();
+        });
+
+
+    });
+</script>

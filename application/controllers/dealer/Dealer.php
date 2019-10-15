@@ -664,12 +664,17 @@ else
                         $orderDetails = $this->dealer->get_orderdeatils_user($interaction_data);
 
                         foreach ($orderDetails as $details) {
-                            $orderData = $orderData . ' ' . get_product_name($details['product_id']) . '(' . get_packsize_name($details['product_id']) . ') mrp=' . $details['actual_value'] . ',quantity=' . $details['quantity'] . ' ,discount=' . $details['discount'] . '%, net amount=' . $details['net_amount'] . ' ';
+
+                            $orderData = $orderData .' ' .get_product_name($details['product_id']) . '(' .
+								get_packsize_name($details['product_id']).',quantity=' . $details['quantity'].'.';
+
                             $total_cost = $total_cost + $details['net_amount'];
-                            $emailordt = $emailordt . '<tr><td>' . get_product_name($details['product_id']) . '(' . get_packsize_name($details['product_id']) . ')</td><td>' . $details['actual_value'] . '</td><td>' . $details['quantity'] . '</td><td>' . $details['discount'] . '%</td><td>' . $details['net_amount'] . '</td></tr>';
+
+                            $emailordt = $emailordt . '<tr><td>' . get_product_name($details['product_id']) . '(' . get_packsize_name($details['product_id']) . ')</td><td>' . $details['quantity'] . '</td></tr>';
+
                         }
-                        $emailorderdata = ' <h2>Your Order Details</h2> <table cellspacing="0" cellpadding="5" border="1" style="width:100%; border-color:#222;" ><thead><tr><th>Product</th><th>MRP</th><th>Qty.</th><th>Discount</th><th>Amount</th> </tr></thead> 
-        <tbody>' . $emailordt . '</tbody><tfoot><tr><th colspan="4" style="text-align:right; border-right:none !important;">Total</th> <th colspan="4" style="text-align:right; border-left:none;">Rs.' . $total_cost . '</th><tr></tfoot></table> ';
+                        $emailorderdata = ' <h2>Your Order Details</h2> <table cellspacing="0" cellpadding="5" border="1" style="width:100%; border-color:#222;" ><thead><tr><th>Product</th><th>Qty.</th> </tr></thead> 
+        <tbody>' . $emailordt . '</tbody></table> ';
                     }
 
                     if ((isset($interaction_data['telephonic'])) || (isset($interaction_data['meet_or_not'])) ) {
@@ -1491,4 +1496,14 @@ else
 	public function interaction_mismatch(){
 		$interaction_data = $this->dealer->interact_details();
 	}
+
+
+	public function update_dealers_row(){
+		$input_data=$this->input->post();
+		if(!empty($input_data)){
+			$data=$input_data;
+			$this->dealer->update_dealers_record($data);
+		}
+	}
+
 }

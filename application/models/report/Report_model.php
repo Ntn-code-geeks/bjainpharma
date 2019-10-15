@@ -2192,7 +2192,7 @@ class Report_model extends CI_Model {
 //        pr($data);
 //        echo $data['report_date']; die;
     
-    $boss_ID=get_user_boss(logged_user_data());
+//    $boss_ID=get_user_boss(logged_user_data());
 
     //////Metro Allowance Addition in Grand Total
     if($data['metroAllow']){
@@ -2205,7 +2205,7 @@ class Report_model extends CI_Model {
                                     'user_id'=> logged_user_data(),
                                     'month_year'=>trim($data['report_date']),
                                     'total_amount'=>$grand_total_amount,
-                                    'manager_id' => $boss_ID[0]['boss_id'],
+//                                    'manager_id' => $boss_ID[0]['boss_id'],
             //			'manager_total_amount'=>$data['city_distance'],
             //			'pharma_user_id'=>$data['user_id'],
             //			'remark'=>$data['remark'],

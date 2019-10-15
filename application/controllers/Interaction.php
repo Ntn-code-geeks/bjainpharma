@@ -1054,7 +1054,73 @@ $date['pharma_secondary_list']=json_decode(file_get_contents("ReportJSON/phar_se
 
 
 
+	public function doctor_report(){
+		$data['title'] = "Doctor-wise Secondary Report";
+		$data['page_name']="Doctor-wise Secondary Report";
+		$data['action'] = 'interaction/doctor_generate_secondary';
+		$child_usr=get_check_active_users(explode(', ',logged_user_child()));
+		if(is_admin()){
+			$users=get_all_paharma_user();
+			$all_sp=array();
+			foreach ($users as $usr){
+				$user_spCode=getuserSPcode($usr['id'])->sp_code;
+				$all_sp[]=explode(',',$user_spCode);
+			}
+			$sp1=array_merge(...$all_sp);
+			$sp2=array_filter($sp1);
+			$sp_code_list=array_unique($sp2);
+			$doctr_list=array();
+			foreach ($sp_code_list as $sp_code){
+				$doctr_list[]=get_doc_details($sp_code);
+			}
+			$overall_doc_list=array_merge(...array_filter($doctr_list));
+			$data['doctor_list']=$overall_doc_list;
+		}else{
+			$all_sp=array();
+			foreach ($child_usr as $usr){
+				$user_spCode=getuserSPcode($usr)->sp_code;
+				$all_sp[]=explode(',',$user_spCode);
+			}
+			$sp1=array_merge(...$all_sp);
+			$sp2=array_filter($sp1);
+			$sp_code_list=array_unique($sp2);
+			$doctr_list=array();
+			foreach ($sp_code_list as $sp_code){
+				$doctr_list[]=get_doc_details($sp_code);
+			}
+			$overall_doc_list=array_merge(...array_filter($doctr_list));
+//			pr($overall_doc_list); die;
+			$data['doctor_list']=$overall_doc_list;
+		}
 
+		$this->load->get_view('interaction_list/doctor_report',$data);
+	}
+
+	public function doctor_generate_secondary(){
+		$data['title'] = "Dealer Secondary Report";
+		$data['page_name']="Dealer Secondary Report";
+		$inputData=$this->input->post();
+
+		$dateInt=explode(' - ',$inputData['start_date']);
+
+		$date1 = str_replace('/', '-', $dateInt[0] );
+		$strtDate = date("Y-m-d", strtotime($date1));     ////Start Date of DateRange.
+
+		$date2 = str_replace('/', '-', $dateInt[1] );
+		$endDate = date("Y-m-d", strtotime($date2));		////End Date of DateRange.
+
+		$allDateArr = getDatesFromRange($strtDate, $endDate);    //All dates Array.
+		$data['month_date']=$allDateArr;
+
+		$doc_ID = $inputData['doc_user_id'];
+		$data['doc_id']=$doc_ID;
+		$data['doc_name']=get_doctor_name($doc_ID);
+
+		$data['doc_secondary_list']=json_decode(file_get_contents("ReportJSON/IntrctionDocSumry.json"),true);
+
+		$this->load->get_view('interaction_list/doctor_sec_reports',$data);
+
+	}
 
 
 

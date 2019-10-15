@@ -6,7 +6,7 @@ New Module Developed by:
  */
 $doc_secondary_list = json_decode(file_get_contents ("ReportJSON/doc_secondary_supply.json"),true);
 $pharma_secondary_list = json_decode(file_get_contents ("ReportJSON/phar_secondary_supply.json"),true);
-
+$secondary_sum=0;
 ?>
 
 
@@ -99,6 +99,7 @@ td {	padding-left: 60% !important;		}
 
 									<td>
 										<?=$val_c['secondarysale'];?>
+										<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 									</td>
 
 									<td>
@@ -154,6 +155,7 @@ td {	padding-left: 60% !important;		}
 
 									<td>
 										<?=$val_c['secondarysale'];?>
+										<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 									</td>
 
 									<td>
@@ -210,6 +212,7 @@ td {	padding-left: 60% !important;		}
 
 							<td>
 								<?=$val_c['secondarysale'];?>
+								<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 							</td>
 
 							<td>
@@ -270,6 +273,7 @@ td {	padding-left: 60% !important;		}
 									</td>
 									<td>
 										<?= $val_c['secondarysale']; ?>
+										<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 									</td>
 									<td>
 										<?php
@@ -313,6 +317,7 @@ td {	padding-left: 60% !important;		}
 									</td>
 									<td>
 										<?= $val_c['secondarysale']; ?>
+										<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 									</td>
 									<td>
 										<?php
@@ -356,6 +361,7 @@ td {	padding-left: 60% !important;		}
 							</td>
 							<td>
 								<?=$val_c['secondarysale'];?>
+								<?php $secondary_sum=$secondary_sum+$val_c['secondarysale']?>
 							</td>
 							<td>
 								<?php
@@ -385,8 +391,11 @@ td {	padding-left: 60% !important;		}
 			 }
 				}
 				?>
-
 		</tbody>
+				  <?php if($secondary_sum!=0){?>
+					  <tfooter><tr><td rowspan="3" colspan="3" style=""><strong>Grand Total</strong></td><td
+								  rowspan="" colspan="" style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
+				  <?php }?>
 </table>
 
           <p><?php /* echo $links; */ ?></p>

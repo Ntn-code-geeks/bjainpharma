@@ -208,8 +208,6 @@ class User extends Parent_admin_controller {
                 
 //           echo   $this->session->userdata('siteurl');    die;
               $data['title'] = "Dashboard";  
-              
-            
 
 //              $data['sales'] = $this->analysis->top_sales_cust();  // show top 5 sales dealer
 //              $data['payment'] = $this->analysis->top_payment_cust();  // show top 5 payment dealer
@@ -220,33 +218,38 @@ class User extends Parent_admin_controller {
               
               if(is_admin() || logged_user_child()){
                    /*model call for this week*/ 
-                  $data['week_secondary'] = $this->analysis->secondary_analysis(); //for doctor secondary highest and lowest
-                  $data['week_prodcutive'] = $this->analysis->productive_analysis(); //for doctor Productive call highest and lowest
-                  $data['week_no_order'] = $this->analysis->noorder_met_analysis();  // for doctor No order but met highest and lowest
-                  $data['week_not_met'] = $this->analysis->not_met_analysis();  // for doctor Not met highest and lowest
+	  $data['week_secondary'] = $this->analysis->secondary_analysis(); //for doctor secondary highest and lowest
+	  $data['dealer_secondary_week']= $this->analysis->dealer_secondary();
+	  $data['visit_weekly']= $this->analysis->overall_visits();
+// $data['week_prodcutive'] = $this->analysis->productive_analysis(); //doctor Productive call highest and lowest
+//	  $data['week_no_order'] = $this->analysis->noorder_met_analysis();// doctor No order but met highest and lowest
+//	  $data['week_not_met'] = $this->analysis->not_met_analysis();  // for doctor Not met highest and lowest
                      /*end model for this week*/
                    /*model call for this Month*/ 
-              $data['secondary_month'] = $this->analysis->secondary_analysis('-1 month'); //for doctor secondary highest and lowest
-
-              $data['prodcutive_month'] = $this->analysis->productive_analysis('-1 month');  //for doctor Productive call highest and lowest
-
-              $data['no_order_month'] = $this->analysis->noorder_met_analysis('-1 month');// for doctor No order but met highest and lowest
-              $data['not_met_month'] = $this->analysis->not_met_analysis('-1 month');  // for doctor Not met highest and lowest
-
+$data['secondary_month'] = $this->analysis->secondary_analysis('-1 month'); //doctor secondary highest and lowest
+$data['dealer_secondary_month']= $this->analysis->dealer_secondary('-1 month');
+$data['visit_monthly']= $this->analysis->overall_visits('-1 month');
+//$data['prodcutive_month'] = $this->analysis->productive_analysis('-1 month');//doctor Productivehighest and lowest
+//$data['no_order_month'] = $this->analysis->noorder_met_analysis('-1 month');//doctor No order but met highest and lowest
+//$data['not_met_month'] = $this->analysis->not_met_analysis('-1 month'); //doctor Not met highest and lowest
               /*end model for this Month*/
               
                /*model call for this Quarter*/ 
               $data['secondary_quarter'] = $this->analysis->secondary_analysis('-3 month'); //for doctor secondary highest and lowest
-              $data['prodcutive_quarter'] = $this->analysis->productive_analysis('-3 month');  //for doctor Productive call highest and lowest
-              $data['no_order_quarter'] = $this->analysis->noorder_met_analysis('-3 month');// for doctor No order but met highest and lowest
-              $data['not_met_quarter'] = $this->analysis->not_met_analysis('-3 month');  // for doctor Not met highest and lowest
+			  $data['dealer_secondary_quart']= $this->analysis->dealer_secondary('-3 month');
+			  $data['visit_quart']= $this->analysis->overall_visits('-3 month');
+//              $data['prodcutive_quarter'] = $this->analysis->productive_analysis('-3 month');  //for doctor Productive call highest and lowest
+//              $data['no_order_quarter'] = $this->analysis->noorder_met_analysis('-3 month');// for doctor No order but met highest and lowest
+//              $data['not_met_quarter'] = $this->analysis->not_met_analysis('-3 month');  // for doctor Not met highest and lowest
               /*end model for this Quarter*/
               
                /*model call for this Year*/ 
               $data['secondary_year'] = $this->analysis->secondary_analysis('-1 year'); //for doctor secondary highest and lowest
-              $data['prodcutive_year'] = $this->analysis->productive_analysis('-1 year');  //for doctor Productive call highest and lowest
-              $data['no_order_year'] = $this->analysis->noorder_met_analysis('-1 year');// for doctor No order but met highest and lowest
-              $data['not_met_year'] = $this->analysis->not_met_analysis('-1 year');  // for doctor Not met highest and lowest
+				$data['dealer_secondary_year']= $this->analysis->dealer_secondary('-1 year');
+				$data['visit_yearly']= $this->analysis->overall_visits('-1 year');
+//              $data['prodcutive_year'] = $this->analysis->productive_analysis('-1 year');  //for doctor Productive call highest and lowest
+//              $data['no_order_year'] = $this->analysis->noorder_met_analysis('-1 year');// for doctor No order but met highest and lowest
+//              $data['not_met_year'] = $this->analysis->not_met_analysis('-1 year');  // for doctor Not met highest and lowest
               /*end model for this Year*/
               
               

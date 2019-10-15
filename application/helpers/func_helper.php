@@ -836,7 +836,7 @@ function get_all_meeeting_city(){
 
 
 	function get_city_id($id){
-$ci = &get_instance();
+		$ci = &get_instance();
         $arr = "*";
         $ci->db->select($arr);
         $ci->db->from("city");
@@ -1557,7 +1557,7 @@ function get_state_id($id){
 function get_destination_interaction($table,$id,$con){
 $ci = &get_instance();
 //            $col='city_pincode';
-$col = 'city_id';
+$col = 'city_id,city_pincode';
 $ci->db->select($col);
 $ci->db->from($table);
 if($con==1)
@@ -1573,19 +1573,24 @@ elseif($con==3)
 $ci->db->where('dealer_id',$id);
 }
 $query= $ci->db->get();
-//              echo $ci->db->last_query(); die; 
+//  echo $ci->db->last_query(); die;
 if($ci->db->affected_rows()){
 $cityid = $query->row()->city_id;
-//                echo $cityid; die;
+$citypin = $query->row()->city_pincode;
+// echo $cityid; die;
 $arr = 'pool_pincode';
 $ci->db->select($arr);
 $ci->db->from('city');
 $ci->db->where('city_id',$cityid);
-
 $query2 = $ci->db->get();
-//                      echo $ci->db->last_query(); die; 
+//  echo $ci->db->last_query(); die;
 if($ci->db->affected_rows()){
-return $query2->row()->pool_pincode;
+$city_pool_pin=$query2->row()->pool_pincode;
+if($citypin==$city_pool_pin){
+	return $city_pool_pin;
+}else{
+	return $citypin;
+}
 }else{
 return FALSE;
 }
@@ -2689,6 +2694,29 @@ function get_trip_details($userid){
 	}
 }
 
+
+function get_check_active_users($arr){
+	$ci = &get_instance();
+	$rest=array();
+	foreach ($arr as $uid){
+		$arr="id";
+		$ci->db->select($arr);
+		$ci->db->from("pharma_users");
+		$ci->db->where('id',$uid);
+		$ci->db->where('user_status ',1);
+		$query = $ci->db->get();
+		if($ci->db->affected_rows()){
+			$rest[]= $query->row()->id;
+		}else{
+			$rest[] = NULL;
+		}
+	}
+	return array_filter($rest);
+}
+
+
+
+
 function get_users_da(){
 	$ci = &get_instance();
 	$arr = "*";
@@ -2704,6 +2732,148 @@ function get_users_da(){
 }
 
 
+function get_doc_details($sp_code){
+	$ci = &get_instance();
+	$arr = "doctor_id,doc_name,city_id,doc_phone,sp_code,crm_user_id,city_pincode";
+	$ci->db->select($arr);
+	$ci->db->from("doctor_list");
+	$ci->db->where("sp_code",$sp_code);
+	$ci->db->where("doc_status",1);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var=$query->result_array();
+		return $var;
+	}else{
+		return false;
+	}
+}
 
+
+
+function count_overall_visits($month_date='',$doc_id=''){
+	$doc_interc_list=json_decode(file_get_contents("ReportJSON/IntrctionDocSumry.json"),true);
+
+	$doc_interc=array();
+	$child_usr=get_check_active_users(explode(', ',logged_user_child()));
+	$allSP_code=explode(',',all_user_sp_code());
+
+	$doctr_list=array();
+	foreach ($allSP_code as $sp_cod){
+		$doctr_list[]=get_doc_details($sp_cod);
+	}
+	@$overall_doc_list=array_merge(...array_filter($doctr_list));
+//	pr($overall_doc_list); die;
+
+	foreach ($doc_interc_list as $doc_sec){
+		foreach ($doc_sec as $doct_list){
+			 $patDate=date('Y-m-d 00:00:00', strtotime($doct_list['date']));
+			if (in_array($patDate,$month_date)) {
+				if(is_admin()){
+					if(!empty($overall_doc_list)) {
+						foreach ($overall_doc_list as $doc_lst) {
+							if ($doc_lst['doctor_id'] == $doc_id) {
+							   $doc_interc[] = $doct_list['doc_id'];
+							}
+						}
+					}
+				}
+				else if(!empty($child_usr)){
+					if(in_array($doct_list['user_id'], $child_usr)) {
+						if(!empty($overall_doc_list)) {
+							foreach ($overall_doc_list as $doc_lst) {
+								if ($doc_lst['doctor_id'] == $doc_id) {
+									$doc_interc[] = $doct_list['doc_id'];
+								}
+							}
+						}
+					}
+				}
+				else{
+					if($doct_list['user_id']==logged_user_data()) {
+						if(!empty($overall_doc_list)) {
+							foreach ($overall_doc_list as $doc_lst) {
+								if ($doc_lst['doctor_id'] == $doc_id) {
+									$doc_interc[] = $doct_list['doc_id'];
+								}
+							}
+						}
+					}
+				}
+
+			}
+		}
+	}
+	$count=0;
+	foreach ($doc_interc as $doc_int){
+		if($doc_int==$doc_id){
+			$count=$count + 1;
+		}
+	}
+	return $count;
+
+}
+
+function get_dealers_count($uid){
+	$ci = &get_instance();
+	$arr = "dealers";
+	$ci->db->select($arr);
+	$ci->db->from("dealers_count");
+	$ci->db->where("user_id",$uid);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var=$query->row()->dealers;
+		return $var;
+	}else{
+		return 0;
+	}
+}
+
+function get_pharma_count($uid){
+	$ci = &get_instance();
+	$arr = "sub_dealers";
+	$ci->db->select($arr);
+	$ci->db->from("dealers_count");
+	$ci->db->where("user_id",$uid);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var=$query->row()->sub_dealers;
+		return $var;
+	}else{
+		return 0;
+	}
+}
+
+
+
+
+function get_dealer_id($name){
+	$ci = &get_instance();
+	$arr = "dealer_id";
+	$ci->db->select($arr);
+	$ci->db->from("dealer");
+	$ci->db->where("dealer_name",$name);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var_d=$query->row()->dealer_id;
+		return $var_d;
+	}else{
+		return 0;
+	}
+}
+
+function get_pharma_id($name){
+	$ci = &get_instance();
+	$arr = "pharma_id";
+	$ci->db->select($arr);
+	$ci->db->from("pharmacy_list");
+	$ci->db->where("company_name",$name);
+	$query = $ci->db->get();
+	if($ci->db->affected_rows()){
+		$var_ph=$query->row()->pharma_id;
+		return $var_ph;
+	}else{
+		return 0;
+	}
+}
 
 ?>

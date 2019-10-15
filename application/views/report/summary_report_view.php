@@ -1,4 +1,6 @@
 <?php
+
+
 /*
  * Developed By:
 ** Nitin kumar
@@ -53,9 +55,13 @@
                                 <th>Total No. of Doctors Interaction</th>
                                 <th>Total No. of Team Members</th>
                                 <th>Total Secondary Sale </th>
-                                <th>Total Productive Call </th>
-                                <th>Total Number of Order </th>
+								<th>Total Order Received </th>
                                 <th>Total Not Met </th>
+								<th>Average Interaction</th>
+								<th>Average Secondary</th>
+								<th>Total Dealers</th>
+								<th>Total Sub-Dealers</th>
+
                             </tr>
                             </thead>
 
@@ -91,7 +97,7 @@
 										<td><?= $weekly_data['city_name'] ?></td>
 										<td><?= $weekly_data['designation_name'] ?></td>
 										<td><?= $weekly_data['total_doctors'] ?></td>
-										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										<td><?= $weekly_data['team_members'] ?></td>
 										<?php if (!empty($weekly_data['total_secondary'])) { ?>
 											<td><?= $weekly_data['total_secondary']; ?></td>
@@ -103,16 +109,32 @@
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
-										<?php if (!empty($weekly_data['total_orders'])) { ?>
-											<td><?= $weekly_data['total_orders']; ?></td>
-										<?php } else { ?>
-											<td>0</td>
-										<?php } ?>
+
 										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											<td><?= $weekly_data['total_orders_not_met']; ?></td>
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
+
+										<?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											<td><?=number_format(($weekly_data['total_doc_interaction'] -
+														$weekly_data['total_orders_not_met'])/ 7 , 2, '.', ''); ?></td>
+									<?php }else{ ?>
+										<td>0.00</td>
+									<?php } ?>
+
+									<?php
+									$tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+									$tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+									if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+										 $avg_sec=($tot_sec/$tot_interact);  ?>
+										<td>
+											<?= number_format($avg_sec,2,'.',''); ?></td>
+										<?php }else { ?>
+											<td>0.00</td>
+										<?php } ?>
+										<td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										<td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									</tr>
 								<?php }
 							}else{
@@ -123,7 +145,7 @@
 										<td><?= $weekly_data['city_name'] ?></td>
 										<td><?= $weekly_data['designation_name'] ?></td>
 										<td><?= $weekly_data['total_doctors'] ?></td>
-										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										<td><?= $weekly_data['team_members'] ?></td>
 										<?php if (!empty($weekly_data['total_secondary'])) { ?>
 											<td><?= $weekly_data['total_secondary']; ?></td>
@@ -135,16 +157,33 @@
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
-										<?php if (!empty($weekly_data['total_orders'])) { ?>
-											<td><?= $weekly_data['total_orders']; ?></td>
-										<?php } else { ?>
-											<td>0</td>
-										<?php } ?>
+
 										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											<td><?= $weekly_data['total_orders_not_met']; ?></td>
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
+
+										<?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											<td><?=number_format(($weekly_data['total_doc_interaction'] -
+														$weekly_data['total_orders_not_met'])/ 7 , 2, '.', ''); ?></td>
+										<?php }else{ ?>
+											<td>0.00</td>
+										<?php } ?>
+
+										<?php
+										$tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										$tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											$avg_sec=($tot_sec/$tot_interact);  ?>
+											<td>
+												<?= number_format($avg_sec,2,'.',''); ?></td>
+										<?php }else { ?>
+											<td>0.00</td>
+										<?php } ?>
+
+										<td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										<td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									</tr>
 								<?php }
 							}
@@ -163,7 +202,7 @@
 										<td><?= $weekly_data['city_name'] ?></td>
 										<td><?= $weekly_data['designation_name'] ?></td>
 										<td><?= $weekly_data['total_doctors'] ?></td>
-										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										<td><?= $weekly_data['team_members'] ?></td>
 										<?php if (!empty($weekly_data['total_secondary'])) { ?>
 											<td><?= $weekly_data['total_secondary']; ?></td>
@@ -175,16 +214,30 @@
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
-										<?php if (!empty($weekly_data['total_orders'])) { ?>
-											<td><?= $weekly_data['total_orders']; ?></td>
-										<?php } else { ?>
-											<td>0</td>
-										<?php } ?>
 										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											<td><?= $weekly_data['total_orders_not_met']; ?></td>
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
+
+										<?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											<td><?=number_format(($weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'])/ 30 , 2, '.', ''); ?></td>
+										<?php }else{ ?>
+											<td>0.00</td>
+										<?php } ?>
+
+										<?php
+										$tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										$tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											$avg_sec=($tot_sec/$tot_interact);  ?>
+											<td>
+												<?= number_format($avg_sec,2,'.',''); ?></td>
+										<?php }else { ?>
+											<td>0.00</td>
+										<?php } ?>
+										<td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										<td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									</tr>
 								<?php }
 								}else{
@@ -195,7 +248,7 @@
 										<td><?= $weekly_data['city_name'] ?></td>
 										<td><?= $weekly_data['designation_name'] ?></td>
 										<td><?= $weekly_data['total_doctors'] ?></td>
-										<td><?= $weekly_data['total_doc_interaction'] ?></td>
+										<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										<td><?= $weekly_data['team_members'] ?></td>
 										<?php if (!empty($weekly_data['total_secondary'])) { ?>
 											<td><?= $weekly_data['total_secondary']; ?></td>
@@ -207,16 +260,30 @@
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
-										<?php if (!empty($weekly_data['total_orders'])) { ?>
-											<td><?= $weekly_data['total_orders']; ?></td>
-										<?php } else { ?>
-											<td>0</td>
-										<?php } ?>
 										<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											<td><?= $weekly_data['total_orders_not_met']; ?></td>
 										<?php } else { ?>
 											<td>0</td>
 										<?php } ?>
+
+										<?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											<td><?=number_format(($weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'])/ 30 , 2, '.', ''); ?></td>
+										<?php }else{ ?>
+											<td>0.00</td>
+										<?php } ?>
+
+										<?php
+										$tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										$tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											$avg_sec=($tot_sec/$tot_interact);  ?>
+											<td>
+												<?= number_format($avg_sec,2,'.',''); ?></td>
+										<?php }else { ?>
+											<td>0.00</td>
+										<?php } ?>
+										<td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										<td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									</tr>
 								<?php }
 								}
@@ -234,7 +301,7 @@
 										   <td><?= $weekly_data['city_name'] ?></td>
 										   <td><?= $weekly_data['designation_name'] ?></td>
 										   <td><?= $weekly_data['total_doctors'] ?></td>
-										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										   <td><?= $weekly_data['team_members'] ?></td>
 										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
 											   <td><?= $weekly_data['total_secondary']; ?></td>
@@ -246,16 +313,32 @@
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
-										   <?php if (!empty($weekly_data['total_orders'])) { ?>
-											   <td><?= $weekly_data['total_orders']; ?></td>
-										   <?php } else { ?>
-											   <td>0</td>
-										   <?php } ?>
 										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
+
+										   <?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											   <td><?=number_format(($weekly_data['total_doc_interaction'] -
+														   $weekly_data['total_orders_not_met'])/ 90 , 2, '.', '');
+											   ?></td>
+										   <?php }else{ ?>
+											   <td>0.00</td>
+										   <?php } ?>
+
+										   <?php
+										   $tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										   $tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										   if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											   $avg_sec=($tot_sec/$tot_interact);  ?>
+											   <td>
+												   <?= number_format($avg_sec,2,'.',''); ?></td>
+										   <?php }else { ?>
+											   <td>0.00</td>
+										   <?php } ?>
+										   <td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										   <td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									   </tr>
 								   <?php }
 							   }else{
@@ -266,7 +349,7 @@
 										   <td><?= $weekly_data['city_name'] ?></td>
 										   <td><?= $weekly_data['designation_name'] ?></td>
 										   <td><?= $weekly_data['total_doctors'] ?></td>
-										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										   <td><?= $weekly_data['team_members'] ?></td>
 										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
 											   <td><?= $weekly_data['total_secondary']; ?></td>
@@ -278,16 +361,32 @@
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
-										   <?php if (!empty($weekly_data['total_orders'])) { ?>
-											   <td><?= $weekly_data['total_orders']; ?></td>
-										   <?php } else { ?>
-											   <td>0</td>
-										   <?php } ?>
 										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
+
+										   <?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											   <td><?=number_format(($weekly_data['total_doc_interaction'] -
+														   $weekly_data['total_orders_not_met'])/ 90 , 2, '.', '');
+											   ?></td>
+										   <?php }else{ ?>
+											   <td>0.00</td>
+										   <?php } ?>
+
+										   <?php
+										   $tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										   $tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										   if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											   $avg_sec=($tot_sec/$tot_interact);  ?>
+											   <td>
+												   <?= number_format($avg_sec,2,'.',''); ?></td>
+										   <?php }else { ?>
+											   <td>0.00</td>
+										   <?php } ?>
+										   <td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										   <td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									   </tr>
 								   <?php }
 							   }
@@ -306,7 +405,7 @@
 										   <td><?= $weekly_data['city_name'] ?></td>
 										   <td><?= $weekly_data['designation_name'] ?></td>
 										   <td><?= $weekly_data['total_doctors'] ?></td>
-										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										   <td><?= $weekly_data['team_members'] ?></td>
 										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
 											   <td><?= $weekly_data['total_secondary']; ?></td>
@@ -318,16 +417,32 @@
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
-										   <?php if (!empty($weekly_data['total_orders'])) { ?>
-											   <td><?= $weekly_data['total_orders']; ?></td>
-										   <?php } else { ?>
-											   <td>0</td>
-										   <?php } ?>
 										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
+
+										   <?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											   <td><?=number_format(($weekly_data['total_doc_interaction'] -
+														   $weekly_data['total_orders_not_met'])/ 365 , 2, '.', '');
+											   ?></td>
+										   <?php }else{ ?>
+											   <td>0.00</td>
+										   <?php } ?>
+
+										   <?php
+										   $tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										   $tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										   if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											   $avg_sec=($tot_sec/$tot_interact);  ?>
+											   <td>
+												   <?= number_format($avg_sec,2,'.',''); ?></td>
+										   <?php }else { ?>
+											   <td>0.00</td>
+										   <?php } ?>
+										   <td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										   <td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									   </tr>
 								   <?php }
 							   }else{
@@ -338,7 +453,7 @@
 										   <td><?= $weekly_data['city_name'] ?></td>
 										   <td><?= $weekly_data['designation_name'] ?></td>
 										   <td><?= $weekly_data['total_doctors'] ?></td>
-										   <td><?= $weekly_data['total_doc_interaction'] ?></td>
+										   <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
 										   <td><?= $weekly_data['team_members'] ?></td>
 										   <?php if (!empty($weekly_data['total_secondary'])) { ?>
 											   <td><?= $weekly_data['total_secondary']; ?></td>
@@ -350,16 +465,32 @@
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
-										   <?php if (!empty($weekly_data['total_orders'])) { ?>
-											   <td><?= $weekly_data['total_orders']; ?></td>
-										   <?php } else { ?>
-											   <td>0</td>
-										   <?php } ?>
 										   <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
 											   <td><?= $weekly_data['total_orders_not_met']; ?></td>
 										   <?php } else { ?>
 											   <td>0</td>
 										   <?php } ?>
+
+										   <?php if(!empty($weekly_data['total_doc_interaction']) && !empty($weekly_data['total_orders_not_met'])){ ?>
+											   <td><?=number_format(($weekly_data['total_doc_interaction'] -
+														   $weekly_data['total_orders_not_met'])/ 365 , 2, '.', '');
+											   ?></td>
+										   <?php }else{ ?>
+											   <td>0.00</td>
+										   <?php } ?>
+
+										   <?php
+										   $tot_interact=$weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'];
+										   $tot_sec=str_replace( ',', '', $weekly_data['total_secondary']);
+										   if (!empty($weekly_data['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											   $avg_sec=($tot_sec/$tot_interact);  ?>
+											   <td>
+												   <?= number_format($avg_sec,2,'.',''); ?></td>
+										   <?php }else { ?>
+											   <td>0.00</td>
+										   <?php } ?>
+										   <td><?=get_dealers_count($weekly_data['user_id']); ?></td>
+										   <td><?=get_pharma_count($weekly_data['user_id']); ?></td>
 									   </tr>
 								   <?php }
 							   }
@@ -384,7 +515,7 @@
 									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
-									<td><?=$user['total_doc_interaction'] ?></td>
+									<td><?=$user['total_doc_interaction'] - $user['total_orders_not_met']?></td>
 									<td><?=$user['team_members'] ?></td>
 									<?php  if(!empty($user['total_secondary'])){ ?>
 										<td><?=$user['total_secondary'];?></td>
@@ -396,16 +527,32 @@
 									<?php }else{ ?>
 										<td>0</td>
 									<?php } ?>
-									<?php if(!empty($user['total_orders'])){ ?>
-										<td><?=$user['total_orders'];?></td>
-									<?php } else{ ?>
-										<td>0</td>
-									<?php } ?>
 									<?php if(!empty($user['total_orders_not_met'])){ ?>
 										<td><?=$user['total_orders_not_met'];?></td>
 									<?php } else{ ?>
 										<td>0</td>
 									<?php } ?>
+
+									<?php if(!empty($user['total_doc_interaction']) && !empty($user['total_orders_not_met'])){ ?>
+										<td><?=number_format(($user['total_doc_interaction'] -
+													$user['total_orders_not_met'])/ 7 , 2, '.', '');
+											?></td>
+									<?php }else{ ?>
+										<td>0.00</td>
+									<?php } ?>
+
+									<?php
+									$tot_interact=$user['total_doc_interaction'] - $user['total_orders_not_met'];
+									$tot_sec=str_replace( ',', '', $user['total_secondary']);
+									if (!empty($user['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+										$avg_sec=($tot_sec/$tot_interact);  ?>
+										<td>
+											<?= number_format($avg_sec,2,'.',''); ?></td>
+									<?php }else { ?>
+										<td>0.00</td>
+									<?php } ?>
+									<td><?=get_dealers_count($user['user_id']); ?></td>
+									<td><?=get_pharma_count($user['user_id']); ?></td>
 								</tr>
 								<!--./ For the Month-->
 						<?php }
@@ -424,7 +571,7 @@
 									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
-									<td><?=$user['total_doc_interaction'] ?></td>
+									<td><?=$user['total_doc_interaction'] -  $user['total_orders_not_met'] ?></td>
 									<td><?=$user['team_members'] ?></td>
 									<?php  if(!empty($user['total_secondary'])){ ?>
 										<td><?=$user['total_secondary'];?></td>
@@ -436,16 +583,32 @@
 									<?php }else{ ?>
 										<td>0</td>
 									<?php } ?>
-									<?php if(!empty($user['total_orders'])){ ?>
-										<td><?=$user['total_orders'];?></td>
-									<?php } else{ ?>
-										<td>0</td>
-									<?php } ?>
 									<?php if(!empty($user['total_orders_not_met'])){ ?>
 										<td><?=$user['total_orders_not_met'];?></td>
 									<?php } else{ ?>
 										<td>0</td>
 									<?php } ?>
+
+									<?php if(!empty($user['total_doc_interaction']) && !empty($user['total_orders_not_met'])){ ?>
+										<td><?=number_format(($user['total_doc_interaction'] -
+													$user['total_orders_not_met'])/ 30 , 2, '.', '');
+											?></td>
+									<?php }else{ ?>
+										<td>0.00</td>
+									<?php } ?>
+
+									<?php
+									$tot_interact=$user['total_doc_interaction'] - $user['total_orders_not_met'];
+									$tot_sec=str_replace( ',', '', $user['total_secondary']);
+									if (!empty($user['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+										$avg_sec=($tot_sec/$tot_interact);  ?>
+										<td>
+											<?= number_format($avg_sec,2,'.',''); ?></td>
+									<?php }else { ?>
+										<td>0.00</td>
+									<?php } ?>
+									<td><?=get_dealers_count($user['user_id']); ?></td>
+									<td><?=get_pharma_count($user['user_id']); ?></td>
 								</tr>
 								<!--./ For the Month-->
 							<?php }
@@ -464,7 +627,7 @@
 									<td><?=$user['city_name'] ?></td>
 									<td><?=$user['designation_name'] ?></td>
 									<td><?=$user['total_doctors'] ?></td>
-									<td><?=$user['total_doc_interaction'] ?></td>
+									<td><?=$user['total_doc_interaction'] - $user['total_orders_not_met'] ?></td>
 									<td><?=$user['team_members'] ?></td>
 									<?php  if(!empty($user['total_secondary'])){ ?>
 										<td><?=$user['total_secondary'];?></td>
@@ -476,16 +639,31 @@
 									<?php }else{ ?>
 										<td>0</td>
 									<?php } ?>
-									<?php if(!empty($user['total_orders'])){ ?>
-										<td><?=$user['total_orders'];?></td>
-									<?php } else{ ?>
-										<td>0</td>
-									<?php } ?>
 									<?php if(!empty($user['total_orders_not_met'])){ ?>
 										<td><?=$user['total_orders_not_met'];?></td>
 									<?php } else{ ?>
 										<td>0</td>
 									<?php } ?>
+
+									<?php if(!empty($user['total_doc_interaction']) && !empty($user['total_orders_not_met'])){ ?>
+										<td><?=number_format(($user['total_doc_interaction'] -
+													$user['total_orders_not_met'])/ 90 , 2, '.', '');
+											?></td>
+									<?php }else{ ?>
+										<td>0.00</td>
+									<?php } ?>
+									<?php
+									$tot_interact=$user['total_doc_interaction'] - $user['total_orders_not_met'];
+									$tot_sec=str_replace( ',', '', $user['total_secondary']);
+									if (!empty($user['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+										$avg_sec=($tot_sec/$tot_interact);  ?>
+										<td>
+											<?= number_format($avg_sec,2,'.',''); ?></td>
+									<?php }else { ?>
+										<td>0.00</td>
+									<?php } ?>
+									<td><?=get_dealers_count($user['user_id']); ?></td>
+									<td><?=get_pharma_count($user['user_id']); ?></td>
 								</tr>
 								<!--./ For the Month-->
 							<?php }
@@ -504,7 +682,7 @@
 										<td><?=$user['city_name'] ?></td>
 										<td><?=$user['designation_name'] ?></td>
 										<td><?=$user['total_doctors'] ?></td>
-										<td><?=$user['total_doc_interaction'] ?></td>
+										<td><?=$user['total_doc_interaction'] - $user['total_orders_not_met'] ?></td>
 										<td><?=$user['team_members'] ?></td>
 										<?php  if(!empty($user['total_secondary'])){ ?>
 											<td><?=$user['total_secondary'];?></td>
@@ -516,16 +694,31 @@
 										<?php }else{ ?>
 											<td>0</td>
 										<?php } ?>
-										<?php if(!empty($user['total_orders'])){ ?>
-											<td><?=$user['total_orders'];?></td>
-										<?php } else{ ?>
-											<td>0</td>
-										<?php } ?>
 										<?php if(!empty($user['total_orders_not_met'])){ ?>
 											<td><?=$user['total_orders_not_met'];?></td>
 										<?php } else{ ?>
 											<td>0</td>
 										<?php } ?>
+
+										<?php if(!empty($user['total_doc_interaction']) && !empty($user['total_orders_not_met'])){ ?>
+											<td><?=number_format(($user['total_doc_interaction'] -
+														$user['total_orders_not_met'])/ 365 , 2, '.', '');
+												?></td>
+										<?php }else{ ?>
+											<td>0.00</td>
+										<?php } ?>
+										<?php
+										$tot_interact=$user['total_doc_interaction'] - $user['total_orders_not_met'];
+										$tot_sec=str_replace( ',', '', $user['total_secondary']);
+										if (!empty($user['total_secondary']) && !empty($tot_sec) && !empty($tot_interact)) {
+											$avg_sec=($tot_sec/$tot_interact);  ?>
+											<td>
+												<?= number_format($avg_sec,2,'.',''); ?></td>
+										<?php }else { ?>
+											<td>0.00</td>
+										<?php } ?>
+										<td><?=get_dealers_count($user['user_id']); ?></td>
+										<td><?=get_pharma_count($user['user_id']); ?></td>
 									</tr>
 									<!--./ For the Month-->
 								<?php }
@@ -569,6 +762,7 @@
             'ordering'    : true,
             'info'        : true,
             'autoWidth'   : true,
+            'scrollX'     : true,
         });
     });
 </script>

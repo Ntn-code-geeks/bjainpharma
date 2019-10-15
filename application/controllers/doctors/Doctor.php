@@ -991,8 +991,7 @@ class Doctor extends Parent_admin_controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('user', 'User', 'required');
 		if($this->form_validation->run() == FALSE){
-			return $this->import_doctor();    
-		
+			return $this->import_doctor();  
 		}
 		else{
 			$mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');

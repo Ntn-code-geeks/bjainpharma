@@ -308,8 +308,7 @@ class Dealer_model extends CI_Model {
           }
           
         }
-//       echo $url;
-        /*  die;*/
+//       echo $url; die;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -328,7 +327,7 @@ class Dealer_model extends CI_Model {
         }
         else
         {
-            // $distance=1;
+			// $distance=1;
             $maindistance=0;
         }
         if($maindistance == '1'){
@@ -336,8 +335,17 @@ class Dealer_model extends CI_Model {
         }elseif ($maindistance == '0'){
             $distance=0;
         }
-        else{
-            $distance=$maindistance;
+		else{
+
+		$user_city_ID=get_user_deatils(logged_user_data())->headquarters_city;
+			if(	(is_city_metro($destination_city_id)== is_city_metro($user_city_ID)) &&
+				(get_state_id($user_city_ID) == get_state_id($destination_city_id))
+			  ){
+				$distance = 0;
+			}else{
+				$distance=$maindistance;
+			}
+
         }
 //echo $distance; die;
         if($distance>=0 && $distance<=100)
@@ -5451,6 +5459,37 @@ class Dealer_model extends CI_Model {
          
     }
     
-    
+
+
+
+
+    public function update_dealers_record($data){
+    	$records=$data['records'];
+    	$user_id=$data['user_id'];
+    	$arr="user_id";
+		$this->db->select($arr);
+		$this->db->from("dealers_count");
+		$this->db->where('user_id',$user_id);
+		$query = $this->db->get();
+		if($this->db->affected_rows()){
+			/*Update*/
+			$dataArr=array(
+				'dealers' => $records,
+				'user_id' => $user_id,
+			);
+			$this->db->update('dealers_count',$dataArr);
+			return ($this->db->affected_rows() == 1) ? true : false;
+
+		}else{
+			/*Insert New*/
+			$dataArr=array(
+				'dealers' => $records,
+				'user_id' => $user_id,
+			);
+			$this->db->insert('dealers_count',$dataArr);
+			return ($this->db->affected_rows() == 1) ? true : false;
+		}
+
+	}
 
 }

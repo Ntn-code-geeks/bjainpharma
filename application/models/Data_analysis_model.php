@@ -236,90 +236,461 @@ class Data_analysis_model extends CI_Model {
     
     
      /*
-     * Developer: Shailesh Saraswat
-     * Email: sss.shailesh@gmail.com
-     * Dated: 28-12-2018 
+     * Developer: Nitin kumar
+     * Dated: 09-10-2019
      * 
      *  for the secondary highest and lowest report
      */ 
+//    public function secondary_analysis($data=''){
+//
+//         if($data!=''){
+//             $start = date('Y-m-d', strtotime($data));
+//            }
+//            else{
+//             $start = date('Y-m-d', strtotime('-7 days'));
+//            }
+//          $end = date('Y-m-d')." 23:59:59";
+//
+//        $arr = 'pid.crm_user_id as usr_id,pu.name as empname,pid.meeting_sale';
+//        $this->db->select($arr);
+//		$this->db->from('pharma_interaction_doctor pid');
+//        $this->db->join('pharma_users pu','pid.crm_user_id=pu.id');
+//        $this->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
+//		 $this->db->where('pid.create_date >=', $start);
+//
+//         $this->db->where('pid.create_date <=', $end);
+//
+//         if(logged_user_child()){
+//             $child_emp = explode(',', logged_user_child());
+//             $this->db->where_in('pid.crm_user_id', $child_emp);
+//         }
+////		$this->db->group_by("pid.crm_user_id");
+////		$this->db->limit(3,0);
+//		$this->db->order_by('pid.meeting_sale','DESC');
+//
+//         $query = $this->db->get();
+////               echo $this->db->last_query(); echo "<br><br>";
+//        if($this->db->affected_rows()){
+//                       $heighest = $query->result_array();
+//                        $arr = 'pid.crm_user_id as usr_id,pu.name as empname,pid.meeting_sale';
+//						$this->db->select($arr);
+//						$this->db->from('pharma_interaction_doctor pid');
+//						$this->db->join('pharma_users pu','pid.crm_user_id=pu.id');
+//						$this->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
+//						$this->db->where('pid.meeting_sale != ',0,FALSE);
+//						 $this->db->where('pid.create_date >=', $start);
+//
+//						 $this->db->where('pid.create_date <=', $end);
+//						  if(logged_user_child()){
+//									$child_emp = explode(',', logged_user_child());
+//									$this->db->where_in('pid.crm_user_id', $child_emp);
+//								}
+//								$this->db->group_by("pid.create_date");
+////								$this->db->limit(3,0);
+//						$this->db->order_by('pid.meeting_sale','asc');
+//
+////                                 $query2 = $this->db->get();
+//						 $query2 = $this->db->get();
+//							if($this->db->affected_rows()){
+//								$lowest = $query2->result_array();
+//							}else{
+//								$lowest = array();
+//							}
+//
+//
+//
+//                    	 $secondry_sale = array(
+//							'highest'=>$heighest,
+//							'lowest'=>$lowest,
+//						  );
+//
+//                                          return json_encode($secondry_sale);
+//
+//              }else{
+//
+//                     return FALSE;
+//
+//              }
+//
+//
+//
+//    }
     public function secondary_analysis($data=''){
-        
-         if($data!=''){
+    		/*Monthly*/
+			$data_monthly = json_decode(file_get_contents ("ReportJSON/monthly.json"));
+			foreach ($data_monthly  as $monthly){
+				if(logged_user_child()){
+					$child_emp = explode(',', logged_user_child());
+					if(in_array($monthly->user_id,$child_emp)){
+						$data_arr[]=array(
+							'user_id'  =>	$monthly->user_id,
+							'username' =>   $monthly->username,
+							'secondary' =>  $monthly->total_secondary,
+						);
+					}
+				}else{
+//					$child_emp = logged_user_data();
+					if(is_admin()){
+						$data_arr[]=array(
+							'user_id'  =>	$monthly->user_id,
+							'username' =>   $monthly->username,
+							'secondary' =>  $monthly->total_secondary,
+						);
+					}
 
-             $start = date('Y-m-d', strtotime($data));
 
-            }
-            else{
 
-             $start = date('Y-m-d', strtotime('-7 days'));
+				}
+			}
+			$dates=array();
+			foreach ($data_arr as $key => $row) {
+				$dates[$key]  = str_replace(',','',$row['secondary']);
+			}
+			array_multisort($dates, SORT_DESC, $data_arr);
+			$month=$data_arr;
 
-            }
-          $end = date('Y-m-d')." 23:59:59";
-        
-        
-        $arr = 'pu.name as empname,pid.meeting_sale';
-        $this->db->select($arr);
-        $this->db->from('pharma_interaction_doctor pid');
-        $this->db->join('pharma_users pu','pid.crm_user_id=pu.id');
-        $this->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
-         $this->db->where('pid.create_date >=', $start);
+			array_multisort($dates, SORT_ASC, $data_arr);
+			$month_lowest=$data_arr;
 
-         $this->db->where('pid.create_date <=', $end);
-        
-         if(logged_user_child()){
-             $child_emp = explode(',', logged_user_child());
-             $this->db->where_in('pid.crm_user_id', $child_emp);
-         }
-         
-        $this->db->order_by('pid.meeting_sale','DESC');
-        $this->db->limit(1,0);
-        
-         $query = $this->db->get();
+			$amount_list_mt=array();
+			foreach($month_lowest as $key => $list ) {
+				if($list['secondary'] > 0){
+					$amount_list_mt[$key] = $list;
+				}
+			}
+			$re_amount_mt=array_values($amount_list_mt);
+			$month_low = $re_amount_mt;
 
-//               echo $this->db->last_query(); die;
 
-        if($this->db->affected_rows()){
-                       $heighest = $query->row();
-                        $arr = 'pu.name as empname,pid.meeting_sale';
-                                $this->db->select($arr);
-                                $this->db->from('pharma_interaction_doctor pid');
-                                $this->db->join('pharma_users pu','pid.crm_user_id=pu.id');
-                                $this->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
-                                
-                                 $this->db->where('pid.create_date >=', $start);
+			/*Quarterly*/
+			$data_quarterly = json_decode(file_get_contents ("ReportJSON/quarterly.json"));
+			foreach ($data_quarterly  as $quater){
+				if(logged_user_child()) {
+					$child_emp = explode(',', logged_user_child());
+					if(in_array($quater->user_id,$child_emp)){
+						$data_arr1[]=array(
+							'user_id'  =>	$quater->user_id,
+							'username' =>   $quater->username,
+							'secondary' =>  $quater->total_secondary,
+						);
+					}
+				}else{
+					if(is_admin()){
+						$data_arr1[]=array(
+							'user_id'  =>	$quater->user_id,
+							'username' =>   $quater->username,
+							'secondary' =>  $quater->total_secondary,
+						);
+					}
+				}
+			}
+			$dates1=array();
+			foreach ($data_arr1 as $key => $row) {
+				$dates1[$key]  = str_replace(',','',$row['secondary']);
+			}
+			array_multisort($dates1, SORT_DESC, $data_arr1);
+			$quart=$data_arr1;
 
-                                 $this->db->where('pid.create_date <=', $end);
-                                  if(logged_user_child()){
-                                            $child_emp = explode(',', logged_user_child());
-                                            $this->db->where_in('pid.crm_user_id', $child_emp);
-                                        }   
-                                $this->db->order_by('pid.meeting_sale','asc');
-                                $this->db->limit(1,0);
+			array_multisort($dates1, SORT_ASC, $data_arr1);
+			$quarter_lowest=$data_arr1;
 
-                                 $query2 = $this->db->get();
-                                    if($this->db->affected_rows()){
-                                        $lowest = $query2->row();
-                                    }else{
-                                        $lowest = array();
-                                    }
-                    $secondry_sale = array(
-                                            'highest'=>$heighest,
-                                            'lowest'=>$lowest,    
-                                          );
-                                    
-                                          return json_encode($secondry_sale);           
-                  
-              }else{
-                  
-                     return FALSE;
-                     
-              }
-        
-        
-        
-    }
-    
-    
+			$amount_list_qut=array();
+			foreach($quarter_lowest as $key => $list ) {
+				if($list['secondary'] > 0){
+					$amount_list_qut[$key] = $list;
+				}
+			}
+			$re_amount_quat=array_values($amount_list_qut);
+			$quart_low = $re_amount_quat;
+
+
+
+		/*Yearly*/
+			$data_yearly = json_decode(file_get_contents ("ReportJSON/yearly.json"));
+			foreach ($data_yearly  as $yearly){
+				if(logged_user_child()) {
+					$child_emp = explode(',', logged_user_child());
+					if(in_array($yearly->user_id,$child_emp)){
+						$data_arr2[]=array(
+							'user_id'  =>	$yearly->user_id,
+							'username' =>   $yearly->username,
+							'secondary' =>  $yearly->total_secondary,
+						);
+					}
+				}else{
+					if(is_admin()){
+						$data_arr2[]=array(
+							'user_id'  =>	$yearly->user_id,
+							'username' =>   $yearly->username,
+							'secondary' =>  $yearly->total_secondary,
+						);
+					}
+				}
+			}
+			$dates2=array();
+			foreach ($data_arr2 as $key => $row) {
+				$dates2[$key]  = str_replace(',','',$row['secondary']);
+			}
+			array_multisort($dates2, SORT_DESC, $data_arr2);
+			$year=$data_arr2;
+
+			array_multisort($dates2, SORT_ASC, $data_arr2);
+			$yearly_lowest=$data_arr2;
+
+			$amount_list_yr=array();
+			foreach($yearly_lowest as $key => $list ) {
+				if($list['secondary'] > 0){
+					$amount_list_yr[$key] = $list;
+				}
+			}
+			$re_amount_year=array_values($amount_list_yr);
+			$year_low = $re_amount_year;
+
+		    /*Weekly*/
+			$data_weekly = json_decode(file_get_contents ("ReportJSON/weekly.json"));
+			foreach ($data_weekly  as $weekly){
+				if(logged_user_child()) {
+					$child_emp = explode(',', logged_user_child());
+					if(in_array($weekly->user_id,$child_emp)){
+						$data_arr3[]=array(
+							'user_id'  =>	$weekly->user_id,
+							'username' =>   $weekly->username,
+							'secondary' =>  $weekly->total_secondary,
+						);
+					}
+				}else{
+					//$child_emp = logged_user_data();
+					if(is_admin()){
+						$data_arr3[]=array(
+							'user_id'  =>	$weekly->user_id,
+							'username' =>   $weekly->username,
+							'secondary' =>  $weekly->total_secondary,
+						);
+					}
+				}
+			}
+			$dates3=array();
+			foreach ($data_arr3 as $key => $row) {
+				$dates3[$key]  = str_replace(',','',$row['secondary']);
+			}
+			array_multisort($dates3, SORT_DESC, $data_arr3);
+			$week=$data_arr3;
+
+			array_multisort($dates3, SORT_ASC, $data_arr3);
+			$weekly_lowest=$data_arr3;
+
+			$amount_list_d=array();
+			foreach($weekly_lowest as $key => $list ) {
+				if($list['secondary'] > 0){
+					$amount_list_d[$key] = $list;
+				}
+			}
+			$re_amount_ind=array_values($amount_list_d);
+			$week_low=$re_amount_ind;
+
+		$dataArray=array(
+			'weekly' => (array_slice($week, 0, 3)),
+			'monthly' => (array_slice($month, 0, 3)),
+			'quarter' => (array_slice($quart, 0, 3)),
+			'yearly' => (array_slice($year, 0, 3)),
+
+			'low_week' => (array_slice($week_low, 0, 3)),
+			'low_month' => (array_slice($month_low, 0, 3)),
+			'low_quart' => (array_slice($quart_low, 0, 3)),
+			'low_year' => (array_slice($year_low, 0, 3)),
+		);
+
+		return json_encode($dataArray);
+
+	}
+
+    public function dealer_secondary($data=''){
+    	if($data!=''){
+			$start = date('Y-m-d', strtotime($data));
+		}else{
+			$start = date('Y-m-d', strtotime('-7 days'));
+		}
+		$end = date('Y-m-d')." 23:59:59";
+
+		$doc_secondary_list=json_decode(file_get_contents("ReportJSON/doc_secondary_supply.json"),true);
+		$dealer_list=array();
+		$pharma_list=array();
+		$top3=array();
+		$child_usr=get_check_active_users(explode(', ',logged_user_child()));
+		foreach ($doc_secondary_list as $doc_sec){
+
+
+			if(is_admin()){
+					$patDate=date('Y-m-d', strtotime($doc_sec['date_of_interaction']));
+					if (($patDate >= $start) && ($patDate <= $end)){
+						if($doc_sec['pharmaname']){
+							$pharma_list[]=array(
+								'dealer_name' => $doc_sec['pharmaname'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}else{
+							$dealer_list[]=array(
+								'dealer_name' => $doc_sec['dealer_name'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}
+					}
+			}
+			else if(!empty($child_usr)){
+				if(in_array($doc_sec['user_id'],$child_usr)){
+					$patDate=date('Y-m-d', strtotime($doc_sec['date_of_interaction']));
+					if (($patDate >= $start) && ($patDate <= $end)){
+						if($doc_sec['pharmaname']){
+							$pharma_list[]=array(
+								'dealer_name' => $doc_sec['pharmaname'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}else{
+							$dealer_list[]=array(
+								'dealer_name' => $doc_sec['dealer_name'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}
+
+					}
+				}
+			}
+			else{
+				if($doc_sec['user_id']==logged_user_data()){
+					$patDate=date('Y-m-d', strtotime($doc_sec['date_of_interaction']));
+					if (($patDate >= $start) && ($patDate <= $end)){
+						if($doc_sec['pharmaname']){
+							$pharma_list[]=array(
+								'dealer_name' => $doc_sec['pharmaname'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}else{
+							$dealer_list[]=array(
+								'dealer_name' => $doc_sec['dealer_name'],
+								'secondary_amt' => $doc_sec['secondarysale']
+							);
+						}
+
+					}
+				}
+			}
+		}
+
+		$deal_list=array_merge($dealer_list,$pharma_list);
+
+		$result_d=array();
+		foreach ($deal_list as $value_d){
+			if(isset($result_d[$value_d["dealer_name"]])){
+				$result_d[$value_d["dealer_name"]]["secondary_amt"]+=$value_d["secondary_amt"];
+			}else{
+				$result_d[$value_d["dealer_name"]]=$value_d;
+			}
+		}
+		$dealer_select=array_values($result_d);
+		$amount_list_d=array();
+		foreach($dealer_select as $key => $list ) {
+			$amount_list_d[$key] = $list['secondary_amt'];
+		}
+		array_multisort($amount_list_d, SORT_DESC, $dealer_select);
+		$top3 = (array_slice($dealer_select, 0, 3));
+
+		array_multisort($amount_list_d, SORT_ASC, $dealer_select);
+		$least3 = (array_slice($dealer_select, 0, 3));
+
+		$dealers_final_list=array(
+			'top' =>	$top3,
+			'least' =>   $least3
+		);
+
+//		pr($dealers_final_list);
+		return json_encode($dealers_final_list);
+	}
+
+	public function overall_visits($data=''){
+		if($data!=''){
+			$start = date('Y-m-d', strtotime($data));
+		}else{
+			$start = date('Y-m-d', strtotime('-7 days'));
+		}
+		$end = date('Y-m-d')." 23:59:59";
+
+		$doc_interc_list=json_decode(file_get_contents("ReportJSON/IntrctionDocSumry.json"),true);
+
+		$doc_interc=array();
+		$child_usr=get_check_active_users(explode(', ',logged_user_child()));
+		$allSP_code=explode(',',all_user_sp_code());
+
+		$doctr_list=array();
+		foreach ($allSP_code as $sp_cod){
+			$doctr_list[]=get_doc_details($sp_cod);
+		}
+		@$overall_doc_list=array_merge(...array_filter($doctr_list));
+		//pr($overall_doc_list); die;
+
+		foreach ($doc_interc_list as $doc_sec){
+			foreach ($doc_sec as $doct_list){
+				$patDate=date('Y-m-d', strtotime($doct_list['date']));
+				if (($patDate >= $start) && ($patDate <= $end)) {
+					if(is_admin()){
+						if(!empty($overall_doc_list)) {
+							foreach ($overall_doc_list as $doc_lst) {
+								//if ($doc_lst['doctor_id'] == $doct_list['doc_id']) {
+									$doc_interc[] = $doct_list['doc_id'];
+								//}
+							}
+						}
+					}
+					else if(!empty($child_usr)){
+						if(in_array($doct_list['user_id'], $child_usr)) {
+							if(!empty($overall_doc_list)) {
+								foreach ($overall_doc_list as $doc_lst) {
+									if ($doc_lst['doctor_id'] == $doct_list['doc_id']) {
+										$doc_interc[] = $doct_list['doc_id'];
+									}
+								}
+							}
+						}
+					}
+					else{
+						if($doct_list['user_id']==logged_user_data()) {
+							if(!empty($overall_doc_list)) {
+								foreach ($overall_doc_list as $doc_lst) {
+									if ($doc_lst['doctor_id'] == $doct_list['doc_id']) {
+										$doc_interc[] = $doct_list['doc_id'];
+									}
+								}
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+		@$max=max(array_count_values($doc_interc));
+		@$min=min(array_count_values($doc_interc));
+		if($max > 0){
+			$max_visit= $max;
+			@$doc_name_max=(array_search($max_visit, array_count_values($doc_interc)));
+		}
+		if($min > 0){
+			$min_visit = $min;
+			@$doc_name_min= (array_search($min_visit, array_count_values($doc_interc)));
+		}
+
+		if(($max > 0) && ($min > 0)){
+			$dataArr=array(
+				'max_visit' => $max_visit,
+				'doc_max' => $doc_name_max,
+				'min_visit' => $min_visit,
+				'doc_min' => $doc_name_min,
+			);
+
+			return json_encode($dataArr);
+		}
+
+	}
+
     /*
      * Developer: Shailesh Saraswat
      * Email: sss.shailesh@gmail.com

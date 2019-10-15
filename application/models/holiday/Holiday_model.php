@@ -17,7 +17,7 @@ class Holiday_model extends CI_Model {
 			$user_arr=array($usr);
 			$childusers[]=array_merge($childu,$user_arr);
 		}
-		$final_users  = array_flatten($childusers);
+		$final_users = get_check_active_users(array_flatten($childusers));
 
 		$users = implode(',', $final_users);
 		$report_date = explode('-',$data['start_date'] );
@@ -39,6 +39,7 @@ class Holiday_model extends CI_Model {
 			'updated_date'=>savedate(),                  
 			'status'=>1, 
 		);
+//		pr($holiday_data); die;
 			$this->db->insert('user_holiday',$holiday_data);
 		return ($this->db->affected_rows() == 1) ? true : false; 
 		
@@ -88,9 +89,10 @@ class Holiday_model extends CI_Model {
     }
 	
 	public function edit_holiday_data($data){
-            
-             $final_users  = get_child_user($data['user']);
-             
+//            pr($data); die;
+             //$final_users  = get_child_user($data['user']);
+             $final_users  = $data['user'];
+
 		$users = implode(',', $final_users);
 		$report_date = explode('-',$data['start_date'] );
         $followstart_date =  trim($report_date[0]);

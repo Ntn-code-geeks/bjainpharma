@@ -389,7 +389,7 @@ if($source_city!=$val['source_city'] || $destination_city!=$val['destination_cit
 if (!in_array($list, $listDate)){  ?>
 <tr>
 <td>
-    <input readonly class="form-control pull-right" type="text" name="" id="doi" value="<?= $listshow ?>" style="width:
+   <input readonly class="form-control pull-right" type="text" name="" id="doi" value="<?= $listshow ?>" style="width:
    100px;">
 </td>
 <?php if($day=='Sun'){   //pr("here"); ?>
@@ -412,12 +412,20 @@ if (!in_array($list, $listDate)){  ?>
 		<?php	}
 		}
 	}else{
-		if(in_array($list,$tripDateList)){ ?>
-			<td colspan="9" style=" opacity: 0.50;">
-				<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
-					   value="<?=$tripName ?>" style="color: red; text-align: center; width:100%;  padding: 2px;">
-			</td>
-	<?php	}else{  ?>
+		if(!empty($tripDateList)) {
+			if (in_array($list, $tripDateList)) { ?>
+				<td colspan="9" style=" opacity: 0.50;">
+					<input readonly class="form-control pull-right" type="text" name="source_ci" id="source_city"
+						   value="<?= $tripName ?>" style="color: red; text-align: center; width:100%;  padding: 2px;">
+				</td>
+			<?php }else{ ?>
+				<td colspan="9" style=" opacity: 0.50;">
+					<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+						   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
+       padding: 2px;">
+				</td>
+		<?php	}
+		}else{  ?>
 			<td colspan="9" style=" opacity: 0.50;">
 				<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
 					   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
@@ -432,9 +440,7 @@ if (!in_array($list, $listDate)){  ?>
 </tr>
 
 <?php }
-else{
 
-}
 } ?>
 
 <tr>
@@ -495,6 +501,8 @@ font-weight: bold; text-align: right;"></td>
 <div class="box-footer">
 <button type="submit" class="btn btn-info pull-right">Save</button>
 <?php echo form_close();  ?>
+	<a href="<?=$_SERVER['HTTP_REFERER']?>"><button class="btn btn-danger" style="margin-right: 15px;
+			margin-left: 10px;">Back</button></a>
 <button id="printReport" onclick="printDiv()" class="btn btn-primary hidden-print"><span class="glyphicon
 glyphicon-print" aria-hidden="true"></span> Print</button>
 </div>
@@ -512,6 +520,15 @@ glyphicon-print" aria-hidden="true"></span> Print</button>
 
 
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
 function printDiv() {
 window.frames["print_frame"].document.body.innerHTML = document.getElementById("printableTable").innerHTML;
 window.frames["print_frame"].window.focus();

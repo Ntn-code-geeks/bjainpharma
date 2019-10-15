@@ -218,8 +218,9 @@
 
 			</div>
 
-
-          <!-- /.box -->
+			<a href="<?=$_SERVER['HTTP_REFERER']?>"><button class="btn btn-danger" style="margin-bottom: 20px;
+			margin-left: 10px;">Back</button></a>
+			  <!-- /.box -->
 
 
         </div>

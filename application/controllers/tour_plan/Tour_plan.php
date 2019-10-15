@@ -437,28 +437,16 @@ class Tour_plan extends Parent_admin_controller {
 	public function tour_data_list(){ 
 
 		if(is_admin()){
-
 			$data['title'] = "Standard Tour Plan List";
-
 			$data['page_name'] = "Standard  Tour Plan List";
-
 			$data['tour_list']=array();
-
 			$tourList=$this->tour->get_tour_list();
-
-			if($tourList!=FALSE)
-			{
-
-				$data['tour_list'] =$this->tour->get_tour_list(); 
-
+			if($tourList!=FALSE){
+				$data['tour_list'] =$this->tour->get_tour_list();
 			}
-
-			$data['action'] = "tour_plan/tour_plan/save_tour_data"; 
-
+			$data['action'] = "tour_plan/tour_plan/save_tour_data";
 	//      pr($data['city_list']); die;
-
 			$this->load->get_view('tour_plan/tour_plan_list',$data);
-
 		}
 
         else{
