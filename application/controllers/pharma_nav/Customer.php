@@ -77,7 +77,7 @@ class Customer extends Parent_admin_controller {
     public function nav_cust_connect(){
         
          //$spcode = $this->session->userdata('sp_code');
-        
+
         // if(!empty($spcode)){
          $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
         // }else{
@@ -85,7 +85,7 @@ class Customer extends Parent_admin_controller {
         // }
        // echo $mycustomer_API;
          $my_customers = file_get_contents($mycustomer_API);
-         //pr($my_customers); die;
+//         pr(json_decode($my_customers)); die;
        
                 $sucess =  $this->cust_nav->add_update_dealer($my_customers);
        

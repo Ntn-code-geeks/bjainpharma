@@ -1118,21 +1118,63 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
 		$row = $query->row_array();
 		return $row['id'];
     }
-	
+
 	public function doc_import_save($data){
+
 		$this->db->select('*');
 		$this->db->from('doctor_list');
 		$this->db->where('doc_phone',$data['doc_phone']);
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
-		    $this->db->insert('doctor_list', $data);
+//			pr($data); die;
+			$this->db->insert('doctor_list', $data);
 			return TRUE;
 		}
-		else
-		{
+		if($query->num_rows() == 1){
+			$get_data=$query->row();
+		if(!empty($data['doc_name'])){$doc_name=$data['doc_name'];}else{ $doc_name=$get_data->doc_name; }
+		if(!empty($data['doc_email'])){$doc_email=$data['doc_email'];}else{ $doc_email=$get_data->doc_email; }
+		if(!empty($data['doc_address'])){$doc_adr=$data['doc_address'];}else{ $doc_adr=$get_data->doc_address; }
+		if(!empty($data['city_id'])){$doc_ctyid=$data['city_id'];}else{ $doc_ctyid=$get_data->city_id; }
+		if(!empty($data['state_id'])){$doc_stid=$data['state_id'];}else{ $doc_stid=$get_data->state_id; }
+		if(!empty($data['doc_gender'])){$doc_gend=$data['doc_gender'];}else{ $doc_gend=$get_data->doc_gender; }
+		if(!empty($data['sp_code'])){$doc_spcode=$data['sp_code'];}else{ $doc_spcode=$get_data->sp_code; }
+		if(!empty($data['city_pincode'])){$doc_pin=$data['city_pincode'];}else{ $doc_pin=$get_data->city_pincode; }
+		if(!empty($data['crm_user_id'])){$doc_crm=$data['crm_user_id'];}else{ $doc_crm=$get_data->crm_user_id; }
+
+
+			$dataArr=array(
+				'doc_name' => $doc_name,
+				'doc_email' => $doc_email,
+				'doc_address' => $doc_adr,
+				'city_id' => $doc_ctyid,
+				'state_id' => $doc_stid,
+				'doc_gender' => $doc_gend,
+				'city_pincode' => $doc_pin,
+				'sp_code' => $doc_spcode,
+				'crm_user_id' => $doc_crm,
+				);
+
+//			$dataArr=array(
+//				'doc_name' => $data['doc_name'],
+//				'doc_email' => $data['doc_email'],
+//				'doc_address' => $data['doc_address'],
+//				'city_id' => $data['city_id'],
+//				'state_id' => $data['state_id'],
+//				'doc_gender' => $data['doc_gender'],
+//				'city_pincode' => $data['city_pincode'],
+//				'sp_code' => $data['sp_code'],
+//				'crm_user_id' => $data['crm_user_id'],
+//				'doc_status' => $data['doc_status']
+//			);
+			$this->db->where('doc_phone',$data['doc_phone']);
+			$this->db->update('doctor_list',$dataArr);
+//			echo $this->db->last_query(); die;
+			return TRUE;
+		}else{
 			return False;
 		}
-    }
+	}
     
 	public function get_doctor_data($id=''){
 		$this->db->select('doc_phone,doc_email,doc_name');

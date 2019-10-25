@@ -2,8 +2,6 @@
 
 
 
-
-
 /* 
 
 
@@ -21,9 +19,10 @@
 
 //$appointment_data = json_decode($ap_list);
 
-
-
-
+//
+//pr(get_tour_info());
+//pr(userDesig());
+//die;
 
 //pr($appointment_data); die;
 
@@ -67,16 +66,23 @@
 	  		<div class="col-md-12">
 	  			<?php if(get_tour_info() && userDesig()==FALSE){
 //                                if(get_tour_info()){ ?>
-	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/create_tour/'; ?>"><input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
+	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/create_tour/'; ?>">
+						<input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
 	  			 <?php } ?>
-                                        <?php if(get_tour_info() && userDesig()==TRUE){?>
-	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/asm_create_tour/'; ?>"><input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
+
+                <?php if(get_tour_info() && userDesig()==TRUE){?>
+	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/asm_create_tour/'; ?>">
+						<input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
 	  			 <?php } ?>
-	  			 <?php if(is_admin() ){?>
+
+	  			 <?php if(is_admin() ){ ?>
 	          		<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/assign_tp/'; ?>"><input class="btn btn-info" value="Assign TP" id="btnPrint" style="float: right;margin: 5px auto;" type="button"></a>
-				<?php }else{ if(logged_user_child()){?>
+				<?php }else{
+	  			 	if(logged_user_child()){?>
 					<a title="Subordinate Tour Plan" href="<?php echo base_url().'reports/reports/tp_reports/'.urisafeencode(logged_user_data()); ?>"><input class="btn btn-info" value="Subordinate Tour Plan" id="btnPrint" style="float: right;margin: 5px auto;" type="button"></a>
-				<?php }} ?>
+				<?php }
+	  			 } ?>
+
 	                </div>
         <div class="col-md-12">
 

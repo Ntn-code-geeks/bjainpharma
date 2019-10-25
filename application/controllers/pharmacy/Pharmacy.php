@@ -307,8 +307,7 @@ class Pharmacy extends Parent_admin_controller {
         }
         
     }
-    
-    
+
       // four level inferior view pharmacy
     public function child4(){$data['date_interact']='';
 		$data['action'] = 'global_search/pharma_search';  
@@ -579,7 +578,6 @@ class Pharmacy extends Parent_admin_controller {
     
     
     // pharmacy view for interaction
-    
     public function view_pharmacy_for_interaction($id=''){
         
         if($id!=''){

@@ -201,7 +201,7 @@ class User extends Parent_admin_controller {
 
     public function dashboard(){
         
-         $loggedData=logged_user_data();
+         	$loggedData=logged_user_data();
             $switchStatus= $this->session->userdata('switchStatus') ? $this->session->userdata('switchStatus'):0;
 
             if($loggedData==TRUE && $this->session->userdata('SiteUrl_id')== base_url() && (is_first($this->session->userdata('userId'))!=1 || $switchStatus==1) ){
@@ -244,7 +244,7 @@ $data['visit_monthly']= $this->analysis->overall_visits('-1 month');
               /*end model for this Quarter*/
               
                /*model call for this Year*/ 
-              $data['secondary_year'] = $this->analysis->secondary_analysis('-1 year'); //for doctor secondary highest and lowest
+                $data['secondary_year'] = $this->analysis->secondary_analysis('-1 year'); //for secondary highest and
 				$data['dealer_secondary_year']= $this->analysis->dealer_secondary('-1 year');
 				$data['visit_yearly']= $this->analysis->overall_visits('-1 year');
 //              $data['prodcutive_year'] = $this->analysis->productive_analysis('-1 year');  //for doctor Productive call highest and lowest

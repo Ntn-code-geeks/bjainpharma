@@ -342,20 +342,20 @@ class Tour_plan_model extends CI_Model {
 					$assign_by='';
 				}
 				$result[] = array(
-                                                'title'=>$title,
-                                                'start'=>$val['dot'].' '.$val['tst'],
-                                                'end'=>$val['dot'].' '.$val['tet'],
-                                                'backgroundColor'=>$val['color_id'],
-                                                'description'=>$val['remark'],
-                                                'time' =>date('h:i A', strtotime($val['tst'])),
-                                                'endtime' =>date('h:i A', strtotime($val['tet'])),
-                                                'visited'=>$val['visited'],
-                                                'tour_id'=>$val['id'],
-                                                'tour_now_date'=>date('d-m-Y',strtotime($val['dot'])),
-                                                'assign_by'=>$assign_by,
-                                                'source_city'=>$this->get_city_name($val['source']),
-                                                'destination'=>$this->get_city_name($val['destination'])
-				            );	
+					'title'=>$title,
+					'start'=>$val['dot'].' '.$val['tst'],
+					'end'=>$val['dot'].' '.$val['tet'],
+					'backgroundColor'=>$val['color_id'],
+					'description'=>$val['remark'],
+					'time' =>date('h:i A', strtotime($val['tst'])),
+					'endtime' =>date('h:i A', strtotime($val['tet'])),
+					'visited'=>$val['visited'],
+					'tour_id'=>$val['id'],
+					'tour_now_date'=>date('d-m-Y',strtotime($val['dot'])),
+					'assign_by'=>$assign_by,
+					'source_city'=>$this->get_city_name($val['source']),
+					'destination'=>$this->get_city_name($val['destination'])
+					);
 			}
         }
         $arrtour = "*";

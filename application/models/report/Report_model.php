@@ -2305,14 +2305,13 @@ class Report_model extends CI_Model {
 //        pr($data);
 //        echo $tada_id; die;
         $genrated_ta_da_master_data = array(
-                                   
-            			'admin_total_amount'=>$data['admin_grant_total'],
-            //			'pharma_user_id'=>$data['user_id'],
+//            			'admin_total_amount'=>$data['admin_grant_total'],
+            			'admin_total_amount'=>$data['overall_amt'],
+            		//	'pharma_user_id'=>$data['user_id'],
             			'admin_id'=>logged_user_data(),
-                                    'crm_user_id'=> logged_user_data(),
-//                                    'create_date'=>savedate(),                  
-                                    'update_date'=>savedate(),                  
-
+						'crm_user_id'=> logged_user_data(),
+					//  'create_date'=>savedate(),
+						'update_date'=>savedate(),
                                  );
                 $this->db->where('id',$tada_id);
 		$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data); 
@@ -2324,15 +2323,14 @@ class Report_model extends CI_Model {
                         
                           $genrated_ta_da_detail_data = array(
                                     'admin_remark'=>$val_tada,
-                              
                                     'crm_user_id'=> logged_user_data(),
 //                                    'create_date'=>savedate(),                  
                                     'last_update'=>savedate(),                  
 
                                  );
-                 $this->db->where('ta_da_master_id',$tada_id); 
-                 $this->db->where('id',$data['tada_detail_id'][$k_tada]); 
-		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data); 
+					 $this->db->where('ta_da_master_id',$tada_id);
+					 $this->db->where('id',$data['tada_detail_id'][$k_tada]);
+					 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data);
                         
                     }
                    return TRUE;  

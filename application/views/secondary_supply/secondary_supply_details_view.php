@@ -67,6 +67,7 @@ td {	padding-left: 60% !important;		}
 					 <thead>
 						<tr>
 						  <th>Date('Year/Month/Date')</th>
+						  <th>Name of MR/SE</th>
 						  <th>Doctor/Sub Dealer Name</th>
 						  <th>Supply by Dealer/pharmacy</th>
 						  <th>Interaction Secondary</th>
@@ -88,6 +89,10 @@ td {	padding-left: 60% !important;		}
 								<tr>
 									<td>
 										<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+									</td>
+
+									<td>
+										<?=get_user_name($val_c['user_id']); ?>
 									</td>
 
 									<td>
@@ -147,6 +152,10 @@ td {	padding-left: 60% !important;		}
 									</td>
 
 									<td>
+										<?=get_user_name($val_c['user_id']); ?>
+									</td>
+
+									<td>
 										<?=$val_c['doctorname'];?>
 									</td>
 									<td>
@@ -201,6 +210,10 @@ td {	padding-left: 60% !important;		}
 						<tr>
 							<td>
 								<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+							</td>
+
+							<td>
+								<?=get_user_name($val_c['user_id']); ?>
 							</td>
 
 							<td>
@@ -266,6 +279,9 @@ td {	padding-left: 60% !important;		}
 										<?= date('Y/m/d', strtotime($val_c['date_of_interaction'])); ?>
 									</td>
 									<td>
+										<?=get_user_name($val_c['user_id']); ?>
+									</td>
+									<td>
 										<?= $val_c['pharmaname']; ?>
 									</td>
 									<td>
@@ -310,6 +326,9 @@ td {	padding-left: 60% !important;		}
 										<?= date('Y/m/d', strtotime($val_c['date_of_interaction'])); ?>
 									</td>
 									<td>
+										<?=get_user_name($val_c['user_id']); ?>
+									</td>
+									<td>
 										<?= $val_c['pharmaname']; ?>
 									</td>
 									<td>
@@ -352,6 +371,9 @@ td {	padding-left: 60% !important;		}
 						<tr>
 							<td>
 								<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
+							</td>
+							<td>
+								<?=get_user_name($val_c['user_id']); ?>
 							</td>
 							<td>
 								<?=$val_c['pharmaname'];?>

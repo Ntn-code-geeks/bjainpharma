@@ -40,7 +40,7 @@
 
         <div class="box-header with-border">
 
-          <h3 class="box-title">Add</h3>
+          <h3 class="box-title">Add Doctors</h3>
 
 			<a class="sample-file-link btn btn-info pull-right" href="<?php echo site_url('assets/sample file/DoctorImport.csv')?>" download>Download Sample File</a>
 
@@ -50,9 +50,12 @@
 
         <div class="box-body">
 
-          
+	  <p style="padding: 15px; font-size: large;"><strong style="color: crimson;font-size: large;"> Last Inserted
+			  Record: </strong><?=get_doctor_name('doc_'.$last_inserted); ?><strong style="color: crimson;
+			  font-size: large;"> of City: </strong><?=get_city_name(get_doctor_city('doc_'.$last_inserted)); ?></p>
 
-            <?php 
+            <?php
+
 
             echo form_open_multipart($action);
 

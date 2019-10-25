@@ -685,7 +685,7 @@ class Data_analysis_model extends CI_Model {
 				'min_visit' => $min_visit,
 				'doc_min' => $doc_name_min,
 			);
-
+	//	pr($dataArr);
 			return json_encode($dataArr);
 		}
 

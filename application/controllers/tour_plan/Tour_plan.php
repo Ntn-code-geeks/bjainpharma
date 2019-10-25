@@ -22,27 +22,16 @@ class Tour_plan extends Parent_admin_controller {
 
 
 
-   function __construct() 
-
+   function __construct()
     {
-
         parent::__construct();
-
             $loggedData=logged_user_data();
-
-            
-
             if(empty($loggedData)){
-
-                redirect('user'); 
-
+                redirect('user');
             }
-
         $this->load->model('tour_plan/tour_plan_model','tour');
-
 		$this->load->model('users/User_model','user');
 		$this->load->model('holiday/Holiday_model','holiday');
-
     }
 
     
@@ -96,7 +85,7 @@ class Tour_plan extends Parent_admin_controller {
 		//$assigncity=array();
 		$data['tour_list']='';
 		$data['title'] = "Tour Plan";
-                $data['page_name'] = "Tour Plan";
+        $data['page_name'] = "Tour Plan";
                 
               /*$cityList= $this->tour->get_city();
 		if($cityList!=FALSE)
@@ -107,7 +96,8 @@ class Tour_plan extends Parent_admin_controller {
 			}
 		}*/
                 
-        $tour = $this->tour->tour_info(); 
+        $tour = $this->tour->tour_info();
+//        pr(json_decode($tour)); die;
 		if($tour!=FALSE)
 		{
 			$data['tour_list'] =$this->tour->tour_info(); 

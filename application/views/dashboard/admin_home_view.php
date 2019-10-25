@@ -30,6 +30,7 @@ $visit_month=json_decode($visit_monthly);
 $secondary_quarter_report = json_decode($secondary_quarter);  //for secondary
 $dealer_quart_secondary=json_decode($dealer_secondary_quart);
 $visit_quarter=json_decode($visit_quart);
+//pr($visit_quarter); die;
 //        $productive_quarter_report = json_decode($prodcutive_quarter); //for Productive call
 //        $no_order_quarter_report = json_decode($no_order_quarter);  //for No order but met
 //        $not_met_quarter_report = json_decode($not_met_quarter);  //for Not met
@@ -260,7 +261,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-yellow">
+								<div class="widget-user-header bg-yellow" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Doctor Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/total_sale.png" alt=""/>
@@ -321,7 +322,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-aqua-active">
+								<div class="widget-user-header bg-aqua-active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Dealers Analysis</h4>
 
@@ -378,7 +379,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-green active">
+								<div class="widget-user-header bg-green active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Visits Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/secondary_sales.png" alt=""/>
@@ -416,7 +417,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-yellow">
+								<div class="widget-user-header bg-yellow" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Doctor Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/total_sale.png" alt=""/>
@@ -475,7 +476,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-aqua-active">
+								<div class="widget-user-header bg-aqua-active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Dealers Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/payment.png" alt=""/>
@@ -526,7 +527,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-green active">
+								<div class="widget-user-header bg-green active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Visits Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/secondary_sales.png" alt=""/>
@@ -566,7 +567,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-yellow">
+								<div class="widget-user-header bg-yellow" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Doctor Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/total_sale.png" alt=""/>
@@ -616,7 +617,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-aqua-active">
+								<div class="widget-user-header bg-aqua-active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Dealers Analysis</h4>
 
@@ -662,7 +663,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-green active">
+								<div class="widget-user-header bg-green active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Visits Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/secondary_sales.png" alt=""/>
@@ -701,7 +702,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-yellow">
+								<div class="widget-user-header bg-yellow" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Doctor Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/total_sale.png" alt=""/>
@@ -761,7 +762,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-aqua-active">
+								<div class="widget-user-header bg-aqua-active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Dealers Analysis</h4>
 
@@ -815,7 +816,7 @@ $visit_year=json_decode($visit_yearly);
 							<!-- Widget: user widget style 1 -->
 							<div class="box box-widget widget-user-2">
 								<!-- Add the bg color to the header using any of the bg-* classes -->
-								<div class="widget-user-header bg-green active">
+								<div class="widget-user-header bg-green active" style="border-radius: 15px;">
 									<div class="widget-user-image">
 										<h4 style="border-bottom: 1px solid;">Visits Analysis</h4>
 										<img src="<?= base_url()?>design/img/analysis/secondary_sales.png" alt=""/>
@@ -825,17 +826,15 @@ $visit_year=json_decode($visit_yearly);
 									<!--<h5 class="widget-user-desc">1st Sales</h5>-->
 								</div>
 								<div class="box-footer no-padding">
-									<ul class="nav nav-stacked">
-										<li><a href="#">Maximum <span class="pull badge bg-blue"><?=substr
-													(get_doctor_name($visit_year->doc_max),0,11);?></span><span class="pull-right
-                      badge
-                   bg-green"><?=$visit_year->max_visit;?></span></a></li>
-										<li><a href="#">Minimum <span class="pull badge bg-blue"><?=substr
-													(get_doctor_name($visit_year->doc_min),0,11);?></span><span class="pull-right
-                      badge
-                  bg-green"><?=$visit_year->min_visit;?></span></a></li>
+		<ul class="nav nav-stacked">
+			<li><a href="#">Maximum <span class="pull badge bg-blue"><?=substr
+						(get_doctor_name($visit_year->doc_max),0,11);?></span><span class="pull-right
+		badge bg-green"><?=$visit_year->max_visit;?></span></a></li>
+			<li><a href="#">Minimum <span class="pull badge bg-blue"><?=substr
+						(get_doctor_name($visit_year->doc_min),0,11);?></span><span class="pull-right
+		badge bg-green"><?=$visit_year->min_visit;?></span></a></li>
 
-									</ul>
+		</ul>
 
 								</div>
 							</div>

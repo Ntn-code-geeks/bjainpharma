@@ -243,8 +243,17 @@ class Interaction extends Parent_admin_controller {
 	public function doctor_interaction(){
 		$data['title'] = "Doctor Interaction View";
 		$data['page_name']="List of Doctor Interaction";
-
 		$this->load->get_view('interaction_list/interaction_doc_details_view',$data);
+	}
+	public function dealer_interaction(){
+		$data['title'] = "Dealer Interaction View";
+		$data['page_name']="List of Dealer Interaction";
+		$this->load->get_view('interaction_list/interaction_dealer_details_view',$data);
+	}
+	public function pharmacy_interaction(){
+		$data['title'] = "Sub Dealer Interaction View";
+		$data['page_name']="List of Sub Dealer Interaction";
+		$this->load->get_view('interaction_list/interaction_pharma_details_view',$data);
 	}
 
 
@@ -492,11 +501,6 @@ class Interaction extends Parent_admin_controller {
     }
 
 
-    public function dealer_interaction(){
-        $data['title'] = "Dealer Interaction View";
-        $data['page_name']="List of Dealer Interaction";
-        $this->load->get_view('interaction_list/interaction_dealer_details_view',$data);
-    }
 
     
 
@@ -741,11 +745,7 @@ class Interaction extends Parent_admin_controller {
     }
 
 
-    public function pharmacy_interaction(){
-      $data['title'] = "Sub Dealer Interaction View";
-      $data['page_name']="List of Sub Dealer Interaction";
-      $this->load->get_view('interaction_list/interaction_pharma_details_view',$data);
-    }
+
 
 
     // edit pharma interaction

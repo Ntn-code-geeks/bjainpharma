@@ -978,6 +978,7 @@ class Doctor extends Parent_admin_controller {
 			}
 			$data['title']="Import Doctor";
 			$data['page_name'] = "Import Doctor";
+			$data['last_inserted']=$this->doctor->doc_last_id();
 			$data['action'] = "doctors/doctor/save_bulk_doctor";
 			$this->load->get_view('doctor_list/doctor_import_view',$data);
 		}
@@ -991,7 +992,8 @@ class Doctor extends Parent_admin_controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('user', 'User', 'required');
 		if($this->form_validation->run() == FALSE){
-			return $this->import_doctor();  
+			return $this->import_doctor();
+
 		}
 		else{
 			$mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
@@ -1035,7 +1037,7 @@ class Doctor extends Parent_admin_controller {
 					set_flash('<div class="alert alert-success alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 					<h4><i class="icon fa fa-check"></i> Success!</h4>
-					Doctor are imported successfully.'.$count.' Duplicate Mobile Found. </div>'); 
+					 Doctor are imported successfully.  Not Added Total '.$count.'</div>');
 					redirect('doctors/doctor/import_doctor');
 				}else{
 					set_flash('<div class="alert alert-danger alert-dismissible">

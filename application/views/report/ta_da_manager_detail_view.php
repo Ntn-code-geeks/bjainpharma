@@ -389,6 +389,14 @@ $tada_data = json_decode($tada_report);
 </div>
 
 <script type='text/javascript'>
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
     // function printDiv() {
     //     var divToPrint=document.getElementById('printableTable');
     //     var newWin=window.open('','Print-Window','width=1000,height=800,top=100,left=100');

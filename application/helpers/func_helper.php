@@ -10,13 +10,10 @@
  */
 function userDesig(){
     $ci = &get_instance();
-
     $userDesig =$ci->session->userdata('userDesig');
-
      if($userDesig<5){  // true only for the ASM/RSM/DSM/NSM
         return TRUE;  
-     }
-     else{
+     }else{
          return false; 
      }
 //    
@@ -1460,15 +1457,17 @@ function get_state_id($id){
   }
 
   function get_tour_info(){
-    $nextmonth = date('m', strtotime('+1 month'));
+    $nextmonth = date('Y-m', strtotime('+1 month'));
+   // pr($nextmonth); die;
     $ci = &get_instance();
     $col='id';
     $ci->db->select($col); 
     $ci->db->from('user_stp'); 
     $ci->db->where('crm_user_id',logged_user_data());
-    $ci->db->where('MONTH(dot)',$nextmonth);
+	$ci->db->like('dot',$nextmonth);
+	//$ci->db->where('MONTH(dot)',$nextmonth);
     $query= $ci->db->get(); 
-
+	//echo $ci->db->last_query(); die;
     if($ci->db->affected_rows()){
       return FALSE; 
     } 
@@ -1523,32 +1522,7 @@ function get_state_id($id){
     return $remark;
   }
 
-  // use of the doctor list,pharma list and dealer list based pincode 
-//  function get_destination_interaction($table,$id,$con){
-//        $ci = &get_instance();
-//        $col='city_pincode';
-//        $ci->db->select($col); 
-//        $ci->db->from($table); 
-//        if($con==1)
-//        {
-//          $ci->db->where('doctor_id',$id);
-//        }
-//        elseif($con==2)
-//        {
-//          $ci->db->where('pharma_id',$id);
-//        }
-//        elseif($con==3)
-//        {
-//          $ci->db->where('dealer_id',$id);
-//        }
-//        $query= $ci->db->get(); 
-//        if($ci->db->affected_rows()){
-//          return $query->row()->city_pincode; 
-//        } 
-//        else{
-//          return FALSE;
-//        }
-//  }
+
   
   
   /*

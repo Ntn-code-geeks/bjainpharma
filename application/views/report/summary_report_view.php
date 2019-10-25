@@ -61,7 +61,6 @@
 								<th>Average Secondary</th>
 								<th>Total Dealers</th>
 								<th>Total Sub-Dealers</th>
-
                             </tr>
                             </thead>
 

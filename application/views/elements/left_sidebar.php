@@ -250,14 +250,16 @@ $('#searchid_sidebar').click(function(){
         <a href="#">
           <i class="fa fa-handshake-o"></i>
 <!--          <span>Interaction Summary</span>-->
-          <span>Daily Sales Report(DSR)</span>
+<!--          <span>Daily Sales Report(DSR)</span>-->
+          <span>Customer Summary</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="<?= base_url();?>interaction/doctor_interaction"><i class="fa fa-circle-o"></i>Doctor</a></li>
-          <li><a href="<?= base_url();?>interaction/pharmacy_interaction"><i class="fa fa-circle-o"></i>Sub Dealer</a></li>
+          <li><a href="<?= base_url();?>interaction/doctor_interaction"><i class="fa fa-circle-o"></i>Customer
+				  Interaction</a></li>
+<!--          <li><a href="--><?//= base_url();?><!--interaction/pharmacy_interaction"><i class="fa fa-circle-o"></i>Sub Dealer</a></li>-->
           <li><a href="<?= base_url();?>interaction/dealer_interaction"><i class="fa fa-circle-o"></i>Dealer</a></li>
         
         </ul>
@@ -324,14 +326,15 @@ $('#searchid_sidebar').click(function(){
           </a>
         </li>
 
-        <li>
-          <a href="<?= base_url();?>secondary_supply/secondary_supply">
-            <i class="fa fa-tasks"></i>
-            <span>Secondary Summary</span>
-            <span class="pull-right-container">
-            </span>
-          </a>
-        </li>
+<!--        <li>-->
+<!--          <a href="--><?//= base_url();?><!--secondary_supply/secondary_supply">-->
+<!--            <i class="fa fa-tasks"></i>-->
+<!--           <span>Secondary Summary</span>-->
+<!--            <span>Secondary Orders</span>-->
+<!--            <span class="pull-right-container">-->
+<!--            </span>-->
+<!--          </a>-->
+<!--        </li>-->
 
         <?php if(is_admin() || logged_user_child() ){ ?>
 		  <li class="treeview">
@@ -340,6 +343,9 @@ $('#searchid_sidebar').click(function(){
 		  <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i>
           </span></a>
 		  <ul class="treeview-menu">
+			  <li><a href="<?= base_url();?>secondary_supply/secondary_supply"><i class="fa fa-circle-o
+		text-red"></i><span> Secondary Orders</span></a></li>
+
 		<li><a href="<?= base_url();?>interaction/summary_report"><i class="fa fa-circle-o
 		text-blue"></i><span> Interaction Summary Report</span></a></li>
 		<li><a href="<?= base_url();?>interaction/se_report"><i class="fa fa-circle-o

@@ -7,8 +7,11 @@
  * for show doctor interaction 
  * 
  */
-$data = file_get_contents ("ReportJSON/IntrctionDocSumry.json");
-$json = json_decode($data, true);
+$data_doc = file_get_contents ("ReportJSON/IntrctionDocSumry.json");
+$json_doc = json_decode($data_doc, true);
+$data_phr = file_get_contents ("ReportJSON/IntrctionPharmaSumry.json");
+$json_phr = json_decode($data_phr, true);
+
 
 if(!is_admin()){
 	$usrID=logged_user_data();
@@ -20,9 +23,11 @@ if(!is_admin()){
 	}else{
 		$childArr=$uID;
 	}
-	$doc_info=$json;
+	$doc_info=$json_doc;
+	$pharma_int= $json_phr;
 }else{
-	$doc_info=$json;
+	$doc_info=$json_doc;
+	$pharma_int= $json_phr;
 }
 
 $secondary_sum=0;
@@ -86,6 +91,7 @@ $secondary_sum=0;
 					<th>Interaction With</th>
 					<th>Interaction By</th>
 					<th>City</th>
+					<th>Category</th>
 <!--					<th>Sample</th>-->
 					<th>Met/Not Met</th>
 					<th>Secondary Sale</th>
@@ -96,116 +102,201 @@ $secondary_sum=0;
 				</tr>
 				</thead>
 			<tbody>
-                <?php
-                 if(!empty($doc_info)){
-                 	if(is_admin()){
-						foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
-							?>
-							<tr>
+				<?php	//Doctor Interactions
+				if(!empty($doc_info)){
+				if(is_admin()){
+				foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
+				?>
+				<tr>
+					<td>
+						<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+					</td>
+					<td>
+						<?=$val_doc['customer'];?>
+					</td>
+					<td>
+						<?=$val_doc['user'];?>
+					</td>
+					<td>
+						<?=$val_doc['city'];?>
+					</td>
+					<td>Doctor</td>
+					<td>
+						<?php
+						if($val_doc['metnotmet']==TRUE ){
+							echo "Met";
+						}else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
+							echo "Not Met" ;
+						}
+						?>
+					</td>
+
+					<td>
+						<?=$val_doc['secondary_sale'];?>
+						<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
+						<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
+							<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
+						<?php }?>
+					</td>
+
+					<td>
+						<?=$val_doc['remark'];?>
+					</td>
+
+					<td>
+						<?php   if(is_admin()){ ?>
+							<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php  }
+				}else{
+				foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
+					if(in_array($val_doc['user_id'],$childArr)){  ?>
+						<tr>
+							<td>
+								<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+							</td>
+							<td>
+								<?=$val_doc['customer'];?>
+							</td>
+							<td>
+								<?=$val_doc['user'];?>
+							</td>
+							<td>
+								<?=$val_doc['city'];?>
+							</td>
+							<td>Doctor</td>
+							<td>
+								<?php
+
+								if($val_doc['metnotmet']==TRUE ){
+									echo "Met";
+								}
+								else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
+
+									echo "Not Met" ;
+								}
+								?>
+
+							</td>
+
+							<td>
+								<?=$val_doc['secondary_sale'];?>
+								<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
+								<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
+									<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
+								<?php }?>
+							</td>
+
+							<td>
+								<?=$val_doc['remark'];?>
+							</td>
+							<?php   if(is_admin()){ ?>
+							<td>
+									<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+							</td>
+							<?php } ?>
+						</tr>
+				<?php	}
+				}
+				}
+				} ?>
+
+				<?php   //Sub Dealers/ Pharmacy Interactions
+				if(!empty($pharma_int)){
+						if(is_admin()){
+							foreach($pharma_int['pharmacy_info'] as $k_p=>$val_p){	?>
+								</tr>
 								<td>
-									<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+									<?= date('Y/m/d',strtotime($val_p['date'])); ?>
 								</td>
 								<td>
-									<?=$val_doc['customer'];?>
+									<?=$val_p['customer'];?>
 								</td>
 								<td>
-									<?=$val_doc['user'];?>
+									<?=$val_p['user'];?>
 								</td>
 								<td>
-									<?=$val_doc['city'];?>
+									<?=$val_p['city'];?>
 								</td>
-<!--								<td>-->
-<!--									--><?//=$val_doc['sample']['sample'];?>
-<!--								</td>-->
+								<td>Sub Dealer</td>
 								<td>
 									<?php
-
-									if($val_doc['metnotmet']==TRUE ){
+									if($val_p['metnotmet']==TRUE ){
 										echo "Met";
-									}
-									else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
-
+									}else if($val_p['metnotmet']==FALSE && $val_p['metnotmet']!=NULL ){
 										echo "Not Met" ;
-									}
-									?>
-
+									} ?>
 								</td>
-
 								<td>
-									<?=$val_doc['secondary_sale'];?>
-									<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
-									<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
-										<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
+									<?=$val_p['secondary_sale'];?>
+									<?php $secondary_sum=$secondary_sum+$val_p['secondary_sale']?>
+									<?php if(!empty($val_p['secondary_sale']) && $val_p['secondary_sale']!=0){?>
+										<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_p['id']).'/'. urisafeencode($val_p['pharma_id']);?>"  target="_blank">View Product</a>
 									<?php }?>
 								</td>
-
 								<td>
-									<?=$val_doc['remark'];?>
+									<?=$val_p['remark'];?>
 								</td>
-
 								<td>
-									<?php   if(is_admin()){ ?>
-										<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+									<?php
+									if(is_admin() ){ ?>
+										<a href="<?php echo base_url()."interaction/edit_pharma_interaction/". urisafeencode($val_p['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
 									<?php } ?>
 								</td>
-							</tr>
-						<?php  }
-					}
-                 	else{
-							foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
-								if(in_array($val_doc['user_id'],$childArr)){  ?>
+								</tr>
+							<?php  }
+						}else{
+							foreach($pharma_int['pharmacy_info'] as $k_p=>$val_p) {
+								if (in_array($val_p['user_id'], $childArr)) { ?>
 									<tr>
 										<td>
-											<?= date('Y/m/d',strtotime($val_doc['date'])); ?>
+											<?= date('Y/m/d', strtotime($val_p['date'])); ?>
 										</td>
 										<td>
-											<?=$val_doc['customer'];?>
+											<?= $val_p['customer']; ?>
 										</td>
 										<td>
-											<?=$val_doc['user'];?>
+											<?= $val_p['user']; ?>
 										</td>
 										<td>
-											<?=$val_doc['city'];?>
+											<?= $val_p['city']; ?>
 										</td>
-<!--										<td>-->
-<!--											--><?//=$val_doc['sample']['sample'];?>
-<!--										</td>-->
+										<td>Sub Dealer</td>
 										<td>
-											<?php
-
-											if($val_doc['metnotmet']==TRUE ){
+											<?php if ($val_p['metnotmet'] == TRUE) {
 												echo "Met";
-											}
-											else if($val_doc['metnotmet']==FALSE && $val_doc['metnotmet']!=NULL ){
-
-												echo "Not Met" ;
-											}
-											?>
-
+											} else if ($val_p['metnotmet'] == FALSE && $val_p['metnotmet'] != NULL) {
+												echo "Not Met";
+											}	?>
 										</td>
-
 										<td>
-											<?=$val_doc['secondary_sale'];?>
-											<?php $secondary_sum=$secondary_sum+$val_doc['secondary_sale']?>
-											<?php if(!empty($val_doc['secondary_sale']) && $val_doc['secondary_sale']!=0){?>
-												<br><a href="<?php echo base_url()."order/interaction_order/view_order/". urisafeencode($val_doc['id']).'/'. urisafeencode($val_doc['doc_id']);?>"  target="_blank">View Product</a>
-											<?php }?>
+											<?= $val_p['secondary_sale']; ?>
+											<?php $secondary_sum = $secondary_sum + $val_p['secondary_sale'] ?>
+											<?php if (!empty($val_p['secondary_sale']) && $val_p['secondary_sale'] != 0) { ?>
+												<br><a
+													href="<?php echo base_url() . "order/interaction_order/view_order/" . urisafeencode($val_p['id']) . '/' . urisafeencode($val_p['pharma_id']); ?>"
+													target="_blank">View Product</a>
+											<?php } ?>
 										</td>
-
 										<td>
-											<?=$val_doc['remark'];?>
+											<?= $val_p['remark']; ?>
 										</td>
-										<?php   if(is_admin()){ ?>
 										<td>
-												<a href="<?php echo base_url()."interaction/edit_doc_interaction/". urisafeencode($val_doc['id'] );?>"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+											<?php if (is_admin()) {	?>
+	<a href="<?php echo base_url() . "interaction/edit_pharma_interaction/" . urisafeencode($val_p['id']); ?>">
+		<button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+	</a>
+											<?php } ?>
 										</td>
-										<?php } ?>
 									</tr>
-							<?php	}
+								<?php }
 							}
+						}
+					 }
+				?>
 
-					}
-                 } ?>
 </tbody>
 <?php if($secondary_sum!=0){?>
 <tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan="" style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>

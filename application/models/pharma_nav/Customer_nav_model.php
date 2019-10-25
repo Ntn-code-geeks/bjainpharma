@@ -27,7 +27,7 @@ class Customer_nav_model extends CI_Model {
 
              $state_id = $this->check_state($value->state_short);
 
-            
+
              if(!empty($state_id)){
                 //  echo $state_id; die;
                  $city_id = $this->check_city($value->city_name,$state_id);
@@ -46,9 +46,14 @@ class Customer_nav_model extends CI_Model {
                   $phone = $this->check_duplicate_phone($value->Phone_No,$is_cust);
              }
 
-        //   echo 'State:'.$state_id.'<br>';
-        //     echo 'City : '.$city_id.'<br>';
-        //     echo $key.'->Cust code'.$phone.'<br>';  die;
+
+//             echo 'State:'.$state_id.'<br>';
+//             echo 'City : '.$city_id.'<br>';
+//             echo 'Phone : '.$phone.'<br>';
+//             echo $key.'->Cust code'.$phone.'<br>';  die;
+
+
+
 			if(!empty($state_id) || !empty($city_id) || !empty($value->city_pincode) || $phone===TRUE){
 				if($phone=='1'){
 					if(empty($is_cust)){
@@ -117,7 +122,7 @@ class Customer_nav_model extends CI_Model {
         }else{
              return FALSE;
         }
-        
+
         
        
     }
@@ -256,13 +261,10 @@ class Customer_nav_model extends CI_Model {
                 $this->db->select($arr);
                 $this->db->from('dealer');
                 $this->db->where('d_phone',$phone_num);
-
                 $query = $this->db->get();
                 if($this->db->affected_rows()){
                     return FALSE;
-
                 }else{
-
                     return TRUE;
                 }
         
@@ -272,7 +274,6 @@ class Customer_nav_model extends CI_Model {
                 $this->db->from('dealer');
                 $this->db->where('d_phone',$phone_num);
 //                $this->db->where('nav_dealer_id',$is_cust);
-
                 $query = $this->db->get();
                 if($this->db->affected_rows()){
                     return TRUE;
@@ -296,52 +297,39 @@ class Customer_nav_model extends CI_Model {
                 break;
             case 'AP':
                 return 1;
-
                 break;
-            
             case 'AR':
-                    return 2;
-
+                return 2;
                 break;
             case 'BR':
-                return 4; 
-
+                return 4;
                 break;
             case 'CG':
-                return 5;   
-
+                return 5;
                 break;
-            
             case 'DD':
-                    return 34;
-
+                return 34;
                 break;
             case 'DN':
-                   return 33;   
-
+                return 33;
                 break;
             case 'GA':
-                  return 29;   
-
+                return 29;
                 break;
             case 'GJ':
-                  return 7; 
-
+                return 7;
                 break;
             case 'HP':
-                   return 9; 
-
+                return 9;
                 break;
             case 'HR':
-                  return 8; 
-
+                return 8;
                 break;
             case 'JH':
-                    return 11;
-
+                return 11;
                 break;
             case 'JK':
-                   return 10; 
+                   return 10;
 
                 break;
             case 'KA':
@@ -349,19 +337,19 @@ class Customer_nav_model extends CI_Model {
 
                 break;
             case 'KL':
-                   return 13; 
+                   return 13;
 
                 break;
             case 'LD':
-                   return 32;  
+                   return 32;
 
                 break;
             case 'MH':
-                   return 15;  
+                   return 15;
 
                 break;
             case 'ML':
-                   return 17; 
+                   return 17;
 
                 break;
             case 'MN':
@@ -369,19 +357,19 @@ class Customer_nav_model extends CI_Model {
 
                 break;
             case 'MP':
-                   return 14; 
+                   return 14;
 
                 break;
             case 'MZ':
-                   return 18;  
+                   return 18;
 
                 break;
             case 'NL':
-                   return 19; 
+                   return 19;
 
                 break;
             case 'OR':
-                    return 20; 
+                    return 20;
 
                 break;
             case 'OD':
@@ -448,7 +436,7 @@ class Customer_nav_model extends CI_Model {
           $arr = "city_id";
           $this->db->select($arr);
           $this->db->from('city');
-          
+
           $this->db->where('city_name',$city_name);
           $this->db->where('state_id',$stateid);
           $this->db->where('status',1);

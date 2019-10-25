@@ -392,7 +392,7 @@ if (!in_array($list, $listDate)){  ?>
    <input readonly class="form-control pull-right" type="text" name="" id="doi" value="<?= $listshow ?>" style="width:
    100px;">
 </td>
-<?php if($day=='Sun'){   //pr("here"); ?>
+<?php if($day=='Sun'){    ?>
     <td colspan="9" style=" opacity: 0.50;">
         <input readonly class="form-control pull-right" type="text" name="source_ci"
                id="source_city"
@@ -425,13 +425,33 @@ if (!in_array($list, $listDate)){  ?>
        padding: 2px;">
 				</td>
 		<?php	}
-		}else{  ?>
-			<td colspan="9" style=" opacity: 0.50;">
-				<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
-					   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
+		}else{
+			$holiday=get_holiday_details($list);
+			if(!empty($holiday)){
+				$usersID=explode(',',$holiday->user_ids);
+				$hol_user=get_check_active_users($usersID);
+				if(in_array(logged_user_data(),$hol_user)){  ?>
+				<td colspan="9" style=" opacity: 0.50;">
+					<input readonly class="form-control pull-right" type="text" name="source_ci" id="source_city"
+						   value="<?= $holiday->remark; ?>" style="color: red; text-align: center; width:100%;
+						   padding: 2px;">
+				</td>
+
+			<?php	}else{ ?>
+				<td colspan="9" style=" opacity: 0.50;">
+					<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+						   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
+   padding: 2px;">
+				</td>
+			<?php	}
+			}else{ ?>
+				<td colspan="9" style=" opacity: 0.50;">
+					<input readonly class="form-control pull-right" type="text" name="source_ci"  id="source_city"
+						   value="On Leave / No Interaction" style="color: blue; text-align: center; width:100%;
        padding: 2px;">
-			</td>
-	<?php	} ?>
+				</td>
+			<?php }
+			} ?>
 
 <?php	}
 	}  ?>
