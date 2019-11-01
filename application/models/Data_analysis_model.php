@@ -634,9 +634,9 @@ class Data_analysis_model extends CI_Model {
 					if(is_admin()){
 						if(!empty($overall_doc_list)) {
 							foreach ($overall_doc_list as $doc_lst) {
-								//if ($doc_lst['doctor_id'] == $doct_list['doc_id']) {
+								if ($doc_lst['doctor_id'] == $doct_list['doc_id']) {
 									$doc_interc[] = $doct_list['doc_id'];
-								//}
+								}
 							}
 						}
 					}

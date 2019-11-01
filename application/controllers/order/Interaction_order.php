@@ -159,12 +159,23 @@ public function products_list_get(){
 		$userDealersOnly=$this->dealer->dealermaster_info();
 		$UserDealers=json_decode($userDealersOnly);
 		$all_sp_codes=explode(',',all_user_sp_code());
+
 		$dealer_user=array();
 		foreach($UserDealers as $deal_u){
-			if(in_array($deal_u->sp_code,$all_sp_codes)){
-				$dealer_user[]=$deal_u;
+			$spcnt=explode(',',$deal_u->sp_code);
+			if(count($spcnt) > 1){
+				if(in_array($deal_u->sp_code[0],$all_sp_codes)){
+					$dealer_user[]=$deal_u;
+				}else{
+					$dealer_user[]=$deal_u;
+				}
+			}else{
+				if(in_array($deal_u->sp_code,$all_sp_codes)){
+					$dealer_user[]=$deal_u;
+				}
 			}
 		}
+
 		$userPharmaOnly=$this->pharmacy->pharmacymaster_info();
 		$UserPharmacy=json_decode($userPharmaOnly);
 		$pharma_user=array();

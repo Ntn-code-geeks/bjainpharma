@@ -14,8 +14,12 @@ class Holiday_model extends CI_Model {
 		$childusers=array();
 		foreach ($selected_user as $usr){
 			$childu=get_child_user($usr);
-			$user_arr=array($usr);
-			$childusers[]=array_merge($childu,$user_arr);
+			if(!empty($childu)){
+				$user_arr=array($usr);
+				$childusers[]=array_merge($childu,$user_arr);
+			}else{
+				$childusers[] = $usr;
+			}
 		}
 		$final_users = get_check_active_users(array_flatten($childusers));
 

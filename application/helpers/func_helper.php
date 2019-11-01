@@ -244,9 +244,7 @@ function logged_user_pharmaare() {  // for Sub Dealer assign to the user
 
 function logged_user_cities() {  // for cities assign to the user
     $ci = &get_instance();
-    
    $cities_id =$ci->session->userdata('userCity');
-   
     if(!empty($cities_id)){
        return $cities_id; 
     }
@@ -1479,47 +1477,54 @@ function get_state_id($id){
    function get_followup($date){
     $remark='';
     $ci = &get_instance();
-    $col='GROUP_CONCAT(remark) as remark';
+    $col='GROUP_CONCAT(remark) as remark, d_id as cust_id';
     $con='follow_up_action ="'.$date.' 00:00:00"';
     $ci->db->select($col); 
     $ci->db->from('pharma_interaction_dealer'); 
     $ci->db->where($con);
+    $ci->db->where('crm_user_id',logged_user_data());
     $query= $ci->db->get(); 
     if($ci->db->affected_rows()){
       if(!is_null($query->row()->remark ))
       {
-        $remark= $query->row()->remark; 
+        $remark= $query->row()->remark.';'.$query->row()->cust_id;
       }
     
     }
     $ci = &get_instance();
-    $col='GROUP_CONCAT(remark) as remark';
+    $col='GROUP_CONCAT(remark) as remark, doc_id as cust_id';
     $con='follow_up_action ="'.$date.' 00:00:00"';
     $ci->db->select($col); 
     $ci->db->from('pharma_interaction_doctor'); 
     $ci->db->where($con);
+    $ci->db->where('crm_user_id',logged_user_data());
     $query= $ci->db->get(); 
     if($ci->db->affected_rows()){
-      if(!is_null($query->row()->remark ))
+    	if(!is_null($query->row()->remark ))
       {
-        $remark= $remark.','.$query->row()->remark; 
+        $remark= $remark.','.$query->row()->remark.';'.$query->row()->cust_id;
       }
     }
     $ci = &get_instance();
-    $col='GROUP_CONCAT(remark) as remark';
+    $col='GROUP_CONCAT(remark) as remark, pharma_id as cust_id';
     $con='follow_up_action ="'.$date.' 00:00:00"';
     $ci->db->select($col); 
     $ci->db->from('pharma_interaction_pharmacy'); 
     $ci->db->where($con);
-    $query= $ci->db->get(); 
+	$ci->db->where('crm_user_id',logged_user_data());
+    $query= $ci->db->get();
     if($ci->db->affected_rows()){
       if(!is_null($query->row()->remark ))
       {
-       $remark= $remark.','.$query->row()->remark; 
+       $remark= $remark.','.$query->row()->remark.';'.$query->row()->cust_id;
       }
       
-    } 
-    return $remark;
+    }
+
+    $filtered_remarks=array_filter(explode(',',$remark));
+    $final_remarks=implode(',',$filtered_remarks);
+
+    return $final_remarks;
   }
 
 
@@ -2847,6 +2852,23 @@ function get_pharma_id($name){
 		return $var_ph;
 	}else{
 		return 0;
+	}
+}
+
+
+function get_leaves_deatils($date){
+	$ci = &get_instance();
+	$col='leave_id,user_id,remark,status,leave_status,from_date,to_date';
+	$con='find_in_set('.logged_user_data().',user_id) and (from_date <="'.$date.'" and to_date>="'.$date.'")';
+	$ci->db->select($col);
+	$ci->db->from('user_leave');
+	$ci->db->where($con);
+	$query= $ci->db->get();
+	if($ci->db->affected_rows()){
+		return $query->row();
+	}
+	else{
+		return FALSE;
 	}
 }
 

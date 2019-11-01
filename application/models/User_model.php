@@ -211,8 +211,14 @@ class User_model extends CI_Model {
 				}
 			}
 			$get_designation=get_designation_name($get_uid->user_designation_id);
-			$child_users=count(get_child_user($userid));  //Get Team total team members
-			$user_child=get_child_user($userid);
+			$check_childs=get_child_user($userid);
+			if($check_childs){
+				$child_users=count(get_check_active_users(get_child_user($userid)));  //Get Team total team members
+				$user_child=get_check_active_users(get_child_user($userid));
+			}else{
+				$child_users=count(get_child_user($userid));  //Get Team total team members
+				$user_child=get_child_user($userid);
+			}
 
 			for ($iDay = 6; $iDay >= 0; $iDay--) {
 				@$aDays[7 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));
@@ -306,8 +312,14 @@ class User_model extends CI_Model {
 				}
 			}
 			$get_designation=get_designation_name($get_uid->user_designation_id);
-			$child_users=count(get_child_user($userid));  //Get Team total team members
-			$user_child=get_child_user($userid);
+			$check_childs=get_child_user($userid);
+			if($check_childs){
+				$child_users=count(get_check_active_users(get_child_user($userid)));  //Get Team total team members
+				$user_child=get_check_active_users(get_child_user($userid));
+			}else{
+				$child_users=count(get_child_user($userid));  //Get Team total team members
+				$user_child=get_child_user($userid);
+			}
 
 			for ($iDay = 30; $iDay >= 0; $iDay--) {
 				@$aDays[31 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));
@@ -398,8 +410,14 @@ class User_model extends CI_Model {
 				}
 			}
 			$get_designation=get_designation_name($get_uid->user_designation_id);
-			$child_users=count(get_child_user($userid));  //Get Team total team members
-			$user_child=get_child_user($userid);
+			$check_childs=get_child_user($userid);
+			if($check_childs){
+				$child_users=count(get_check_active_users(get_child_user($userid)));  //Get Team total team members
+				$user_child=get_check_active_users(get_child_user($userid));
+			}else{
+				$child_users=count(get_child_user($userid));  //Get Team total team members
+				$user_child=get_child_user($userid);
+			}
 
 			for ($iDay = 91; $iDay >= 0; $iDay--) {
 				@$aDays[92 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));
@@ -490,8 +508,14 @@ class User_model extends CI_Model {
 				}
 			}
 			$get_designation=get_designation_name($get_uid->user_designation_id);
-			$child_users=count(get_child_user($userid));  //Get Team total team members
-			$user_child=get_child_user($userid);
+			$check_childs=get_child_user($userid);
+			if($check_childs){
+				$child_users=count(get_check_active_users(get_child_user($userid)));  //Get Team total team members
+				$user_child=get_check_active_users(get_child_user($userid));
+			}else{
+				$child_users=count(get_child_user($userid));  //Get Team total team members
+				$user_child=get_child_user($userid);
+			}
 
 			for ($iDay = 364; $iDay >= 0; $iDay--) {
 				@$aDays[365 - $iDay] = date('Y-m-d 00:00:00', strtotime("-" . $iDay . " day"));

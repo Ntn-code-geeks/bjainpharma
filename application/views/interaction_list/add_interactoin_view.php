@@ -238,16 +238,38 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     // var datearray = ["09-14-2019","09-15-2019","09-16-2019"];    ///Dates to be disabled in calendar
     var datearray = $('#yearly_holidays').val();
 
+    if(usID==39 || usID==155 || usID==81 || usID==79 || usID==164 || usID==182 || usID==42 || usID==43 ||
+		usID==169 || usID==203 || usID==46 || usID==52|| usID==193 || usID==211 || usID==80 || usID==55 || usID==44 ||
+		usID==46 || usID==114 || usID==161 || usID==57|| usID==48 || usID==157 || usID==185 || usID==49 || usID==68 ||
+		usID==163 || usID==165 || usID==106 || usID==77 || usID==173 || usID==103 || usID==149 || usID==206||
+		usID==202||	usID==66 || usID==76 || usID==101 || usID==31){
 
-	$('#doi').datepicker({
-        format: 'mm/dd/yyyy',
-		// startDate: '-2d',
-		// endDate: '+0d' ,   ////future dates
-        datesDisabled: datearray,     ////Gazetted Holidays
-		daysOfWeekDisabled: [0],   //Disable sunday
-		autoclose:true,
-        todayHighlight: true,
-	})  ;
+		var dat_str=datearray.split(",");
+		var poped_val= dat_str.pop();
+		var new_dates=dat_str.join(',');
+
+        $('#doi').datepicker({
+            format: 'mm/dd/yyyy',
+            // startDate: '-2d',
+            // endDate: '+0d' ,   ////future dates
+            datesDisabled: new_dates,     ////Gazetted Holidays
+            daysOfWeekDisabled: [0],   //Disable sunday
+            autoclose:true,
+            todayHighlight: true,
+        })  ;
+	}else{
+        $('#doi').datepicker({
+            format: 'mm/dd/yyyy',
+            // startDate: '-2d',
+            // endDate: '+0d' ,   ////future dates
+            datesDisabled: datearray,     ////Gazetted Holidays
+            daysOfWeekDisabled: [0],   //Disable sunday
+            autoclose:true,
+            todayHighlight: true,
+        })  ;
+	}
+
+
 
 
 

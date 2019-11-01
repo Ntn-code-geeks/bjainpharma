@@ -3,42 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="e572d146-1042-44b4-88ee-c3dcfb2eed1e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionDealerSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDealerSumry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionDocSumry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/IntrctionPharmaSumry.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/IntrctionPharmaSumry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/doc_secondary_supply.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/doc_secondary_supply.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ReportJSON/monthly.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/monthly.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/phar_secondary_supply.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ReportJSON/quarterly.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/quarterly.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReportJSON/ta_da_overall_data.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ReportJSON/weekly.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/weekly.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ReportJSON/yearly.json" beforeDir="false" afterPath="$PROJECT_DIR$/ReportJSON/yearly.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Interaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Interaction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/doctors/Doctor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/pharma_nav/Customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/pharma_nav/Customer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/pharmacy/Pharmacy.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/pharmacy/Pharmacy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/to_do_list/To_do.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/to_do_list/To_do.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/order/Interaction_order.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/tour_plan/Tour_plan.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/tour_plan/Tour_plan.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/helpers/func_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/helpers/func_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/Data_analysis_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/Data_analysis_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/User_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/User_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/dealer/Dealer_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/dealer/Dealer_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/doctor/Doctor_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/doctor/Doctor_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/pharma_nav/Customer_nav_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/pharma_nav/Customer_nav_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/report/Report_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/report/Report_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/holiday/Holiday_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/holiday/Holiday_model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/tour_plan/Tour_plan_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/tour_plan/Tour_plan_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/dashboard/admin_home_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/dashboard/admin_home_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/doctor_list/doctor_import_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/doctor_list/doctor_import_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/elements/left_sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/elements/left_sidebar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/interaction_doc_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/interaction_doc_details_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/summary_report_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/summary_report_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_admin_detail_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_admin_detail_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_manager_detail_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_manager_detail_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/ta_da_report_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/ta_da_report_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/secondary_supply/secondary_supply_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/secondary_supply/secondary_supply_details_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/order/select_product_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/order/select_product_view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/permission/user_permission_details_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/permission/user_permission_details_view.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/tour_plan/create_tour_plan.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/tour_plan/create_tour_plan.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/tour_plan/tour_plan_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/tour_plan/tour_plan_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nav_con/my_customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/nav_con/my_customer.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +61,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bjainpharma_api_testing" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
@@ -264,6 +246,11 @@
       <workItem from="1571805077709" duration="6882000" />
       <workItem from="1571891877410" duration="13994000" />
       <workItem from="1571978416723" duration="55000" />
+      <workItem from="1571980828634" duration="8423000" />
+      <workItem from="1572064017611" duration="14236000" />
+      <workItem from="1572408508633" duration="9436000" />
+      <workItem from="1572495541843" duration="19658000" />
+      <workItem from="1572587022899" duration="469000" />
     </task>
     <task id="LOCAL-00001" summary="phpstorm commit">
       <created>1566982967610</created>
@@ -323,7 +310,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>467</line>
+          <line>465</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -383,52 +370,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>301</line>
-          <option name="timeStamp" value="335" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>305</line>
-          <option name="timeStamp" value="336" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>299</line>
-          <option name="timeStamp" value="337" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>285</line>
-          <option name="timeStamp" value="338" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>210</line>
-          <option name="timeStamp" value="339" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>206</line>
-          <option name="timeStamp" value="340" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>204</line>
-          <option name="timeStamp" value="341" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
           <line>190</line>
           <option name="timeStamp" value="342" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>377</line>
+          <line>389</line>
           <option name="timeStamp" value="347" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>469</line>
+          <line>487</line>
           <option name="timeStamp" value="352" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -533,63 +485,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>264</line>
+          <line>270</line>
           <option name="timeStamp" value="461" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>258</line>
+          <line>264</line>
           <option name="timeStamp" value="462" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>259</line>
+          <line>265</line>
           <option name="timeStamp" value="463" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>357</line>
-          <option name="timeStamp" value="464" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>351</line>
-          <option name="timeStamp" value="465" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>352</line>
-          <option name="timeStamp" value="466" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>449</line>
-          <option name="timeStamp" value="467" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>443</line>
-          <option name="timeStamp" value="468" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>444</line>
-          <option name="timeStamp" value="469" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>535</line>
-          <option name="timeStamp" value="470" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>536</line>
-          <option name="timeStamp" value="471" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
-          <line>541</line>
-          <option name="timeStamp" value="472" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/views/interaction_list/add_interactoin_view.php</url>
@@ -642,11 +549,6 @@
           <option name="timeStamp" value="556" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/application/models/holiday/Holiday_model.php</url>
-          <line>19</line>
-          <option name="timeStamp" value="557" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/views/user_leave/user_leave_list.php</url>
           <line>220</line>
           <option name="timeStamp" value="558" />
@@ -678,12 +580,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>1533</line>
+          <line>1538</line>
           <option name="timeStamp" value="588" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>1552</line>
+          <line>1557</line>
           <option name="timeStamp" value="589" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -765,6 +667,71 @@
           <url>file://$PROJECT_DIR$/application/models/doctor/Doctor_model.php</url>
           <line>1173</line>
           <option name="timeStamp" value="641" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1499</line>
+          <option name="timeStamp" value="648" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1513</line>
+          <option name="timeStamp" value="649" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1484</line>
+          <option name="timeStamp" value="650" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1494</line>
+          <option name="timeStamp" value="651" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1479</line>
+          <option name="timeStamp" value="652" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1508</line>
+          <option name="timeStamp" value="653" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1518</line>
+          <option name="timeStamp" value="654" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1504</line>
+          <option name="timeStamp" value="655" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>1489</line>
+          <option name="timeStamp" value="656" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
+          <line>213</line>
+          <option name="timeStamp" value="660" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
+          <line>220</line>
+          <option name="timeStamp" value="661" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
+          <line>314</line>
+          <option name="timeStamp" value="662" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/application/models/User_model.php</url>
+          <line>321</line>
+          <option name="timeStamp" value="663" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/report/User_report_model.php</url>
@@ -885,7 +852,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>2693</line>
+          <line>2698</line>
           <properties>
             <option name="className" value="" />
             <option name="methodName" value="\get_users_da" />
@@ -957,7 +924,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>2708</line>
+          <line>2713</line>
           <properties>
             <option name="className" value="" />
             <option name="methodName" value="\get_doc_details" />
@@ -984,7 +951,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
-          <line>2822</line>
+          <line>2827</line>
           <properties>
             <option name="className" value="" />
             <option name="methodName" value="\get_dealer_id" />
@@ -993,12 +960,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/application/models/tour_plan/Tour_plan_model.php</url>
-          <line>315</line>
+          <line>324</line>
           <properties>
             <option name="className" value="\Tour_plan_model" />
             <option name="methodName" value="tour_info" />
           </properties>
           <option name="timeStamp" value="643" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/application/helpers/func_helper.php</url>
+          <line>2858</line>
+          <properties>
+            <option name="className" value="" />
+            <option name="methodName" value="\get_leaves_deatils" />
+          </properties>
+          <option name="timeStamp" value="647" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

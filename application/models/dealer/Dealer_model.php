@@ -152,48 +152,23 @@ class Dealer_model extends CI_Model {
 					$where  .= " d.city_id = $value ";
 
 					$k++;
-
 					if($k > 0 && count($city_id)!=$k){
-
 						$where .= " OR ";
-
 					}
-
 				}
-
 				$where  .= " ) ";
-
 			}
 			$this->db->or_where($where);  // for Showing dealer list in Sub Dealer & Doctor for adding dealer
 
 		}
 
-
-
 		$query= $this->db->get();
-
 //        echo $this->db->last_query(); die;
-
 		if($this->db->affected_rows()){
-
-
-
 			return json_encode($query->result_array());
-
-		}
-
-		else{
-
-
-
+		}else{
 			return FALSE;
-
 		}
-
-
-
-
-
 	}
 
 
@@ -355,19 +330,23 @@ class Dealer_model extends CI_Model {
 			$distance=0;
 		}
 		else{
-			// $distance=$maindistance;
+//			 $distance=$maindistance;
 
 			$user_city_ID=get_user_deatils(logged_user_data())->headquarters_city;
 			if(	(is_city_metro($destination_city_id)== is_city_metro($user_city_ID)) &&
-				(get_state_id($user_city_ID) == get_state_id($destination_city_id))
+				(get_state_id($user_city_ID) == get_state_id($destination_city_id)) &&
+				($maindistance <= 75)  && (get_user_deatils(logged_user_data())->headquarters_city == $destination_city_id)
 			){
 				$distance = 0;
 			}else{
-				$distance=$maindistance;
+				if($maindistance <= 20 ){
+					 $distance = 0;
+				}else{
+					$distance=$maindistance;
+				}
 			}
 		}
-
-
+//echo $distance; die;
 		if($distance>=0 && $distance<=100)
 		{
 			if($designation_id==5 || $designation_id==6)
@@ -536,6 +515,7 @@ class Dealer_model extends CI_Model {
 			'updated_date'=>savedate(),
 			'status'=>1,
 		);
+//		pr($tour_data); die;
 		$this->db->insert('ta_da_report',$tour_data);
 	}
 

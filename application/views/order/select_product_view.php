@@ -176,7 +176,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					style="width: 100%;">
 
 					<option value=""> -- Select Dealers/Sub Dealers -- </option>
-				<?php  foreach($sp_dealers as $val_pl){   ?>
+				<?php foreach($sp_dealers as $val_pl){ ?>
 							<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
 							('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
 				<?php 	} ?>

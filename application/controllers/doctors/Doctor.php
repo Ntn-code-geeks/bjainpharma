@@ -589,12 +589,12 @@ class Doctor extends Parent_admin_controller {
 
     public function add_list(){
         
-        $data['title']="Add Doctor";
+         $data['title']="Add Doctor";
          $data['page_name'] = "Doctor Master";
-          $data['action'] = "doctors/doctor/save_doctor";
-           $data['dealer_list']= $this->dealer->add_edit_dealer_list();
-            $data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities()); 
-            $data['statename'] = $this->dealer->state_list();
+         $data['action'] = "doctors/doctor/save_doctor";
+         $data['dealer_list']= $this->dealer->add_edit_dealer_list();
+         $data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
+         $data['statename'] = $this->dealer->state_list();
             
             $data['doc_status_info']=$this->doctor->doc_status(); // status of the doctor (Prescribe/dispense)
             

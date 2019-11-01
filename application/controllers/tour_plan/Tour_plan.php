@@ -87,7 +87,7 @@ class Tour_plan extends Parent_admin_controller {
 		$data['title'] = "Tour Plan";
         $data['page_name'] = "Tour Plan";
                 
-              /*$cityList= $this->tour->get_city();
+	  /*$cityList= $this->tour->get_city();
 		if($cityList!=FALSE)
 		{
 			$data['city_list'] =$this->tour->get_city(); 
@@ -123,7 +123,7 @@ class Tour_plan extends Parent_admin_controller {
 	public function save_bulk_plan(){
             
 		$post_data = $this->input->post();
-//                pr($post_data); die;
+              // pr($post_data); die;
 		$success = $this->tour->add_bulk_tour($post_data);
 		if($success>0){  // on sucess
 			set_flash('<div class="alert alert-success alert-dismissible">
