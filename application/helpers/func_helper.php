@@ -8,7 +8,7 @@
  * 
  * to check that the person is ASM/RSM/DSM/NSM
  */
-function userDesig(){
+	function userDesig(){
     $ci = &get_instance();
     $userDesig =$ci->session->userdata('userDesig');
      if($userDesig<5){  // true only for the ASM/RSM/DSM/NSM
@@ -2822,7 +2822,21 @@ function get_pharma_count($uid){
 	}
 }
 
-
+function get_leaves_deatils($date){
+	$ci = &get_instance();
+	$col='leave_id,user_id,remark,status,leave_status,from_date,to_date';
+	$con='find_in_set('.logged_user_data().',user_id) and (from_date <="'.$date.'" and to_date>="'.$date.'")';
+	$ci->db->select($col);
+	$ci->db->from('user_leave');
+	$ci->db->where($con);
+	$query= $ci->db->get();
+	if($ci->db->affected_rows()){
+		return $query->row();
+	}
+	else{
+		return FALSE;
+	}
+}
 
 
 function get_dealer_id($name){
@@ -2856,20 +2870,6 @@ function get_pharma_id($name){
 }
 
 
-function get_leaves_deatils($date){
-	$ci = &get_instance();
-	$col='leave_id,user_id,remark,status,leave_status,from_date,to_date';
-	$con='find_in_set('.logged_user_data().',user_id) and (from_date <="'.$date.'" and to_date>="'.$date.'")';
-	$ci->db->select($col);
-	$ci->db->from('user_leave');
-	$ci->db->where($con);
-	$query= $ci->db->get();
-	if($ci->db->affected_rows()){
-		return $query->row();
-	}
-	else{
-		return FALSE;
-	}
-}
+
 
 ?>

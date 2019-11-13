@@ -2242,8 +2242,7 @@ class Report_model extends CI_Model {
                               
                                     'crm_user_id'=> logged_user_data(),
                                     'create_date'=>savedate(),                  
-                                    'last_update'=>savedate(),                  
-
+                                    'last_update'=>savedate(),
                                  );
 		 $this->db->insert('genrated_ta_da_details',$genrated_ta_da_detail_data); 
                         

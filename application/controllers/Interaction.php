@@ -71,7 +71,7 @@ class Interaction extends Parent_admin_controller {
 
 			if($this->form_validation->run() == TRUE ){
 
-				if(check_serialize_date($post_data['doi'], logged_user_data(),$post_data['interaction_city'])){
+			//	if(check_serialize_date($post_data['doi'], logged_user_data(),$post_data['interaction_city'])){
                                // pr($post_data); die;
 				$datablank='';
 				$page='';
@@ -95,22 +95,22 @@ class Interaction extends Parent_admin_controller {
                                     $this->load->get_view('interaction_list/joint_working_asm_form_view',$data);
                                     
                                 }
-                            }
-                            else{
-                                 set_flash('<div class="alert alert-danger alert-dismissible">
-
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-
-                                   You already filled the interaction on Same date and City.
-
-                                  </div>');
-
-
-                                  redirect('interaction/index/');  
-//				  $this->index();
-			       }
+                           // }
+//                            else{
+//                                 set_flash('<div class="alert alert-danger alert-dismissible">
+//
+//                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+//
+//                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+//
+//                                   You already filled the interaction on Same date and City.
+//
+//                                  </div>');
+//
+//
+//                                  redirect('interaction/index/');
+////				  $this->index();
+//			       }
                             
 			}
 			else if($_POST['date_interact'] || $_POST['an_interaction_city']){

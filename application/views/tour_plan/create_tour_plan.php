@@ -45,6 +45,9 @@ Nitin Kumar
                </thead>
                 <tbody>
                      <?php
+//					 $query_date = '2019-11-04';
+//					 $start_date=date('Y-m-01', strtotime($query_date));
+//					 $end_date=date('Y-m-t', strtotime($query_date));
 
                      $start_date =date('Y-m-d',strtotime('first day of +1 month'));
 					 $end_date = date('Y-m-d',strtotime('last day of +1 month'));
@@ -57,7 +60,8 @@ Nitin Kumar
                                <tr>
 								<td>
 									   <input readonly class="form-control pull-right" name="tour_date[]" value="<?php echo date ("d-m-Y", strtotime($start_date))?>" id="tour_date" type="text">
-									   <input class="form-control pull-right" name="assign_by[]" value="0" id="tour_date" type="hidden">
+									   <input class="form-control pull-right" name="assign_by[]"
+											  value="<?=logged_user_data(); ?>" id="tour_date" type="hidden">
 								   </td>
 								<td>
 								  <select name="dest_city[]" id="dest_city"  class="form-control select2" style="width: 100%;">
@@ -69,7 +73,8 @@ Nitin Kumar
 								  <span  style="color:red">Holiday.</span>
 								</td>
 							   </tr>
-                            <?php } else { 
+                            <?php }
+                            else {
                               $resulttask=get_assign_task( date('Y-m-d', strtotime($tdate)));
                               if($resulttask){   ?>
                                <tr>
@@ -93,7 +98,7 @@ Nitin Kumar
                               <tr>
 							  <td>
 							  <input readonly class="form-control pull-right" name="tour_date[]" value="<?php echo date ("d-m-Y", strtotime($start_date))?>" id="tour_date" type="text">
-							  <input class="form-control pull-right" name="assign_by[]" value="0" id="tour_date" type="hidden">
+							  <input class="form-control pull-right" name="assign_by[]" value="<?=logged_user_data(); ?>" id="tour_date" type="hidden">
 							  </td>
 							  <td>
 							  <select  name="dest_city[]" id="dest_city"  class="form-control select2" style="width: 100%;">
@@ -116,7 +121,7 @@ Nitin Kumar
 									<tr>
 										<td>
 											<input readonly class="form-control pull-right" name="tour_date[]" value="<?php echo date ("d-m-Y", strtotime($start_date))?>" id="tour_date" type="text">
-											<input class="form-control pull-right" name="assign_by[]" value="0" id="tour_date" type="hidden">
+											<input class="form-control pull-right" name="assign_by[]" value="<?=logged_user_data(); ?>" id="tour_date" type="hidden">
 										</td>
 										<td>
 										<select  name="dest_city[]" id="dest_city"  class="form-control select2" style="width: 100%;">
@@ -136,7 +141,10 @@ Nitin Kumar
 										<td>
 											<input readonly class="form-control pull-right" name="tour_date[]" value="<?php echo date ("d-m-Y", strtotime($start_date))?>" id="tour_date" type="text">
 
-											<input class="form-control pull-right" name="assign_by[]" value="0" id="tour_date" type="hidden">
+											<input class="form-control pull-right" name="assign_by[]"
+												   value="<?=logged_user_data();
+											?>"
+												   id="tour_date" type="hidden">
 										</td>
 										<td>
 											<select <?php echo date('D',strtotime($start_date))=='Sun'?'':'';?>

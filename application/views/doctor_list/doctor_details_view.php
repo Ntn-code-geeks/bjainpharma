@@ -136,14 +136,16 @@
      $(document).ready(function() {
     $('#example2').DataTable( {
 
+
+
 //        "aLengthMenu":  [[25, 50, 75, -1], [25, 50, 75, "All"]],
 //        "iDisplayLength": 157,
 
 //        "ajax": "<?php echo base_url()?>radar/customer/servserside_dtb"
-//         dom: 'Bfrtip',
-////         buttons: [
-////             'csv', 'print',
-////         ],
+        dom: 'Bfrtip',
+        buttons: [
+            'csv', 'print',
+        ],
         "processing": true,
 	    "serverSide": true,
 	    "ajax":{

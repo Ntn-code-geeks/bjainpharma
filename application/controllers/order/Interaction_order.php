@@ -364,7 +364,7 @@ public function products_list_get(){
 
 	public function add_product_interaction(){
 		$post_data = $this->input->post();
-//                 pr($post_data); die;
+//		         pr($post_data); die;
 		foreach($post_data['pro_mrp_val'] as $k=>$val)
 		{
 			if($val!='')
@@ -381,24 +381,24 @@ public function products_list_get(){
 		}
 		$this->form_validation->set_rules('category_list[]', 'Atleast One Category', "required");
 		$this->form_validation->set_rules('payment_mode', 'Payment Mode', "required");
-                $this->form_validation->set_rules('payment_term', 'Payment Term', "required");
-                if($post_data['payment_term']==1){
-                    $this->form_validation->set_rules('payment', 'Payment Terms with No of days', "required");
-                }
-                
+		$this->form_validation->set_rules('payment_term', 'Payment Term', "required");
+		if($post_data['payment_term']==1){
+			$this->form_validation->set_rules('payment', 'Payment Terms with No of days', "required");
+		}
+
 
 //                if(!in_array(11,$post_data['category_list']) &&  !in_array(7,$post_data['category_list'])){
-                    
-				  if(!isset($post_data['product_name']))
-				  {
-						  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-				  }
 
-				  if(!array_filter($post_data['product_name']))
-				  {
-						  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-				  }
-                      
+		  if(!isset($post_data['product_name']))
+		  {
+				  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+		  }
+
+		  if(!array_filter($post_data['product_name']))
+		  {
+				  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+		  }
+
 //                }
 
 
@@ -563,9 +563,8 @@ public function products_list_get(){
 	public function get_product_list(){
 
 		$data= $this->input->post();
-		
 		$productList= json_decode($this->order->get_cat_product($data));
-//                pr($productList); die;
+                //pr($productList); die;
                 if(($data['catid']==11 || $data['catid']==7) && count($productList)<2 ){
                      echo $productList[0]->product_id; die;
 

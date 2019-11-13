@@ -177,7 +177,7 @@ class Order_model extends CI_Model {
     }
 
     public function save_product_interaction($data){
-        // pr($data); die;
+//         pr($data); die;
     	$i=0;
 		$year;
 		$orderId;
@@ -211,6 +211,7 @@ class Order_model extends CI_Model {
                             'created_date'=>savedate(),                  
                             'updated_date'=>savedate(),                  
 		           );
+
 		$this->db->insert('interaction_order',$order_data); 	
 		$newOrderId=$this->db->insert_id();
 		//pr($post_data);
@@ -384,7 +385,7 @@ class Order_model extends CI_Model {
 //        die;
          if($this->db->affected_rows()){
                             $total_product = count($query->result_array());
-                            echo $total_product; die;
+//                            echo $total_product; die;
                         if($total_product>1){
                                    $arr = "product.product_id,product.product_name,product.product_category,product.product_potency,product.product_packsize,product.product_price,product.status,packsize.packsize_value";
                                    $this->db->select($arr);
@@ -422,18 +423,18 @@ class Order_model extends CI_Model {
                 $arr = "product.product_id,product.product_name,product.product_category,product.product_potency,product.product_packsize,product.product_price,product.status,packsize.packsize_value";
                 $this->db->select($arr);
                 $this->db->from("pharma_product as product");       
-                        $this->db->join("pharma_packsize as packsize",'product.product_packsize=packsize.packsize_id');
-                        $this->db->where('product.product_category',$data['catid']);		
-                        $this->db->where('product.product_packsize',$data['packsize']);
-                        
-                        if(isset($data['potency']))
-                        {
-                                $this->db->where('product.product_potency',$data['potency']);
-                        }		
+				$this->db->join("pharma_packsize as packsize",'product.product_packsize=packsize.packsize_id');
+				$this->db->where('product.product_category',$data['catid']);
+				$this->db->where('product.product_packsize',$data['packsize']);
 
-                        $this->db->where('product.status',1);
-                        $this->db->order_by('product.product_name', "asc");
-                $query = $this->db->get();
+				if(isset($data['potency']))
+				{
+						$this->db->where('product.product_potency',$data['potency']);
+				}
+
+				$this->db->where('product.status',1);
+				$this->db->order_by('product.product_name', "asc");
+				$query = $this->db->get();
 //                echo $this->db->last_query();
 //        die;
                 if($this->db->affected_rows()){

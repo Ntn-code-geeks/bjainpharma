@@ -17,15 +17,10 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		<!-- Contact Add -->
 
 		<div class="box box-default">
-
 			<div class="box-header with-border" style="text-align: center;">
-
 				<h3 class="box-title" style="font-weight: 700;">Doctor's Secondary Report</h3>
-
 			</div>
-
 			<!-- /.box-header -->
-
 			<div class="box-body">
 				<br>
 				<?php echo form_open_multipart($action);?>

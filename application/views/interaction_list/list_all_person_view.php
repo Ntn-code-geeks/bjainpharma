@@ -91,7 +91,8 @@
 						</thead>
 
 						<tbody>
-							<?php  if(!empty($doc_info)){  
+							<?php  if(!empty($doc_info)){
+//								pr($doc_info);
                                                             foreach($doc_info as $k_c=>$val_c){
                                                                 //if(check_user_sp($val_c->sp_code)){    ?>
 							<tr>

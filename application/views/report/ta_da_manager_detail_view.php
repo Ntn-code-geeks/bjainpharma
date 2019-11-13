@@ -17,10 +17,11 @@ $tada_data = json_decode($tada_report);
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
+
         var total = 0;
         $('.other_amt').each(function() {
-            var other_amount=$(this).val();
-            if(other_amount > 0){
+			var other_amount=$(this).val();
+            if(other_amount != ''){
                 total += Number($(this).val());
 			}
 
@@ -64,12 +65,21 @@ $tada_data = json_decode($tada_report);
     $(document).on("change", ".mng_amt", function() {
         var sum = 0;
         $(".mng_amt").each(function(){
-            sum += +$(this).val();
+            var mg_value=$(this).val();
+            if(mg_value != ''){
+                sum += +$(this).val();
+            }
         });
+
         $(".total").val(sum);
         var totalval=$(".totval").val();
         var user_imp=$('#usr_total').text();
-        var grandtotal= parseFloat(totalval)+parseFloat(user_imp)+parseFloat(sum);
+        if(user_imp != ''){
+            var grandtotal= parseFloat(totalval)+parseFloat(user_imp)+parseFloat(sum);
+		}else{
+            var grandtotal= parseFloat(totalval)+parseFloat(sum);
+		}
+
         $("#over_amt").val(grandtotal);
         // console.log(user_imp);
     });
@@ -225,7 +235,7 @@ $tada_data = json_decode($tada_report);
                               </td>
                               <td>
 							  <?php
-							  if($val_tada->aoc_amount > 0){ ?>
+							  if($val_tada->aoc_amount != NULL){ ?>
 								  <input readonly class="form-control pull-right other_amt"
 										 value="<?=$val_tada->aoc_amount;
 										 ?>" style="padding: 2px; text-align: center;">

@@ -175,95 +175,91 @@ class Tour_plan_model extends CI_Model {
     }
 
     public function add_bulk_tour($data){
-pr($data); die;
+//pr($data);
     	$datacount=0;
 			foreach($data['dest_city'] as $key=>$value){
 			if(date('D',strtotime($data['tour_date'][$key]))!='Sun')
 			{
-
 				//pr($data['tour_date'][$key]);
+				$result=get_holiday_details( date('Y-m-d', strtotime($data['tour_date'][$key])));
+				$leave=get_leaves_deatils( date('Y-m-d', strtotime($data['tour_date'][$key])));
+				if($data['dest_city'][$key]!='')
+				{
+					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
+					if($data['assign_by'][$key]!=0)
+					{
+						$color="#f56954";
+					}
+					else{
+						$color="#efb30e";
+					}
 
-				pr($data['assign_by'][$key]);
+					$tour_data = array(
+//						'source'=>$data['source_city'][$key],
+						'destination'=>$data['dest_city'][$key],
+						'remark'=>$data['remark'][$key],
+						'dot'=>$tour_date,
+						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
+						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
+						'crm_user_id'=> logged_user_data(),
+						'assign_by'=> $data['assign_by'][$key],
+//						'total_fare'=> $cityFare,
+//						'total_distance'=> $cityDistance,
+						'created_date'=>savedate(),
+						'updated_date'=>savedate(),
+						'status'=>1,
+						'color_id'=>$color,
+					);
+					$this->db->insert('user_stp',$tour_data);
+					$datacount++;
+				}
+				else if($result){
+					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
+					$color="#167c2a";
+					$tour_data = array(
+//						'source'=>$data['source_city'][$key],
+						'destination'=>$data['dest_city'][$key],
+						'remark'=>$data['remark'][$key],
+						'dot'=>$tour_date,
+						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
+						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
+						'crm_user_id'=> logged_user_data(),
+						'assign_by'=> $data['assign_by'][$key],
+//						'total_fare'=> $cityFare,
+//						'total_distance'=> $cityDistance,
+						'created_date'=>savedate(),
+						'updated_date'=>savedate(),
+						'status'=>1,
+						'color_id'=>$color,
+					);
+					$this->db->insert('user_stp',$tour_data);
+					$datacount++;
+				}
 
-//				$result=get_holiday_details( date('Y-m-d', strtotime($data['tour_date'][$key])));
-//				$leave=get_leaves_deatils( date('Y-m-d', strtotime($data['tour_date'][$key])));
-//				if($data['dest_city'][$key]!='')
-//				{
-//					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
-//					if($data['assign_by'][$key]!=0)
-//					{
-//						$color="#f56954";
-//					}
-//					else{
-//						$color="#efb30e";
-//					}
-//
-//					$tour_data = array(
-////						'source'=>$data['source_city'][$key],
-//						'destination'=>$data['dest_city'][$key],
-//						'remark'=>$data['remark'][$key],
-//						'dot'=>$tour_date,
-//						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
-//						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
-//						'crm_user_id'=> logged_user_data(),
-//						'assign_by'=> $data['assign_by'][$key],
-////						'total_fare'=> $cityFare,
-////						'total_distance'=> $cityDistance,
-//						'created_date'=>savedate(),
-//						'updated_date'=>savedate(),
-//						'status'=>1,
-//						'color_id'=>$color,
-//					);
-//					$this->db->insert('user_stp',$tour_data);
-//					$datacount++;
-//				}
-//				else if($result){
-//					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
-//					$color="#167c2a";
-//					$tour_data = array(
-////						'source'=>$data['source_city'][$key],
-//						'destination'=>$data['dest_city'][$key],
-//						'remark'=>$data['remark'][$key],
-//						'dot'=>$tour_date,
-//						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
-//						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
-//						'crm_user_id'=> logged_user_data(),
-//						'assign_by'=> $data['assign_by'][$key],
-////						'total_fare'=> $cityFare,
-////						'total_distance'=> $cityDistance,
-//						'created_date'=>savedate(),
-//						'updated_date'=>savedate(),
-//						'status'=>1,
-//						'color_id'=>$color,
-//					);
-//					$this->db->insert('user_stp',$tour_data);
-//					$datacount++;
-//				}
-//
-//				else if($leave){
-//					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
-//					$color="#167c2a";
-//					$tour_data = array(
-//						'destination'=>$data['dest_city'][$key],
-//						'remark'=>$data['remark'][$key],
-//						'dot'=>$tour_date,
-//						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
-//						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
-//						'crm_user_id'=> logged_user_data(),
-//						'assign_by'=> $data['assign_by'][$key],
-//						'created_date'=>savedate(),
-//						'updated_date'=>savedate(),
-//						'status'=>1,
-//						'color_id'=>$color,
-//					);
-//					$this->db->insert('user_stp',$tour_data);
-//					$datacount++;
-//				}
+				else if($leave){
+					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
+					$color="#167c2a";
+					$tour_data = array(
+						'destination'=>$data['dest_city'][$key],
+						'remark'=>$data['remark'][$key],
+						'dot'=>$tour_date,
+						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
+						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
+						'crm_user_id'=> logged_user_data(),
+						'assign_by'=> $data['assign_by'][$key],
+						'created_date'=>savedate(),
+						'updated_date'=>savedate(),
+						'status'=>1,
+						'color_id'=>$color,
+					);
+					$this->db->insert('user_stp',$tour_data);
+					$datacount++;
+				}
 
 			}
 		}
-die;
-	//	return $datacount;
+
+		return $datacount;
     }
 	
 

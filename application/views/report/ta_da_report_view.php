@@ -30,6 +30,7 @@ var totalval=$(".totval").text();
 var grandtotal= parseFloat(totalval)+parseFloat(sum);
 
 $(".grandtot").val(grandtotal);
+$("#gt_total").val(grandtotal);
 
 
 });
@@ -39,6 +40,11 @@ $(".grandtot").val(grandtotal);
 // Add Metro City Allowance
 */
 jQuery(document).ready(function() {
+
+    var totappnd = $('.totval').text();
+    $('.grandtot').val(totappnd);
+    $("#gt_total").val(totappnd);
+
     jQuery('#metroAllow').change(function() {
         if ($(this).prop('checked')) {
             $('#allowvalue').append(1000);
@@ -52,6 +58,7 @@ jQuery(document).ready(function() {
             var grandtotal= parseFloat(totalval)-parseFloat(1000);
             $(".grandtot").val(grandtotal);
         }
+
     });
 });
 </script>
@@ -471,7 +478,7 @@ if (!in_array($list, $listDate)){  ?>
 <td style="text-align: -webkit-right;"><strong class="totval"><?=$gtrow?></strong>
 <input type="hidden" name="report_date" value=" <?=$report_date?>">
 <input type="hidden" name="user" value=" <?= logged_user_data()?>">
-<input type="hidden" name="grant_total" value=" <?=$gtrow; ?>">
+<input type="hidden" name="grant_total" id="gt_total" value="">
 </td>
 <td colspan="2" style="text-align: -webkit-center;"><input readonly type="text" class="total" value="" style="border: 0px;
 font-weight: bold; text-align: right;"></td>
@@ -502,9 +509,8 @@ font-weight: bold; text-align: right;"></td>
 <td colspan="2"><strong>GRAND TOTAL</strong></td>
 
 
-<td colspan="8" style="text-align: right;"><input readonly type="text" class="grandtot"
-                                          value="<?=$gtrow?>"
-                                          style="border: 0px;
+<td colspan="8" style="text-align: right;">
+	<input readonly type="text" class="grandtot" value="" style="border: 0px;
 font-weight: bold; text-align: right;"></td>
 </tr>
 
