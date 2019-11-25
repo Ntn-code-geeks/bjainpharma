@@ -31,15 +31,20 @@ class User extends Parent_admin_controller {
 
         parent::__construct();
 
+         
 
         $this->load->model('User_model','user');
+
         $this->load->model('doctor/Doctor_model','doctor');
         $this->load->model('pharma_nav/customer_nav_model','cust_nav');
-        $this->load->model('data_analysis_model','analysis');
-		$this->load->model('secondary_supply/secondary_model','secondary');
+        
 
-		$this->load->model('report/report_model','report');
-		$this->load->model('report/user_report_model','user_report');
+        $this->load->model('data_analysis_model','analysis');
+
+		    $this->load->model('secondary_supply/secondary_model','secondarys');
+
+        $this->load->model('report/report_model','report');
+        $this->load->model('report/user_report_model','user_report');
         
 
     }
@@ -53,16 +58,26 @@ class User extends Parent_admin_controller {
         $loggedData=logged_user_data();
    $switchStatus= $this->session->userdata('switchStatus') ? $this->session->userdata('switchStatus'):0;
             if($loggedData==TRUE && $this->session->userdata('SiteUrl_id')== base_url() && is_first($this->session->userdata('userId'))!=1){
+
+
                 redirect('user/dashboard');
+
             }elseif(is_first($this->session->userdata('userId'))==1 && $switchStatus==1){
                  redirect('user/dashboard');
                  //redirect('user/user_change_password/'.$this->session->userdata('userId'));
             }
             else{
+
     //              echo "i call"; die;
+
                     $data['title'] = "Bjain Pharma ";
+
                     $data['action'] = "user/check_login";
+
+
+
                     $this->load->get_view('login_view',$data);
+
             }
 
     }
@@ -71,28 +86,51 @@ class User extends Parent_admin_controller {
 
     public function check_login(){
 
+        
+
         $log_data = $this->input->post();
+
+
         if(!empty($log_data)){
+
          $password = md5($log_data['password']);
+
           $email = $log_data['email'];
+
           $user_info =  $this->user->check_user($email);
+
         }
         if(!empty($user_info)){
+         
 
             $stored_pass= $user_info->password;
-            //echo $password.'<br>'.$stored_pass; die;
+//echo $password.'<br>'.$stored_pass; die;
+           
 
                 if ($password===$stored_pass)
+
                     {
+
+
+
                            $sesUser = array(
+
                                                 'userName'=>$user_info->name,
+
 					                        	'userId'=>$user_info->id,
+
 						                        'userEmail'=>$user_info->email_id,
+
                                                 'userCity'=>$user_info->city_id,
+
                                                 'userDesig'=>$user_info->desig_id,
+
                                                 'pharmaAre'=>$user_info->pharma_id,
+
                                                 'doctorAre'=>$user_info->doctor_id,
+
                                                 'userBoss' => $user_info->boss_ids,
+
                                                 'userChild'=>$user_info->child_ids,
 
                         			'switchStatus'=>$user_info->switchStatus,
@@ -198,16 +236,22 @@ class User extends Parent_admin_controller {
         
     }
 
+    
+
+
+
 
     public function dashboard(){
         
-         	$loggedData=logged_user_data();
+         $loggedData=logged_user_data();
             $switchStatus= $this->session->userdata('switchStatus') ? $this->session->userdata('switchStatus'):0;
 
             if($loggedData==TRUE && $this->session->userdata('SiteUrl_id')== base_url() && (is_first($this->session->userdata('userId'))!=1 || $switchStatus==1) ){
                 
 //           echo   $this->session->userdata('siteurl');    die;
               $data['title'] = "Dashboard";  
+              
+            
 
 //              $data['sales'] = $this->analysis->top_sales_cust();  // show top 5 sales dealer
 //              $data['payment'] = $this->analysis->top_payment_cust();  // show top 5 payment dealer
@@ -218,39 +262,27 @@ class User extends Parent_admin_controller {
               
               if(is_admin() || logged_user_child()){
                    /*model call for this week*/ 
-	  $data['week_secondary'] = $this->analysis->secondary_analysis(); //for doctor secondary highest and lowest
-	  $data['dealer_secondary_week']= $this->analysis->dealer_secondary();
-	  $data['visit_weekly']= $this->analysis->overall_visits();
-// $data['week_prodcutive'] = $this->analysis->productive_analysis(); //doctor Productive call highest and lowest
-//	  $data['week_no_order'] = $this->analysis->noorder_met_analysis();// doctor No order but met highest and lowest
-//	  $data['week_not_met'] = $this->analysis->not_met_analysis();  // for doctor Not met highest and lowest
-                     /*end model for this week*/
-                   /*model call for this Month*/ 
-$data['secondary_month'] = $this->analysis->secondary_analysis('-1 month'); //doctor secondary highest and lowest
-$data['dealer_secondary_month']= $this->analysis->dealer_secondary('-1 month');
-$data['visit_monthly']= $this->analysis->overall_visits('-1 month');
-//$data['prodcutive_month'] = $this->analysis->productive_analysis('-1 month');//doctor Productivehighest and lowest
-//$data['no_order_month'] = $this->analysis->noorder_met_analysis('-1 month');//doctor No order but met highest and lowest
-//$data['not_met_month'] = $this->analysis->not_met_analysis('-1 month'); //doctor Not met highest and lowest
-              /*end model for this Month*/
-              
-               /*model call for this Quarter*/ 
-              $data['secondary_quarter'] = $this->analysis->secondary_analysis('-3 month'); //for doctor secondary highest and lowest
-			  $data['dealer_secondary_quart']= $this->analysis->dealer_secondary('-3 month');
-			  $data['visit_quart']= $this->analysis->overall_visits('-3 month');
-//              $data['prodcutive_quarter'] = $this->analysis->productive_analysis('-3 month');  //for doctor Productive call highest and lowest
-//              $data['no_order_quarter'] = $this->analysis->noorder_met_analysis('-3 month');// for doctor No order but met highest and lowest
-//              $data['not_met_quarter'] = $this->analysis->not_met_analysis('-3 month');  // for doctor Not met highest and lowest
-              /*end model for this Quarter*/
-              
-               /*model call for this Year*/ 
-                $data['secondary_year'] = $this->analysis->secondary_analysis('-1 year'); //for secondary highest and
-				$data['dealer_secondary_year']= $this->analysis->dealer_secondary('-1 year');
-				$data['visit_yearly']= $this->analysis->overall_visits('-1 year');
-//              $data['prodcutive_year'] = $this->analysis->productive_analysis('-1 year');  //for doctor Productive call highest and lowest
-//              $data['no_order_year'] = $this->analysis->noorder_met_analysis('-1 year');// for doctor No order but met highest and lowest
-//              $data['not_met_year'] = $this->analysis->not_met_analysis('-1 year');  // for doctor Not met highest and lowest
-              /*end model for this Year*/
+                  $data['week_secondary'] = $this->analysis->secondary_analysis(); //for doctor secondary highest and lowest
+                  $data['dealer_secondary_week']= $this->analysis->dealer_secondary();
+                  $data['visit_weekly']= $this->analysis->overall_visits();
+
+
+                  $data['secondary_month'] = $this->analysis->secondary_analysis('-1 month'); //doctor secondary highest and lowest
+                  $data['dealer_secondary_month']= $this->analysis->dealer_secondary('-1 month');
+                  $data['visit_monthly']= $this->analysis->overall_visits('-1 month');
+
+
+
+                  $data['secondary_quarter'] = $this->analysis->secondary_analysis('-3 month'); //for doctor secondary highest and lowest
+                  $data['dealer_secondary_quart']= $this->analysis->dealer_secondary('-3 month');
+                  $data['visit_quart']= $this->analysis->overall_visits('-3 month');
+
+
+
+                  $data['secondary_year'] = $this->analysis->secondary_analysis('-1 year'); //for doctor secondary highest and lowest
+                  $data['dealer_secondary_year']= $this->analysis->dealer_secondary('-1 year');
+                  $data['visit_yearly']= $this->analysis->overall_visits('-1 year');
+
               
               
                $this->load->get_view('dashboard/admin_home_view',$data);
@@ -315,6 +347,7 @@ $data['visit_monthly']= $this->analysis->overall_visits('-1 month');
 
     }
 
+    
 
     // used for switch the users account
 
@@ -344,10 +377,24 @@ $data['visit_monthly']= $this->analysis->overall_visits('-1 month');
 
     }
 
+
+
+    
+
+
+
     public function logout(){
 
+        
+
+        
+
        $this->session->unset_userdata('userId');
+
        $this->session->unset_userdata('userEmail');
+
+       
+
        $this->index();
 
     }
@@ -477,43 +524,30 @@ $data['visit_monthly']= $this->analysis->overall_visits('-1 month');
     }
   
 
-	/*Generating JSON for overall User's Secondary Report*/
-    public function ReportsJSON(){
-		$data['userdata']=$this->user->users_report();
-		$data['total_doctors']=$this->doctor->total_doctors();
-		$this->user->weeklyReportData($data);
-		$this->user->monthlyReportData($data);
-		$this->user->quarterlyReportData($data);
-		$this->user->yearlyReportData($data);
-	}
 
-	public function Secondary_supply_report(){
+    public function ReportsJSON(){
+    $data['userdata']=$this->user->users_report();
+    $data['total_doctors']=$this->doctor->total_doctors();
+    $this->user->weeklyReportData($data);
+    $this->user->monthlyReportData($data);
+    $this->user->quarterlyReportData($data);
+    $this->user->yearlyReportData($data);
+  }
+
+
+  public function Secondary_supply_report(){
 		$data['doc_data']=doctor_interaction_list();
 		$data['pharma_data']=pharmacy_interaction_list();
 		$this->user->secondary_supply($data);
 	}
-
-	public function Interaction_summary_report(){
-    	$data['doc_data']=$this->user->interaction_doctor_report();
-    	$data['pharma_data']=$this->user->interaction_pharmacy_report();
-    	$data['dealer_data']=$this->user->interaction_dealer_report();
-	}
-
-
-	public function ta_da_reports()
-	{
-		$data['ta_da_report'] = $this->user->ta_da_data();
-		$data['doc_interact'] = $this->user->pharma_doctor_interact();
-		$data['pharmacy_interact'] = $this->user->pharma_pharmacy_interact();
-		$data['dealer_interact'] = $this->user->pharma_dealer_interact();
-		$data['all_users'] = $this->user->all_active_users();
-		$data['users_da'] = $this->user->all_users_da();
-		$this->user->ta_da_overall_data($data);
-	}
-
-	public function update_ta_da_report(){
-    	$this->user->update_ta_da_report();
-	}
+  
+  
+    public function Interaction_summary_report(){
+      $data['doc_data']=$this->user->interaction_doctor_report();
+      $data['pharma_data']=$this->user->interaction_pharmacy_report();
+      $data['dealer_data']=$this->user->interaction_dealer_report();
+  }
+  
   
 }
 

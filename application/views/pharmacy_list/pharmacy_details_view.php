@@ -148,7 +148,8 @@
     <!-- /.content -->
 
   </div>
-<input type="hidden" id="user_id" value="<?= logged_user_data()?>" style="display: none;">
+
+  <input type="hidden" id="user_id" value="<?= logged_user_data()?>" style="display: none;">
 <script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 
 <script src="<?= base_url()?>design/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -166,7 +167,8 @@
     })
   })
 
-  $(document).ready(function() {
+
+   $(document).ready(function() {
       var table = $('#example2').dataTable();
       var total_records=table.fnSettings().fnRecordsTotal();
       var userID=$('#user_id').val();

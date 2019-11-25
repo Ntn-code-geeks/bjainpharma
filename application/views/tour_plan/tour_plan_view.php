@@ -2,6 +2,8 @@
 
 
 
+
+
 /* 
 
 
@@ -19,10 +21,9 @@
 
 //$appointment_data = json_decode($ap_list);
 
-//
-//pr(get_tour_info());
-//pr(userDesig());
-//die;
+
+
+
 
 //pr($appointment_data); die;
 
@@ -66,23 +67,16 @@
 	  		<div class="col-md-12">
 	  			<?php if(get_tour_info() && userDesig()==FALSE){
 //                                if(get_tour_info()){ ?>
-	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/create_tour/'; ?>">
-						<input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
+	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/create_tour/'; ?>"><input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
 	  			 <?php } ?>
-
-                <?php if(get_tour_info() && userDesig()==TRUE){?>
-	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/asm_create_tour/'; ?>">
-						<input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
+                                        <?php if(get_tour_info() && userDesig()==TRUE){?>
+	  			 	<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/asm_create_tour/'; ?>"><input class="btn btn-info" value="Create TP" id="btnPrint" style="margin: 5px auto;" type="button"></a>
 	  			 <?php } ?>
-
-	  			 <?php if(is_admin() ){ ?>
+	  			 <?php if(is_admin() ){?>
 	          		<a title="Create TP" href="<?php echo base_url().'tour_plan/tour_plan/assign_tp/'; ?>"><input class="btn btn-info" value="Assign TP" id="btnPrint" style="float: right;margin: 5px auto;" type="button"></a>
-				<?php }else{
-	  			 	if(logged_user_child()){?>
+				<?php }else{ if(logged_user_child()){?>
 					<a title="Subordinate Tour Plan" href="<?php echo base_url().'reports/reports/tp_reports/'.urisafeencode(logged_user_data()); ?>"><input class="btn btn-info" value="Subordinate Tour Plan" id="btnPrint" style="float: right;margin: 5px auto;" type="button"></a>
-				<?php }
-	  			 } ?>
-
+				<?php }} ?>
 	                </div>
         <div class="col-md-12">
 
@@ -171,6 +165,27 @@
 					<div class="row">
 
 
+<!--						<div class="col-md-6">
+
+
+							<div class="form-group">
+
+
+								<label>SOURCE : </label>
+
+
+								<select required name="source_city" id="source_city"  class="form-control select2" style="width: 100%;">
+								  <option value="">--Select Source City --</option>
+									<?php foreach($city_data as $city){ ?>   
+										<option value="<?=$city['city_id']?>" ><?=$city['city_name'].'('.$city['state_name'].')'?></option>
+									<?php }  ?>
+								</select>
+
+
+							</div>
+
+
+						</div>-->
 
 
 						<div class="col-md-12">
@@ -183,9 +198,6 @@
 
 
 								<select required name="dest_city" id="dest_city"  class="form-control select2" style="width: 100%;">
-									<?php
-									//pr($city_data);
-									?>
 								    <option value="">--Select City--</option>
 									<?php foreach($city_data as $city){ ?>   
 										<option value="<?=$city['city_id']?>" ><?=$city['city_name'].'('.$city['state_name'].')'?></option>
@@ -384,7 +396,10 @@
 
         </div>
 
+
 		<!--Modal For Tour View-->
+
+
 		<div class="modal modal-info fade" id="modal-infoView">
 
 
@@ -601,6 +616,15 @@
         </div>
 
 
+		
+
+
+    
+
+
+      
+
+
     </section>
 
 
@@ -615,73 +639,202 @@
 
 <script type='text/javascript'>
 
+
     $(function(){
+
+
+
+
+
     $('.select2').select2();
+
+
+     
+
+
     });
+
+
+    
+
 
 </script>
 
+
 <script type="text/javascript">
+
+
   $(function () {
+
+
 var currentLangCode = 'en';
+
+
+
+
+
         // build the language selector's options
+
+
         $.each($.fullCalendar.langs, function(langCode) {
+
+
             $('#lang-selector').append(
+
+
                 $('<option/>')
+
+
                     .attr('value', langCode)
+
+
                     .prop('selected', langCode == currentLangCode)
+
+
                     .text(langCode)
+
+
             );
+
+
         });
+
+
+
+
 
         // rerender the calendar when the selected option changes
 
+
         $('#lang-selector').on('change', function() {
+
+
             if (this.value) {
+
+
                 currentLangCode = this.value;
+
+
                 $('#calendar').fullCalendar('destroy');
+
+
                 renderCalendar();
+
+
             }
+
+
         });
 
-    /* initialize the external events-----*/
+
+    /* initialize the external events
+
+
+     -----------------------------------------------------------------*/
+
 
     function init_events(ele) {
+
+
       ele.each(function () {
+
+
+
+
+
         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+
+
         // it doesn't need to have a start or end
+
+
         var eventObject = {
+
+
           title: $.trim($(this).text()) // use the element's text as the event title
+
+
         }
+
+
+
+
+
         // store the Event Object in the DOM element so we can get to it later
+
+
         $(this).data('eventObject', eventObject)
+
+
+
+
+
         // make the event draggable using jQuery UI
+
+
         $(this).draggable({
+
+
           zIndex        : 1070,
+
+
           revert        : true, // will cause the event to go back to its
+
+
           revertDuration: 0  //  original position after the drag
+
+
         })
+
+
+
+
 
       })
 
+
     }
+
+
+
+
 
     init_events($('#external-events div.external-event'))
 
-    /* initialize the calendar-----*/
+
+
+
+
+    /* initialize the calendar
+
+
+     -----------------------------------------------------------------*/
+
 
     //Date for the calendar events (dummy data)
+
+
     var date = new Date()
+
+
     var d    = date.getDate(),
+
+
         m    = date.getMonth(),
+
+
         y    = date.getFullYear()
 
+
     $('#calendar').fullCalendar({
+
+
       header    : {
         left  : 'prev, today',
         center: 'title',
         right : 'next'
       },
+
 
       buttonText: {
         today: 'Current Month',
@@ -689,6 +842,7 @@ var currentLangCode = 'en';
         prev: 'Previous Month',
         next: 'Next Month',
       },
+
 	dayClick: function(date, allDay, jsEvent, view) {
 		var start = $.fullCalendar.formatDate(date, "Y-MM-DD");
 		var date = $.fullCalendar.formatDate(date, "DD-MM-Y");
@@ -703,6 +857,7 @@ var currentLangCode = 'en';
             $('#modal-info').modal();
         }
 	},
+
 
     eventClick:  function(event, jsEvent, view) {
 			$('#tour_id').val(event.tour_id);

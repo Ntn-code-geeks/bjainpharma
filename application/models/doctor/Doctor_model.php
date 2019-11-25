@@ -277,10 +277,10 @@ class Doctor_model extends CI_Model {
 		}
 //        echo $city_search; die;
            $boss_are = logged_user_boss();
-           $boss_id=explode(',', $boss_are);
+          $boss_id=explode(',', $boss_are);
         
            $doc_are = logged_user_doc();
-           $doc_id=explode(',', $doc_are);
+          $doc_id=explode(',', $doc_are);
           
           
          $arr = "doc.sp_code,doc.doctor_id as id,doc.d_id as dealers_id,doc.doc_name as d_name,doc.doc_email as d_email,doc.doc_phone as d_ph,doc.doc_status as status,doc.blocked,doc.city_pincode as city_pincode,doc.city_id as city_id";
@@ -1118,15 +1118,28 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
 		$row = $query->row_array();
 		return $row['id'];
     }
+	
+	// public function doc_import_save($data){
+	// 	$this->db->select('*');
+	// 	$this->db->from('doctor_list');
+	// 	$this->db->where('doc_phone',$data['doc_phone']);
+	// 	$query = $this->db->get();
+	// 	if ($query->num_rows() == 0) {
+	// 	    $this->db->insert('doctor_list', $data);
+	// 		return TRUE;
+	// 	}
+	// 	else
+	// 	{
+	// 		return False;
+	// 	}
+ //    }
 
-	public function doc_import_save($data){
-
+    public function doc_import_save($data){
 		$this->db->select('*');
 		$this->db->from('doctor_list');
 		$this->db->where('doc_phone',$data['doc_phone']);
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
-//			pr($data); die;
 			$this->db->insert('doctor_list', $data);
 			return TRUE;
 		}
@@ -1142,34 +1155,31 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
 		if(!empty($data['city_pincode'])){$doc_pin=$data['city_pincode'];}else{ $doc_pin=$get_data->city_pincode; }
 		if(!empty($data['crm_user_id'])){$doc_crm=$data['crm_user_id'];}else{ $doc_crm=$get_data->crm_user_id; }
 
-
-			$dataArr=array(
-				'doc_name' => $doc_name,
-				'doc_email' => $doc_email,
-				'doc_address' => $doc_adr,
-				'city_id' => $doc_ctyid,
-				'state_id' => $doc_stid,
-				'doc_gender' => $doc_gend,
-				'city_pincode' => $doc_pin,
-				'sp_code' => $doc_spcode,
-				'crm_user_id' => $doc_crm,
-				);
-
-//			$dataArr=array(
-//				'doc_name' => $data['doc_name'],
-//				'doc_email' => $data['doc_email'],
-//				'doc_address' => $data['doc_address'],
-//				'city_id' => $data['city_id'],
-//				'state_id' => $data['state_id'],
-//				'doc_gender' => $data['doc_gender'],
-//				'city_pincode' => $data['city_pincode'],
-//				'sp_code' => $data['sp_code'],
-//				'crm_user_id' => $data['crm_user_id'],
-//				'doc_status' => $data['doc_status']
-//			);
+		$dataArr=array(
+			'doc_name' => $doc_name,
+			'doc_email' => $doc_email,
+			'doc_address' => $doc_adr,
+			'city_id' => $doc_ctyid,
+			'state_id' => $doc_stid,
+			'doc_gender' => $doc_gend,
+			'city_pincode' => $doc_pin,
+			'sp_code' => $doc_spcode,
+			'crm_user_id' => $doc_crm,
+			);
+			// $dataArr=array(
+			// 	'doc_name' => $data['doc_name'],
+			// 	'doc_email' => $data['doc_email'],
+			// 	'doc_address' => $data['doc_address'],
+			// 	'city_id' => $data['city_id'],
+			// 	'state_id' => $data['state_id'],
+			// 	'doc_gender' => $data['doc_gender'],
+			// 	'city_pincode' => $data['city_pincode'],
+			// 	'sp_code' => $data['sp_code'],
+			// 	'crm_user_id' => $data['crm_user_id'],
+			// 	'doc_status' => $data['doc_status']
+			// );
 			$this->db->where('doc_phone',$data['doc_phone']);
 			$this->db->update('doctor_list',$dataArr);
-//			echo $this->db->last_query(); die;
 			return TRUE;
 		}else{
 			return False;
@@ -1195,7 +1205,7 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
 		$this->db->from('log_interaction_data');
 		$this->db->where('person_id',$id);
 		$this->db->where('crm_user_id',logged_user_data());		
-        $this->db->order_by('id','desc');
+                $this->db->order_by('id','desc');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return  $query->row();
@@ -1207,7 +1217,7 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
     }
 	
 	public function get_orderamount($id){
-      	$arr = "order_amount,provider,mail_provider";
+        $arr = "order_amount,provider,mail_provider";
         $this->db->select($arr);
         $this->db->from("interaction_order");
         $this->db->where("interaction_id",0);
@@ -1215,12 +1225,14 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
         $this->db->where("interaction_person_id",$id);
         $query = $this->db->get();
         if($this->db->affected_rows()){
-			return $result=$query->row();
+			// return $result=$query->row()->order_amount;
+          return $result=$query->row();
 		}
         else{
             return FALSE;
         }
     }
+
 
 
     public function total_doctor_data($sp_code){
@@ -1241,7 +1253,7 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
     }
 
 
-	public function total_doctors(){
+    public function total_doctors(){
 		$var1=array();
 		$arr = "*";
 		$this->db->select($arr);
@@ -1252,6 +1264,5 @@ GROUP_CONCAT(ubr2.user_id SEPARATOR ',') as childuserid2, GROUP_CONCAT(ubr3.user
 		}
 		return array_sum($var1);
 	}
-
-
+    
 }

@@ -70,31 +70,32 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php if(!empty($tada_data)){ foreach($tada_data as $k_c=>$val_c){
-						    ?>
+						<?php if(!empty($tada_data)){ foreach($tada_data as $k_c=>$val_c){  ?>
 								<tr>
 									<td> <?=$val_c->name;?></td>
 									<td><?=$val_c->month_year;?></td>
 									<td><?=$val_c->grant_total;?></td>
-                                    <td><?php
-                                            if(empty($val_c->manager_id)){
-                                                echo 'Not Aproved';
-                                            }else{
-                                                echo 'Approved by Manager';
-                                            }
-                                     ?></td>
+                                                                        <td><?php 
+                                                                                if(empty($val_c->manager_id)){
+                                                                                    echo 'Not Aproved';
+                                                                                }else{
+                                                                                    echo 'Approved by Manager';
+                                                                                }
+                                                                         ?></td>
                                                                         
-                                    <td><?php
-                                        if(empty($val_c->admin_id)){
-                                            echo 'Not Aproved';
-                                        }else{
-                                            echo 'Approved by Admin';
-                                        }
-                                        ?></td>
+                                                                        <td><?php 
+                                                                                if(empty($val_c->admin_id)){
+                                                                                    echo 'Not Aproved';
+                                                                                }else{
+                                                                                    echo 'Approved by Admin';
+                                                                                }
+                                                                         ?></td>
                                                                         
                                                                         
 									<td>
-                                    <a href="<?php echo base_url()."reports/reports/my_ta_da_view/". urisafeencode($val_c->id).'/'.urisafeencode($val_c->name).'/'.urisafeencode($val_c->month_year).'/'.urisafeencode($val_c->grant_total).'/'.urisafeencode($val_c->manager_total_amount).'/'.urisafeencode($val_c->admin_total_amount);?>"><button type="button" class="btn btn-success"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                                                            
+                                                                            
+                 <a href="<?php echo base_url()."reports/reports/my_ta_da_view/". urisafeencode($val_c->id).'/'.urisafeencode($val_c->name).'/'.urisafeencode($val_c->month_year).'/'.urisafeencode($val_c->grant_total).'/'.urisafeencode($val_c->manager_total_amount).'/'.urisafeencode($val_c->admin_total_amount);?>"><button type="button" class="btn btn-success"><i class="fa fa-eye" aria-hidden="true"></i></button></a> 
                                                                          
 										
 									</td>

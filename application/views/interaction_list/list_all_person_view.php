@@ -9,8 +9,8 @@
    $doc_info = json_decode($doctor_data);
    $d_info = json_decode($dealer_data);
    $pharma_info = json_decode($pharma_data);
-
-
+   
+   
 //pr($doc_info); die;
 ?>
 <!-- jQuery 3 -->
@@ -66,13 +66,10 @@
       <!-- /.row -->
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li style="width: 22%;" class="active"><a href="#doctor" data-toggle="tab"
-                                                         aria-expanded="true">Doctor</a></li>
-				<li style="width: 25%;" class=""><a href="#pharmacy" data-toggle="tab" aria-expanded="false">Sub
-                        Dealer</a></li>
-				<li style="width: 23%;" class=""><a href="#dealer" data-toggle="tab"
-                                                   aria-expanded="false">Dealer</a></li>
-                <li style="width: 25%;" class=""><a href="#changecity" data-toggle="tab"
+				<li style="width: 22%;" class="active"><a href="#doctor" data-toggle="tab" aria-expanded="true">Doctor</a></li>
+				<li style="width: 25%;" class=""><a href="#pharmacy" data-toggle="tab" aria-expanded="false">Sub Dealer</a></li>
+				<li style="width: 23%;" class=""><a href="#dealer" data-toggle="tab" aria-expanded="false">Dealer</a></li>
+				 <li style="width: 25%;" class=""><a href="#changecity" data-toggle="tab"
                                                     aria-expanded="false">Another City</a></li>
 			<!-- <li class=""><a href="#year" data-toggle="tab" aria-expanded="false">This Year</a></li>-->
 			</ul>
@@ -91,8 +88,7 @@
 						</thead>
 
 						<tbody>
-							<?php  if(!empty($doc_info)){
-//								pr($doc_info);
+							<?php  if(!empty($doc_info)){  
                                                             foreach($doc_info as $k_c=>$val_c){
                                                                 //if(check_user_sp($val_c->sp_code)){    ?>
 							<tr>
@@ -219,7 +215,9 @@
             <!-- /.box-body -->
             </div>
 				</div>
-                <!-- Change Location to move futher locations also-->
+
+
+				 <!-- Change Location to move futher locations also-->
                 <div class="row tab-pane" id="changecity" style="margin: auto; width: auto; ">
                     <form name="changeloca" method="post" action="<?= base_url();?>interaction/add_direct_inteaction">
                         <label style="padding: 60px 40px 60px; margin-bottom: 50px;">
@@ -243,25 +241,28 @@
                     </form>
                 </div>
 
+
+
+
 			</div>
 			<div class="control-sidebar-bg"></div>
 
 		</div>
    </section>
-  </div>
+  </div> 
 
-<script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+
+  <script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 
 <script src="<?= base_url()?>design/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
   
 <script type="text/javascript">
-    $(function(){
+
+	 $(function(){
         $('.select2').select2();
     });
 
-
-
-    $("#changeloc").click(function(e) {
+	  $("#changeloc").click(function(e) {
         var selectval= $('#an_interaction_city').val();
         if(selectval==''){
             alert("Please Select City.!");

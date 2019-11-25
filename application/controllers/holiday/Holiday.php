@@ -81,8 +81,10 @@ class Holiday extends Parent_admin_controller {
 			$this->load->library('form_validation');
 	        $this->form_validation->set_rules('start_date', 'From date', "required");
 	        $this->form_validation->set_rules('user[]', 'User', "required");
-	        if($this->form_validation->run() == TRUE){
-            $success=$this->holiday->save_holiday($post_data);
+	        //$this->form_validation->set_rules('end_date', 'To date', "required");
+	     	if($this->form_validation->run() == TRUE){
+                    
+			$success=$this->holiday->save_holiday($post_data);
 			if($success=1){  // on sucess
 					set_flash('<div class="alert alert-success alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -90,6 +92,7 @@ class Holiday extends Parent_admin_controller {
 					Holiday Successfully Applied. </div>'); 
 					redirect('holiday/holiday/');
 			   }
+
 			   else{ // on unsuccess
 				   set_flash('<div class="alert alert-danger alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

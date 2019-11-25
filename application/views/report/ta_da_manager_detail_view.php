@@ -17,10 +17,9 @@ $tada_data = json_decode($tada_report);
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-
         var total = 0;
         $('.other_amt').each(function() {
-			var other_amount=$(this).val();
+            var other_amount=$(this).val();
             if(other_amount != ''){
                 total += Number($(this).val());
 			}
@@ -70,7 +69,6 @@ $tada_data = json_decode($tada_report);
                 sum += +$(this).val();
             }
         });
-
         $(".total").val(sum);
         var totalval=$(".totval").val();
         var user_imp=$('#usr_total').text();
@@ -79,7 +77,6 @@ $tada_data = json_decode($tada_report);
 		}else{
             var grandtotal= parseFloat(totalval)+parseFloat(sum);
 		}
-
         $("#over_amt").val(grandtotal);
         // console.log(user_imp);
     });
@@ -399,7 +396,7 @@ $tada_data = json_decode($tada_report);
 </div>
 
 <script type='text/javascript'>
-    $(document).ready(function() {
+      $(document).ready(function() {
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
                 event.preventDefault();

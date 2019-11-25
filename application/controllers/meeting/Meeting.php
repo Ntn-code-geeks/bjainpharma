@@ -130,24 +130,43 @@ class Meeting extends Parent_admin_controller {
 		
 
 		$this->load->library('form_validation');
+
         $this->form_validation->set_rules('meeting_type', 'Meeting Type', "required");
+
         $this->form_validation->set_rules('meeting_city', 'Meeting City', "required");
+
         $this->form_validation->set_rules('meeting_date', 'Meeting Date', "required");
+
 		if($this->form_validation->run() == TRUE){
+
 			$success=$this->meeting->save_meeting($post_data);
+
 			if($success==1){  // on sucess
+
 				set_flash('<div class="alert alert-success alert-dismissible">
+
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
 				<h4><i class="icon fa fa-check"></i> Success!</h4>
-				Meeting Successfully Added. </div>');
+
+				Meeting Successfully Added. </div>'); 
+
 				redirect('meeting/meeting/index');
+
 		   }
+
 		   else{ // on unsuccess
+
 			   set_flash('<div class="alert alert-danger alert-dismissible">
+
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
 				<h4><i class="icon fa fa-ban"></i> Alert!</h4>
-				Meeting Not 	Added.</div>');
+
+				Meeting Not Successfully Added.</div>');
+
 				redirect('meeting/meeting/save_meeting_plan');
+
 		   }
 
 		}

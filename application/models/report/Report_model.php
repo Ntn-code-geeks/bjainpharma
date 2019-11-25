@@ -433,42 +433,90 @@ class Report_model extends CI_Model {
 
     public function total_doctor_interaction($userid='',$start='',$end=''){
 
-    $arr = "pid.id,pid.remark,pid.orignal_sale as order_supply,pid.date_of_supply,`pid`.`meeting_sale` as `secondary_sale`, `pid`.`meet_or_not_meet` as `metnotmet`,pid.create_date as date,pid.doc_id,doc.doc_name as customer,c.city_name as city,pu.name as user,msm.sample_name as sample";
-	$this->db->select($arr);
-	$this->db->from("pharma_interaction_doctor pid");
-	$this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
+        
 
-	$this->db->join("pharma_users pu" , "pu.id=pid.crm_user_id","Left");
-	$this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-	$this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
+        $arr = "pid.id,pid.remark,pid.orignal_sale as order_supply,pid.date_of_supply,`pid`.`meeting_sale` as `secondary_sale`, `pid`.`meet_or_not_meet` as `metnotmet`,pid.create_date as date,pid.doc_id,doc.doc_name as customer,c.city_name as city,pu.name as user,msm.sample_name as sample";
 
-	$this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
-	$this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");//
-	$this->db->join("city c" , "c.city_id=doc.city_id");
-	$this->db->join("state st" , "st.state_id=doc.state_id");
-	$this->db->where('pid.status',1);
+        $this->db->select($arr);
+
+        $this->db->from("pharma_interaction_doctor pid");
+
+        $this->db->join("doctor_list doc" , "doc.doctor_id=pid.doc_id");
+
+        
+
+         $this->db->join("pharma_users pu" , "pu.id=pid.crm_user_id","Left");
+
+         $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
+
+         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
+
+         
+
+         
+
+         $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
+
+         $this->db->join("pharma_users pus" , "pus.id=team.team_id","Left");
+
+//       
+
+        $this->db->join("city c" , "c.city_id=doc.city_id");
+
+        $this->db->join("state st" , "st.state_id=doc.state_id");
+
+        
+
+       $this->db->where('pid.status',1);
+
+         
+
         if($userid > 0){
+
         //$this->db->where('team.team_id',$userid);
       //  (`team`.`team_id` = '92' OR `pid`.`crm_user_id` = '92')
+
         $this->db->where('(team.team_id='.$userid.' OR pid.crm_user_id='.$userid.') ');
         //$this->db->or_where('pid.crm_user_id',$userid);
+
         }
+
 //        $this->db->where('pid.create_date >=', $start);
+//
 //        $this->db->where('pid.create_date <=', $end);
+        
+
+        
 
         $this->db->group_by('pid.id');
-        $this->db->order_by('pid.doc_id','ASC');
-		$query = $this->db->get();
-//		echo $this->db->last_query(); die;
 
-		if($this->db->affected_rows()){
-		 $doc_travel_info = $query->num_rows();			/* Return Number of rows fetch */
-		//  pr($doc_travel_info); die;
+        $this->db->order_by('pid.doc_id','ASC'); 
+
+        
+
+        $query = $this->db->get();
+      
+         if($this->db->affected_rows()){
+
+             
+
+     $doc_travel_info = $query->num_rows();
+
+//  pr($doc_travel_info); die;
+
             return $doc_travel_info;
+
         }
+
         else{
+
+            
+
             return FALSE;
-        }
+
+        } 
+
+        
 
     }
 
@@ -476,26 +524,49 @@ class Report_model extends CI_Model {
 
     public  function total_dealer_interaction($userid='',$start='',$end=''){
 
+        
+
+        
+
         $arr = "pi.id,pi.remark,dl.gd_id as is_cf,pi.create_date as date,`pi`.`d_id`, `dl`.`dealer_name` as `customer`, `c`.`city_name` as `city`, `pu`.`name` as `user`,pi.meeting_sale as sale,pi.meeting_payment as payment,pi.meeting_stock as stock,pi.meet_or_not_meet as metnotmet ";
+
         $this->db->select($arr);
+
         $this->db->from("pharma_interaction_dealer pi");
+
         $this->db->join("dealer dl" , "dl.dealer_id=pi.d_id");
+
+        
+
         $this->db->join("pharma_users pu" , "pu.id=pi.crm_user_id","left");
+
+         
+
         $this->db->join("dealer_interaction_with_team  team" , "team.pidealer_id=pi.id","left");
+
         $this->db->join("pharma_users pus" , "pus.id=team.team_id","left");
+
          
 
 //         $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
+
 //         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
+//       
+
         $this->db->join("city c" , "c.city_id=dl.city_id");
+
         $this->db->join("state st" , "st.state_id=dl.state_id");
+
+        
+
         $this->db->where('pi.status',1);
+
         if($userid > 0){
 
+         
 
-
-
+         
 
           $this->db->where('team.team_id',$userid);
 
@@ -566,6 +637,8 @@ class Report_model extends CI_Model {
         $this->db->from("pharma_interaction_pharmacy pip");
 
          $this->db->join("pharmacy_list pl","pl.pharma_id=pip.pharma_id");
+
+       
 
          $this->db->join("pharma_users pu" , "pu.id=pip.crm_user_id","Left");
 
@@ -673,50 +746,148 @@ class Report_model extends CI_Model {
         $this->db->order_by('pid.doc_id','ASC'); 
         $query = $this->db->get();
         $doc_travel_info = $query->result_array();
+       
+        
 
 //         echo $this->db->last_query(); die;
+
          if($this->db->affected_rows()){
+
+             
+
 //             pr($doc_travel_info); die;
+
               $team_interaction = array();
-         foreach ($doc_travel_info as $k=>$val){
-			$arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`";
-			$this->db->select($arr);
-			$this->db->from("pharma_interaction_doctor pid");
-			$this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
-			$this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
-			$this->db->where('disr.pidoc_id',$val['id']);
-			$this->db->group_by('pid.doc_id');
-			$query = $this->db->get();
+
+             foreach ($doc_travel_info as $k=>$val){
+
+              
+
+                 $arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`";
+
+        $this->db->select($arr);
+
+        $this->db->from("pharma_interaction_doctor pid");
+
+          $this->db->join("doctor_interaction_sample_relation  disr" , "disr.pidoc_id=pid.id","Left");
+
+         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
+
+        
+
+        
+
+        $this->db->where('disr.pidoc_id',$val['id']);
+
+        
+
+        $this->db->group_by('pid.doc_id'); 
+
+        
+
+       
+
+        $query = $this->db->get();
+
 //               echo $this->db->last_query(); die;
-			$doc_travel_info[$k]['sample'] = $query->row_array();
-			$arr = "pid.doc_id,GROUP_CONCAT(`pus`.`name` SEPARATOR ',') as `team_user`,team.team_id,team.crm_user_id,pid.crm_user_id as userid";
-			$this->db->select($arr);
-			$this->db->from("pharma_interaction_doctor pid");
-			$this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id");
-			$this->db->join("pharma_users pus" , "pus.id=team.team_id");
-			$this->db->where('team.pidoc_id',$val['id']);
-	//        if($userid > 0){
-	//        $this->db->where('team.team_id',$userid);
-	//         }
-			$this->db->where('pid.create_date >=', $start);
-			$this->db->where('pid.create_date <=', $end);
-			$this->db->group_by('team.pidoc_id');
-	//        $this->db->having('total_visits >=1 ');
-			$query = $this->db->get();
-	//               echo $this->db->last_query(); die;
-			$team_interaction[] = $query->row_array();
-				 }
-	//             pr($team_interaction); die;
-            $result = array('doc_info'=>$doc_travel_info,'team_info'=>$team_interaction);
+
+        $doc_travel_info[$k]['sample'] = $query->row_array();
+
+                 
+
+                 
+
+                 
+
+        $arr = "pid.doc_id,GROUP_CONCAT(`pus`.`name` SEPARATOR ',') as `team_user`,team.team_id,team.crm_user_id,pid.crm_user_id as userid";
+
+        
+
+        $this->db->select($arr);
+
+        
+
+        $this->db->from("pharma_interaction_doctor pid");
+
+        
+
+        $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id");
+
+        $this->db->join("pharma_users pus" , "pus.id=team.team_id");
+
+        
+
+        $this->db->where('team.pidoc_id',$val['id']);
+
+        
+
+//        if($userid > 0){
+
+//        $this->db->where('team.team_id',$userid);
+
+//         }
+
+        
+
+        $this->db->where('pid.create_date >=', $start);
+
+        $this->db->where('pid.create_date <=', $end);
+
+        
+
+        $this->db->group_by('team.pidoc_id'); 
+
+        
+
+//        $this->db->having('total_visits >=1 ');
+
+        
+
+        $query = $this->db->get();
+
+//               echo $this->db->last_query(); die;
+
+        $team_interaction[] = $query->row_array();
+
+                 
+
+             }
+
+//             pr($team_interaction); die;
+
+             
+
+             
+
+           $result = array('doc_info'=>$doc_travel_info,'team_info'=>$team_interaction);  
+
 //             pr($result); die;
+
+             
+
             return $result;
+
         }
+
         else{
+
+            
+
             return FALSE;
-        }
+
+        } 
+
+        
+
     }
 
+    
 
+    
+
+    
+
+    
 
      // Travel report for dealer
 
@@ -1470,6 +1641,9 @@ class Report_model extends CI_Model {
 
 //         $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
+         
+
+         
 
          $this->db->join("doctor_interaction_with_team  team" , "team.pidoc_id=pid.id","Left");
 
@@ -1495,6 +1669,13 @@ class Report_model extends CI_Model {
 
         $doc_travel_info = $query->result_array();
 
+        
+
+        
+
+     
+
+                 
 
          $arr = "GROUP_CONCAT(msm.sample_name SEPARATOR ',') as `sample`,GROUP_CONCAT(msm.id SEPARATOR ',') as `sample_id`";
 
@@ -1506,15 +1687,39 @@ class Report_model extends CI_Model {
 
          $this->db->join("meeting_sample_master  msm" , "msm.id=disr.sample_id","Left");
 
+        
+
+        
+
         $this->db->where('pid.id',$id);
 
+        
 
         $this->db->group_by('pid.doc_id'); 
 
+        
+
+       
+
         $query = $this->db->get();
+
+//               echo $this->db->last_query(); die;
 
         $doc_travel_info[0]['sample'] = $query->row_array();
 
+                 
+
+         
+
+        
+
+       
+
+        
+
+        
+
+        
 
 //         echo $this->db->last_query(); die;
 
@@ -2156,12 +2361,9 @@ class Report_model extends CI_Model {
 	}
 
     public function get_tada_report($userid='',$start='',$end=''){
-
-		$ta_da_result=array();
-		$docInteraction=array();
-
-
-            /* Geting TA DA report Information  */
+    
+            $result=array();
+            /* Geting Leave Information  */
             $arr = "report.user_id as user_name,report.doi as doi,"
                     . "report.source_city as source_city,report.destination_city as destination_city,"
                     . "report.ta as ta,report.designation_id as designation_id,"
@@ -2178,34 +2380,28 @@ class Report_model extends CI_Model {
             $query = $this->db->get();
             // echo $this->db->last_query(); die;
             if($this->db->affected_rows()){
-                $ta_da_result=$query->result_array();
+                $result=$query->result_array();
+                
+                
             }
-//		pr($ta_da_result);
-
-            return $ta_da_result;
+            return $result;
     }
     
     
     // save ta/da report
     
     public function save_tada_report_of_approval($data){
-//        pr($data);
-//        echo $data['report_date']; die;
+       // pr($data);
+//        echo $data['report_date'];
+ // die;
     
-//    $boss_ID=get_user_boss(logged_user_data());
-
-    //////Metro Allowance Addition in Grand Total
-    if($data['metroAllow']){
-        $grand_total_amount=$data['grant_total']+1000;
-    }else{
-        $grand_total_amount=$data['grant_total'];
-    }
+    // $boss_ID=get_user_boss(logged_user_data());
   
         $genrated_ta_da_master_data = array(
                                     'user_id'=> logged_user_data(),
                                     'month_year'=>trim($data['report_date']),
-                                    'total_amount'=>$grand_total_amount,
-//                                    'manager_id' => $boss_ID[0]['boss_id'],
+                                    'total_amount'=>$data['grant_total'],
+                                    // 'manager_id' => $boss_ID[0]['boss_id'],
             //			'manager_total_amount'=>$data['city_distance'],
             //			'pharma_user_id'=>$data['user_id'],
             //			'remark'=>$data['remark'],
@@ -2242,7 +2438,8 @@ class Report_model extends CI_Model {
                               
                                     'crm_user_id'=> logged_user_data(),
                                     'create_date'=>savedate(),                  
-                                    'last_update'=>savedate(),
+                                    'last_update'=>savedate(),                  
+
                                  );
 		 $this->db->insert('genrated_ta_da_details',$genrated_ta_da_detail_data); 
                         
@@ -2265,33 +2462,39 @@ class Report_model extends CI_Model {
 //        pr($data);
 //        echo $tada_id; die;
         $genrated_ta_da_master_data = array(
-            			'manager_total_amount'=>$data['overall_total'],
-//            			'manager_total_amount'=>$data['manager_grant_total'],
+                                   'manager_total_amount'=>$data['overall_total'],
+            			// 'manager_total_amount'=>$data['manager_grant_total'],
             //			'pharma_user_id'=>$data['user_id'],
             			'manager_id'=>logged_user_data(),
                                     'crm_user_id'=> logged_user_data(),
-//                                  'create_date'=>savedate(),
-                                    'update_date'=>savedate(),
+//                                    'create_date'=>savedate(),                  
+                                    'update_date'=>savedate(),                  
+
                                  );
                 $this->db->where('id',$tada_id);
-				$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data);
+		$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data); 
+                
                 $last_id = $this->db->insert_id();
                 if($this->db->affected_rows() == 1){
                     
-//                    foreach($data['manager_remark'] as $k_tada=>$val_tada){
-                    foreach($data['manage_amt'] as $k_tada=>$val_tada){
+                    // foreach($data['manager_remark'] as $k_tada=>$val_tada){
+                         foreach($data['manage_amt'] as $k_tada=>$val_tada){
                           $genrated_ta_da_detail_data = array(
                                     'manager_remark'=>$val_tada,
+                              
                                     'crm_user_id'=> logged_user_data(),
-//                                  'create_date'=>savedate(),
+//                                    'create_date'=>savedate(),                  
                                     'last_update'=>savedate(),                  
 
                                  );
                  $this->db->where('ta_da_master_id',$tada_id); 
                  $this->db->where('id',$data['tada_detail_id'][$k_tada]); 
-		 		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data);
+		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data); 
+                        
                     }
-                   return TRUE;
+                   return TRUE;  
+                    
+                    
                 }else{
                     return false;
                 }
@@ -2304,13 +2507,15 @@ class Report_model extends CI_Model {
 //        pr($data);
 //        echo $tada_id; die;
         $genrated_ta_da_master_data = array(
-//            			'admin_total_amount'=>$data['admin_grant_total'],
-            			'admin_total_amount'=>$data['overall_amt'],
-            		//	'pharma_user_id'=>$data['user_id'],
+                                   
+            			// 'admin_total_amount'=>$data['admin_grant_total'],
+                        'admin_total_amount'=>$data['overall_amt'],
+            //			'pharma_user_id'=>$data['user_id'],
             			'admin_id'=>logged_user_data(),
-						'crm_user_id'=> logged_user_data(),
-					//  'create_date'=>savedate(),
-						'update_date'=>savedate(),
+                                    'crm_user_id'=> logged_user_data(),
+//                                    'create_date'=>savedate(),                  
+                                    'update_date'=>savedate(),                  
+
                                  );
                 $this->db->where('id',$tada_id);
 		$this->db->update('genrated_ta_da_master',$genrated_ta_da_master_data); 
@@ -2322,14 +2527,15 @@ class Report_model extends CI_Model {
                         
                           $genrated_ta_da_detail_data = array(
                                     'admin_remark'=>$val_tada,
+                              
                                     'crm_user_id'=> logged_user_data(),
 //                                    'create_date'=>savedate(),                  
                                     'last_update'=>savedate(),                  
 
                                  );
-					 $this->db->where('ta_da_master_id',$tada_id);
-					 $this->db->where('id',$data['tada_detail_id'][$k_tada]);
-					 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data);
+                 $this->db->where('ta_da_master_id',$tada_id); 
+                 $this->db->where('id',$data['tada_detail_id'][$k_tada]); 
+		 $this->db->update('genrated_ta_da_details',$genrated_ta_da_detail_data); 
                         
                     }
                    return TRUE;  
@@ -2494,40 +2700,46 @@ class Report_model extends CI_Model {
          
         
     }
+   
+    
+    
+     public function update_users_da($data,$id){
+        $dataArr=array(
+            'hq' => $data['hq_rates'],
+            'ex' => $data['ex_hq_rates'],
+            'out_st' => $data['out_st_rates'],
+            'transit' => $data['trans_rate'],
+                );
+        $this->db->where('user_id',$id);
+        $this->db->update('userwise_da',$dataArr);
+        if($this->db->affected_rows() == 1){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
 
+    }
 
-
-    public function update_users_da($data,$id){
-		$dataArr=array(
-			'hq' => $data['hq_rates'],
-			'ex' => $data['ex_hq_rates'],
-			'out_st' => $data['out_st_rates'],
-			'transit' => $data['trans_rate'],
-				);
-		$this->db->where('user_id',$id);
-		$this->db->update('userwise_da',$dataArr);
-		if($this->db->affected_rows() == 1){
-			return TRUE;
-		}else{
-			return FALSE;
-		}
-
-	}
-
-	public function add_users_da($data){
-		$dataArr=array(
-			'user_id' => $data['user_name'],
-			'designation' => $data['user_desg'],
-			'hq' => $data['hq_rates'],
-			'ex' => $data['ex_hq_rates'],
-			'out_st' => $data['out_st_rates'],
-			'transit' => $data['trans_rate'],
-		);
-		$this->db->insert('userwise_da',$dataArr);
-		if($this->db->affected_rows() == 1){
-			return TRUE;
-		}else{
-			return FALSE;
-		}
-	}
+    public function add_users_da($data){
+        $dataArr=array(
+            'user_id' => $data['user_name'],
+            'designation' => $data['user_desg'],
+            'hq' => $data['hq_rates'],
+            'ex' => $data['ex_hq_rates'],
+            'out_st' => $data['out_st_rates'],
+            'transit' => $data['trans_rate'],
+        );
+        $this->db->insert('userwise_da',$dataArr);
+        if($this->db->affected_rows() == 1){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+    }
+    
+    
+    
+    
+    
+    
 }

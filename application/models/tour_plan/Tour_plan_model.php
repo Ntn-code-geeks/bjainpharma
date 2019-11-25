@@ -174,13 +174,15 @@ class Tour_plan_model extends CI_Model {
 		return ($this->db->affected_rows() == 1) ? true : false; 
     }
 
-    public function add_bulk_tour($data){
+
+ public function add_bulk_tour($data){
 //pr($data);
     	$datacount=0;
 			foreach($data['dest_city'] as $key=>$value){
 			if(date('D',strtotime($data['tour_date'][$key]))!='Sun')
 			{
 				//pr($data['tour_date'][$key]);
+
 				$result=get_holiday_details( date('Y-m-d', strtotime($data['tour_date'][$key])));
 				$leave=get_leaves_deatils( date('Y-m-d', strtotime($data['tour_date'][$key])));
 				if($data['dest_city'][$key]!='')
@@ -261,6 +263,90 @@ class Tour_plan_model extends CI_Model {
 
 		return $datacount;
     }
+
+
+//     public function add_bulk_tour($data){
+
+//     	$datacount=0;
+// 		foreach($data['dest_city'] as $key=>$value){
+// 			if(date('D',strtotime($data['tour_date'][$key]))!='Sun')
+// 			{
+// 				$result=get_holiday_details( date('Y-m-d', strtotime($data['tour_date'][$key])));
+// 				if($data['dest_city'][$key]!='')
+// 				{
+// 					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
+// //					$tour_st_time = date('H:i:s', strtotime($data['tour_st_time'][$key]));
+// //					$tour_time_end = date('H:i:s', strtotime($data['tour_time_end'][$key]));
+// //					$cityData=$this->check_city_path_bulk($data['source_city'][$key],$data['dest_city'][$key]);
+// //					if($cityData)
+// //					{
+// //						$cityDistance=$cityData->distance;
+// //						$cityFare=$cityData->fare;
+// //					}
+// //					else
+// //					{
+// //						$cityDistance=0;
+// //						$cityFare=0;
+// //					}
+// 					if($data['assign_by'][$key]!=0)
+// 					{
+// 						$color="#f56954";
+// 					}
+// 					else
+// 					{
+// 						$color="#efb30e";
+// 					}
+					
+// 					$tour_data = array(
+// //						'source'=>$data['source_city'][$key],
+// 						'destination'=>$data['dest_city'][$key],
+// 						'remark'=>$data['remark'][$key],
+// 						'dot'=>$tour_date,
+// 						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
+// 						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
+// 						'crm_user_id'=> logged_user_data(),
+// 						'assign_by'=> $data['assign_by'][$key],
+// //						'total_fare'=> $cityFare,
+// //						'total_distance'=> $cityDistance,
+// 						'created_date'=>savedate(),                  
+// 						'updated_date'=>savedate(),                  
+// 						'status'=>1, 
+// 						'color_id'=>$color,
+// 					);
+// 					$this->db->insert('user_stp',$tour_data);
+// 					$datacount++; 
+// 				}
+// 				elseif($result)
+// 				{
+// 					$tour_date = date('Y-m-d', strtotime($data['tour_date'][$key]));
+// //					$tour_st_time = date('H:i:s', strtotime($data['tour_st_time'][$key]));
+// //					$tour_time_end = date('H:i:s', strtotime($data['tour_time_end'][$key]));
+// 					$cityDistance=0;
+// 					$cityFare=0;
+// 					$color="#167c2a";
+// 					$tour_data = array(
+// //						'source'=>$data['source_city'][$key],
+// 						'destination'=>$data['dest_city'][$key],
+// 						'remark'=>$data['remark'][$key],
+// 						'dot'=>$tour_date,
+// 						'joint_work'=> isset($data['joint_work'][$key])? $data['joint_work'][$key]:NULL,
+// 						'joint_work_with'=>isset($data['mytext'][$key])? $data['mytext'][$key]:NULL,
+// 						'crm_user_id'=> logged_user_data(),
+// 						'assign_by'=> $data['assign_by'][$key],
+// //						'total_fare'=> $cityFare,
+// //						'total_distance'=> $cityDistance,
+// 						'created_date'=>savedate(),                  
+// 						'updated_date'=>savedate(),                  
+// 						'status'=>1, 
+// 						'color_id'=>$color,
+// 					);
+// 					$this->db->insert('user_stp',$tour_data);
+// 					$datacount++; 
+// 				}
+// 			}
+// 		}
+// 		return $datacount; 
+//     }
 	
 
 	public function save_tour_data($data){
@@ -347,20 +433,20 @@ class Tour_plan_model extends CI_Model {
 					$assign_by='';
 				}
 				$result[] = array(
-					'title'=>$title,
-					'start'=>$val['dot'].' '.$val['tst'],
-					'end'=>$val['dot'].' '.$val['tet'],
-					'backgroundColor'=>$val['color_id'],
-					'description'=>$val['remark'],
-					'time' =>date('h:i A', strtotime($val['tst'])),
-					'endtime' =>date('h:i A', strtotime($val['tet'])),
-					'visited'=>$val['visited'],
-					'tour_id'=>$val['id'],
-					'tour_now_date'=>date('d-m-Y',strtotime($val['dot'])),
-					'assign_by'=>$assign_by,
-					'source_city'=>$this->get_city_name($val['source']),
-					'destination'=>$this->get_city_name($val['destination'])
-					);
+                                                'title'=>$title,
+                                                'start'=>$val['dot'].' '.$val['tst'],
+                                                'end'=>$val['dot'].' '.$val['tet'],
+                                                'backgroundColor'=>$val['color_id'],
+                                                'description'=>$val['remark'],
+                                                'time' =>date('h:i A', strtotime($val['tst'])),
+                                                'endtime' =>date('h:i A', strtotime($val['tet'])),
+                                                'visited'=>$val['visited'],
+                                                'tour_id'=>$val['id'],
+                                                'tour_now_date'=>date('d-m-Y',strtotime($val['dot'])),
+                                                'assign_by'=>$assign_by,
+                                                'source_city'=>$this->get_city_name($val['source']),
+                                                'destination'=>$this->get_city_name($val['destination'])
+				            );	
 			}
         }
         $arrtour = "*";

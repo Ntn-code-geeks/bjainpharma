@@ -21,7 +21,7 @@ class MY_Loader extends CI_Loader {
             $this->view($view, $inf);
     }
 
-    function invoiceView($view = '', $data = array(), $layout = 'default_invoice') {
+    function adminView($view = '', $data = array(), $layout = 'default_admin') {
         $data['page_view'] = $view;
         $data['page_keywords'] = isset($data['page_keywords']) ? $data['page_keywords'] : '';
         $data['page_description'] = isset($data['page_description']) ? $data['page_description'] : '';

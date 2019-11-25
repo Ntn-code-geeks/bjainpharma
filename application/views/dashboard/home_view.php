@@ -1,26 +1,43 @@
 <?php
 
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
    /*For this week*/ 
         $weekdoctor_report = json_decode($weekdoctor);  //for see Doctor
+
         $weekdealer_report = json_decode($weekdealer); //for see Dealer
+
         $weekpharma_report = json_decode($weekpharma);  //for see Pharma
    /*end for this week*/
    
-    /*For this Month*/
+    /*For this Month*/ 
+   
    $doctor_month_report = json_decode($doctor_month);  //for see Doctor
+   
    $dealer_month_report = json_decode($dealer_month); //for see Dealer
+   
    $pharma_month_report = json_decode($pharma_month);  //for see Pharma
+  
     /*end for this Month*/
    
     /*For this Quarter*/ 
    $doctor_quarter_report = json_decode($doctor_quarter);  //for see Doctor
+   
    $dealer_quarter_report = json_decode($dealer_quarter); //for see Dealer
+   
    $pharma_quarter_report = json_decode($pharma_quarter);  //for see Pharma
    /*end for this Quarter*/
-
+   
+   
     /*For this Year*/ 
    $doctor_year_report = json_decode($doctor_year);  // for see Doctor
+   
    $dealer_year_report = json_decode($dealer_year); // for see Dealer
+   
    $pharma_year_report = json_decode($pharma_year);  // for see Pharma
     /*end for this Year*/
    
@@ -123,7 +140,7 @@ $('#searchid').click(function(){
 		cursor:pointer;
 	}
 
-	@media  only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
+		@media  only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
 		/*
 		Label the data
 		*/
@@ -672,143 +689,144 @@ $('#searchid').click(function(){
      
       </div>
       </div>
+      
 
-		  <div class="control-sidebar-bg"></div>
+  <div class="control-sidebar-bg"></div>
 
-	  </div>
+</div>
 
 
-		<!-- Main content of Secondary Table -->
-		<section class="content" style="padding-left: 0px !important; padding-right: 0px !important;">
-			<div class="row">
-				<div class="col-xs-12">
-					<h2 class="page-header">Secondary Report</h2>
-					<div class="box">
-						<!-- /.box-header -->
-						<div class="box-body">
-							<table id="example2" class="table table-bordered table-striped">
-								<thead>
-								<tr>
-									<th>Name</th>
-									<th>Reporting Manager</th>
-									<th>Designation</th>
-									<th>Total No. of Doctors</th>
-									<th>Total No. of Doctors Interaction</th>
-									<th>Total Secondary Sale </th>
-									<th>Total Order Received </th>
-									<!--							  <th>Total Number of Order </th>-->
-									<th>Total Not Met </th>
-									<th>Total No. of Team Members</th>
-								</tr>
-								</thead>
+<!-- Main content of Secondary Table -->
+  <section class="content" style="padding-left: 0px !important; padding-right: 0px !important;">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 class="page-header">Secondary Report</h2>
+        <div class="box">
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="example2" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Reporting Manager</th>
+                <th>Designation</th>
+                <th>Total No. of Doctors</th>
+                <th>Total No. of Doctors Interaction</th>
+                <th>Total Secondary Sale </th>
+                <th>Total Order Received </th>
+<!--                <th>Total Number of Order </th>-->
+                <th>Total Not Met </th>
+                <th>Total No. of Team Members</th>
+              </tr>
+              </thead>
 
-								<tbody>
-								<?php
-								$ci =&get_instance();
-								$ci->load->model('user_model');
-								$userdata =$ci->user_model->users_report();
-								$userList=json_decode($userdata);
-								$userID=logged_user_data();
-								$child_users=get_child_user($userID);  //Get Team total team members
-								//							pr($child_users); die;
-								if(!empty($child_users)){
-									/*Overall Report*/
-									$data = file_get_contents ("ReportJSON/monthly.json");
-									$json = json_decode($data, true);
-									foreach($child_users as  $val) {
-										foreach ($json as $weekly_data) {
-											if ($weekly_data['user_id'] == $val) {
-												?>
-												<tr>
-													<td><?= $weekly_data['username'] ?></td>
-													<td><?= $weekly_data['bossname'] ?></td>
-													<td><?= $weekly_data['designation_name'] ?></td>
-													<td><?= $weekly_data['total_doctors'] ?></td>
-													<?php  if($weekly_data['total_orders_not_met']){ ?>
-														<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
-													<?php }else{ ?>
-														<td><?= $weekly_data['total_doc_interaction'] ?></td>
-													<?php }  ?>
-													<?php if (!empty($weekly_data['total_secondary'])) { ?>
-														<td><?= $weekly_data['total_secondary']; ?></td>
-													<?php } else { ?>
-														<td>0</td>
-													<?php } ?>
-													<?php if (!empty($weekly_data['total_productive_call'])) { ?>
-														<td><?= $weekly_data['total_productive_call']; ?></td>
-													<?php } else { ?>
-														<td>0</td>
-													<?php } ?>
-													<?php //if (!empty($weekly_data['total_orders'])) { ?>
-													<!--										   <td>--><?//= $weekly_data['total_orders']; ?><!--</td>-->
-													<?php //} else { ?>
-													<!--										   <td>0</td>-->
-													<?php //} ?>
-													<?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
-														<td><?= $weekly_data['total_orders_not_met']; ?></td>
-													<?php } else { ?>
-														<td>0</td>
-													<?php } ?>
-													<td><?= $weekly_data['team_members'] ?></td>
-												</tr>
-											<?php }
-										}
-									}
-								}
-								else{
-									$data = file_get_contents ("ReportJSON/monthly.json");
-									$json = json_decode($data, true);//for secondary
-									foreach($json as $weekly_data){
-										if($weekly_data['user_id'] == $userID){
-											?>
-											<tr>
-												<td><?= $weekly_data['username'] ?></td>
-												<td><?=$weekly_data['bossname'] ?></td>
-												<td><?=$weekly_data['designation_name'] ?></td>
-												<td><?=$weekly_data['total_doctors'] ?></td>
-												<?php  if($weekly_data['total_orders_not_met']){ ?>
-													<td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
-												<?php }else{ ?>
-													<td><?= $weekly_data['total_doc_interaction'] ?></td>
-												<?php }  ?>
-												<?php if(!empty($weekly_data['total_secondary'])){ ?>
-													<td><?=$weekly_data['total_secondary'];?></td>
-												<?php }else{ ?>
-													<td>0</td>
-												<?php } ?>
-												<?php if(!empty($weekly_data['total_productive_call'])){ ?>
-													<td><?=$weekly_data['total_productive_call'];?></td>
-												<?php }else{ ?>
-													<td>0</td>
-												<?php } ?>
-												<?php //if(!empty($weekly_data['total_orders'])){ ?>
-												<!--										   <td>--><?//=$weekly_data['total_orders'];?><!--</td>-->
-												<?php //}else{ ?>
-												<!--										   <td>0</td>-->
-												<?php //} ?>
-												<?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
-													<td><?=$weekly_data['total_orders_not_met'];?></td>
-												<?php }else{ ?>
-													<td>0</td>
-												<?php } ?>
-												<td><?=$weekly_data['team_members'] ?></td>
-											</tr>
-										<?php }
-									}
-								}
-								?>
-								</tbody>
-							</table>
-							<p style="color: darkgrey;">**This table shows your monthly report from today's date.</p>
-						</div>
-						<!-- /.box-body -->
-					</div></div>
-				<!-- /.box -->
-			</div>
-			<!-- /.col -->
-			<!-- /.row -->
-		</section>
-		<!-- /.content -->
+              <tbody>
+              <?php
+              $ci =&get_instance();
+              $ci->load->model('user_model');
+              $userdata =$ci->user_model->users_report();
+              $userList=json_decode($userdata);
+              $userID=logged_user_data();
+              $child_users=get_child_user($userID);  //Get Team total team members
+//              pr($child_users); die;
+               if(!empty($child_users)){
+                 /*Overall Report*/
+                 $data = file_get_contents ("ReportJSON/monthly.json");
+                 $json = json_decode($data, true);
+                 foreach($child_users as  $val) {
+                 foreach ($json as $weekly_data) {
+                 if ($weekly_data['user_id'] == $val) {
+                   ?>
+                   <tr>
+                     <td><?= $weekly_data['username'] ?></td>
+                     <td><?= $weekly_data['bossname'] ?></td>
+                     <td><?= $weekly_data['designation_name'] ?></td>
+                     <td><?= $weekly_data['total_doctors'] ?></td>
+                     <?php  if($weekly_data['total_orders_not_met']){ ?>
+                       <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
+                     <?php }else{ ?>
+                       <td><?= $weekly_data['total_doc_interaction'] ?></td>
+                     <?php }  ?>
+                     <?php if (!empty($weekly_data['total_secondary'])) { ?>
+                       <td><?= $weekly_data['total_secondary']; ?></td>
+                     <?php } else { ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <?php if (!empty($weekly_data['total_productive_call'])) { ?>
+                       <td><?= $weekly_data['total_productive_call']; ?></td>
+                     <?php } else { ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <?php //if (!empty($weekly_data['total_orders'])) { ?>
+<!--                       <td>--><?//= $weekly_data['total_orders']; ?><!--</td>-->
+                     <?php //} else { ?>
+<!--                       <td>0</td>-->
+                     <?php //} ?>
+                     <?php if (!empty($weekly_data['total_orders_not_met'])) { ?>
+                       <td><?= $weekly_data['total_orders_not_met']; ?></td>
+                     <?php } else { ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <td><?= $weekly_data['team_members'] ?></td>
+                   </tr>
+                 <?php }
+                 }
+                 }
+               }
+               else{
+                 $data = file_get_contents ("ReportJSON/monthly.json");
+                 $json = json_decode($data, true);//for secondary
+                 foreach($json as $weekly_data){
+                  if($weekly_data['user_id'] == $userID){
+                 ?>
+                   <tr>
+                     <td><?= $weekly_data['username'] ?></td>
+                     <td><?=$weekly_data['bossname'] ?></td>
+                     <td><?=$weekly_data['designation_name'] ?></td>
+                     <td><?=$weekly_data['total_doctors'] ?></td>
+                     <?php  if($weekly_data['total_orders_not_met']){ ?>
+                       <td><?= $weekly_data['total_doc_interaction'] - $weekly_data['total_orders_not_met'] ?></td>
+                     <?php }else{ ?>
+                       <td><?= $weekly_data['total_doc_interaction'] ?></td>
+                     <?php }  ?>
+                     <?php if(!empty($weekly_data['total_secondary'])){ ?>
+                       <td><?=$weekly_data['total_secondary'];?></td>
+                     <?php }else{ ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <?php if(!empty($weekly_data['total_productive_call'])){ ?>
+                       <td><?=$weekly_data['total_productive_call'];?></td>
+                     <?php }else{ ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <?php //if(!empty($weekly_data['total_orders'])){ ?>
+<!--                       <td>--><?//=$weekly_data['total_orders'];?><!--</td>-->
+                     <?php //}else{ ?>
+<!--                       <td>0</td>-->
+                     <?php //} ?>
+                     <?php if(!empty($weekly_data['total_orders_not_met'])){ ?>
+                       <td><?=$weekly_data['total_orders_not_met'];?></td>
+                     <?php }else{ ?>
+                       <td>0</td>
+                     <?php } ?>
+                     <td><?=$weekly_data['team_members'] ?></td>
+                   </tr>
+                 <?php }
+                }
+               }
+               ?>
+              </tbody>
+            </table>
+            <p style="color: darkgrey;">**This table shows your monthly report from today's date.</p>
+          </div>
+          <!-- /.box-body -->
+        </div></div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
 
 
 <script>
@@ -828,3 +846,4 @@ $(function () {
 	});
 });
 </script>
+  

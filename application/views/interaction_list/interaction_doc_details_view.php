@@ -2,7 +2,6 @@
 /* 
  * Developer: Nitin Kumar
  * Dated: 05-09-2019
- * Email: sss.shailesh@gmail.com
  * 
  * for show doctor interaction 
  * 
@@ -11,7 +10,6 @@ $data_doc = file_get_contents ("ReportJSON/IntrctionDocSumry.json");
 $json_doc = json_decode($data_doc, true);
 $data_phr = file_get_contents ("ReportJSON/IntrctionPharmaSumry.json");
 $json_phr = json_decode($data_phr, true);
-
 
 if(!is_admin()){
 	$usrID=logged_user_data();
@@ -74,7 +72,7 @@ $secondary_sum=0;
         </div>
             <!-- /.box-header -->
             <div class="box-body">
-				<div class="row" style="padding: 10px 175px 25px;">
+            	<div class="row" style="padding: 10px 175px 25px;">
 					<div class="col-md-12">
 						<strong>To Date('Month/Date/Year'):</strong>
 						<input name="min" id="min" type="text" style="text-align: center;margin-left: 7px;">
@@ -82,8 +80,7 @@ $secondary_sum=0;
 						<input name="max" id="max" type="text" style="text-align: center;margin-left: 5px;">
 					</div>
 				</div>
-
-
+				
 			<table id="example" class="table table-bordered table-striped">
 				<thead>
 				<tr>
@@ -92,7 +89,7 @@ $secondary_sum=0;
 					<th>Interaction By</th>
 					<th>City</th>
 					<th>Category</th>
-<!--					<th>Sample</th>-->
+					<!-- <th>Sample</th> -->
 					<th>Met/Not Met</th>
 					<th>Secondary Sale</th>
 					<th>Remark</th>
@@ -102,7 +99,7 @@ $secondary_sum=0;
 				</tr>
 				</thead>
 			<tbody>
-				<?php	//Doctor Interactions
+               	<?php	//Doctor Interactions
 				if(!empty($doc_info)){
 				if(is_admin()){
 				foreach($doc_info['doc_info'] as $k_doc=>$val_doc){
@@ -296,10 +293,11 @@ $secondary_sum=0;
 						}
 					 }
 				?>
-
 </tbody>
 <?php if($secondary_sum!=0){?>
-<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td><td rowspan="" colspan="" style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
+<tfooter><tr><td rowspan="6" colspan="6" style=""><strong>Grand Total</strong></td>
+	<td rowspan="2" colspan="2"
+																					   style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
 <?php }?>
 </table>
             </div>
@@ -331,6 +329,7 @@ $secondary_sum=0;
           })
         </script>
   <?php } ?>
+
 
 <script>
     $(document).ready(function(){

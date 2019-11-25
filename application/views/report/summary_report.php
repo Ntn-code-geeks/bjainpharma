@@ -64,7 +64,8 @@
                     <?php echo form_close(); ?>
                 </div>
 
-              <?php //if(is_admin()){ ?>
+
+                <?php //if(is_admin()){ ?>
 
                 <div class="vl" style="border-left: 2px solid green; height: 200px;"></div>
 
@@ -78,7 +79,7 @@
                         <div class="form-group">
                             <label>Summary Report Period:</label>
                             <select name="period" id="period" class="form-control select3" style="width: 100%;">
-                                <!--<option value="">--Select Secondary Report Period--</option>-->
+                                <!--                                <option value="">--Select Secondary Report Period--</option>-->
                                 <option value="">Weekly</option>
                                 <option value="month">Monthly</option>
                                 <option value="quarter">Quarterly</option>
@@ -98,8 +99,8 @@
                         <!-- /.form group -->
                         <?php echo form_close(); ?>
                     </div>
-            <?php // } ?>
 
+                <?php //} ?>
             </div>
                 <!-- /.box -->
             </div>

@@ -8,15 +8,18 @@
  * 
  * to check that the person is ASM/RSM/DSM/NSM
  */
-	function userDesig(){
+function userDesig(){
     $ci = &get_instance();
+
     $userDesig =$ci->session->userdata('userDesig');
+
      if($userDesig<5){  // true only for the ASM/RSM/DSM/NSM
         return TRUE;  
-     }else{
+     }
+     else{
          return false; 
      }
-//    
+   
 }
 
 /*
@@ -96,14 +99,18 @@ function get_boss_email_user($userid){
         $ci->db->select('pu.email_id');
         $ci->db->from('pharma_users pu');
         $ci->db->where('pu.id',$userid);
-    	$query = $ci->db->get();
+
+    $query = $ci->db->get();
 //     echo $ci->db->last_query(); die;
+
             if($ci->db->affected_rows()){
-                return $query->row()->email_id;
+
+                return $query->row()->email_id; 
+
             }else{
                 return FALSE;
             }
-
+    
     
 }
 
@@ -244,7 +251,9 @@ function logged_user_pharmaare() {  // for Sub Dealer assign to the user
 
 function logged_user_cities() {  // for cities assign to the user
     $ci = &get_instance();
+    
    $cities_id =$ci->session->userdata('userCity');
+   
     if(!empty($cities_id)){
        return $cities_id; 
     }
@@ -429,6 +438,7 @@ function send_msg($message='' , $num1='',$num2=''){
 //  $num1 = 9718831223; 
   
     $curl = curl_init();
+
 curl_setopt_array($curl, array(
   CURLOPT_URL => "https://control.msg91.com/api/postsms.php",
   CURLOPT_RETURNTRANSFER => true,
@@ -437,9 +447,7 @@ curl_setopt_array($curl, array(
   CURLOPT_TIMEOUT => 30,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  //CURLOPT_POSTFIELDS => "<MESSAGE> <AUTHKEY>104818AOPOZWRa59fab4ba</AUTHKEY> <SENDER>nbjain</SENDER>
-	// <ROUTE>Template</ROUTE> <CAMPAIGN>XML API</CAMPAIGN> <COUNTRY>country code</COUNTRY> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num1\"></ADDRESS> </SMS> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num2\"></ADDRESS> </SMS> </MESSAGE>",
-  CURLOPT_POSTFIELDS => "<MESSAGE> <AUTHKEY>287917AX3dai7t5d43dee9</AUTHKEY> <SENDER>nbjain</SENDER> <ROUTE>Template</ROUTE> <CAMPAIGN>XML API</CAMPAIGN> <COUNTRY>country code</COUNTRY> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num1\"></ADDRESS> </SMS> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num2\"></ADDRESS> </SMS> </MESSAGE>",
+  CURLOPT_POSTFIELDS => "<MESSAGE> <AUTHKEY>287917AVqBr0VZ5da99156</AUTHKEY> <SENDER>BJPHRM</SENDER> <ROUTE>4</ROUTE> <CAMPAIGN>XML API</CAMPAIGN> <COUNTRY>91</COUNTRY> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num1\"></ADDRESS> </SMS> <SMS TEXT=\"$message\" > <ADDRESS TO=\"$num2\"></ADDRESS> </SMS> </MESSAGE>",
   CURLOPT_SSL_VERIFYHOST => 0,
   CURLOPT_SSL_VERIFYPEER => 0,
   CURLOPT_HTTPHEADER => array(
@@ -455,7 +463,7 @@ curl_close($curl);
 if ($err) {
   echo "cURL Error #:" . $err;
 } else {
-  echo $response;
+  //echo $response;
 }
     
     
@@ -831,7 +839,7 @@ function get_all_meeeting_city(){
 
 
 	function get_city_id($id){
-		$ci = &get_instance();
+$ci = &get_instance();
         $arr = "*";
         $ci->db->select($arr);
         $ci->db->from("city");
@@ -1455,17 +1463,17 @@ function get_state_id($id){
   }
 
   function get_tour_info(){
-    $nextmonth = date('Y-m', strtotime('+1 month'));
-   // pr($nextmonth); die;
+    // $nextmonth = date('m', strtotime('+1 month'));
+     $nextmonth = date('Y-m', strtotime('+1 month'));
     $ci = &get_instance();
     $col='id';
     $ci->db->select($col); 
     $ci->db->from('user_stp'); 
     $ci->db->where('crm_user_id',logged_user_data());
-	$ci->db->like('dot',$nextmonth);
-	//$ci->db->where('MONTH(dot)',$nextmonth);
+    // $ci->db->where('MONTH(dot)',$nextmonth);
+    $ci->db->like('dot',$nextmonth);
     $query= $ci->db->get(); 
-	//echo $ci->db->last_query(); die;
+
     if($ci->db->affected_rows()){
       return FALSE; 
     } 
@@ -1474,7 +1482,7 @@ function get_state_id($id){
     }
   }
 
-   function get_followup($date){
+  function get_followup($date){
     $remark='';
     $ci = &get_instance();
     $col='GROUP_CONCAT(remark) as remark, d_id as cust_id';
@@ -1527,7 +1535,32 @@ function get_state_id($id){
     return $final_remarks;
   }
 
-
+  // use of the doctor list,pharma list and dealer list based pincode 
+//  function get_destination_interaction($table,$id,$con){
+//        $ci = &get_instance();
+//        $col='city_pincode';
+//        $ci->db->select($col); 
+//        $ci->db->from($table); 
+//        if($con==1)
+//        {
+//          $ci->db->where('doctor_id',$id);
+//        }
+//        elseif($con==2)
+//        {
+//          $ci->db->where('pharma_id',$id);
+//        }
+//        elseif($con==3)
+//        {
+//          $ci->db->where('dealer_id',$id);
+//        }
+//        $query= $ci->db->get(); 
+//        if($ci->db->affected_rows()){
+//          return $query->row()->city_pincode; 
+//        } 
+//        else{
+//          return FALSE;
+//        }
+//  }
   
   
   /*
@@ -1552,23 +1585,26 @@ elseif($con==3)
 $ci->db->where('dealer_id',$id);
 }
 $query= $ci->db->get();
-//  echo $ci->db->last_query(); die;
+//              echo $ci->db->last_query(); die; 
 if($ci->db->affected_rows()){
 $cityid = $query->row()->city_id;
+
 $citypin = $query->row()->city_pincode;
-// echo $cityid; die;
+//                echo $cityid; die;
 $arr = 'pool_pincode';
 $ci->db->select($arr);
 $ci->db->from('city');
 $ci->db->where('city_id',$cityid);
+
 $query2 = $ci->db->get();
-//  echo $ci->db->last_query(); die;
+//                      echo $ci->db->last_query(); die; 
 if($ci->db->affected_rows()){
+// return $query2->row()->pool_pincode;
 $city_pool_pin=$query2->row()->pool_pincode;
 if($citypin==$city_pool_pin){
-	return $city_pool_pin;
+  return $city_pool_pin;
 }else{
-	return $citypin;
+  return $citypin;
 }
 }else{
 return FALSE;
@@ -2026,7 +2062,8 @@ function check_city_exist($data){
     $col='city_name';
     $ci->db->select($col); 
     $ci->db->from('city'); 
-    $ci->db->like('city_name',$data['city_name']);
+    // $ci->db->like('city_name',$data['city_name']);
+    $ci->db->where('city_name',$data['city_name']);
     $ci->db->where('state_id',$data['state']);
     $query= $ci->db->get(); 
     if($ci->db->affected_rows()){
@@ -2067,9 +2104,9 @@ function check_user_sp($spcode) {  // for user id
   $ci->db->select($col); 
   $ci->db->from('pharma_users'); 
   $ci->db->where($con);
-  $query= $ci->db->get();
+  $query= $ci->db->get(); 
   if($ci->db->affected_rows()){
-    return  True;
+    return  True; 
   } 
   else{
     return False;
@@ -2205,24 +2242,24 @@ function get_logged_hq($id){
     }
 }
 
-function get_user_id($name){
-    $ci = &get_instance();
-    $arr='user_designation_id';
-    $ci->db->select($arr);
-    $ci->db->from("pharma_users");
-    $ci->db->where('name',$name);
-    $query = $ci->db->get();
-    if($ci->db->affected_rows())
-    {
-        return $result=$query->row();
+    function get_user_id($name){
+        $ci = &get_instance();
+        $arr='user_designation_id';
+        $ci->db->select($arr);
+        $ci->db->from("pharma_users");
+        $ci->db->where('name',$name);
+        $query = $ci->db->get();
+        if($ci->db->affected_rows())
+        {
+            return $result=$query->row();
+        }
+        else
+        {
+            return 0;
+        }
     }
-    else
-    {
-        return 0;
-    }
-}
 
-function get_designation_name($id){
+    function get_designation_name($id){
     $ci = &get_instance();
     $arr='designation_name';
     $ci->db->select($arr);
@@ -2238,6 +2275,7 @@ function get_designation_name($id){
         return 0;
     }
 }
+
 
 /*Check ASM Dsr last Stay city */
 function get_check_lastSource($interact_month){
@@ -2263,7 +2301,7 @@ function get_check_lastSource($interact_month){
     if($ci->db->affected_rows()) {
         $up = $query->row();
         if($up->is_stay==1){
-            $get_asm_last_cityID=$up->destination_city;
+           $get_asm_last_cityID=$up->destination_city;
             return $get_asm_last_cityID;
         }else{
             return false;
@@ -2271,20 +2309,6 @@ function get_check_lastSource($interact_month){
     }
 }
 
-//function get_asm_last_city($interact_month){
-//    pr($interact_month); die;
-//    $ci = &get_instance();
-//    $query = $ci->db->query("SELECT * FROM `asm_interaction` WHERE crm_user_id='".logged_user_data()."' AND doi_month  LIKE '%".$interact_month."' ORDER BY `asm_interaction`.`interaction_id` ASC LIMIT 1");
-////echo $ci->db->last_query();
-//    if($ci->db->affected_rows())
-//    {
-//        return $query->row()->interaction_city;
-//    }
-//    else
-//    {
-//        return false;
-//    }
-//}
 
 function get_pool_pincode($cityid){
     $ci = &get_instance();
@@ -2300,7 +2324,6 @@ function get_pool_pincode($cityid){
         return ' ';
     }
 }
-
 
 function getuserSPcode($userID){
     $ci = &get_instance();
@@ -2318,6 +2341,7 @@ function getuserSPcode($userID){
         return 0;
     }
 }
+
 
 function total_doctor_interaction($userid){
 
@@ -2348,53 +2372,51 @@ function total_doctor_interaction($userid){
 
 }
 
-
 function total_secondary_analysis($data='',$user_id=''){
 
-	if($data=='quarter'){
-		$start = date('Y-m-d', strtotime('-3 month'));
-	}
-	else if($data=='month'){
-		$start = date('Y-m-d', strtotime('-1 month'));
-	}
-	else if($data=='year'){
-		$start = date('Y-m-d', strtotime('-1 year'));
-	}
-	else if($data==''){
-		$start = date('Y-m-d', strtotime('-7 days'));
-	}
+    if($data=='quarter'){
+        $start = date('Y-m-d', strtotime('-3 month'));
+    }
+    else if($data=='month'){
+        $start = date('Y-m-d', strtotime('-1 month'));
+    }
+    else if($data=='year'){
+        $start = date('Y-m-d', strtotime('-1 year'));
+    }
+    else if($data==''){
+        $start = date('Y-m-d', strtotime('-7 days'));
+    }
 
-	$end = date('Y-m-d')." 23:59:59";
-	$ci = &get_instance();
-	$arr = 'pu.name as empname,SUM(pid.meeting_sale) as total_secondry';
-	$ci->db->select($arr);
-	$ci->db->from('pharma_interaction_doctor pid');
-	$ci->db->join('pharma_users pu','pid.crm_user_id=pu.id');
-	$ci->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
-	$ci->db->where('pid.create_date >=', $start);
+    $end = date('Y-m-d')." 23:59:59";
+    $ci = &get_instance();
+    $arr = 'pu.name as empname,SUM(pid.meeting_sale) as total_secondry';
+    $ci->db->select($arr);
+    $ci->db->from('pharma_interaction_doctor pid');
+    $ci->db->join('pharma_users pu','pid.crm_user_id=pu.id');
+    $ci->db->where('pid.meeting_sale IS NOT NULL',NULL,false);
+    $ci->db->where('pid.create_date >=', $start);
 
-	$ci->db->where('pid.create_date <=', $end);
-	$ci->db->where('pid.crm_user_id =', $user_id);
-	$ci->db->where('pid.status',1);
-	if(logged_user_child()){
-		$child_emp = explode(',', logged_user_child());
-		$ci->db->where_in('pid.crm_user_id', $child_emp);
-	}
-	$ci->db->order_by('pid.meeting_sale','DESC');
-	//$ci->db->limit(1,0);
-	$query = $ci->db->get();
+    $ci->db->where('pid.create_date <=', $end);
+    $ci->db->where('pid.crm_user_id =', $user_id);
+    $ci->db->where('pid.status',1);
+    if(logged_user_child()){
+        $child_emp = explode(',', logged_user_child());
+        $ci->db->where_in('pid.crm_user_id', $child_emp);
+    }
+    $ci->db->order_by('pid.meeting_sale','DESC');
+    //$ci->db->limit(1,0);
+    $query = $ci->db->get();
 
-	//echo $ci->db->last_query(); die;
-	if($ci->db->affected_rows()){
-		$allRec=$query->row();
-		return $allRec;
-	}else{
-		return FALSE;
-	}
+     //echo $ci->db->last_query(); die;
+    if($ci->db->affected_rows()){
+        $allRec=$query->row();
+        return $allRec;
+    }else{
+        return FALSE;
+    }
 
 
 }
-
 
 function total_productive_analysis($data='',$user_id=''){
 
@@ -2539,70 +2561,70 @@ function total_not_met_analysis($data='',$user_id=''){
 
 }
 
+
 function total_doctor_data($sp_code){
-	$spcode = explode(',',$sp_code);
-	$var1=array();
-	foreach ($spcode as  $val){
-		$ci = &get_instance();
-		$arr = "*";
-		$ci->db->select($arr);
-		$ci->db->from("doctor_list");
-		$ci->db->where("sp_code" , $val);
-		$query = $ci->db->get();
-		if($ci->db->affected_rows()){
-			$var1[$val]=count($query->result_array());
-		}
-	}
-	return array_sum($var1);
+  $spcode = explode(',',$sp_code);
+  $var1=array();
+  foreach ($spcode as  $val){
+    $ci = &get_instance();
+    $arr = "*";
+    $ci->db->select($arr);
+    $ci->db->from("doctor_list");
+    $ci->db->where("sp_code" , $val);
+    $query = $ci->db->get();
+    if($ci->db->affected_rows()){
+      $var1[$val]=count($query->result_array());
+    }
+  }
+  return array_sum($var1);
 }
 
-
-
 function doctor_interaction_list($limit='',$start=''){
-	$ci = &get_instance();
-	$arr = "pid.crm_user_id as user_id,dl.city_id as city_id,dl.doc_name as doctorname,pid.orignal_sale as actualsale,pid.id,`pid`.`meeting_sale` secondarysale, `pid`.`create_date` as `date_of_interaction`,d.dealer_name ,pl.company_name as pharmaname,pid.close_status";
-	$ci->db->select($arr);
-	$ci->db->from("pharma_interaction_doctor pid");
-	$ci->db->join("doctor_list dl","dl.doctor_id=pid.doc_id");
-	$ci->db->join("dealer d","d.dealer_id=pid.dealer_id","left");
-	$ci->db->join("pharmacy_list pl","pl.pharma_id=pid.dealer_id","left");
-	$ci->db->join("doctor_interaction_with_team team","team.pidoc_id=pid.id","left");
-	$ci->db->where("pid.meeting_sale !=","");
-	$ci->db->where("pid.status =",1);
-	$query = $ci->db->get();
+  $ci = &get_instance();
+  $arr = "pid.crm_user_id as user_id,dl.city_id as city_id,dl.doc_name as doctorname,pid.orignal_sale as actualsale,pid.id,`pid`.`meeting_sale` secondarysale, `pid`.`create_date` as `date_of_interaction`,d.dealer_name ,pl.company_name as pharmaname,pid.close_status";
+  $ci->db->select($arr);
+  $ci->db->from("pharma_interaction_doctor pid");
+  $ci->db->join("doctor_list dl","dl.doctor_id=pid.doc_id");
+  $ci->db->join("dealer d","d.dealer_id=pid.dealer_id","left");
+  $ci->db->join("pharmacy_list pl","pl.pharma_id=pid.dealer_id","left");
+  $ci->db->join("doctor_interaction_with_team team","team.pidoc_id=pid.id","left");
+  $ci->db->where("pid.meeting_sale !=","");
+  $ci->db->where("pid.status =",1);
+  $query = $ci->db->get();
 //    echo $this->db->last_query(); die;
-		if($ci->db->affected_rows()){
-			return json_encode($query->result_array());
-		}
-		else{
-			return FALSE;
-		}
+    if($ci->db->affected_rows()){
+      return json_encode($query->result_array());
+    }
+    else{
+      return FALSE;
+    }
 
 }
 
 function pharmacy_interaction_list($limit='',$start=''){
-	$ci = &get_instance();
+  $ci = &get_instance();
     $arr = "pip.crm_user_id as user_id,pl.city_id as city_id,pl.company_name as pharmaname,pip.orignal_sale as actualsale,pip.id,`pip`.`meeting_sale` as secondarysale, `pip`.`create_date` as `date_of_interaction`,d.dealer_name,pip.close_status";
-	$ci->db->select($arr);
-	$ci->db->from("pharma_interaction_pharmacy pip");
-	$ci->db->join("pharmacy_list pl","pl.pharma_id=pip.pharma_id");
-	$ci->db->join("dealer d","d.dealer_id=pip.dealer_id","left");
-	$ci->db->join("pharmacy_interaction_with_team team","team.pipharma_id=pip.id","left");
-	$ci->db->where("pip.meeting_sale !=","");
-	$ci->db->where("pip.status =",1);
+  $ci->db->select($arr);
+  $ci->db->from("pharma_interaction_pharmacy pip");
+  $ci->db->join("pharmacy_list pl","pl.pharma_id=pip.pharma_id");
+  $ci->db->join("dealer d","d.dealer_id=pip.dealer_id","left");
+  $ci->db->join("pharmacy_interaction_with_team team","team.pipharma_id=pip.id","left");
+  $ci->db->where("pip.meeting_sale !=","");
+  $ci->db->where("pip.status =",1);
    if($limit!=''){
-	   $ci->db->limit($limit, decode($start));
-	}
-	$query = $ci->db->get();
+     $ci->db->limit($limit, decode($start));
+  }
+  $query = $ci->db->get();
 // echo $this->db->last_query(); die;
-	if($ci->db->affected_rows()){
-		return json_encode($query->result_array());
-	}
-	else{
-	  return FALSE;
-	}
+  if($ci->db->affected_rows()){
+    return json_encode($query->result_array());
+  }
+  else{
+    return FALSE;
+  }
 
-    }
+}
+
 
 
 // Function to get all the dates in given range
@@ -2618,30 +2640,34 @@ function getDatesFromRange($start, $end, $format = 'Y-m-d') {
 	return $array;
 }
 
+
+
 function get_gazetted_holiday(){
-	$ci = &get_instance();
-	$arr='date_holiday,name_holiday';
-	$ci->db->select($arr);
-	$ci->db->from("gazetted_holiday");
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		return json_encode($query->result_array());
-	}else{
-		return FALSE;
-	}
+  $ci = &get_instance();
+  $arr='date_holiday,name_holiday';
+  $ci->db->select($arr);
+  $ci->db->from("gazetted_holiday");
+  $query = $ci->db->get();
+  if($ci->db->affected_rows()){
+    return json_encode($query->result_array());
+  }else{
+    return FALSE;
+  }
 }
 
+
 function remove_sunday_range($start, $end, $step = '+1 day', $format = 'Y-m-d' ) {
-	$dates = array();
-	$current = strtotime($start);
-	$last = strtotime($end);
-	while( $current <= $last ) {
-		if (date("D", $current) != "Sun")
-			$dates[] = date($format, $current);
-		$current = strtotime($step, $current);
-	}
-	return $dates;
+  $dates = array();
+  $current = strtotime($start);
+  $last = strtotime($end);
+  while( $current <= $last ) {
+    if (date("D", $current) != "Sun")
+      $dates[] = date($format, $current);
+    $current = strtotime($step, $current);
+  }
+  return $dates;
 }
+
 
 function get_userwise_da($id){
 	$ci = &get_instance();
@@ -2658,21 +2684,34 @@ function get_userwise_da($id){
 	}
 }
 
-function get_trip_details($userid){
-	$ci = &get_instance();
-	$arr='user_id,from_date,to_date,remarks';
-	$ci->db->select($arr);
-	$ci->db->from("user_trip");
-	$ci->db->where('status',1);
-	$ci->db->where('user_id',$userid);
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		return $query->row();
-	}else{
-		return FALSE;
-	}
+function get_users_da(){
+  $ci = &get_instance();
+  $arr = "*";
+  $ci->db->select($arr);
+  $ci->db->from("userwise_da");
+  $query = $ci->db->get();
+  if($ci->db->affected_rows()){
+    $var=$query->result_array();
+    return $var;
+  }else{
+    return false;
+  }
 }
 
+function get_trip_details($userid){
+  $ci = &get_instance();
+  $arr='user_id,from_date,to_date,remarks';
+  $ci->db->select($arr);
+  $ci->db->from("user_trip");
+  $ci->db->where('status',1);
+  $ci->db->where('user_id',$userid);
+  $query = $ci->db->get();
+  if($ci->db->affected_rows()){
+    return $query->row();
+  }else{
+    return FALSE;
+  }
+}
 
 function get_check_active_users($arr){
 	$ci = &get_instance();
@@ -2694,103 +2733,22 @@ function get_check_active_users($arr){
 }
 
 
-
-
-function get_users_da(){
-	$ci = &get_instance();
-	$arr = "*";
-	$ci->db->select($arr);
-	$ci->db->from("userwise_da");
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		$var=$query->result_array();
-		return $var;
-	}else{
-		return false;
-	}
-}
-
-
 function get_doc_details($sp_code){
-	$ci = &get_instance();
-	$arr = "doctor_id,doc_name,city_id,doc_phone,sp_code,crm_user_id,city_pincode";
-	$ci->db->select($arr);
-	$ci->db->from("doctor_list");
-	$ci->db->where("sp_code",$sp_code);
-	$ci->db->where("doc_status",1);
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		$var=$query->result_array();
-		return $var;
-	}else{
-		return false;
-	}
+  $ci = &get_instance();
+  $arr = "doctor_id,doc_name,city_id,doc_phone,sp_code,crm_user_id,city_pincode";
+  $ci->db->select($arr);
+  $ci->db->from("doctor_list");
+  $ci->db->where("sp_code",$sp_code);
+  $ci->db->where("doc_status",1);
+  $query = $ci->db->get();
+  if($ci->db->affected_rows()){
+    $var=$query->result_array();
+    return $var;
+  }else{
+    return false;
+  }
 }
 
-
-
-function count_overall_visits($month_date='',$doc_id=''){
-	$doc_interc_list=json_decode(file_get_contents("ReportJSON/IntrctionDocSumry.json"),true);
-
-	$doc_interc=array();
-	$child_usr=get_check_active_users(explode(', ',logged_user_child()));
-	$allSP_code=explode(',',all_user_sp_code());
-
-	$doctr_list=array();
-	foreach ($allSP_code as $sp_cod){
-		$doctr_list[]=get_doc_details($sp_cod);
-	}
-	@$overall_doc_list=array_merge(...array_filter($doctr_list));
-//	pr($overall_doc_list); die;
-
-	foreach ($doc_interc_list as $doc_sec){
-		foreach ($doc_sec as $doct_list){
-			 $patDate=date('Y-m-d 00:00:00', strtotime($doct_list['date']));
-			if (in_array($patDate,$month_date)) {
-				if(is_admin()){
-					if(!empty($overall_doc_list)) {
-						foreach ($overall_doc_list as $doc_lst) {
-							if ($doc_lst['doctor_id'] == $doc_id) {
-							   $doc_interc[] = $doct_list['doc_id'];
-							}
-						}
-					}
-				}
-				else if(!empty($child_usr)){
-					if(in_array($doct_list['user_id'], $child_usr)) {
-						if(!empty($overall_doc_list)) {
-							foreach ($overall_doc_list as $doc_lst) {
-								if ($doc_lst['doctor_id'] == $doc_id) {
-									$doc_interc[] = $doct_list['doc_id'];
-								}
-							}
-						}
-					}
-				}
-				else{
-					if($doct_list['user_id']==logged_user_data()) {
-						if(!empty($overall_doc_list)) {
-							foreach ($overall_doc_list as $doc_lst) {
-								if ($doc_lst['doctor_id'] == $doc_id) {
-									$doc_interc[] = $doct_list['doc_id'];
-								}
-							}
-						}
-					}
-				}
-
-			}
-		}
-	}
-	$count=0;
-	foreach ($doc_interc as $doc_int){
-		if($doc_int==$doc_id){
-			$count=$count + 1;
-		}
-	}
-	return $count;
-
-}
 
 function get_dealers_count($uid){
 	$ci = &get_instance();
@@ -2837,39 +2795,6 @@ function get_leaves_deatils($date){
 		return FALSE;
 	}
 }
-
-
-function get_dealer_id($name){
-	$ci = &get_instance();
-	$arr = "dealer_id";
-	$ci->db->select($arr);
-	$ci->db->from("dealer");
-	$ci->db->where("dealer_name",$name);
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		$var_d=$query->row()->dealer_id;
-		return $var_d;
-	}else{
-		return 0;
-	}
-}
-
-function get_pharma_id($name){
-	$ci = &get_instance();
-	$arr = "pharma_id";
-	$ci->db->select($arr);
-	$ci->db->from("pharmacy_list");
-	$ci->db->where("company_name",$name);
-	$query = $ci->db->get();
-	if($ci->db->affected_rows()){
-		$var_ph=$query->row()->pharma_id;
-		return $var_ph;
-	}else{
-		return 0;
-	}
-}
-
-
 
 
 ?>

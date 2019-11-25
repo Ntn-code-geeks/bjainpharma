@@ -21,14 +21,29 @@
 
 </head>
 
+	
+
+
         <?php
+
         if($this->session->userdata('userId') && $this->session->userdata('SiteUrl_id')== base_url()){
-            $this->load->view("elements/top_bar");
-            $this->load->view("elements/left_sidebar");
+
+            
+
+            $this->load->view("elements/top_bar");    
+
+            $this->load->view("elements/left_sidebar"); 
+
+          
+
         }
+
         ?>
 
-	    <?php       $this->load->view($page_view);         ?>
+	    <?php
+                        $this->load->view($page_view);
+
+           ?>
 
 
 

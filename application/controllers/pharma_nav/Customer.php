@@ -51,13 +51,12 @@ class Customer extends Parent_admin_controller {
                 //  die;
                 if(!empty($spcode)){ 
                   $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=".$spcode;
-
+          
                     $data['my_customer'] = file_get_contents($mycustomer_API);
                    // pr($data['my_customer']);
                     //die;
                 }else{
-					$mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
-                     $data['my_customer'] = $mycustomer_API;
+                     $data['my_customer'] = '';
                 }
 
             $this->load->get_view('pharma_nav/mycustomer_list_view',$data);
@@ -77,7 +76,7 @@ class Customer extends Parent_admin_controller {
     public function nav_cust_connect(){
         
          //$spcode = $this->session->userdata('sp_code');
-
+        
         // if(!empty($spcode)){
          $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
         // }else{
@@ -85,7 +84,7 @@ class Customer extends Parent_admin_controller {
         // }
        // echo $mycustomer_API;
          $my_customers = file_get_contents($mycustomer_API);
-//         pr(json_decode($my_customers)); die;
+        // pr($my_customers); die;
        
                 $sucess =  $this->cust_nav->add_update_dealer($my_customers);
        

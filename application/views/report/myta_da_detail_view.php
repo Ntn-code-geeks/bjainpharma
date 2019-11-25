@@ -78,7 +78,8 @@ $tada_data = json_decode($tada_report);
                     <?php
 
                     $gtrow=0; $gtta=0; $gtda=0; $gtpostage=0;
-                    $totalrow=0;
+                     $totalrow=0;
+
 
                     $mtData = $month_year;
                     $mtDta = explode('-', $mtData);
@@ -101,7 +102,7 @@ $tada_data = json_decode($tada_report);
                             $huy=array_count_values($listDate);
                             $datval=$huy[$val_tada->ineraction_date];
 
-                            if($datval>=2){
+                             if($datval>=2){
                                 $totalrow = $val_tada->ta + 0 + 0;
                             }else{
                                 $totalrow = $val_tada->ta + $val_tada->da + $val_tada->postage;
@@ -138,10 +139,11 @@ $tada_data = json_decode($tada_report);
                                         $val_tada->distance;?>" style="width: 52px;     padding: 2px;">
                                     </td>
 
-                                    <td>
+                                     <td>
                                         <input readonly class="form-control pull-right" value="<?php echo $val_tada->ta;
                                         ?>" style="width: 52px;     padding: 2px;">
                                     </td>
+
 
                                     <?php if($datval>=2){  ?>
                                         <td colspan="2">
@@ -158,7 +160,7 @@ $tada_data = json_decode($tada_report);
                                         </td>
 
                                     <?php } else{ ?>
-
+                                       
                                         <td>
                                             <input readonly class="form-control pull-right" value="<?php echo $val_tada->da;
                                             ?>" style="width: 52px;     padding: 2px;">

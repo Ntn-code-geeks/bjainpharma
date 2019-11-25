@@ -29,7 +29,7 @@ class Doctor extends Parent_admin_controller {
     }
     
     public function index($date='',$city=''){
-
+        
 		$city1=urisafedecode($city);
 		$data['date_interact']='';
 		if(!is_numeric($date))
@@ -58,7 +58,6 @@ class Doctor extends Parent_admin_controller {
 
 		if($city!='')
 		{
-
 			$datablank='';
 			$page='';
 			$per_page='';
@@ -89,7 +88,6 @@ class Doctor extends Parent_admin_controller {
          * 
          */
     public function doctor_master_details(){
-
            
         $data['searchin'] = empty($this->input->post('search')['value'])?1:$this->input->post('search')['value'];        
 //    pr($data); die;
@@ -126,7 +124,7 @@ class Doctor extends Parent_admin_controller {
            $doctor_master =   $this->doctor->doctormaster($filter);
 //        pr($doctor_master); die;
             $posts = $doctor_master;
-
+            
             $basePath = base_url();
         $data = array();
         if(!empty($posts))
@@ -207,7 +205,7 @@ class Doctor extends Parent_admin_controller {
 			$data['path_info']=1;
 		}
 		$data['old_data'] = '';
-        $data['dealer_list'] = $this->dealer->dealer_list();
+                $data['dealer_list'] = $this->dealer->dealer_list(); 
                 
 		if($this->doctor->get_log__doctor_data($docid))
 		{
@@ -589,12 +587,12 @@ class Doctor extends Parent_admin_controller {
 
     public function add_list(){
         
-         $data['title']="Add Doctor";
+        $data['title']="Add Doctor";
          $data['page_name'] = "Doctor Master";
-         $data['action'] = "doctors/doctor/save_doctor";
-         $data['dealer_list']= $this->dealer->add_edit_dealer_list();
-         $data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
-         $data['statename'] = $this->dealer->state_list();
+          $data['action'] = "doctors/doctor/save_doctor";
+           $data['dealer_list']= $this->dealer->add_edit_dealer_list();
+            $data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities()); 
+            $data['statename'] = $this->dealer->state_list();
             
             $data['doc_status_info']=$this->doctor->doc_status(); // status of the doctor (Prescribe/dispense)
             
@@ -992,8 +990,8 @@ class Doctor extends Parent_admin_controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('user', 'User', 'required');
 		if($this->form_validation->run() == FALSE){
-			return $this->import_doctor();
-
+			return $this->import_doctor();    
+		
 		}
 		else{
 			$mimes = array('application/vnd.ms-excel','text/plain','text/csv','text/tsv');
@@ -1019,8 +1017,8 @@ class Doctor extends Parent_admin_controller {
 						  'city_id' => $importdata[3],
 						  'state_id' => $importdata[4],
 						  'doc_gender' => $importdata[1],
-						  'city_pincode'=>$importdata[7],
-						  'sp_code'=>$importdata[8],
+                                                  'city_pincode'=>$importdata[7],
+                                                  'sp_code'=>$importdata[8],
 						  'crm_user_id' => $this->input->post('user'),
 						  'last_update' => savedate(),
 						  'doc_status' =>1,
@@ -1029,15 +1027,21 @@ class Doctor extends Parent_admin_controller {
 						$insert = $this->doctor->doc_import_save($data);
 						if(!$insert)
 						{
-							$count=$count+1;
+							//$count=$count+1;
 						}
 					   }
 					}                    
 					fclose($file);
+					// set_flash('<div class="alert alert-success alert-dismissible">
+					// <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					// <h4><i class="icon fa fa-check"></i> Success!</h4>
+					// Doctor are imported successfully.'.$count.' Duplicate Mobile Found. </div>'); 
+					// redirect('doctors/doctor/import_doctor');
+
 					set_flash('<div class="alert alert-success alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 					<h4><i class="icon fa fa-check"></i> Success!</h4>
-					 Doctor are imported successfully.  Not Added Total '.$count.'</div>');
+					Doctor are imported successfully. </div>'); 
 					redirect('doctors/doctor/import_doctor');
 				}else{
 					set_flash('<div class="alert alert-danger alert-dismissible">

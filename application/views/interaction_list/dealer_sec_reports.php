@@ -136,6 +136,7 @@ $secondary_sum=0;
 
 							<p><?php /* echo $links; */ ?></p>
 						</div>
+						<a href="<?=base_url() ?>interaction/dealer_report"><button class="btn btn-danger"> Back</button></a>
 						<!-- /.box-body -->
 					</div></div>
 				<!-- /.box -->
@@ -155,7 +156,12 @@ $secondary_sum=0;
     $(function () {
         $('#example2').DataTable({
             dom: 'Bfrtip',
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
             buttons: [
+             'pageLength',
                 {
                     extend: 'print',
                     title: printTitle,

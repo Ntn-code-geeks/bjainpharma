@@ -118,6 +118,15 @@
 //
 //});
 
+    /*Disable Right Over Site*/
+    $(document).ready(function() {
+        $("html").on("contextmenu",function(){
+            return false;
+        });
+    });
+
+
+
     //Datemask dd/mm/yyyy
 
     $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })

@@ -22,16 +22,27 @@ class Tour_plan extends Parent_admin_controller {
 
 
 
-   function __construct()
+   function __construct() 
+
     {
+
         parent::__construct();
+
             $loggedData=logged_user_data();
+
+            
+
             if(empty($loggedData)){
-                redirect('user');
+
+                redirect('user'); 
+
             }
+
         $this->load->model('tour_plan/tour_plan_model','tour');
+
 		$this->load->model('users/User_model','user');
 		$this->load->model('holiday/Holiday_model','holiday');
+
     }
 
     
@@ -56,8 +67,8 @@ class Tour_plan extends Parent_admin_controller {
 		$*/
 		//$custcity=explode(',',logged_user_cities());
 		 if(!is_admin()){
-				$spcode = $this->session->userdata('sp_code');
-				$data['city_data']= get_all_city($spcode);
+                      $spcode = $this->session->userdata('sp_code');
+		$data['city_data']= get_all_city($spcode);
 	        }else{
 	            $data['city_data']= get_all_city();
 	        }
@@ -85,9 +96,9 @@ class Tour_plan extends Parent_admin_controller {
 		//$assigncity=array();
 		$data['tour_list']='';
 		$data['title'] = "Tour Plan";
-        $data['page_name'] = "Tour Plan";
+                $data['page_name'] = "Tour Plan";
                 
-	  /*$cityList= $this->tour->get_city();
+              /*$cityList= $this->tour->get_city();
 		if($cityList!=FALSE)
 		{
 			$data['city_list'] =$this->tour->get_city(); 
@@ -96,8 +107,7 @@ class Tour_plan extends Parent_admin_controller {
 			}
 		}*/
                 
-        $tour = $this->tour->tour_info();
-//        pr(json_decode($tour)); die;
+        $tour = $this->tour->tour_info(); 
 		if($tour!=FALSE)
 		{
 			$data['tour_list'] =$this->tour->tour_info(); 
@@ -123,7 +133,7 @@ class Tour_plan extends Parent_admin_controller {
 	public function save_bulk_plan(){
             
 		$post_data = $this->input->post();
-              // pr($post_data); die;
+//                pr($post_data); die;
 		$success = $this->tour->add_bulk_tour($post_data);
 		if($success>0){  // on sucess
 			set_flash('<div class="alert alert-success alert-dismissible">
@@ -427,16 +437,28 @@ class Tour_plan extends Parent_admin_controller {
 	public function tour_data_list(){ 
 
 		if(is_admin()){
+
 			$data['title'] = "Standard Tour Plan List";
+
 			$data['page_name'] = "Standard  Tour Plan List";
+
 			$data['tour_list']=array();
+
 			$tourList=$this->tour->get_tour_list();
-			if($tourList!=FALSE){
-				$data['tour_list'] =$this->tour->get_tour_list();
+
+			if($tourList!=FALSE)
+			{
+
+				$data['tour_list'] =$this->tour->get_tour_list(); 
+
 			}
-			$data['action'] = "tour_plan/tour_plan/save_tour_data";
+
+			$data['action'] = "tour_plan/tour_plan/save_tour_data"; 
+
 	//      pr($data['city_list']); die;
+
 			$this->load->get_view('tour_plan/tour_plan_list',$data);
+
 		}
 
         else{

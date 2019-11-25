@@ -121,8 +121,7 @@
                 </tr>
                 </thead>
                 <tbody>
-
-                <?php
+ <?php
                 if(is_admin()){
                     if(!empty($leave_list)){
                         foreach($leave_list as $leave){    ?>
@@ -209,8 +208,7 @@
                 }
                 ?>
 
-
-                 </tbody>
+                </tbody>
 
 
               </table>
@@ -218,9 +216,8 @@
 
 			</div>
 
-			<a href="<?=$_SERVER['HTTP_REFERER']?>"><button class="btn btn-danger" style="margin-bottom: 20px;
-			margin-left: 10px;">Back</button></a>
-			  <!-- /.box -->
+
+          <!-- /.box -->
 
 
         </div>

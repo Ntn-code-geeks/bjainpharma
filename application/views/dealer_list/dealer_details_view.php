@@ -8,7 +8,6 @@
  $state_name = json_decode($statename);
 
   $d_info = json_decode($dealer_data);
-
   
   $ms = json_decode($meeting_sample);
   
@@ -68,8 +67,7 @@
 						</tr>
 					</thead>
 					<tbody>
-  					<?php  if(!empty($d_info)){
-  						foreach($d_info as $k_d=>$val_d){
+  					<?php  if(!empty($d_info)){ foreach($d_info as $k_d=>$val_d){
   						if(is_admin()){       ?>
 					<tr>
 						<td> <?=$val_d->d_name;?></td>
@@ -103,9 +101,7 @@
 						</td>
 						
 					</tr>
-					<?php }
-  						else{
-  							if(check_user_sp_dealer($val_d->sp_code)){?>
+					<?php }else{ if(check_user_sp_dealer($val_d->sp_code)){?>
 					<tr>
 						<td> <?=$val_d->d_name;?></td>
 						<td><?=$val_d->d_email;?></td>
@@ -143,7 +139,9 @@
     </section>
     <!-- /.content -->
   </div>
-<input type="hidden" id="user_id" value="<?= logged_user_data()?>" style="display: none;">
+
+  <input type="hidden" id="user_id" value="<?= logged_user_data()?>" style="display: none;">
+
 <script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 
 <script src="<?= base_url()?>design/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -161,7 +159,8 @@
 		})
 	})
 
-    $(document).ready(function() {
+
+	$(document).ready(function() {
         var table = $('#example2').dataTable();
         var total_records=table.fnSettings().fnRecordsTotal();
         var userID=$('#user_id').val();

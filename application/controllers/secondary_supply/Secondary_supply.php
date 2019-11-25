@@ -61,8 +61,131 @@ class Secondary_supply extends Parent_admin_controller {
     
 
     public function index(){
-         $data['title'] = "Secondary Supply List";
+
+        
+
+        $data['title'] = "Secondary Supply List";
+
          $data['page_name'] = "Secondary Supply";
+
+
+
+//           $data['doc_data']=$this->secondary->doctor_interaction_view();
+
+          
+
+//           $data['pharma_data']=$this->secondary->pharmacy_interaction_view();
+
+         
+
+//           $total_record = (count(json_decode($data['doc_data'])))+(count(json_decode($data['pharma_data'])));
+
+// //          echo $total_record; die;
+
+//           $this->load->library("pagination");  
+
+                         
+
+//                          $config = array();
+
+//         $config["base_url"] = base_url() . "secondary_supply/secondary_supply/index";
+
+//         $config["total_rows"] = $total_record;
+
+//         $config["per_page"] = 20;
+
+//         $config["uri_segment"] = 4;
+
+
+
+//         $config['full_tag_open'] = '<div class="pagination" style="margin:0px;"><ul class="pagination">';
+
+// 			$config['full_tag_close'] = '</ul></div>';
+
+			
+
+// 			$config['first_link'] = '&laquo; First';
+
+// 			$config['first_tag_open'] = '<li class="prev page">';
+
+// 			$config['first_tag_close'] = '</li>';
+
+
+
+// 			$config['last_link'] = 'Last &raquo;';
+
+// 			$config['last_tag_open'] = '<li class="next page">';
+
+// 			$config['last_tag_close'] = '</li>';
+
+
+
+// 			$config['next_link'] = 'Next >>';
+
+// 			$config['next_tag_open'] = '<li class="next page">';
+
+// 			$config['next_tag_close'] = '</li>';
+
+
+
+// 			$config['prev_link'] = '<< Previous';
+
+// 			$config['prev_tag_open'] = '<li class="prev page">';
+
+// 			$config['prev_tag_close'] = '</li>';
+
+
+
+// 			$config['cur_tag_open'] = '<li class="active"><a href="">';
+
+// 			$config['cur_tag_close'] = '</a></li>';
+
+
+
+// 			$config['num_tag_open'] = '<li class="page">';
+
+// 			$config['num_tag_close'] = '</li>';
+
+        
+
+        
+
+//         $this->pagination->initialize($config);
+
+
+
+//     $page = ($this->uri->segment(4))? encode($this->uri->segment(4)) : 0;
+
+
+
+// //        $data['dealer_data'] = $this->dealer->dealermaster_info($config["per_page"], $page);
+
+        
+
+//         $data['doc_data']=$this->secondary->doctor_interaction_view($config["per_page"],$page);
+
+        
+
+//         $data['pharma_data']=$this->secondary->pharmacy_interaction_view($config["per_page"],$page);
+
+        
+
+//         $data["links"] = $this->pagination->create_links();
+
+  //         $userID=logged_user_data();
+  //       if(!is_admin()){
+		// 	$uid=array($userID);
+		// 	$childs=get_child_user($uid);
+		// 	$data['allchilds']=array_merge($uid,$childs);		//Including user itself with childs
+		// } else{
+		// 	$data['allchilds']=$userID;
+		// }                 
+
+  //       $this->load->get_view('secondary_supply/secondary_supply_details_view',$data);
+
+
+
+
 		$userID=logged_user_data();
 		$childs=get_child_user($userID);
 		if(empty($childs)){
@@ -75,6 +198,7 @@ class Secondary_supply extends Parent_admin_controller {
 
     }
 
+    
 
     public function doctor_interaction($id=''){
 
@@ -135,6 +259,8 @@ class Secondary_supply extends Parent_admin_controller {
         }
 
     }
+
+    
 
     public function pharmacy_interaction($id=''){
 
@@ -200,8 +326,12 @@ class Secondary_supply extends Parent_admin_controller {
 
     }
 
+    
+
+    
 
     // close secondary for doctor
+
     public function close_secondary($id=''){
 
         
@@ -262,7 +392,14 @@ class Secondary_supply extends Parent_admin_controller {
 
     }
 
+    
+
+    
+
+    
+
     // close secondary for pharmacy
+
      public function close_secondary_pharmacy($id=''){
 
         

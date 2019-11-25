@@ -9,15 +9,15 @@ $pharma_secondary_list = json_decode(file_get_contents ("ReportJSON/phar_seconda
 $secondary_sum=0;
 ?>
 <link href="<?= base_url()?>design/css/div_table/one.css" rel="stylesheet" type="text/css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="<?= base_url()?>design/css/div_table/custom_table.css" rel="stylesheet" type="text/css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="<?= base_url()?>design/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
 <script src="<?= base_url()?>design/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url()?>design/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.print.min.js"></script>
 
@@ -95,10 +95,10 @@ $secondary_sum=0;
 												<?php
 												$var=$val_c['doctorname'];
 												if (stripos($var, 'dr') === 0) {
-												echo $var = preg_replace('/dr/', 'Dr. ', $var, 1);	} else{
+												echo $var = preg_replace('/dr/', 'Dr. ', strtoupper($var), 1);	}
+												else{
 													echo 'Dr. '.strtoupper($var);
-
-												}?>
+												} ?>		
 												</td>
 												<td><?= get_city_name($val_c['city_id']);?> </td>
 												<td><?=$val_c['dealer_name'];?></td>
@@ -120,7 +120,7 @@ $secondary_sum=0;
 													?>
 												<tr>
 													<td><?= date('Y/m/d', strtotime($val_c['date_of_interaction'])); ?></td>
-													<td><?= $val_c['pharmaname']; ?></td>
+													<td><?= strtoupper($val_c['pharmaname']); ?></td>
 													<td><?= get_doctor_name($val_c['city_id']); ?></td>
 													<td><?= $val_c['dealer_name']; ?></td>
 													<td><?= $val_c['secondarysale']; ?></td>
@@ -144,11 +144,9 @@ $secondary_sum=0;
 
 							<p><?php /* echo $links; */ ?></p>
 						</div>
-						<!-- /.box-body -->
 						<a href="<?=base_url() ?>interaction/se_report"><button class="btn btn-danger"> Back</button></a>
-					</div>
-
-				</div>
+						<!-- /.box-body -->
+					</div></div>
 				<!-- /.box -->
 			</div>
 			<!-- /.col -->
@@ -163,19 +161,17 @@ var urs_name=$('#uname').val();
 var duration=$('#duratn').val();
 var mytitle = urs_name + '<br>' + duration;
 var printTitle = "<div id='titl' style='font-size: 14px; text-align: center;'>"+mytitle+"</div>";
-
     $(function () {
         $('#example2').DataTable({
             dom: 'Bfrtip',
-            lengthMenu: [
+             lengthMenu: [
                 [ 10, 25, 50, -1 ],
                 [ '10 rows', '25 rows', '50 rows', 'Show all' ]
             ],
             buttons: [
-                'pageLength', 'csv',
+             'pageLength',
                 {
                     extend: 'print',
-                    footer: true,
 					title: printTitle,
                     customize: function(win) {
                         $(win.document.body)
@@ -195,7 +191,7 @@ var printTitle = "<div id='titl' style='font-size: 14px; text-align: center;'>"+
             'searching'   : true,
             'ordering'    : true,
             'info'        : true,
-            'autoWidth'   : true,
+            'autoWidth'   : false,
         })
 
     })

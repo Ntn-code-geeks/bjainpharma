@@ -108,8 +108,7 @@
                 <br>
                 <input  type="radio" class="form-check-input houp"  <?php echo set_checkbox('up',0); ?> name="up" id="houp" value="0">
                 &nbsp;No &nbsp;
-                <input type="radio" <?php echo set_checkbox('up',1); ?>  class="form-check-input ts houp"
-                       name="up" id="houp1" value="1">
+                <input type="radio" <?php echo set_checkbox('up',1); ?>  class="form-check-input ts houp" name="up" id="houp1" value="1">
                 &nbsp;  Yes &nbsp;
                 <span class="control-label" for="inputError" style="color: red"><?php echo form_error('up'); ?></span>
             </div>
@@ -158,6 +157,7 @@
     $('.select3').select2();
     });
 
+    
 
      $('.stay').change(function() {
          if($('.stay:checked').val()==1)
@@ -168,20 +168,16 @@
              $( "#houp1" ).prop( "checked", true );
          }
      });
-
      $('.houp').change(function() {
          if($('#stay1').is(":checked"))
          {
              $( "#houp" ).prop( "checked", true );
          }
-         if($('#stay').is(":checked"))
+          if($('#stay').is(":checked"))
          {
              $( "#houp1" ).prop( "checked", true );
          }
      });
-
-
-
 
 	
 

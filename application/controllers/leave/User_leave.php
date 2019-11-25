@@ -63,9 +63,11 @@ class User_leave extends Parent_admin_controller {
 
 		$result=$this->leave->check_inteaction($post_data);
 
+
 		if(!$result)
 
 		{
+			pr("here"); die;
 
 			set_flash('<div class="alert alert-danger alert-dismissible">
 
@@ -152,10 +154,12 @@ class User_leave extends Parent_admin_controller {
 
 		$leaveList=$this->leave->get_leave_list();
 
-
 		if($leaveList!=FALSE)
+
 		{
-			$data['leave_list'] =$this->leave->get_leave_list();
+
+			$data['leave_list'] =$this->leave->get_leave_list(); 
+
 		}
 
 		$this->load->get_view('user_leave/user_leave_list',$data);

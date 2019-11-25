@@ -1,14 +1,21 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
-$state_name = json_decode($statename);
-$val_d = json_decode($edit_dealer_list);
-$ms = json_decode($meeting_sample);
-$team_list=json_decode($users_team);
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+ $state_name = json_decode($statename);
+
+  $val_d = json_decode($edit_dealer_list);
+  
+  $ms = json_decode($meeting_sample);
+  
+  $team_list=json_decode($users_team); 
 ?>
-<meta http-equiv="Cache-control" content="no-cache">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 <div class="content-wrapper">
 
@@ -82,8 +89,7 @@ $team_list=json_decode($users_team);
 							 <td id="sale<?=$val_d->d_id ?>" style="display: block"><input class="form-control" readonly id="sale_dealer<?=$val_d->d_id;?>" name="m_sale" value='<?=$order_amount?>' type="text" ></td> 
 							<?php }else{?>
 								<td id="sale<?=$val_d->d_id ?>" style="display: block">
-								<button type="submit" value="secondary_product" id="save_sample" name="save" class="btn btn-info
-">Add Product</button>
+								<button type="submit" value="secondary_product" id="save_sample" name="save" class="btn btn-info ">Add Product</button>
 							  </td> 
 							 <?php }?>
 							</tr>
@@ -170,11 +176,10 @@ $team_list=json_decode($users_team);
 		              <br>
 		              <input  type="radio" class="form-check-input houp"  <?php echo set_checkbox('up',0); ?> name="up" id="houp" value="0">
 		              &nbsp;No &nbsp;
-		              <input type="radio" <?php echo set_checkbox('up',1); ?>  class="form-check-input ts
-		              houp" name="up" id="houp1" value="1">
+		              <input type="radio" <?php echo set_checkbox('up',1); ?>  class="form-check-input ts houp" name="up" id="houp1" value="1">
 		              &nbsp;  Yes &nbsp;
 		              <span class="control-label" for="inputError" style="color: red"><?php echo form_error('up'); ?></span>
-                        <span id="alt" style="margin-left: 50px; color: red;display:none;"> Please Add Next Interaction with
+		               <span id="alt" style="margin-left: 50px; color: red;display:none;"> Please Add Next Interaction with
                     Another City.</span>
 		            </div>
 
@@ -193,7 +198,7 @@ $team_list=json_decode($users_team);
 					<div class="col-md-12">
 						<!--<div class="form-group">-->
 						<div class="box-footer">
-							<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save</button>
+							<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save Interaction</button>
 						</div>
 					</div>
 				</div>
@@ -211,14 +216,15 @@ $team_list=json_decode($users_team);
  </div>
 <script type="text/javascript">
 
+	 // $("#save_sample").click(function(e) {
+  //              var selectval= $('[name="stay"]:checked').val();
+  //              if(typeof  selectval=="undefined"){
+  //                  alert("Please Select Stay / Not Stay.!");
+  //                  e.preventDefault();
+  //              }
+  //          });
 
-    $("#save_sample").click(function(e) {
-        var selectval= $('[name="stay"]:checked').val();
-        if(typeof  selectval=="undefined"){
-            alert("Please Select Stay / Not Stay.!");
-            e.preventDefault();
-        }
-    });
+
 
               $('#sale<?=$val_d->d_id ?>').on("change", function(){
 //               alert('mee');
@@ -379,16 +385,16 @@ $team_list=json_decode($users_team);
 	</script>
 
 <script>
-    $('.stay').change(function() {
-        if($('.stay:checked').val()==1)
-        {
-            $('#alt').show();
-            $( "#houp" ).prop( "checked", true );
-        }
-        if($('.stay:checked').val()==0){
-            $('#alt').hide();
-            $( "#houp1" ).prop( "checked", true );
-        }
+     $('.stay').change(function() {
+     if($('.stay:checked').val()==1)
+     {
+        $('#alt').show();
+        $( "#houp" ).prop( "checked", true );
+     }
+    if($('.stay:checked').val()==0){
+        $('#alt').hide();
+        $( "#houp1" ).prop( "checked", true );
+    }
     });
     $('.houp').change(function() {
         if($('#houp').is(":checked")){
@@ -398,15 +404,16 @@ $team_list=json_decode($users_team);
             $('#alt').hide();
         }
 
-        if($('#stay1').is(":checked"))
-        {
-            $('#alt').hide();
-            $( "#houp" ).prop( "checked", true );
+       if($('#stay1').is(":checked"))
+       {
+          $('#alt').hide();
+          $( "#houp" ).prop( "checked", true );
 
-        }
+       }
         if($('#stay').is(":checked"))
         {
-            // $( "#houp1" ).prop( "checked", true );
+           // $( "#houp1" ).prop( "checked", true );
         }
     });
 </script>
+	

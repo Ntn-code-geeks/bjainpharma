@@ -73,8 +73,7 @@ Nitin Kumar
 								  <span  style="color:red">Holiday.</span>
 								</td>
 							   </tr>
-                            <?php }
-                            else {
+                            <?php } else { 
                               $resulttask=get_assign_task( date('Y-m-d', strtotime($tdate)));
                               if($resulttask){   ?>
                                <tr>

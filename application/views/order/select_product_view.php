@@ -170,13 +170,12 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
                 </div>
 
 
-		<div class="form-group" id="d_list" style="">
-			<label>Dealer/pharmacy List<span style="color: red;font-size: 20px">*</span></label>
-			<select id="dealer_id" name="dealer_id" class="form-control select72"
-					style="width: 100%;">
-
+			<div class="form-group" id="d_list" style="">
+				<label>Dealer/pharmacy List<span style="color: red;font-size: 20px">*</span></label>
+				<select id="dealer_id" name="dealer_id" class="form-control select72"
+						style="width: 100%;">
 					<option value=""> -- Select Dealers/Sub Dealers -- </option>
-				<?php foreach($sp_dealers as $val_pl){ ?>
+				<?php  foreach($sp_dealers as $val_pl){   ?>
 							<option value="<?=$val_pl->id?>" <?php if(isset($_POST['dealer_id'])){echo set_select
 							('dealer_id',  $val_pl->id);} ?>><?=$val_pl->d_name.', (Dealer)';?></option>
 				<?php 	} ?>
@@ -186,10 +185,13 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 				<?php 	} ?>
 						<!--<option value="none" id="none" >NONE</option>-->
 
-
+        
 					<?php //} ?>
 				</select>
 				<br/>
+
+				
+
 
 
 			</div>
@@ -233,11 +235,14 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   </div>
 
 
-	<?php // echo form_close(); ?>
-	<!-- /.modal-content -->
-</div>
-	<script type="text/javascript">   // for multipile model open
 
+	<script type="text/javascript">   // for multipile model open
+        // $("#modal_add_dealer<?=$edit_list_data->doctor_id ?>").on('hidden.bs.modal', function (event) {
+        //     if ($('.modal:visible').length) //check if any modal is open
+        //     {
+        //         $('body').addClass('modal-open');//add class to body
+        //     }
+        // });
         $(document).ready(function() {
             var dp;
             var $eventSelect5 = $('.select5').select2();
@@ -346,7 +351,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 			$('#procat_footer_row_'+catid).css('display','table-row');
 			if(catid==11 || catid==9 || catid==8)//potency category
     		{
-    		   $.ajax({
+    			$.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_potency_list/",
 			   data : 'id='+catid,
@@ -467,11 +472,14 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 <script type='text/javascript'>
     $(".add_row").on("click", function(e) {
   		// alert('asa');
+
     	var theElement = $(this);
     	var catid=$(this).attr("catid");
 
     	$('.select3').select2('destroy');
+    		
     		//$(".select3").select2();
+
     	//alert(catid);
     	if(catid==11 || catid==9 || catid==8)
     	{
@@ -483,8 +491,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     	  	var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control  procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
     	 	$(theElement).closest('tr').before(strVar);
     	 }
-    	   else if(catid==15)
-    	   {
+    	   else if(catid==15){
             var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td></td><td></td> <td> <select catid="'+catid+'" name="product_name[]" id="proname" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="prod" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
             $(theElement).closest('tr').before(strVar);
 
@@ -623,7 +630,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   		var procount=$(theElement).has('option').length;
   		if(procount==0)
   		{
-  			var option='<option value="">---Select Product---</option>';
+  			var option='<option vlaue="">---Select Product---</option>';
    			$.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_packsize_list/",
@@ -645,7 +652,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   		//alert(catid);
   		var theElement = $(this);
   		var procount=$(theElement).has('option').length;
-  		//alert(procount);
   		if(procount==0)
   		{
   			var option='<option vlaue="0">---Select Potency---</option>';
@@ -671,8 +677,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   		if(catid==11 || catid==9 || catid==8)
     	{
     		var potency=$(theElement).closest('tr').find('.product_select_potency').val();
-            // alert(potency);
-            // alert(packsize);
     		if(potency!='')
     		{
     			if(!$.isEmptyObject(potency)){
@@ -680,17 +684,16 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 					   type:"POST",
 					   url:"<?= base_url();?>order/interaction_order/get_product_list/",
 					   data : 'catid='+catid+'&packsize='+packsize+'&potency='+potency,
-					   success:function(res){
-					       console.log(res);
+					   success:function(res){ 
 							//$(theElement).append(res);
 							//$(theElement).closest('tr').find('.product_select').html(res);
 //						     alert(res);
 						//$(theElement).append(res);
-						if(Math.floor(res) == res && $.isNumeric(res)){
-							if(catid==11){
-							$(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
-							 }
-				$.ajax({
+                                                if(Math.floor(res) == res && $.isNumeric(res)){
+                                                    if(catid==11){
+                                                    $(theElement).closest('tr').find('.product_select').html('<option value="11582">DILUTIONS</option>');
+                                                     }
+                                        $.ajax({
 			   type:"POST",
 			   url:"<?= base_url();?>order/interaction_order/get_product_details/",
 			   data : 'productid='+res,
@@ -899,7 +902,6 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 </script>
 
  <script type='text/javascript'>
-	 /*Delete  Added Row*/
     $(document).on("click",".delete_row", function() {
     		var theElement = $(this);
   			$(theElement).closest('tr').remove();

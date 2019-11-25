@@ -41,14 +41,17 @@ class Interaction_order extends Parent_admin_controller {
         $this->load->model('category/category_model','category');
 
         $this->load->model('product/product_model','product');
-		$this->load->model('doctor/Doctor_model','doctor');
+
+        $this->load->model('doctor/Doctor_model','doctor');
 		$this->load->model('dealer/Dealer_model','dealer');
 		$this->load->model('permission/permission_model','permission');
 		$this->load->model('pharmacy/pharmacy_model','pharmacy');
 
-	}
+    }
 
-public function index(){
+    
+
+    public function index(){    
 
 		$data['title'] = "Interaction Order List";
 
@@ -70,7 +73,9 @@ public function index(){
 
     }
 
-public function complete_order_list(){
+
+
+	public function complete_order_list(){    
 
 		$data['title'] = "Complete Order List";
 
@@ -92,7 +97,9 @@ public function complete_order_list(){
 
     }
 
-public function cancel_order_list(){
+	
+
+	public function cancel_order_list(){    
 
 		$data['title'] = "Cancel Order List";
 
@@ -114,7 +121,7 @@ public function cancel_order_list(){
 
     }
 
-public function products_list(){
+  public function products_list(){
         $data= $this->input->post();
         $productList= json_decode($this->order->products_list($data));
  
@@ -125,14 +132,14 @@ public function products_list(){
             echo $options;
     }
  
-public function products_list_get(){
+    public function products_list_get(){
        $data=$this->input->post();
        $productList=$this->order->products_list_get($data);
        echo $productList;   die;
     }
 	
 
-    public function add_order($orderid='',$personId=''){
+public function add_order($orderid='',$personId=''){
 		$oId= urisafedecode($orderid);
 		$pId= urisafedecode($personId);
         $data['order_id']=$oId;
@@ -159,9 +166,11 @@ public function products_list_get(){
 		$userDealersOnly=$this->dealer->dealermaster_info();
 		$UserDealers=json_decode($userDealersOnly);
 		$all_sp_codes=explode(',',all_user_sp_code());
-
 		$dealer_user=array();
 		foreach($UserDealers as $deal_u){
+			// if(in_array($deal_u->sp_code,$all_sp_codes)){
+			// 	$dealer_user[]=$deal_u;
+			// }
 			$spcnt=explode(',',$deal_u->sp_code);
 			if(count($spcnt) > 1){
 				if(in_array($deal_u->sp_code[0],$all_sp_codes)){
@@ -175,7 +184,6 @@ public function products_list_get(){
 				}
 			}
 		}
-
 		$userPharmaOnly=$this->pharmacy->pharmacymaster_info();
 		$UserPharmacy=json_decode($userPharmaOnly);
 		$pharma_user=array();
@@ -222,6 +230,80 @@ public function products_list_get(){
 		}
 
     }
+
+
+  //   public function add_order($orderid='',$personId=''){
+        
+		// $oId= urisafedecode($orderid);
+		// $pId= urisafedecode($personId);
+  //       $data['order_id']=$oId;
+		// $data['person_id']=$pId;
+		// $data['category_list']=array();
+		// $data['title'] = "Product Details";
+  //       $data['page_name'] = "Product Details";
+		// $productList= $this->product->get_product_active();
+		// if($productList!=FALSE)
+		// {
+		// 	$data['product_list'] = $productList; 
+		// }
+		// $categoryList= $this->category->get_active_category();
+		// if($categoryList!=FALSE)
+		// {
+		// 	$data['category_list'] = $categoryList; 
+		// }
+		
+		// $data['action'] = "order/interaction_order/add_product_interaction"; 
+		// $this->load->get_view('order/select_product_view',$data);
+		
+  //   }
+
+
+
+  //   public function add_order($orderid='',$personId=''){
+        
+		// $oId= urisafedecode($orderid);
+		// $pId= urisafedecode($personId);
+  //       $data['order_id']=$oId;
+		// $data['person_id']=$pId;
+		// $data['category_list']=array();
+		// $data['title'] = "Product Details";
+  //       $data['page_name'] = "Product Details";
+		// $productList= $this->product->get_product_active();
+		// if($productList!=FALSE)
+		// {
+		// 	$data['product_list'] = $productList; 
+		// }
+		// $categoryList= $this->category->get_active_category();
+		// if($categoryList!=FALSE)
+		// {
+		// 	$data['category_list'] = $categoryList; 
+		// }
+		// $data['dealer_list'] = $this->dealer->dealer_list();
+		// $data['pharma_list']= $this->permission->pharmacy_list(logged_user_cities());
+		// $doctor_list= $this->doctor->edit_doctor($pId);
+
+		// if(!empty($doctor_list)){
+		// 	$data['edit_list']=$doctor_list;
+		// }else{
+		// 	$data['edit_list']= $this->pharmacy->edit_pharmacy($pId);
+		// 	$data['doc_rel_pharma']=$this->pharmacy->get_pharmacy_doc($pId);
+		// }
+		// $data['action'] = "order/interaction_order/add_product_interaction";
+
+		// $edit_list_data=json_decode($data['edit_list']);
+		// $pin=$edit_list_data->id;
+		// $D_pin=explode('_',$pin);
+		// $pincount=count($D_pin);
+
+		// if($pincount <= 1){
+		// 	$this->load->get_view('order/select_product_view',$data);
+		// }
+		// if($pincount >= 2){
+		// 	$this->load->get_view('order/pharma_product_view',$data);
+		// }
+
+		
+  //   }
 
     public function test($orderid='',$personId=''){
         $data['order_id']=$oId;
@@ -364,7 +446,7 @@ public function products_list_get(){
 
 	public function add_product_interaction(){
 		$post_data = $this->input->post();
-//		         pr($post_data); die;
+                // pr($post_data); die;
 		foreach($post_data['pro_mrp_val'] as $k=>$val)
 		{
 			if($val!='')
@@ -381,24 +463,24 @@ public function products_list_get(){
 		}
 		$this->form_validation->set_rules('category_list[]', 'Atleast One Category', "required");
 		$this->form_validation->set_rules('payment_mode', 'Payment Mode', "required");
-		$this->form_validation->set_rules('payment_term', 'Payment Term', "required");
-		if($post_data['payment_term']==1){
-			$this->form_validation->set_rules('payment', 'Payment Terms with No of days', "required");
-		}
-
+                $this->form_validation->set_rules('payment_term', 'Payment Term', "required");
+                if($post_data['payment_term']==1){
+                    $this->form_validation->set_rules('payment', 'Payment Terms with No of days', "required");
+                }
+                
 
 //                if(!in_array(11,$post_data['category_list']) &&  !in_array(7,$post_data['category_list'])){
+                    
+                      if(!isset($post_data['product_name']))
+                      {
+                              $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+                      }
 
-		  if(!isset($post_data['product_name']))
-		  {
-				  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-		  }
-
-		  if(!array_filter($post_data['product_name']))
-		  {
-				  $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
-		  }
-
+                      if(!array_filter($post_data['product_name']))
+                      {
+                              $this->form_validation->set_rules('product_name[]', 'Atleast One Product', "required");
+                      }   
+                      
 //                }
 
 
@@ -563,8 +645,9 @@ public function products_list_get(){
 	public function get_product_list(){
 
 		$data= $this->input->post();
+		
 		$productList= json_decode($this->order->get_cat_product($data));
-                //pr($productList); die;
+//                pr($productList); die;
                 if(($data['catid']==11 || $data['catid']==7) && count($productList)<2 ){
                      echo $productList[0]->product_id; die;
 

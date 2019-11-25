@@ -21,7 +21,7 @@ $tada_data = json_decode($tada_report);
         /*User's change*/
         $('.other_amt').each(function() {
             var other_amount=$(this).val();
-            if(other_amount > 0){
+            if(other_amount !=''){
                 total += Number($(this).val());
             }
         });
@@ -30,7 +30,7 @@ $tada_data = json_decode($tada_report);
         /* manager's change*/
         $('.mgr_amot').each(function() {
             var othr_amount=$(this).val();
-            if(othr_amount > 0){
+            if(othr_amount !=''){
                 ttal += Number($(this).val());
             }
         });
@@ -39,14 +39,16 @@ $tada_data = json_decode($tada_report);
         /*Admin's change*/
         $('.af_mg_amt').each(function() {
             var oth_amount=$(this).val();
-            if(oth_amount > 0){
+            if(oth_amount !=''){
                 af_total += Number($(this).val());
             }
         });
 
         var mng_commited= $('#over_amt').val();
         var totamot = $('#mg_tot').text();
-        console.log(total+' '+ttal+ ' ' +af_total );
+
+//         console.log(total+' '+ttal+ ' ' +af_total );
+
 
         if(total != '' && ttal == '' && af_total > 0){
             var mg_total=parseFloat(totamot) + parseFloat(total) + parseFloat(af_total);
@@ -77,7 +79,7 @@ $tada_data = json_decode($tada_report);
 		}
 
         if(total != '' && ttal =='' && af_total =='' ){
-            var mg_total=parseFloat(totamot) + parseFloat(total) ;
+             var mg_total=parseFloat(totamot) + parseFloat(total) ;
             var dif_commit= mng_commited - mg_total;
             if(dif_commit == 1000 ){
                 $('#tot_amot').text('1000 + '+mg_total);
@@ -412,7 +414,8 @@ $tada_data = json_decode($tada_report);
 </div>
 
 <script type='text/javascript'>
-    $(document).ready(function() {
+	
+	    $(document).ready(function() {
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
                 event.preventDefault();

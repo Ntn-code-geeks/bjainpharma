@@ -109,23 +109,24 @@ class Leave_model extends CI_Model {
 		$report_date = explode('-',$data['start_date'] );
         $followstart_date =  trim($report_date[0]);
         $newstartdate = str_replace('/', '-', $followstart_date);
-	//  echo $newstartdate;
+	 //echo $newstartdate; die;
         $followend_date =  trim($report_date[1]);
         $newenddate = str_replace('/', '-', $followend_date);
         $from_date = date('Y-m-d', strtotime($newstartdate));
         $to_date = date('Y-m-d', strtotime($newenddate));
 		$date = new DateTime($from_date);
 		$todate = new DateTime($to_date);
-		$date->modify('+1 day');
-		$todate->modify('+1 day');
+		// $date->modify('+1 day');
+		// $todate->modify('+1 day');
 		$this->db->select('id');
 		$this->db->from('pharma_interaction_dealer');
 		$this->db->where('crm_user_id',logged_user_data());
 		$this->db->where("create_date BETWEEN '".$date->format('Y-m-d')."' AND '".$todate->format('Y-m-d')."'");
 		$query1 = $this->db->get();
+		// echo $this->db->last_query(); die;
 		if($this->db->affected_rows()>0)
 		{
-			return FALSE;
+			return FALSE;			
 		}
 		$this->db->select('id');
 		$this->db->from('pharma_interaction_pharmacy');
@@ -141,6 +142,7 @@ class Leave_model extends CI_Model {
 		$this->db->where('crm_user_id',logged_user_data());
 		$this->db->where("create_date BETWEEN '".$date->format('Y-m-d')."' AND '".$todate->format('Y-m-d')."'");
 		$query1 = $this->db->get();
+		//echo $this->db->last_query(); die;
 		if($this->db->affected_rows()>0)
 		{
 			return FALSE;
@@ -155,6 +157,7 @@ class Leave_model extends CI_Model {
 		{
 			return FALSE;
 		}
+		
 		return TRUE;
 	}
 }

@@ -198,6 +198,10 @@ public function tp_reports($userid=''){
 
     }
 
+
+	
+
+
     public function get_travel_report(){
         if(is_admin()){
 			$request = $this->input->post();
@@ -248,6 +252,10 @@ public function tp_reports($userid=''){
 
 
     }
+
+
+	
+
 
 	public function generate_travel_report($userid,$start,$end)
 
@@ -734,6 +742,10 @@ public function tp_reports($userid=''){
 
 	}
 
+
+	
+
+
 	public function attendance_report(){
 
 
@@ -784,68 +796,161 @@ public function tp_reports($userid=''){
 
 	
     public function get_attendance_report_all(){
+      
+
 
         if(is_admin()){
+
+
 			$request = $this->input->post();
+
+
 			if(!empty($request)){
+
+
 				$report_date = explode('-',$request['report_date'] );
+
+
 				$followstart_date =  trim($report_date[0]);
+
+
 				$newstartdate = str_replace('/', '-', $followstart_date);
+
+
 				$followend_date =  trim($report_date[1]);
+
+
 				$newenddate = str_replace('/', '-', $followend_date);
+
+
 				$start = date('Y-m-d', strtotime($newstartdate))." 00:00:00";
+
+
 				$end = date('Y-m-d', strtotime($newenddate))." 23:59:59";
+
+
 				$this->load->library('form_validation');
+
 
 				//$this->form_validation->set_rules('user_id', 'User', 'required');
 
+
 				$this->form_validation->set_rules('report_date', 'Report Date range', 'required'); 
+
 
 				if($this->form_validation->run() == TRUE){
 
+
 					$this->generate_attendance_report_all($start,$end);
+
+
 					//$data['attendance_report'] =$this->user_report->get_attendance_report($request['user_id'],$start,$end);
+
+
 				}else{
+
+
 				  // for false validation
-				 $this->attendance_report_all();
+
+
+				 $this->attendance_report_all();  
+
+
 				}
 
+
 			}
+
 
 			else{
-			 redirect('reports/reports/attendance_report_all');
+
+
+			 redirect('reports/reports/attendance_report_all'); 
+
+
 			}
 
 
 		}
 
+
 		else{
+
+
 		  redirect('user');
+
+
 		}
+
 
     }
 
 	public function get_attendance_report(){
 
+
+        
+
+
         if(is_admin()){
+
+
 			$request = $this->input->post();
+
+
 			if(!empty($request)){
+
+
 				$report_date = explode('-',$request['report_date'] );
+
+
 				$followstart_date =  trim($report_date[0]);
+
+
 				$newstartdate = str_replace('/', '-', $followstart_date);
+
+
 				$followend_date =  trim($report_date[1]);
+
+
 				$newenddate = str_replace('/', '-', $followend_date);
+
+
 				$start = date('Y-m-d', strtotime($newstartdate))." 00:00:00";
+
+
 				$end = date('Y-m-d', strtotime($newenddate))." 23:59:59";
+
+
 				$this->load->library('form_validation');
+
+
 				$this->form_validation->set_rules('user_id', 'User', 'required');
-				$this->form_validation->set_rules('report_date', 'Report Date range', 'required');
+
+
+				$this->form_validation->set_rules('report_date', 'Report Date range', 'required'); 
+
+
 				if($this->form_validation->run() == TRUE){
+
+
 					$this->generate_attendance_report($request['user_id'],$start,$end);
+
+
 					//$data['attendance_report'] =$this->user_report->get_attendance_report($request['user_id'],$start,$end);
-				}else{				  // for false validation
-				 $this->attendance_report();
+
+
+				}else{
+
+
+				  // for false validation
+
+
+				 $this->attendance_report();  
+
+
 				}
+
+
 			}
 
 
@@ -860,12 +965,18 @@ public function tp_reports($userid=''){
 
 		}
 
+
 		else{
+
+
 		  redirect('user');
+
+
 		}
 
 
     }
+
 
 /*Overall Attendance Report*/
 public function generate_attendance_report_all($start,$end)
@@ -1022,7 +1133,8 @@ public function generate_attendance_report($userid,$start,$end)
 		$objWriter->save('php://output');
 	}
 
-        
+	
+
         
     // for user base    
     public function get_tada_report($userid=''){ 
@@ -1041,11 +1153,13 @@ public function generate_attendance_report($userid,$start,$end)
 
 
  public function generate_tada_report(){
-        $data['title'] = "TA DA Report";
+       $data['title'] = "TA DA Report";
         $data['page_name'] = "TA DA Report";
 //        if(is_admin()){
-        $request = $this->input->post();
-
+          $request = $this->input->post();
+//echo $request['report_date'].'<br>'; 
+          
+//          echo $request['report_date']; die;
           
         if($this->report->first_time_genrate($request['report_date'], logged_user_data())){
           
@@ -1054,7 +1168,9 @@ public function generate_attendance_report($userid,$start,$end)
           $follow_month =  trim($report_date[0]); $follow_year =  trim($report_date[1]);
           $newstartdate =    $follow_month.'/01/'.$follow_year;         
 //          str_replace('/', '-', $followstart_month);
-          $newenddate =  $follow_month.'/20/'.$follow_year;
+          
+          $newenddate =  $follow_month.'/20/'.$follow_year;  
+                  
 //                  str_replace('/', '-', $followend_date);
           $start = date('Y-m-d', strtotime($newstartdate))." 00:00:00";
           $end = date('Y-m-t', strtotime($newenddate))." 23:59:59";
@@ -1062,8 +1178,11 @@ public function generate_attendance_report($userid,$start,$end)
 //          $this->form_validation->set_rules('user_id', 'User', 'required');
           $this->form_validation->set_rules('report_date', 'Report Date range', 'required'); 
           if($this->form_validation->run() == TRUE){
+//              echo $start; echo '<br>'.$end;
              $data['report_date'] = $request['report_date'];
              $data['tada_report'] =$this->report->get_tada_report(logged_user_data(),$start,$end);
+
+
              $gazetted_holidays=get_gazetted_holiday();
              $gaz_holid=json_decode($gazetted_holidays);
              $year_d=date('Y');
@@ -1076,8 +1195,8 @@ public function generate_attendance_report($userid,$start,$end)
 			 }
              $data['date_gz_holiday']=$date_gz_list;
              $data['gazetted_holidays']=$gz_list;
-
-			$trip_details=get_trip_details(logged_user_data());
+             
+             $trip_details=get_trip_details(logged_user_data());
 			if(!empty($trip_details)){
 				$from=$trip_details->from_date;
 				$to=$trip_details->to_date;
@@ -1089,17 +1208,21 @@ public function generate_attendance_report($userid,$start,$end)
 				}
 				$data['tripDateList']=$dateTrip;
 			}
-
-             $data['action'] ="reports/reports/send_for_approval";
-			 $this->load->get_view('report/ta_da_report_view',$data);
-
+             
+//             pr($data['tada_report'] ); die;
+              $data['action'] ="reports/reports/send_for_approval";
+             
+             $this->load->get_view('report/ta_da_report_view',$data);
+             
+//            $this->show_tada_report($request['user_id'],$start,$end);
+            //$data['attendance_report'] =$this->user_report->get_attendance_report($request['user_id'],$start,$end);
           }else{
               // for false validation
               $this->get_tada_report();  
           }
 
-        }
-        else{
+        }else{
+              
               $this->get_tada_report(); 
           } 
 //        else{
@@ -1111,7 +1234,7 @@ public function generate_attendance_report($userid,$start,$end)
   public function send_for_approval(){
       
       $post = $this->input->post();
-      //pr($post); die;
+      
       $success =$this->report->save_tada_report_of_approval($post);
       
       
@@ -1140,7 +1263,7 @@ public function generate_attendance_report($userid,$start,$end)
          $data['title'] = "TA/DA List";
          $data['page_name']="TA/DA List";
          $data['user_tada_report'] = $this->report->tada_report_list();
-
+      
          $this->load->get_view('report/ta_da_details_view',$data);
          
 //        pr($data['user_tada_report']); die;
@@ -1169,15 +1292,15 @@ public function generate_attendance_report($userid,$start,$end)
       
 //   }
 
-  	public function ta_da_manager_view($id,$name='',$month_year='',$grant_total='',$is_approved=''){
+ public function ta_da_manager_view($id,$name='',$month_year='',$grant_total='',$is_approved=''){
       
        $tada_id = urisafedecode($id);
         $data['title'] = "TA/DA";
         $data['page_name']="TA/DA";
         $data['month_year']=urisafedecode($month_year);
         $data['name']=urisafedecode($name);
-
-     $data['grand_total']=urisafedecode($grant_total);
+        
+        $data['grand_total']=urisafedecode($grant_total);
         if(!empty($is_approved)){
             $data['manager_total_amount'] = urisafedecode($is_approved);
         }
@@ -1195,7 +1318,7 @@ public function generate_attendance_report($userid,$start,$end)
     public function send_for_admin($id){
        $tada_id = urisafedecode($id);
       $post = $this->input->post();
-//pr($post); die;
+      
       $success =$this->report->save_tada_approved_report_of_manager($post,$tada_id);
       
       
@@ -1219,7 +1342,7 @@ public function generate_attendance_report($userid,$start,$end)
   
   
   
-    public function ta_da_aprroved_report(){
+            public function ta_da_aprroved_report(){
 
                   $data['title'] = "TA/DA List";
                   $data['page_name']="TA/DA List";
@@ -1231,71 +1354,68 @@ public function generate_attendance_report($userid,$start,$end)
                }
                
                // my ta da report
-	public function my_ta_da_report(){
+               public function my_ta_da_report(){
 
-	$data['title'] = "TA/DA List";
-	$data['page_name']="TA/DA List";
-	$data['user_tada_report'] = $this->report->tada_report_list();
+                  $data['title'] = "TA/DA List";
+                  $data['page_name']="TA/DA List";
+                  $data['user_tada_report'] = $this->report->tada_report_list();
 
-	$this->load->get_view('report/myta_da_details_view',$data);
+                  $this->load->get_view('report/myta_da_details_view',$data);
 
-	//        pr($data['user_tada_report']); die;
-	}
+             //        pr($data['user_tada_report']); die;
+               } 
+               
+                 public function my_ta_da_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+                $tada_id = urisafedecode($id);
+                 $data['title'] = "TA/DA";
+                 $data['page_name']="TA/DA";
 
-	public function my_ta_da_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+                  $data['month_year']=urisafedecode($month_year);
+                     $data['name']=urisafedecode($name);
+                     $data['grand_total']=urisafedecode($grant_total);
 
-	$tada_id = urisafedecode($id);
-	$data['title'] = "TA/DA";
-	$data['page_name']="TA/DA";
+                     $data['manager_total_amount'] = urisafedecode($manager_approved);
 
-	$data['month_year']=urisafedecode($month_year);
-	$data['name']=urisafedecode($name);
-	$data['grand_total']=urisafedecode($grant_total);
+//                 if(!empty($admin_approved)){
+                     $data['admin_total_amount'] = urisafedecode($admin_approved);
+//                 }
+                $data['tada_report'] =$this->report->genrated_tada_report($tada_id);
 
+         //             pr($data['tada_report'] ); die;
+//                      $data['action'] ="reports/reports/approved_by_admin/$id";
 
-	$data['manager_total_amount'] = urisafedecode($manager_approved);
-
-	//                 if(!empty($admin_approved)){
-	$data['admin_total_amount'] = urisafedecode($admin_approved);
-	//                 }
-	$data['tada_report'] =$this->report->genrated_tada_report($tada_id);
-
-	//             pr($data['tada_report'] ); die;
-	//                      $data['action'] ="reports/reports/approved_by_admin/$id";
-
-	$this->load->get_view('report/myta_da_detail_view',$data);
+                      $this->load->get_view('report/myta_da_detail_view',$data);
 
 
-	}
+           }
+               
+               
+         public function ta_da_admin_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
 
-	public function ta_da_admin_view($id,$name='',$month_year='',$grant_total='',$manager_approved='',$admin_approved=''){
+                $tada_id = urisafedecode($id);
+                 $data['title'] = "TA/DA";
+                 $data['page_name']="TA/DA";
+                 $data['month_year']=urisafedecode($month_year);
+                 $data['name']=urisafedecode($name);
 
-	$tada_id = urisafedecode($id);
-	$data['title'] = "TA/DA";
-	$data['page_name']="TA/DA";
-	$data['month_year']=urisafedecode($month_year);
-	$data['name']=urisafedecode($name);
+                     $data['manager_total_amount'] = urisafedecode($manager_approved);
+                      $data['grand_total']=urisafedecode($grant_total);
 
-	$data['manager_total_amount'] = urisafedecode($manager_approved);
-	$data['grand_total']=urisafedecode($grant_total);
+                 if(!empty($admin_approved)){
+                     $data['admin_total_amount'] = urisafedecode($admin_approved);
+                 }
 
-	if(!empty($admin_approved)){
-	$data['admin_total_amount'] = urisafedecode($admin_approved);
-	}
+                $data['tada_report'] =$this->report->genrated_tada_report($tada_id);
+              //  pr($data); die;
+         //             pr($data['tada_report'] ); die;
+                      $data['action'] ="reports/reports/approved_by_admin/$id";
 
-
-	// pr($data); die;
-	$data['tada_report'] =$this->report->genrated_tada_report($tada_id);
-	//   pr($data); die;
-	//             pr($data['tada_report'] ); die;
-	$data['action'] ="reports/reports/approved_by_admin/$id";
-
-	$this->load->get_view('report/ta_da_admin_detail_view',$data);
+                      $this->load->get_view('report/ta_da_admin_detail_view',$data);
 
 
-	}
-
-    public function approved_by_admin($id){
+           }
+  
+      public function approved_by_admin($id){
        $tada_id = urisafedecode($id);
       $post = $this->input->post();
       
@@ -1320,6 +1440,8 @@ public function generate_attendance_report($userid,$start,$end)
       
   }
   
+  
+  
 
   	/**NITIN KUMAR
   	 * Dynamic User's DA
@@ -1330,6 +1452,7 @@ public function generate_attendance_report($userid,$start,$end)
 	$data['users_da']=get_users_da();
 	$this->load->get_view('users_da/list_users_da',$data);
 	}
+
 	public function edit_user_da($id=''){
 	  if($id!=''){
 		  $data['title']="Edit DA";
@@ -1340,6 +1463,7 @@ public function generate_attendance_report($userid,$start,$end)
 		  $this->load->get_view('users_da/user_da_edit_view',$data);
 	  }
 	}
+
 	public function add_user_da(){
 	  $data['title'] = "Add User's DA";
 	  $data['page_name']="Add User's DA";
@@ -1347,12 +1471,14 @@ public function generate_attendance_report($userid,$start,$end)
 	  $data['action']="reports/reports/save_new_user_da";
 	  $this->load->get_view('users_da/add_users_da',$data);
 	}
+
 	public function get_designation_name(){
 		$post=$this->input->post();
 		$data=get_user_deatils($post['desg_id']);
 		$desg_name=get_designation_name($data->user_designation_id);
 		echo $desg_name->designation_name.'-'.$data->user_designation_id;
 	}
+
 	public function save_new_user_da(){
 
 	$this->load->library('form_validation');
@@ -1386,6 +1512,7 @@ public function generate_attendance_report($userid,$start,$end)
 
 
 	}
+
 	public function save_user_da($id=''){
 
 	  $this->load->library('form_validation');

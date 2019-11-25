@@ -93,10 +93,10 @@ class Holiday_model extends CI_Model {
     }
 	
 	public function edit_holiday_data($data){
-//            pr($data); die;
-             //$final_users  = get_child_user($data['user']);
+            
+             // $final_users  = get_child_user($data['user']);
              $final_users  = $data['user'];
-
+             
 		$users = implode(',', $final_users);
 		$report_date = explode('-',$data['start_date'] );
         $followstart_date =  trim($report_date[0]);

@@ -22,7 +22,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
 			<div class="box-header with-border" style="text-align: center;">
 
-				<h3 class="box-title" style="font-weight: 700;">SE Monthly Report</h3>
+				<h3 class="box-title" style="font-weight: 700;">Secondary Report</h3>
 
 			</div>
 

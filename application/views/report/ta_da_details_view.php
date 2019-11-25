@@ -17,6 +17,7 @@
 
 
 	$tada_data = json_decode($user_tada_report);   // for all tada user report list
+	
 
 
 ?>
@@ -62,8 +63,8 @@
 						<tr>
 							<th> Employee Name</th>
 							<th> Month</th>
-<!--							<th>Grant Total </th>-->
-							<th>Manager Approved or Not</th>
+							<!-- <th>Grant Total </th> -->
+                            <th>Manager Approved or Not</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -72,16 +73,14 @@
 								<tr>
 									<td> <?=$val_c->name;?></td>
 									<td><?=$val_c->month_year;?></td>
-<!--									<td>-->
-										<?php //echo $val_c->grant_total;?>
-<!--									</td>-->
-									<td><?php
-									if(empty($val_c->manager_id)){
-										echo 'Not Aproved';
-									}else{
-										echo 'Approved by Manager';
-									}
-								 ?></td>
+									<!-- <td><?=$val_c->grant_total;?></td> -->
+                                                                        <td><?php 
+                                                                                if(empty($val_c->manager_id)){
+                                                                                    echo 'Not Aproved';
+                                                                                }else{
+                                                                                    echo 'Approved by Manager';
+                                                                                }
+                                                                         ?></td>
                                                                         
                                                                         
 								<td>
@@ -90,7 +89,7 @@
 
             if(empty($val_c->manager_id)){
                 ?>
-            <a href="<?php echo base_url()."reports/reports/ta_da_manager_view/". urisafeencode($val_c->id).'/'.urisafeencode($val_c->name).'/'.urisafeencode($val_c->month_year).'/'.urisafeencode($val_c->grant_total);?>"><button type="button" class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+             <a href="<?php echo base_url()."reports/reports/ta_da_manager_view/". urisafeencode($val_c->id).'/'.urisafeencode($val_c->name).'/'.urisafeencode($val_c->month_year).'/'.urisafeencode($val_c->grant_total);?>"><button type="button" class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
 
           <?php  }elseif(!is_admin()){
                ?>

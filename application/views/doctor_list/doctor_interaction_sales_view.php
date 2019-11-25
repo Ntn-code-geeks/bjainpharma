@@ -1,12 +1,16 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 $edit_doctor=json_decode($edit_doctor_list);
 $dealer_data = json_decode($dealer_list);   // for all active dealers 
 $ms = json_decode($meeting_sample);
 $team_list=json_decode($users_team);
-
+ 
 @$odDate=$old_data->interaction_date;
 @$nete=date('d-m-Y',strtotime($date_interact));
 
@@ -15,11 +19,7 @@ if($nete != '01-01-1970'){
 }else{
 	$newDate=$odDate;
 }
-//pr($old_data->interaction_date);
-//pr($newDate);
-//die;//   //15-08-2019
 ?>
-<meta http-equiv="Cache-control" content="no-cache">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
@@ -38,7 +38,7 @@ if($nete != '01-01-1970'){
         <!-- /.box-header -->
         <div class="box-body">
             <?php echo form_open_multipart($action);
-            if(!empty($order_amount)){  ?>
+             if(!empty($order_amount)){  ?>
 			<input type="hidden" name="dealer_id" id="dealer_id" value="<?=$order_amount->provider; ?>"
 				   style="display: none;">
 			<input type="hidden" name="dealer_mail" id="dealer_mail" value="<?=$order_amount->mail_provider ?>" style="display: none;">
@@ -71,9 +71,7 @@ if($nete != '01-01-1970'){
 
                           <label>Date of Interaction<span style="color: red;font-size: 20px">*</span></label>
 
-              <input required class="form-control" value="<?php if($old_data!='' && ($newDate==$odDate) ){ echo
-			  $old_data->interaction_date;
-              }?>" name="doi_doc" id="datepicker_doi<?=$edit_doctor->doctor_id ?>" type="text">
+              <input required class="form-control" value="<?php if($old_data!='' && ($newDate==$odDate)){ echo $old_data->interaction_date;}?>" name="doi_doc" id="datepicker_doi<?=$edit_doctor->doctor_id ?>" type="text">
 
                       </div>
 
@@ -93,7 +91,9 @@ if($nete != '01-01-1970'){
 
                 <tr>
                   <td>Interaction Type<span style="color: red;font-size: 20px">*</span></td>
+
                   <td><div class="radio">
+
                     <label id="meet<?=$edit_doctor->doctor_id ?>" style="display: block">
                       <input name="meet_or_not" id="optionsRadios1" value="1" type="radio">
                       Only Discussion
@@ -106,23 +106,18 @@ if($nete != '01-01-1970'){
 
 				  <label id="meet_sec_pob<?=$edit_doctor->doctor_id ?>" style="display: block">
 					  <input name="telephonic" id="rec_per<?=$edit_doctor->doctor_id ?>" value="0" <?php if
-					  ($order_amount!='' && $old_data->telephonic=='0' && ($newDate==$odDate) ){ echo 'checked'; }?>
-							 type="radio">
+					  ($order_amount!='' && $old_data->telephonic=='0' && ($newDate==$odDate)){ echo 'checked'; }?> type="radio">
 					  Order Received POB-In Person
 				  </label>
 
 				 <div style="display: inline-flex;">
 				  <label id="meet_sec_tele<?=$edit_doctor->doctor_id ?>" style="display: block">
 					  <input name="telephonic" id="rec_pob<?=$edit_doctor->doctor_id ?>" value="1" <?php if
-					  ($order_amount!='' && $old_data->telephonic=='1' && ($newDate==$odDate)){ echo 'checked'; }?>
-							 type="radio">
+					  ($order_amount!='' && $old_data->telephonic=='1' && ($newDate==$odDate)){ echo 'checked'; }?> type="radio">
 					  Order Received POB-Telephonic
 				  </label>
 
-				<?php
-
-				if( ($order_amount!='') && ($newDate==$odDate) ){
-					?>
+				<?php if($order_amount!='' && ($newDate==$odDate)){ ?>
 					<td style="padding: 40px; width: 20%;"> Secondary Sales:
 						<input class="form-control" readonly id="sale_dealer<?=$edit_doctor->doctor_id;?>"
 							   name="m_sale" value='<?=$order_amount->order_amount?>' type="text" > </td>
@@ -131,28 +126,40 @@ if($nete != '01-01-1970'){
 						<button type="submit" value="secondary_product" id="save_sample" name="save" class="btn
 						btn-info" style="display: none;">Add Secondary Product</button> </td>
 					<?php }?>
-					</div>
-					</div>
-					</tr>
+</div>
 					<!--Secondary Sales Row here Previously-->
 					<tr>
 						<td>Sample</td>
 						<td id="sample<?=$edit_doctor->doctor_id ?>" style="display: block"><select name="m_sample[]" multiple="multiple" class="form-control select2" style="width: 100%;">
-						<option value="">---Sample Name---</option>
-						<?php
-						foreach($ms as $k_ms => $val_ms){     ?>
-							<option value="<?=$val_ms->id?>" <?php if($old_data!='' && ($newDate==$odDate) ){
-								$jointarr=explode(',',
-								$old_data->sample); echo in_array($val_ms->id,$jointarr)?'selected':''; }  ?> <?php if(isset($_POST['m_sample'])){echo set_select('m_sample',  $val_ms->id);} ?>><?=$val_ms->sample_name;?></option>
-						<?php }  ?>
-						<!--<option value="none" id="none" >NONE</option>-->
-					</select> </td>
+								<option value="">---Sample Name---</option>
+								<?php
+								foreach($ms as $k_ms => $val_ms){     ?>
+									<option value="<?=$val_ms->id?>" <?php if($old_data!='' && ($newDate==$odDate)){ $jointarr=explode(',',$old_data->sample); echo in_array($val_ms->id,$jointarr)?'selected':''; }  ?> <?php if(isset($_POST['m_sample'])){echo set_select('m_sample',  $val_ms->id);} ?>><?=$val_ms->sample_name;?></option>
+								<?php }  ?>
+								<!--<option value="none" id="none" >NONE</option>-->
+							</select> </td>
 					</tr>
-                   </div>
+
+                  </div>
+
                   </td>
+
+                  
+
                 </tr>
+
+
+
+               
+
               </tbody></table>
+
+                      
+
+
+
                   </div>  
+
 
 
 
@@ -201,7 +208,7 @@ if($nete != '01-01-1970'){
                     Another City.</span>
             </div>
 
-
+            
 
 
 
@@ -212,7 +219,7 @@ if($nete != '01-01-1970'){
             <div class="col-md-12">
                 <!--<div class="form-group">-->
                 <div class="box-footer">
-					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save</button>
+					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save Interaction</button>
 					<?php  echo form_close();  ?>
 					<button id="cancel_inter" class="btn btn-danger"> Cancel</button>
                 </div>
@@ -220,7 +227,7 @@ if($nete != '01-01-1970'){
         </div>
           <!-- /.row -->
           
-
+        
         </div>
         <!-- /.box-body -->
          <!-- /.box -->
@@ -229,122 +236,143 @@ if($nete != '01-01-1970'){
     <!-- /.content -->
   </div>
   
-
+  
 		  
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-
+        
        <script type="text/javascript">
 
-		   /*Cancel Interaction*/
+       	 /*Cancel Interaction*/
 		   $('#cancel_inter').on("click",function(){
                if (confirm('Are you sure you want to Cancel this Interaction.?')) {
                    window.location.href='<?=base_url() ?>interaction/index/';
                }
 		   });
+		   
 
-			// $("#save_sample").click(function(e) {
-			//    var selectval= $('[name="stay"]:checked').val();
-			//    if(typeof  selectval=="undefined"){
-			// 	   alert("Please Select Stay / Not Stay.!");
-			// 	   e.preventDefault();
-			//    }
-			// });
+           // $("#save_sample").click(function(e) {
+           //     var selectval= $('[name="stay"]:checked').val();
+           //     if(typeof  selectval=="undefined"){
+           //         alert("Please Select Stay / Not Stay.!");
+           //         e.preventDefault();
+           //     }
+           // });
 
-		$('#sale_dealer<?=$edit_doctor->doctor_id ?>').on("change", function(){
-		   var saledealer_value = $(this).val();
-		 if(saledealer_value === ''){
-		   $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","none");
-			  }
+           
+
+           $('#sale_dealer<?=$edit_doctor->doctor_id ?>').on("change", function(){
+
+               
+
+               var saledealer_value = $(this).val();
+
+              
+
+             if(saledealer_value === ''){
+
+               $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","none");
+
+                  }
+
+                  else{
+
+                      $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","block");
+
+                  }
+
+            
+
+           });
+
+           
+
+            $('#sale<?=$edit_doctor->doctor_id ?>').on("change", function(){
+
+//               alert('mee');
+
+               var sale_value = $(this).val();
+
+//               alert(sale_value);
+
+             if(sale_value === ''){
+               $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
+               $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
+                  }
+                  else{
+                      $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
+                      $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
+                  }
+
+            
+
+           });
+
+    
+
+       $('#meet<?=$edit_doctor->doctor_id ?>').on("click", function(){
+
+//               alert('mee');
+
+               var meet_value = $(this).val();
+           $('#rec_per<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+           $('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+           $("#save_sample").hide();
+
+             if(meet_value === ''){
+
+               $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
+
+               $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
+
+               $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+
+                  }
+
+                  else{
+
+                      $("#sale<?=$edit_doctor->doctor_id ?>").css("display","block");
+
+                       $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
+
+                       $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
+
+                  }
+
+            
+
+           });
+
+       $('#notmmeet<?=$edit_doctor->doctor_id ?>').on("click", function(){
+
+//               alert('mee');
+             var notmeet_value = $(this).val();
+           $('#rec_per<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+           $('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+
+           $("#save_sample").hide();
+
+             if(notmeet_value === ''){
+               $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
+               $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
+               $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+              }
 			  else{
-				  $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","block");
-			  }
-		});
-
-		$('#sale<?=$edit_doctor->doctor_id ?>').on("change", function(){
-
-		//               alert('mee');
-
-		   var sale_value = $(this).val();
-
-		//               alert(sale_value);
-
-		 if(sale_value === ''){
-		   $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
-		   $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
-			  }
-			  else{
-				  $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
-				  $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
-			  }
-
-
-
-		});
-
-		$('#meet<?=$edit_doctor->doctor_id ?>').on("click", function(){
-
-		//               alert('mee');
-
-		   var meet_value = $(this).val();
-		$('#rec_per<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-		$('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-		$("#save_sample").hide();
-
-		 if(meet_value === ''){
-
-		   $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
-
-		   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
-
-		   //$("#jw_<?//=$edit_doctor->doctor_id ?>//").css("display","none");
-
-			  }
-
-			  else{
-
 				  $("#sale<?=$edit_doctor->doctor_id ?>").css("display","block");
-
-				   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
-
-				   $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
-
+				  $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
+				  $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
 			  }
 
+           });
 
+           $('#rec_per<?=$edit_doctor->doctor_id ?>').on("click", function(){
+               $("#save_sample").show();
+               $('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+               $('#not_meet<?=$edit_doctor->doctor_id ?>').prop('checked', false);
+               $('#optionsRadios1').prop('checked', false);
+               $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
+		   });
 
-		});
-
-		$('#notmmeet<?=$edit_doctor->doctor_id ?>').on("click", function(){
-
-		//               alert('mee');
-		 var notmeet_value = $(this).val();
-		$('#rec_per<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-		$('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-
-		$("#save_sample").hide();
-
-		 if(notmeet_value === ''){
-		   $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
-		   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
-		   //$("#jw_<?//=$edit_doctor->doctor_id ?>//").css("display","none");
-		  }
-		  else{
-			  $("#sale<?=$edit_doctor->doctor_id ?>").css("display","block");
-			  $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
-			  $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
-		  }
-
-		});
-
-		$('#rec_per<?=$edit_doctor->doctor_id ?>').on("click", function(){
-		   $("#save_sample").show();
-		   $('#rec_pob<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-		   $('#not_meet<?=$edit_doctor->doctor_id ?>').prop('checked', false);
-		   $('#optionsRadios1').prop('checked', false);
-		   $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
-		});
-
-		$('#rec_pob<?=$edit_doctor->doctor_id ?>').on("click", function(){
+           $('#rec_pob<?=$edit_doctor->doctor_id ?>').on("click", function(){
                $("#save_sample").show();
                $('#rec_per<?=$edit_doctor->doctor_id ?>').prop('checked', false);
                $('#not_meet<?=$edit_doctor->doctor_id ?>').prop('checked', false);
@@ -352,21 +380,37 @@ if($nete != '01-01-1970'){
                $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
 		   });
 
+           
+
+           
+
+           
+
+           
 
       $(function(){
+
       $('.select3').select2();
+
       var $eventSelect3= $('.select2').select2();
 
+    
+
       $eventSelect3.on("change",function(e){
+
          var sample_value = $(this).val();
 
-		 if(sample_value != ''){
-		   $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
-		   $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
-		 }else{
-			 $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
-			 $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
-		  }
+             if(sample_value != ''){
+               $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
+               $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
+                  }
+                  else{
+                     $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
+                     $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
+                  } 
+
+
+
     });
 
          
@@ -417,6 +461,7 @@ $('#datepicker_doi<?=$edit_doctor->doctor_id;?>').datepicker({
 
        })  ; 
 
+
     });
 </script>
 
@@ -428,7 +473,7 @@ $('#datepicker_doi<?=$edit_doctor->doctor_id;?>').datepicker({
   	if(saledealer_value != '' && typeof  saledealer_value != 'undefined'){
   	  $("#d_list<?=$edit_doctor->doctor_id ?>").css("display","block");
   	  $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
-      $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
+          $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
   	}
   });
 </script>

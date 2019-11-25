@@ -137,7 +137,7 @@ window.onload = function() {
 
               <li>
 
-
+                 
 
                 <ul class="menu" id="myUL" style="max-height:none;">
 
@@ -149,7 +149,7 @@ window.onload = function() {
 
                       <h4 style="margin:0px">
 
-                        <?=$val->username?>
+                        <?=$val->username?>                       
 
                       </h4>
 
@@ -159,9 +159,9 @@ window.onload = function() {
 
                   <?php } ?>
 
+                  
 
-
-
+ 
 
                 </ul>
 

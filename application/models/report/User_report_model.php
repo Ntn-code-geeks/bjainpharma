@@ -131,6 +131,7 @@ class User_report_model extends CI_Model {
     }
 
 	
+
 	/*User-wise Attendance Report*/
   public function get_attendance_report($userid='',$start='',$end=''){
 
@@ -319,7 +320,183 @@ class User_report_model extends CI_Model {
 		array_multisort($dateCom, SORT_ASC, $result);
 		return $result;
     }
-    /*DateRange Attendance of Overall Users*/
+// 	public function get_attendance_report($userid='',$start='',$end=''){
+// 		$leave=array();
+// 		$MonthSun=array();
+// 		$holiday=array();
+// 		$leaveDate=array();
+// 		$inteactionDate=array();
+// 		//$sundayDate1=array();
+
+// $asm_reporting = array();
+
+// 		$sundayDate=array();
+// 		$range = [];
+// 		$leaveNotApply=array();
+// 		$workingday= array();//total working day
+// 		$orgday= array();//working day after forget leave delete
+// 		$docInteraction=array();
+//         $pharmaIntearction=array();
+//         $dealerIntearction=array();
+//         $meeting=array();
+//         //$transit=array();
+//         $arr = "doc.crm_user_id as user_name,doc.create_date as inteaction_date,doc.create_date as date";
+// 		$this->db->distinct();
+//         $this->db->select($arr);
+//         $this->db->from("pharma_interaction_doctor doc");
+// 		//$this->db->where('doc.doc_status',1);
+//         //if($userid > 0){
+//         $this->db->where('doc.crm_user_id',$userid);
+//       // }
+//         $this->db->where('doc.create_date >=', $start);
+//         $this->db->where('doc.create_date <=', $end);
+//         $query = $this->db->get();
+//         if($this->db->affected_rows()){
+// 			$docInteraction=$query->result_array();
+// 	    }
+
+// 		/* Geting Pharma Interaction */
+// 		$arr = "pharma.crm_user_id as user_name,pharma.create_date as inteaction_date,pharma.create_date  as date";
+//         $this->db->select($arr);
+//         $this->db->from("pharma_interaction_pharmacy pharma");
+//         $this->db->where('pharma.crm_user_id',$userid);
+//         $this->db->where('pharma.create_date  >=', $start);
+// 	    $this->db->where('pharma.create_date  <=', $end);
+//         $queryIntearction = $this->db->get();
+//         if($this->db->affected_rows()){
+// 			$pharmaIntearction=$queryIntearction->result_array();
+//         }
+		
+// 		/* Geting Dealer Interaction */
+// 		$arr = "dealer.crm_user_id as user_name,dealer.create_date as inteaction_date,dealer.create_date  as date";
+//         $this->db->select($arr);
+//         $this->db->from("pharma_interaction_dealer dealer");
+//         $this->db->where('dealer.crm_user_id',$userid);
+//         $this->db->where('dealer.create_date  >=', $start);
+//         $this->db->where('dealer.create_date  <=', $end);
+//         $queryDealer = $this->db->get();
+//         if($this->db->affected_rows()){
+// 			$dealerIntearction=$queryDealer->result_array();
+//         }
+
+// /*asm reporting form submision information*/
+//  				 $arr = "asm.crm_user_id as user_name,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d') as inteaction_date,DATE_FORMAT(FROM_UNIXTIME(`asm`.`interaction_date`), '%Y-%m-%d') as date";
+// 				$this->db->distinct();
+// 		        $this->db->select($arr);
+// 		        $this->db->from("asm_interaction asm");
+// 		        $this->db->where('asm.crm_user_id',$userid);
+// 		        $this->db->where('asm.interaction_date >=', strtotime($start));
+// 		        $this->db->where('asm.interaction_date <=', strtotime($end));
+// 		        $query = $this->db->get();
+// 		        // echo $this->db->last_query(); die;
+// 		        if($this->db->affected_rows()){
+// 		        	// echo $this->db->last_query(); die;
+// 					$asm_reporting=$query->result_array();
+// 					// pr($asm_reporting); die;
+// 			    }
+
+
+// 		/* Geting Transit Information  */
+// 		/*$arr = "transit.crm_user_id as user_name,transit.transit_date as transit_date,transit.transit_date as date";
+//         $this->db->select($arr);
+//         $this->db->from("user_transit transit");
+//         $this->db->where('transit.crm_user_id',$userid);
+//         $this->db->where('transit.transit_date  >=', $start);
+//         $this->db->where('transit.transit_date  <=', $end);
+// 		//$this->db->where('transit.transit_time_start  >=', '09:00:00');
+//         //$this->db->where('transit.transit_time_start  <=', '18:00:00');
+//         $queryTransit = $this->db->get();
+//         if($this->db->affected_rows()){
+// 			$transit=$queryTransit->result_array();
+//         }*/
+
+// 		/* Geting Meeting Information  */
+// 		$arr = "meeting.crm_user_id as user_name,meeting.meeting_date as meeting_date,meeting.meeting_date as date";
+//         $this->db->select($arr);
+//         $this->db->from("user_meeting meeting");
+//         $this->db->where('meeting.crm_user_id',$userid);
+//         $this->db->where('meeting.meeting_date  >=', $start);
+//         $this->db->where('meeting.meeting_date  <=', $end);
+//         $queryMeeting = $this->db->get();
+//         if($this->db->affected_rows()){
+// 			$meeting=$queryMeeting->result_array();
+//         }
+// 		$resultData=array_merge($docInteraction,$pharmaIntearction,$dealerIntearction,$meeting,$asm_reporting) ;
+
+		
+// 		foreach($resultData as $dateData){
+// 			$inteactionDate[]= substr($dateData['date'],0,10);
+// 		}
+
+// 		/* Geting Leave Information  */
+// 		$arr = "leave.user_id as user_name,leave.from_date as from_date,leave.to_date as to_date,leave.from_date as date";
+//         $this->db->select($arr);
+//         $this->db->from("user_leave leave");
+//         $this->db->where('leave.leave_status',1);
+// 	    $this->db->where('leave.user_id',$userid);
+//         $this->db->where('leave.from_date  >=', $start);
+//         $this->db->where('leave.to_date  <=', $end);
+//         $queryLeave = $this->db->get();
+// 		//echo $this->db->last_query(); die;
+//         if($this->db->affected_rows()){
+// 			$leave=$queryLeave->result_array();
+//         }
+// 		foreach($leave as $lv)
+// 		{
+// 			$dayCount=(strtotime($lv['to_date'])-strtotime($lv['from_date']))/ 86400;
+// 			$startDate=$lv['from_date'];
+// 			$endXt1= date('Y-m-d', strtotime($lv['to_date'] . ' +1 day'));
+// 			$endDate1= substr($endXt1, 0, 10);
+// 			$begin1 = new DateTime($startDate);
+// 			$end11 = new DateTime($endDate1);
+// 			$interval1= new DateInterval('P1D'); // 1 Day
+// 			$dateRange1 = new DatePeriod($begin1, $interval1, $end11);
+// 			foreach ($dateRange1 as $date) {
+// 				$leaveDate[] = $date->format('Y-m-d');
+// 			}
+// 		}
+
+// 		/* All Date between Date Range */
+// 		$startDate= substr($start, 0, 10);
+// 		$endXt= date('Y-m-d H:i:s', strtotime($end . ' +1 day'));
+// 		$endDate= substr($endXt, 0, 10);
+// 		$begin = new DateTime($startDate);
+// 		$end1 = new DateTime($endDate);
+// 		$interval = new DateInterval('P1D'); // 1 Day
+// 		$dateRange = new DatePeriod($begin, $interval, $end1);
+// 		foreach ($dateRange as $date) {
+// 			$range[] = $date->format('Y-m-d');
+// 			$day = date('D', strtotime($date->format('Y-m-d')));
+// 			if($day=='Sun')
+// 			{
+// 				$sundayDate[]=$date->format('Y-m-d');
+// 				$MonthSun[]=array('date' =>$date->format('Y-m-d'),'day'=>'Sunday');
+// 			}
+// 		}
+
+// 		$leaveSunday=array_merge($leaveDate,$sundayDate);
+// 		$working=  array_diff($range, $leaveSunday);
+// 		$interaction=array_unique($inteactionDate);
+// 		$leaveNotApply=array_diff($working, $interaction);
+// 		foreach($interaction as $wd)
+// 		{
+// 			$workingday[]=array('date' =>$wd,'day'=>'Working');
+// 		} 
+// 		foreach($leaveNotApply as $lv)
+// 		{
+// 			$leave[]=array('user_name' =>$userid,'from_date'=>$lv,'to_date'=>$lv,'date'=>$lv);
+// 		}
+// 		$result=array_merge($leave,$MonthSun,$workingday);
+// 		$dateCom = array();
+// 		foreach ($result as $key => $row)
+// 		{
+// 			$dateCom[$key] = $row['date'];
+// 		} 
+// 		array_multisort($dateCom, SORT_ASC, $result);
+// 		return $result;
+//     }
+
+   /*DateRange Attendance of Overall Users*/
   public function get_attendance_sheet_all($start='',$end=''){
 
     	$userids=array();
@@ -586,7 +763,7 @@ class User_report_model extends CI_Model {
     }
 
 
-public function get_tp_report($userid='',$start='',$end=''){
+    public function get_tp_report($userid='',$start='',$end=''){
         
 	/* Geting Pharma Interaction */
 	$arr = "stp.destination,stp.dot,stp.remark,stp.assign_by";
@@ -594,7 +771,8 @@ public function get_tp_report($userid='',$start='',$end=''){
         $this->db->from("user_stp stp");
         $this->db->where('stp.crm_user_id',$userid);
         $this->db->where('stp.dot  >=', $start);
-	 	$this->db->where('stp.dot  <=', $end);
+	$this->db->where('stp.dot  <=', $end);
+        
         $queryIntearction = $this->db->get();
         if($this->db->affected_rows()){
 			return $queryIntearction->result_array();
@@ -604,6 +782,90 @@ public function get_tp_report($userid='',$start='',$end=''){
         	return '';
         }
     }
+	
+// 	public function check_leave_holiday($idate,$userid){
+//         $this->db->select('from_date,to_date');
+//         $this->db->from('user_leave');
+//         $this->db->where('user_id',$userid);
+//         $this->db->where('leave_status',1);
+//         $query = $this->db->get();
+//         //echo $this->db->last_query();die;
+//         if ($query->num_rows() > 0) {
+//             $dateData=$query->result_array();
+//             foreach($dateData as $dates)
+//             {
+//                 $this->db->select('leave_id');
+//                 $this->db->from('user_leave');
+//                 $this->db->where("'".date('Y-m-d',strtotime($idate))."' >= '".$dates['from_date']."' AND '".date('Y-m-d',strtotime($idate))."'<='".$dates['to_date']."'");
+//                 $this->db->where('user_id',$userid);
+//                 $this->db->where('leave_status',1);
+//                 $query1 = $this->db->get();
+//                 //echo $this->db->last_query().'<br>';
+//                 if ($query1->num_rows() > 0) {
+//                   return 1;
+//                 }
+//             }
+          
+//             $con='find_in_set('.$userid.',user_ids)<>0';
+//             $this->db->select('from_date,to_date');
+//             $this->db->from('user_holiday');
+//             $this->db->where($con);
+//             // $this->db->where('leave_status',1);
+//             $query = $this->db->get();
+//             //echo $this->db->last_query();die;
+//             if ($query->num_rows() > 0) {
+//                 $dateData=$query->result_array();
+//                 foreach($dateData as $dates)
+//                 {
+//                     $this->db->select('holiday_id');
+//                     $this->db->from('user_holiday');
+//                     $this->db->where("'".date('Y-m-d',strtotime($idate))."' >= '".$dates['from_date']."' AND '".date('Y-m-d',strtotime($idate))."'<='".$dates['to_date']."'");
+//                     $this->db->where($con);
+//                   //  $this->db->where('leave_status',1);
+//                     $query1 = $this->db->get();
+//                     if ($query1->num_rows() > 0) {
+//                         return 2;
+//                     }
+//                 }
+//                 return 1;
+//             }
+            
+//             else{
+//                 return 1;
+//             }
+//             return 1;
+//         }
+//         else{
+//             $con='find_in_set('.$userid.',user_ids)<>0';
+//             $this->db->select('from_date,to_date');
+//             $this->db->from('user_holiday');
+//             $this->db->where($con);
+//             // $this->db->where('leave_status',1);
+//             $query = $this->db->get();
+//             //echo $this->db->last_query();die;
+//             if ($query->num_rows() > 0) {
+//                 $dateData=$query->result_array();
+//                 foreach($dateData as $dates)
+//                 {
+//                     $this->db->select('holiday_id');
+//                     $this->db->from('user_holiday');
+//                     $this->db->where("'".date('Y-m-d',strtotime($idate))."' >= '".$dates['from_date']."' AND '".date('Y-m-d',strtotime($idate))."'<='".$dates['to_date']."'");
+//                     $this->db->where($con);
+//                   //  $this->db->where('leave_status',1);
+//                     $query1 = $this->db->get();
+//                     if ($query1->num_rows() > 0) {
+//                         return 2;
+//                     }
+//                 }
+//                 return 1;
+//             }
+//             else{
+//                 return 1;
+//             }
+//             return 1;
+//         }
+
+//     }
 
 public function check_leave_holiday($idate,$userid){
   		$holiday = array();
@@ -841,8 +1103,6 @@ public function check_leave_holiday($idate,$userid){
     }
 
 
-
-
 	public function get_create_tansitdata($userid='',$start='',$end=''){
 
 		//echo $start;
@@ -880,69 +1140,131 @@ public function check_leave_holiday($idate,$userid){
 			//pr($tourLog);
 
 			$scount=1;
+
 			$daAmount=0;
+
 			$taAmount=0;
+
 			$fareAmount=0;
+
 			$distance=0;
+
 			$sourceCity=get_user_headquater($userid);
+
 			$dateTour='';
+
 			foreach($tourLog as $log)
+
 			{
+
 				if($log['interact_date']!=$dateTour && $log['interact_date']!=$start_date->format('Y-m-d'))
+
 				{
+
 					$daAmount++;
+
 					$taAmount++;
+
 					$dateTour=$log['interact_date'];
+
+			
+
 				}
+
 				if($log['interact_date']==$start_date->format('Y-m-d') && $scount==1)
+
 				{
+
 					$sourceCity=$log['city_id'];
+
 					$scount++;
+
 				}
+
 				if($log['city_id']==$sourceCity)
+
 				{
+
 					$fareAmount=0;
+
 					$distance=0;
+
 				}
+
 				else
+
 				{
+
 					//get data from master_tour_data
+
 					$result=$this->get_city_data($sourceCity,$log['city_id'],$log['crm_user_id']);
+
 					if($result)
+
 					{
+
 						$distance=$result->distance;
+
 						$fareAmount=$result->fare;
+
 					}
+
 					else{
+
 						$fareAmount=0;
+
 						$distance=0;
+
 					}
+
+					
 
 				}
 
 				if($log['interact_date']!=$start_date->format('Y-m-d'))
+
 				{
+
 					echo $distance.'<br>';
+
 					echo $fareAmount.'<br>';
 
+					
+
 					$tour_data = array(
+
 						'source_city'=>$sourceCity,
+
 						'destination_city'=>$log['city_id'],
+
 						'transit_date'=>$log['interact_date'],
+
 						'da'=>$daAmount,
+
 						'amount'=>$taAmount,
+
 						'distance'=>$distance,
+
 						'fare'=>$fareAmount,
+
 						'crm_user_id'=>$log['crm_user_id'],
+
 						'stay'=>$log['stay'],
-						'status'=>1,
+
+						'status'=>1, 
+
 					);
-					$this->db->insert('user_ta_da_calculate',$tour_data);
+
+					$this->db->insert('user_ta_da_calculate',$tour_data); 
+
 				}
 
-				$sourceCity=$log['city_id'];
+				$sourceCity=$log['city_id']; 
+
 			}
+
 			die;
+
         }
 
 	}

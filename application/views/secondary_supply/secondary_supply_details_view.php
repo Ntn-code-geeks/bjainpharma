@@ -6,7 +6,7 @@ New Module Developed by:
  */
 $doc_secondary_list = json_decode(file_get_contents ("ReportJSON/doc_secondary_supply.json"),true);
 $pharma_secondary_list = json_decode(file_get_contents ("ReportJSON/phar_secondary_supply.json"),true);
-$secondary_sum=0;
+
 ?>
 
 
@@ -67,7 +67,7 @@ td {	padding-left: 60% !important;		}
 					 <thead>
 						<tr>
 						  <th>Date('Year/Month/Date')</th>
-						  <th>Name of MR/SE</th>
+						   <th>Name of MR/SE</th>
 						  <th>Doctor/Sub Dealer Name</th>
 						  <th>Supply by Dealer/pharmacy</th>
 						  <th>Interaction Secondary</th>
@@ -90,7 +90,6 @@ td {	padding-left: 60% !important;		}
 									<td>
 										<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
 									</td>
-
 									<td>
 										<?=get_user_name($val_c['user_id']); ?>
 									</td>
@@ -150,7 +149,6 @@ td {	padding-left: 60% !important;		}
 									<td>
 										<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
 									</td>
-
 									<td>
 										<?=get_user_name($val_c['user_id']); ?>
 									</td>
@@ -211,7 +209,6 @@ td {	padding-left: 60% !important;		}
 							<td>
 								<?=date('Y/m/d', strtotime($val_c['date_of_interaction']));?>
 							</td>
-
 							<td>
 								<?=get_user_name($val_c['user_id']); ?>
 							</td>
@@ -413,8 +410,9 @@ td {	padding-left: 60% !important;		}
 			 }
 				}
 				?>
+
 		</tbody>
-				  <?php if($secondary_sum!=0){?>
+		<?php if($secondary_sum!=0){?>
 					  <tfooter><tr><td rowspan="3" colspan="3" style=""><strong>Grand Total</strong></td><td
 								  rowspan="" colspan="" style=""><strong><?=number_format($secondary_sum,2);?></strong></td></tr></tfooter>
 				  <?php }?>

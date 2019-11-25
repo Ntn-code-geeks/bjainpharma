@@ -55,6 +55,8 @@
 }
 
 </style>-->
+<!-- <link rel="stylesheet" href="<?= base_url()?>design/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"> -->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">-->
 <link href="<?= base_url()?>design/css/div_table/one.css" rel="stylesheet" type="text/css"/>
 <link href="<?= base_url()?>design/css/div_table/custom_table.css" rel="stylesheet" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -67,6 +69,9 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.print.min.js"></script>
+    
+
+
 
 <div class="content-wrapper modal-open">
 
@@ -132,41 +137,51 @@
 
 
 
+
 <script type="text/javascript">
      $(document).ready(function() {
     $('#example2').DataTable( {
-
-
-
+//        "bLengthChange" : false,
 //        "aLengthMenu":  [[25, 50, 75, -1], [25, 50, 75, "All"]],
-//        "iDisplayLength": 157,
-
+//        "iDisplayLength": 50,
+//        "processing": true,
+//        "serverSide": true,
 //        "ajax": "<?php echo base_url()?>radar/customer/servserside_dtb"
-        dom: 'Bfrtip',
-        buttons: [
-            'csv', 'print',
-        ],
-        "processing": true,
-	    "serverSide": true,
-	    "ajax":{
+        // dom: 'Bfrtip',         
+        // buttons: [
+        //     'csv', 
+        // ],
+           "processing": true,
+           "serverSide": true,
+            "ajax":{
 		     "url": "<?php echo base_url()?>doctors/doctor/doctor_master_details",
 		     "dataType": "json",
 		     "type": "POST",
 		     "data":{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'
 		                 }
-                  },
-	    	"columns": [
+                         },
+	    "columns": [
+		          
 		          { "data": "Name" },
 		          { "data": "Email" },
-                  { "data": "Phone Number" },
-                  { "data": 'City' },
-                  { "data": "City Pincode" },
-                  { "data": "Action" }
-		       ],
-
+              { "data": "Phone Number" },
+              { "data": 'City' },            
+              { "data": "City Pincode" },
+              { "data": "Action" }
+		       ]	 
 
     } );
 });
-
+//  $(function () {
+//    $('#example2').DataTable({
+//      'responsive' : true,
+//      'paging'      : true,
+//      'lengthChange': true,
+//      'searching'   : true,
+//      'ordering'    : true,
+//      'info'        : true,
+//      'autoWidth'   : true,
+//    })
+//  })
 
 </script>

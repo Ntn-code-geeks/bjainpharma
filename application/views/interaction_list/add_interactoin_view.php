@@ -1,18 +1,24 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+
+
+
+/* 
+
+ * To change this license header, choose License Headers in Project Properties.
+
+ * To change this template file, choose Tools | Templates
+
+ * and open the template in the editor.
+
+ */
+
+
+
+
 
 ?>
-<meta http-equiv="Cache-control" content="no-cache">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!--<script	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" ></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
-
-<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />-->
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>-->
-
-
 
 
 
@@ -217,7 +223,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     </section>
 
     <!-- /.content -->
-	<?php
+    <?php
 	/*Gazetted Holidays Dynamic DB*/
 	$currnt_year=date('Y');
 	$gazzete_list=array();
@@ -227,72 +233,118 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		$date_list=implode(',',$gazzete_list);
 	?>
 <input type="hidden" id="yearly_holidays" value="<?=$date_list?>">
+
   </div>
 
 <script src="<?php echo base_url();?>design/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script type='text/javascript'>
-    // var dateToday = new Date();
-    var usID=$('#user_IDD').val();
 
-    // var datearray = ["09-14-2019","09-15-2019","09-16-2019"];    ///Dates to be disabled in calendar
-    var datearray = $('#yearly_holidays').val();
+     // $('#doi').datepicker({
+     //        //format:'dd-mm-yyyy',
+     //         startDate: '-7d',
+     //        endDate: '+0d' ,
+     //        daysOfWeekDisabled: [0],   //Disable sunday
+     //        autoclose:true
+     //   })  ; 
 
-    if(usID==39 || usID==155 || usID==81 || usID==79 || usID==164 || usID==182 || usID==42 || usID==43 ||
+  var usID=$('#user_IDD').val();
+
+   var datearray = $('#yearly_holidays').val();
+
+     // if(usID==150 || usID==67 || usID==121     || usID==173 || usID==195 || usID==200 || usID==175 || usID==128    || usID==127 || usID==97 || usID==171){
+   // if(usID){
+  if(usID==39 || usID==155 || usID==81 || usID==79 || usID==164 || usID==182 || usID==42 || usID==43 ||
 		usID==169 || usID==203 || usID==46 || usID==52|| usID==193 || usID==211 || usID==80 || usID==55 || usID==44 ||
 		usID==46 || usID==114 || usID==161 || usID==57|| usID==48 || usID==157 || usID==185 || usID==49 || usID==68 ||
 		usID==163 || usID==165 || usID==106 || usID==77 || usID==173 || usID==103 || usID==149 || usID==206||
-		usID==202||	usID==66 || usID==76 || usID==101 || usID==31){
+		usID==202||	usID==66 || usID==76 || usID==101 || usID==23){
 
 		var dat_str=datearray.split(",");
 		var poped_val= dat_str.pop();
 		var new_dates=dat_str.join(',');
 
-        $('#doi').datepicker({
-            format: 'mm/dd/yyyy',
-            // startDate: '-2d',
-            // endDate: '+0d' ,   ////future dates
-            datesDisabled: new_dates,     ////Gazetted Holidays
+
+		if(usID==161){
+ 		
+	 		$('#doi').datepicker({
+	            startDate: '-20d',
+	            endDate: '+0d',   ////future dates
+	             datesDisabled: datearray,     ////Gazetted Holidays
+	            daysOfWeekDisabled: [0],   //Disable sunday
+	            autoclose: true
+	        });
+    	}else{
+    		$('#doi').datepicker({
+            startDate: '-8d',
+            endDate: '+0d' ,   ////future dates
+             datesDisabled: new_dates,     ////Gazetted Holidays
             daysOfWeekDisabled: [0],   //Disable sunday
-            autoclose:true,
-            todayHighlight: true,
+            autoclose:true
         })  ;
-	}else{
-        $('#doi').datepicker({
-            format: 'mm/dd/yyyy',
-            // startDate: '-2d',
-            // endDate: '+0d' ,   ////future dates
-            datesDisabled: datearray,     ////Gazetted Holidays
+    	}
+		
+        
+    }else {
+    	if(usID==88  || usID==210 || usID==208 || usID==153){    	
+ 		
+	 		$('#doi').datepicker({
+	            startDate: '-18d',
+	            endDate: '+0d',   ////future dates
+	             datesDisabled: datearray,     ////Gazetted Holidays
+	            daysOfWeekDisabled: [0],   //Disable sunday
+	            autoclose: true
+	        });
+    	}else{
+    		 $('#doi').datepicker({
+            startDate: '-8d',
+            endDate: '+0d',   ////future dates
+             datesDisabled: datearray,     ////Gazetted Holidays
             daysOfWeekDisabled: [0],   //Disable sunday
-            autoclose:true,
-            todayHighlight: true,
-        })  ;
-	}
-
-
-
-
-
+            autoclose: true
+        });
+       }
+       
+    }
 
     $(function(){
+
+
+
     $('.select2').select2();
     $('.select3').select2();
+     
+
     });
 
 	
 
    $("#doi").change(function(){
+
 		var doi=$('#doi').val();
+
 		$.ajax({
+
 		   type:"POST",
+
 		   url:"<?= base_url();?>tour_plan/tour_plan/get_tour_destination",
+
 		   data : 'doi='+doi,
-		   success:function(res){
+
+		   success:function(res){ 
+
 				if(res){
+
 					$('#planedcity').val(res);
+
 				}
+
+
+
 			}
+
 		});
+
 	});
 
 </script>

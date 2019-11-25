@@ -1,11 +1,19 @@
 <?php
 
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+
+ 
 $edit_pharmacy=json_decode($edit_pharmacy_list);
-$dealer_data = json_decode($dealer_list);   // for all active dealers
+ $dealer_data = json_decode($dealer_list);   // for all active dealers 
 
  //$pharma_info = json_decode($pharma_data);
-$ms = json_decode($meeting_sample);
+ $ms = json_decode($meeting_sample);
+ 
 $team_list=json_decode($users_team);
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,7 +33,7 @@ $team_list=json_decode($users_team);
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-
+           
 			<div class="row">
 				<div class="col-md-12">
 				 
@@ -34,12 +42,13 @@ $team_list=json_decode($users_team);
 		<div class="row">
             <div class="col-md-12">
                 <!--<div class="form-group">-->
-				<?php echo form_open_multipart($action);
-				if(!empty($order_amount)){  ?>
-				<input type="hidden" name="dealer_id" id="dealer_id" value="<?=$order_amount->provider; ?>"
-					   style="display: none;">
-				<input type="hidden" name="dealer_mail" id="dealer_mail" value="<?=$order_amount->mail_provider ?>" style="display: none;">
-				<?php } ?>
+				 <?php echo form_open_multipart($action);
+         if(!empty($order_amount)){  ?>
+        <input type="hidden" name="dealer_id" id="dealer_id" value="<?=$order_amount->provider; ?>"
+             style="display: none;">
+        <input type="hidden" name="dealer_mail" id="dealer_mail" value="<?=$order_amount->mail_provider ?>" style="display: none;">
+        <?php } ?>
+
 				<input type="hidden" name="path_info" <?php if($old_data!=''){?>  value="<?=$old_data->path_info;?>"<?php }else{?> value="<?=$path_info;?>"<?php }?>>	
 				<input type="hidden" name="city"  <?php if($old_data!=''){?> value="<?=$old_data->city_code;?>"<?php }else{?> value="<?=$city;?>"<?php }?> >
 				
@@ -150,7 +159,8 @@ $team_list=json_decode($users_team);
 
                   </div>  
 
-
+				  
+            
 
             <div class="form-group">
               <label>Remark</label>
@@ -162,7 +172,7 @@ $team_list=json_decode($users_team);
 							<input class="form-control" name="fup_a" value="<?php if($old_data!=''){ echo $old_data->followup_date;}?>" id="datepicker_fup<?=$edit_pharmacy->id ?>" type="text">
 					  </div>
 
-			<div class="form-group">
+					<div class="form-group">
 						<label>Stay &nbsp; : &nbsp;&nbsp;</label>
 						<br>
 						<input  type="radio" class="form-check-input stay"  <?php echo set_checkbox('stay',0); ?> name="stay" id="stay" value="0">
@@ -181,22 +191,22 @@ $team_list=json_decode($users_team);
               &nbsp;  Yes &nbsp;
               <span class="control-label" for="inputError" style="color: red"><?php echo form_error('up'); ?></span>
 
-               <span id="alt" style="margin-left: 50px; color: red;display:none;"> Please Add Next Interaction with
+               <span id="alt" style="margin-left: 50px; color: red; display:none;"> Please Add Next Interaction with
                     Another City.</span>
             </div>
+                   
 
-
+		              			
                 <div class="box-footer">
-					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save</button>
-					<?php  echo form_close();  ?>
-				</div>
-		  <button style="margin-top: -73px; margin-left: 10px;" class="btn btn-danger cancel_inter"> Cancel</button>
-
+					<button type="submit" value="save_data" name="save" class="btn btn-info pull-right">Save Interaction</button>
+          <?php  echo form_close();  ?>
+                </div>
+                 <button style="margin-top: -73px; margin-left: 10px;"  class="btn btn-danger cancel_inter"> Cancel</button>
             </div>
         </div>
           <!-- /.row -->
           
-
+        
         </div>
         <!-- /.box-body -->
          <!-- /.box -->
@@ -204,18 +214,19 @@ $team_list=json_decode($users_team);
     </section>
     <!-- /.content -->
   </div>
-
+  
 
           
        <script type="text/javascript">
 
-           /*Cancel Interaction*/
+         /*Cancel Interaction*/
            $('.cancel_inter').on("click",function(){
                if (confirm('Are you sure you want to Cancel this Interaction.?')) {
                    window.location.replace('<?= base_url(); ?>interaction/index/');
                }
            });
 
+           
            // $("#save_sample").click(function(e) {
            //     var selectval= $('[name="stay"]:checked').val();
            //     if(typeof  selectval=="undefined"){
@@ -225,16 +236,19 @@ $team_list=json_decode($users_team);
            // });
 
            $('#sale_dealer<?=$edit_pharmacy->id ?>').on("change", function(){
-             var sale_value = $(this).val();
+               
+               var sale_value = $(this).val();
+               
              if(sale_value === ''){
                $("#d_list<?=$edit_pharmacy->id ?>").css("display","none");
                   }
                   else{
                       $("#d_list<?=$edit_pharmacy->id ?>").css("display","block");
                   }
+            
            });
            
-           $('#sale<?=$edit_pharmacy->id ?>').on("change", function(){
+            $('#sale<?=$edit_pharmacy->id ?>').on("change", function(){
 //               alert('mee');
                var sale_value = $(this).val();
                
@@ -259,7 +273,7 @@ $team_list=json_decode($users_team);
              if(sale_value === ''){
                $("#sale<?=$edit_pharmacy->id ?>").css("display","none");
                $("#sample<?=$edit_pharmacy->id ?>").css("display","none");
-               //$("#jw_<?//=$edit_pharmacy->id ?>//").css("display","none");
+               $("#jw_<?=$edit_pharmacy->id ?>").css("display","none");
                   }
                   else{
                       $("#sale<?=$edit_pharmacy->id ?>").css("display","block");
@@ -279,7 +293,7 @@ $team_list=json_decode($users_team);
              if(sale_value === ''){
                $("#sale<?=$edit_pharmacy->id ?>").css("display","none");
                $("#sample<?=$edit_pharmacy->id ?>").css("display","none");
-                //$("#jw_<?//=$edit_pharmacy->id ?>//").css("display","none");
+                $("#jw_<?=$edit_pharmacy->id ?>").css("display","none");
                   }
                   else{
                       $("#sale<?=$edit_pharmacy->id ?>").css("display","block");
@@ -368,9 +382,7 @@ $team_list=json_decode($users_team);
 
 	</script>
 
-	<!--Add dealer modal-->
-
-
+	
 
 
 
@@ -392,9 +404,7 @@ $team_list=json_decode($users_team);
 	});
 	
   </script> 
-  <script> 
-
-	</script>	
+ 
   <script>
       $('.stay').change(function() {
           if($('.stay:checked').val()==1)
