@@ -45,12 +45,12 @@ Nitin Kumar
                </thead>
                 <tbody>
                      <?php
-//					 $query_date = '2019-11-04';
-//					 $start_date=date('Y-m-01', strtotime($query_date));
-//					 $end_date=date('Y-m-t', strtotime($query_date));
+					 $query_date = '2019-11-04';
+					 $start_date=date('Y-m-01', strtotime($query_date));
+					 $end_date=date('Y-m-t', strtotime($query_date));
 
-                     $start_date =date('Y-m-d',strtotime('first day of +1 month'));
-					 $end_date = date('Y-m-d',strtotime('last day of +1 month'));
+//                     $start_date =date('Y-m-d',strtotime('first day of +1 month'));
+//					 $end_date = date('Y-m-d',strtotime('last day of +1 month'));
 					 //echo $start_date.'<br>'.date('Y-m-d',strtotime('last day of +1 month')); die;
                         while (strtotime($start_date) <= strtotime($end_date)){
                          $tdate= date ("Y-m-d", strtotime($start_date));

@@ -521,7 +521,7 @@ class Dealer_model extends CI_Model {
             'ta'=>$ta,
             'stp_ta'=>$stp_ta,
             'stp_distance'=>$stp_distance,
-            'is_stp_approved'=> $is_stp_approved,
+            'is_stp_approved'=> $is_stp_approved, 
             
             'meet_id'=>$meet_id,
             'doi'=>$tour_date,
@@ -533,7 +533,7 @@ class Dealer_model extends CI_Model {
     }
 
     public function state_list(){
-         $arr ="state_name,state_id";
+        $arr ="state_name,state_id";
         $this->db->select($arr);
         $this->db->from('state s');
         $query= $this->db->get();

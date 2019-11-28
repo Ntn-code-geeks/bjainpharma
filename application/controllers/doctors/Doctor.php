@@ -205,7 +205,7 @@ class Doctor extends Parent_admin_controller {
 			$data['path_info']=1;
 		}
 		$data['old_data'] = '';
-                $data['dealer_list'] = $this->dealer->dealer_list(); 
+        $data['dealer_list'] = $this->dealer->dealer_list();
                 
 		if($this->doctor->get_log__doctor_data($docid))
 		{
