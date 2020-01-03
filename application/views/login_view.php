@@ -60,23 +60,28 @@
 
       </div>
 
-      <div class="form-group has-feedback" style="width: 100%; display: inline-flex;">
+      <!-- <div class="form-group has-feedback">
 
-		  <input id="pass_log_id" type="password" name="password" class="form-control" placeholder="Password">
-		  <span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-password" style="padding: 10px; cursor: pointer;"></span>
+        <input type="password" name="password" class="form-control" placeholder="Password">
 
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
-<!--		  <input type="password" name="password" class="form-control" placeholder="Password" id="myInput">-->
-<!--		<span class="glyphicon glyphicon-eye-open" onclick="myFunction()" style="padding: 10px; cursor: pointer;"></span>-->
+      </div> -->
+
+       <div class="form-group has-feedback" style="width: 100%; display: inline-flex;">
+
+      <input id="pass_log_id" type="password" name="password" class="form-control" placeholder="Password">
+      <span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-password" style="padding: 10px; cursor: pointer;"></span>
       </div>
 
-<script>
+      <script>
     $(document).on('click', '.toggle-password', function() {
         $(this).toggleClass("fa-eye fa-eye-slash");
         var input = $("#pass_log_id");
         input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
     });
-</script>
+    </script>
+
 
       <div class="row">
 
@@ -148,14 +153,4 @@
             return false;
         });
     });
-
-
-    // function myFunction() {
-    //     var x = document.getElementById("myInput");
-    //     if (x.type === "password") {
-    //         x.type = "text";
-    //     } else {
-    //         x.type = "password";
-    //     }
-    // }
 </script>

@@ -13,6 +13,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 
 class Invoice_user extends Parent_admin_controller {
 
@@ -129,31 +134,48 @@ class Invoice_user extends Parent_admin_controller {
     }
 
     public function dashboard(){
-        
+       
          $loggedData=logged_user_data();
         // echo $loggedData; die;
             if($loggedData==TRUE && $this->session->userdata('SiteUrl_id')== base_url()){
 //           echo   $this->session->userdata('siteurl');    die;
                $data['title'] = "Dashboard"; 
-               try{
-                $invoice_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/invoice.php?skucode=''";
+               // try{
+                 // $invoice_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/invoice.php?skucode=''";
+                 //$invoice_API   = "https://www.bjainpharmacrm/nav_con/invoice.php?skucode=''";
+
+$curl_handle=curl_init();
+curl_setopt($curl_handle, CURLOPT_URL,'https://bjainpharmacrm.com/nav_con/invoice.php?skucode=');
+curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Invc');
+$query = curl_exec($curl_handle);
+curl_close($curl_handle);
+
+
+// echo "<pre>"; print_r($query); die;
+
+
+                 // print_r($invoice_API); die;
             //   $invoice_API = "http://###.##.##.##/mp/get?mpsrc=http://mybucket.s3.amazonaws.com/11111.mpg&mpaction=convert format=flv";
           
-                $data['nav_invoice'] = @file_get_contents($invoice_API);
-               }catch(Exception $e){
+               // $data['nav_invoice'] = @file_get_contents($invoice_API);
+               // print_r($data['nav_invoice']); die;
+               // }catch(Exception $e){
 
-                   $data['nav_invoice'] = '';
+                   $data['nav_invoice'] = $query;
+                   $this->load->invoiceView('invoice_view',$data);
                     
                     }
-                if($data['nav_invoice']===FALSE){
-                    $data['nav_invoice'] = '';
-                }
-//                    pr($data['nav_invoice']);
-//                    die;
+                // if($data['nav_invoice']===FALSE){
+                //    // $data['nav_invoice'] = '';
+                // }
+                     //print_r($data['nav_invoice']);
+                     //die;
                
-               $this->load->invoiceView('invoice_view',$data);
+              // $this->load->invoiceView('invoice_view',$data);
 
-            }
+//             }
             else{
 
 //                echo "not"; die;

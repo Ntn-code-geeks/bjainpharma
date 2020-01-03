@@ -78,8 +78,28 @@ $tada_data = json_decode($tada_report);
             }
 		}
 
+        if(af_total < 0 ){
+            var mg_total=parseFloat(totamot) + parseFloat(total) + parseFloat(af_total) + parseFloat(ttal) ;
+            var dif_commit= mng_commited - mg_total;
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+
         if(total != '' && ttal =='' && af_total =='' ){
              var mg_total=parseFloat(totamot) + parseFloat(total) ;
+            var dif_commit= mng_commited - mg_total;
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+
+        if(total==0 && ttal==0 && af_total > 0 ){
+            var mg_total=parseFloat(totamot) + parseFloat(total) + parseFloat(af_total) + parseFloat(ttal) ;
             var dif_commit= mng_commited - mg_total;
             if(dif_commit == 1000 ){
                 $('#tot_amot').text('1000 + '+mg_total);
@@ -286,7 +306,8 @@ $tada_data = json_decode($tada_report);
                                     </td>
 
                                     <td>
-                                     <?php if(isset($admin_total_amount) && !empty($admin_total_amount)){ ?>
+                                     <?php
+                                      if(isset($admin_total_amount) && !empty($admin_total_amount)){ ?>
                                         <input readonly name="admin_remark[]" class="form-control pull-right af_mg_amt"
                                                    value="<?=$val_tada->admin_remark; ?>" style="padding: 2px;">
                                         <?php  }else{ ?>
@@ -394,12 +415,12 @@ $tada_data = json_decode($tada_report);
                 <div class="col-md-12">
                     <!--<div class="form-group">-->
                     <div class="box-footer">
-                        <?php  if(!isset($admin_total_amount)){ ?>
+                        <?php  //if(!isset($admin_total_amount)){ ?>
                             <button type="submit" id="save_final" class="btn btn-info pull-right">Save</button>
                             <?php echo form_close();  ?>
                             <button id="printReport" onclick="printDiv()" class="btn btn-primary hidden-print"><span class="glyphicon
                    glyphicon-print" aria-hidden="true"></span> Print</button>
-                        <?php } ?>
+                        <?php //} ?>
                     </div>
                 </div>
             </div>

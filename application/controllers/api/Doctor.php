@@ -5,10 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
 /*
- * Developer: Niraj Sharma
- * Email: niraj@bjain.com
- * 
- * Dated: 28-08-2018
  * 
  */
 
@@ -26,15 +22,20 @@ class Doctor extends REST_Controller {
     {
         # initialize variables
         $post = array_map('trim', $this->input->post());
-	$msg = '';
-	$sp_code  = $post['sp_code'];;
-        if(!(isset($sp_code)))
-        {
+        $msg = '';
+		if(!(isset($post['sp_code'])&& !empty($post['sp_code']))){
         	$msg='Sp code is required.';
         }
+        else if(!(isset($post['city_id'])&& !empty($post['city_id']))){
+        	$msg = "City ID is required.";
+		}
        	if ($msg == '') 
         {
-	        $data = $this->doctor->get_doctor_list($sp_code);
+			$sp_code  = $post['sp_code'];
+			$city_id  = $post['city_id'];
+        	$dataArr['sp_code']=$sp_code;
+        	$dataArr['city_id']=$city_id;
+	        $data = $this->doctor->get_doctor_list($dataArr);
 		if ($data!=FALSE) 
 		{ 
 	            $result = array(
@@ -47,17 +48,17 @@ class Doctor extends REST_Controller {
 	        else 
 	        {
 	            $result = array(
-	                'Data' => array(),
-	                'Status' => true,
-	                'Message' => 'No Doctor Found',
-	                'Code' => 200
+	                'Data' => new stdClass(),
+	                'Status' => false,
+	                'Message' => 'No Doctor',
+	                'Code' => 404
 	            );
 	        }
         }
         else 
         {
             $result = array(
-                'Data' => array(),
+                'Data' => new stdClass(),
                 'Status' => false,
                 'Message' => $msg,
                 'Code' => 404
@@ -65,69 +66,6 @@ class Doctor extends REST_Controller {
         }
         $this->response($result);
     }
-    
-    
-    /*
-     * Developer: Shailesh Saraswat
-     * Email: sss.shailesh@gmail.com
-     * Dated: 04-JAN-2019
-     * 
-     * show list of doctors according to the place pincode.
-     * 
-     */
-    
-     function doctor_list_v2_post()
-    {
-        # initialize variables
-        $post = array_map('trim', $this->input->post());
-	$msg = '';
-	$pin_code  = $post['pincode'];
-        $sp_code  = $post['sp_code'];
-        if(!(isset($sp_code)))
-        {
-        	$msg='Sp code is required.';
-        }
-        if(!(isset($pin_code)))
-        {
-        	$msg='Pin Code is required.';
-        }
-       	if ($msg == '') 
-        {
-	        $data = $this->doctor->get_doctor_list($sp_code,$pin_code);
-		if ($data!=FALSE) 
-		{ 
-	            $result = array(
-	                'Data' => $data,
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        }
-	        else 
-	        {
-	            $result = array(
-	                'Data' => array(),
-	                'Status' => true,
-	                'Message' => 'No Doctor Found',
-	                'Code' => 200
-	            );
-	        }
-        }
-        else 
-        {
-            $result = array(
-                'Data' => array(),
-                'Status' => false,
-                'Message' => $msg,
-                'Code' => 404
-            );
-        }
-        $this->response($result);
-        
-    }
-    
-    
-    
     
     function add_doctor_post()
     {

@@ -21,37 +21,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Interaction_order extends Parent_admin_controller {
 
 
-
    function __construct() 
 
     {
 
         parent::__construct();
-
 		$loggedData=logged_user_data();
-
 		if(empty($loggedData)){
-
 			redirect('user'); 
-
 		}
-
-        $this->load->model('order/order_model','order');
-
-        $this->load->model('category/category_model','category');
-
+        $this->load->model('order/order_model','order');    	
+        $this->load->model('category/Category_model','category');
         $this->load->model('product/product_model','product');
 
         $this->load->model('doctor/Doctor_model','doctor');
 		$this->load->model('dealer/Dealer_model','dealer');
 		$this->load->model('permission/permission_model','permission');
 		$this->load->model('pharmacy/pharmacy_model','pharmacy');
-
+        
     }
 
     
 
     public function index(){    
+
+
 
 		$data['title'] = "Interaction Order List";
 
@@ -153,6 +147,7 @@ public function add_order($orderid='',$personId=''){
 			$data['product_list'] = $productList; 
 		}
 		$categoryList= $this->category->get_active_category();
+	//pr($categoryList); die;
 		if($categoryList!=FALSE)
 		{
 			$data['category_list'] = $categoryList; 

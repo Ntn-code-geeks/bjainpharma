@@ -305,7 +305,16 @@ $doc_data = json_decode($doc_data);
                 <input class="form-control" name="sp_code" placeholder="Enter Sales Persone code ..." type="text" value="<?php if(isset($_POST['sp_code'])){echo $_POST['sp_code'];}else if(isset($user_info)){echo $user_info[0]->sp_code;} ?>">  
                 <span class="control-label" for="inputError" style="color: red"><?php echo form_error('sp_code'); ?></span>
                 </div> 
-                </div> 
+                </div>
+                 <div class="col-md-6">
+             <div class="form-group">
+               <label>Incremented No. of Days (Add Interaction) </label>
+               <input class="form-control" name="date_perm" placeholder="Enter No. of days -  From Today's Date ..."
+                  type="text" value="<?php if(isset($_POST['date_perm'])){echo $_POST['date_perm'];}else if(isset($user_info)){echo $user_info[0]->date_perm;} ?>">
+               <span class="control-label" for="inputError" style="color: red"><?php echo form_error('date_perm'); ?></span>
+             </div>
+           </div>
+
                 </div> 
                 </div> 
                 <div class="row"> 

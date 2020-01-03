@@ -1,5 +1,7 @@
 <?php $loggedData=logged_user_data();
 
+$baseAssets = base_url().'assets/';
+
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +15,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title><?=$title?> | Bjain Pharma</title>
+   <link rel="icon" href="<?=$baseAssets; ?>logo_bjain_corp.png">
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">

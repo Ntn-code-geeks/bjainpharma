@@ -17,11 +17,39 @@
 
 
 class City_model extends CI_Model {
-	public function insertCity($data)
+	
+public function insertCity($data)
 	{
-		$this->db->insert('city', $data);
-		return TRUE;
+		$arr = "*";
+		$this->db->select($arr);
+		$this->db->from("city");
+		$this->db->where('city_name',$data['city_name']);
+		$query = $this->db->get();
+		if($this->db->affected_rows()){
+			/*Update Record*/
+			$docdata=$query->row();
+			$dataArr=array(
+				'state_id' => $data['state_id'],
+				'is_metro' => $data['is_metro'],
+				'pool_pincode' => $data['pool_pincode']
+				);
+			$this->db->set($dataArr);
+			$this->db->where('city_id',$docdata->city_id);
+			$this->db->update('city');
+			return ($this->db->affected_rows() == 1) ? true : false;
+		}else{
+			/*Insert New Record*/
+			$this->db->insert('city', $data);
+			return TRUE;
+		}
+
 	}
+	
+	// public function insertCity($data)
+	// {
+	// 	$this->db->insert('city', $data);
+	// 	return TRUE;
+	// }
 
 	public function update_navigation($data)
 	{
@@ -284,7 +312,7 @@ class City_model extends CI_Model {
     }
 
     public function edit_city_data($data){
-
+       //pr($data); die;
         $city_data = array(
             'city_name'=>$data['city_name'],
             'state_id'=>$data['state'],
@@ -296,6 +324,7 @@ class City_model extends CI_Model {
         $this->db->set($city_data);
         $this->db->where('city_id',$data['city_id']); 
         $this->db->update('city'); 
+        //echo $this->db->last_query(); die;
         return ($this->db->affected_rows() == 1) ? true : false; 
     }
 

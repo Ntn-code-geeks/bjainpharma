@@ -77,6 +77,29 @@ class Customer_nav_model extends CI_Model {
             // echo $this->db->last_query().'<br>';
 
           }
+           else{
+			  // update dealer
+			  // echo 'update dealer'; die;
+			  $dealer_data =
+				  array(
+					  'dealer_name'=>$value->name,
+					  // 'city_id'=>$city_id,
+					  'state_id'=>$state_id,
+					  'd_email'=>$value->email,
+					  'd_phone'=>$value->Phone_No,
+					  'd_address'=>$value->Address,
+					  'city_pincode'=>$value->city_pincode,
+					  //'sp_code'=>$value->sp_code,
+					  'status'=>1,
+					  'crm_user_id' =>logged_user_data(),
+					  'last_update'=> savedate(),
+				  );
+			  $this->db->where('dealer_id',$is_cust);
+			  $this->db->update('dealer',$dealer_data);
+			  if($this->db->affected_rows()){
+				  ++$num;
+			  }
+		  }
         }
         else{
           // update dealer
@@ -84,13 +107,13 @@ class Customer_nav_model extends CI_Model {
             $dealer_data =
               array(
                 'dealer_name'=>$value->name,
-                'city_id'=>$city_id,
+                // 'city_id'=>$city_id,
                 'state_id'=>$state_id,
                 'd_email'=>$value->email,
                 'd_phone'=>$value->Phone_No,
                 'd_address'=>$value->Address,
                 'city_pincode'=>$value->city_pincode,
-                'sp_code'=>$value->sp_code,
+                //'sp_code'=>$value->sp_code,
                 'status'=>1,
                 'crm_user_id' =>logged_user_data(),
                 'last_update'=> savedate(),

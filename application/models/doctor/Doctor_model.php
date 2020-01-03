@@ -9,6 +9,10 @@
 
 class Doctor_model extends CI_Model {
 
+public function __construct()
+        {
+                parent::__construct();
+        }
     
     public function update_dealer_pharma($data=''){
         

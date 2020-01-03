@@ -40,7 +40,7 @@ class Sample_master extends Parent_admin_controller {
 
             
 
-            $this->load->model('sample_master/sample_master_model','sample');
+            $this->load->model('sample_master/Sample_master_model','sample');
 
     }
 
@@ -60,7 +60,7 @@ class Sample_master extends Parent_admin_controller {
 
 
 
-//         pr($data['sample_data']); die;
+        // pr($data['sample_data']); die;
 
          
 

@@ -27,18 +27,12 @@ class Meeting extends Parent_admin_controller {
     {
 
         parent::__construct();
-
-            $loggedData=logged_user_data();
-
-            
+            $loggedData=logged_user_data();           
 
             if(empty($loggedData)){
-
                 redirect('user'); 
-
             }
-
-        $this->load->model('meeting/meeting_model','meeting');
+        $this->load->model('meeting/Meeting_model','meeting');
 
         $this->load->model('dealer/Dealer_model','dealer');
 
@@ -359,11 +353,13 @@ class Meeting extends Parent_admin_controller {
 		$this->email->message($message);
 		$result=$this->email->send();
 		if($result){
+			chmod('./assets/proof/'.$new_name, 0777);
 			unlink( './assets/proof/'.$new_name);
 			set_flash('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-check"></i> Success!</h4>Mail Successfully Sent.</div>');
 			redirect('meeting/meeting/interact_with_ho');
 		}
 		else{
+			chmod('./assets/proof/'.$new_name, 0777);
 			unlink( './assets/proof/'.$new_name);
 			set_flash('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-ban"></i> Alert!</h4>Something went wrong please.Try Again !!.</div>');
 			redirect('meeting/meeting/interact_with_ho');

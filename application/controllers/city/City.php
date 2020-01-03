@@ -144,18 +144,19 @@ class City extends Parent_admin_controller {
              $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $element['pincode']);
             $rowCount++;
         }
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+  //       $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+  //       $objWriter->save($fileName);
+		// $this->load->helper('download');        
+  //       $name = $fileName;
+  //       force_download($name, $data);
         
-        
-        $objWriter->save($fileName);
-	$this->load->helper('download');
-        // download file
-//        header("Content-Type: application/vnd.ms-excel");
-//        redirect(HTTP_UPLOAD_IMPORT_PATH.);     
-        
-        $name = $fileName;
-        force_download($name, $data);
-        
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+			$objWriter->save('php://output');
+
     }
 
         
@@ -426,10 +427,11 @@ public function save_edited_city(){
 		    $this->load->library('form_validation');
 		    $this->form_validation->set_rules('city_name', 'City Name', "required");
 		    $this->form_validation->set_rules('state', 'State', "required");
-                     $this->form_validation->set_rules('pincode', 'Pin Code', "required");
+            $this->form_validation->set_rules('pincode', 'Pin Code', "required");
 //		    $result=check_city_exist($post_data);
 //		    if($result)
 //		    {
+                    
 			    if($this->form_validation->run() == TRUE){
 			      $success=$this->city->edit_city_data($post_data);
 			      if($success=1){  // on sucess

@@ -2749,6 +2749,84 @@ function get_doc_details($sp_code){
   }
 }
 
+function count_overall_visits($month_date='',$doc_id=''){
+	$doc_interc_list=json_decode(file_get_contents("ReportJSON/IntrctionDocSumry.json"),true);
+
+	$doc_interc=array();
+	$doc_in=array();
+	$doc_sale=array();
+	$child_usr=get_check_active_users(explode(', ',logged_user_child()));
+
+	foreach ($doc_interc_list as $doc_sec){
+		foreach ($doc_sec as $doct_list){
+			$patDate=date('Y-m-d 00:00:00', strtotime($doct_list['date']));
+			if (in_array($patDate,$month_date)) {
+				if(is_admin()){
+					if ($doct_list['doc_id'] == $doc_id) {
+						$doc_interc[] = $doct_list['doc_id'];
+						$doc_sale[] = $doct_list['secondary_sale'];
+						if($doct_list['metnotmet'] == '1'){
+							$doc_in[] = 1;
+						}
+					}
+				}
+				else if(!empty($child_usr)){
+					if(in_array($doct_list['user_id'], $child_usr)) {
+						if ($doct_list['doc_id'] == $doc_id) {
+							$doc_interc[] = $doct_list['doc_id'];
+							$doc_sale[] = $doct_list['secondary_sale'];
+							if($doct_list['metnotmet'] == '1'){
+								$doc_in[] = 1;
+							}
+						}
+					}
+				}
+				else{
+					if($doct_list['user_id']==logged_user_data()) {
+						if ($doct_list['doc_id'] == $doc_id) {
+							$doc_interc[] = $doct_list['doc_id'];
+							$doc_sale[] = $doct_list['secondary_sale'];
+							if($doct_list['metnotmet'] == '1'){
+								$doc_in[] = 1;
+							}
+						}
+					}
+				}
+
+			}
+		}
+	}
+	$count_visit=0;
+	foreach ($doc_interc as $doc_int){
+		if($doc_int==$doc_id){
+			$count_visit=$count_visit + 1;
+		}
+	}
+
+	$interct_count=0;
+	foreach ($doc_in as $docint){
+		if($docint == 1){
+			$interct_count=$interct_count + 1;
+		}
+	}
+
+	$int_sales=0;
+	foreach ($doc_sale as $sale){
+		if(!empty($sale)){
+			$int_sales=$int_sales + 1;
+		}
+	}
+
+	$dataArr=array(
+		'total_interct' => $interct_count,
+		'total_orders' => $int_sales,
+		'total_visits' => $count_visit,
+	);
+
+	return $dataArr;
+
+}
+
 
 function get_dealers_count($uid){
 	$ci = &get_instance();
@@ -2796,5 +2874,20 @@ function get_leaves_deatils($date){
 	}
 }
 
+
+function get_date_permission($uid){
+  $ci = &get_instance();
+  $arr = "date_perm";
+  $ci->db->select($arr);
+  $ci->db->from("pharma_users");
+  $ci->db->where("id",$uid);
+  $query = $ci->db->get();
+  if($ci->db->affected_rows()){
+    $var=$query->row()->date_perm;
+    return $var;
+  }else{
+    return 0;
+  }
+}
 
 ?>

@@ -18,7 +18,10 @@
 
 class Pharmacy_model extends CI_Model {
 
-
+public function __construct()
+        {
+                parent::__construct();
+        }
 
     // update dealers pof the pharmacy
 

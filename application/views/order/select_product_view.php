@@ -349,7 +349,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
 			$('.procat_box_'+catid).css('display','table-row');
 			$('#procat_name_'+catid).css('display','table-row');
 			$('#procat_footer_row_'+catid).css('display','table-row');
-			if(catid==11 || catid==9 || catid==8 || catid==12)//potency category
+			if(catid==11 || catid==9 || catid==8)//potency category
     		{
     			$.ajax({
 			   type:"POST",
@@ -481,7 +481,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
     		//$(".select3").select2();
 
     	//alert(catid);
-    	if(catid==11 || catid==9 || catid==8 || catid==12)
+    	if(catid==11 || catid==9 || catid==8)
     	{
     		var strVar = '<tr id="" class="product_row procat_box_'+catid+' "> <td> <select catid="'+catid+'" name="product_potency[]" id="" class="product_select_potency form-control  procat_option_box_potency_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_packsize[]" id="" class="product_select_packsize form-control procat_option_box_packsize_'+catid+'" style="width: 100%;"></td><td> <select catid="'+catid+'" name="product_name[]" id="" class="product_select form-control select3 procat_option_box_'+catid+'" style="width: 100%;"></td><td><input id="" class="form-control pro_mrp_val" name="pro_mrp_val[]" type="text"  value=""></td><td><input id="" class="form-control pro_qnty" name="pro_qnty[]"type="text" value=""></td><td><input id="" class="form-control pro_dis" name="pro_dis[]" type="text" value=""></td><td><input id="" class="form-control pro_amt" type="text" name="pro_amt[]" readonly value="0"></td><td><button type="button" catid="<?= $category['category_id'] ?>" class="btn btn-danger pull-right delete_row">Delete Product</button></td></tr>';
     	 	$(theElement).closest('tr').before(strVar);
@@ -674,7 +674,7 @@ $edit_list_data=json_decode($edit_list);// for all active dealers
   		var catid=$(this).attr("catid");
   		var packsize=$(this).val();
   		var theElement = $(this);
-  		if(catid==11 || catid==9 || catid==8 || catid==12)
+  		if(catid==11 || catid==9 || catid==8)
     	{
     		var potency=$(theElement).closest('tr').find('.product_select_potency').val();
     		if(potency!='')

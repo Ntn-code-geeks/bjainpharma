@@ -1571,7 +1571,7 @@ class Report extends REST_Controller {
                     'Data' => new stdClass(),
                     'Status' => false,
                     'Message' => $msg,
-                    'Code' => 404
+                    'Code' => 202
                 );
             }
             
@@ -1581,7 +1581,7 @@ class Report extends REST_Controller {
                 'Data' => new stdClass(),
                 'Status' => false,
                 'Message' => $msg,
-                'Code' => 404
+                'Code' => 202
             );
         }
         
@@ -1602,6 +1602,10 @@ class Report extends REST_Controller {
         if(empty($post['passcode']))
         {
         	$msg='Please enter passcode.';
+        } else {
+            if(strlen($post['passcode']) != 4){
+                $msg='Passcode length should 4 digit.';
+            }
         }
         
         
@@ -1625,7 +1629,7 @@ class Report extends REST_Controller {
                     'Data' => new stdClass(),
                     'Status' => false,
                     'Message' => $msg,
-                    'Code' => 404
+                    'Code' => 202
                 );
             }
             
@@ -1635,7 +1639,7 @@ class Report extends REST_Controller {
                 'Data' => new stdClass(),
                 'Status' => false,
                 'Message' => $msg,
-                'Code' => 404
+                'Code' => 202
             );
         }
         

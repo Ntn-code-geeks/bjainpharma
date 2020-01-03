@@ -47,14 +47,27 @@ class Customer extends Parent_admin_controller {
                  $allspcode = $this->session->userdata('sp_code');
                  $spcode_array = explode(',',$allspcode);
                  $spcode = implode('|',$spcode_array);
-                //  echo $spcode;
-                //  die;
+                 // echo $spcode;
+                 // die;
                 if(!empty($spcode)){ 
-                  $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=".$spcode;
+                  // $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=".$spcode;
+                  //$mycustomer_API   = "https://bjainpharmacrm.com/nav_con/my_customer.php?spcode=".$spcode;
+
+                  /*
+*Created On: 27-Dec-2019
+*Created By: Nitin kumar
+*SOAP API Navision Data Get
+*/
+$curl_handle=curl_init();
+curl_setopt($curl_handle, CURLOPT_URL,'https://bjainpharmacrm.com/nav_con/my_customer.php?spcode='.$spcode);
+curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Navi');
+$query = curl_exec($curl_handle);
+curl_close($curl_handle);
           
-                    $data['my_customer'] = file_get_contents($mycustomer_API);
-                   // pr($data['my_customer']);
-                    //die;
+                    $data['my_customer'] = $query;
+                    // $data['my_customer'] = file_get_contents($mycustomer_API);
                 }else{
                      $data['my_customer'] = '';
                 }
@@ -74,19 +87,35 @@ class Customer extends Parent_admin_controller {
      */
     
     public function nav_cust_connect(){
-        
          //$spcode = $this->session->userdata('sp_code');
         
         // if(!empty($spcode)){
-         $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
+         // $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
+        // $mycustomer_API   = "https://bjainpharmacrm.com/nav_con/my_customer.php?spcode=";
         // }else{
             // $mycustomer_API   = "https://www.bjaincorp.com/bjainpharma/nav_con/my_customer.php?spcode=";
         // }
-       // echo $mycustomer_API;
-         $my_customers = file_get_contents($mycustomer_API);
-        // pr($my_customers); die;
-       
-                $sucess =  $this->cust_nav->add_update_dealer($my_customers);
+       // echo $mycustomer_API; die;
+        //  $my_customers = file_get_contents($mycustomer_API);
+      	 // pr($my_customers); die;
+        
+
+/*
+*Created On: 27-Dec-2019
+*Created By: Nitin kumar
+*SOAP API Navision Data Get
+*/
+$curl_handle=curl_init();
+curl_setopt($curl_handle, CURLOPT_URL,'https://bjainpharmacrm.com/nav_con/my_customer.php?spcode=');
+curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Navi');
+$query = curl_exec($curl_handle);
+curl_close($curl_handle);
+
+
+                // $sucess =  $this->cust_nav->add_update_dealer($my_customers);
+                $sucess =  $this->cust_nav->add_update_dealer($query);
        
                 if($sucess==1)
                 {
@@ -106,7 +135,11 @@ class Customer extends Parent_admin_controller {
     }
     
     
-    
+   
+
+
+
+
     
 
 

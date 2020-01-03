@@ -14,7 +14,10 @@
 
 class Dealer_model extends CI_Model {
 
-    
+public function __construct()
+        {
+                parent::__construct();
+        }    
 
     public function dealer_list_all(){  // used to show list of dealer for dealer organization
 
@@ -118,6 +121,20 @@ class Dealer_model extends CI_Model {
         }
     }
 
+    
+
+    /*
+
+     * @author: Niraj Kumar
+
+     * Dated:03-nov-2017
+
+     * 
+
+     * for Dealer list for interaction
+
+     */
+
     public function add_edit_dealer_list(){
         $cities_are = logged_user_cities();
         $city_id=explode(',', $cities_are);
@@ -182,7 +199,12 @@ class Dealer_model extends CI_Model {
 
     }
 
+
+
+
+
     /*code for add Dealer with filter by state,city*/
+
     public function cities($id=''){
 
         $arr ="c.city_name,c.city_id,s.state_name";
@@ -267,8 +289,6 @@ class Dealer_model extends CI_Model {
             $destination_city=get_destination_interaction('dealer',$data['dealer_view_id'],3);
             $destination_city_id=get_destination_interaction_id('dealer',$data['dealer_view_id'],3);
         }
-
-
         if($data['up'] && $destination_city==$source_city && $destination_city!=get_user_deatils(logged_user_data())->headquarters_city)
         {
 
@@ -342,14 +362,9 @@ class Dealer_model extends CI_Model {
             $user_city_ID=get_user_deatils(logged_user_data())->headquarters_city;
             if( (is_city_metro($destination_city_id)== is_city_metro($user_city_ID)) &&
                 (get_state_id($user_city_ID) == get_state_id($destination_city_id)) &&
-                ($maindistance <= 75)
+                ($maindistance <= 75)  && (get_user_deatils(logged_user_data())->headquarters_city == $destination_city_id)
             ){
-            	if(get_user_deatils(logged_user_data())->headquarters_city == $destination_city_id){
-					$distance = 0;
-				}else{
-					$distance = 0;
-				}
-
+                $distance = 0;
             }else{
                 if($maindistance <= 20 ){
                      $distance = 0;
@@ -360,7 +375,7 @@ class Dealer_model extends CI_Model {
            
         }
 
-//		pr($distance); die;
+
         if($distance>=0 && $distance<=100)
         {
             if($designation_id==5 || $designation_id==6)
@@ -521,7 +536,7 @@ class Dealer_model extends CI_Model {
             'ta'=>$ta,
             'stp_ta'=>$stp_ta,
             'stp_distance'=>$stp_distance,
-            'is_stp_approved'=> $is_stp_approved, 
+            'is_stp_approved'=> $is_stp_approved,
             
             'meet_id'=>$meet_id,
             'doi'=>$tour_date,
@@ -533,7 +548,7 @@ class Dealer_model extends CI_Model {
     }
 
     public function state_list(){
-        $arr ="state_name,state_id";
+         $arr ="state_name,state_id";
         $this->db->select($arr);
         $this->db->from('state s');
         $query= $this->db->get();

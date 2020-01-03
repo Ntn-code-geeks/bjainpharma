@@ -4,20 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
+
 /*
- * Developer: Niraj Sharma
- * Email: niraj@bjain.com
- * 
- * Dated: 28-08-2018
- * 
+Developer: Nitin Kumar
  */
 
 
-/**
-
- * @link https://github.com/chriskacerguis/codeigniter-restserver
-
- */
 
 class Users extends REST_Controller {
     function __construct() {
@@ -27,10 +19,8 @@ class Users extends REST_Controller {
     }
 
     function login_user_post() {
-        
         # initialize variables
         $post = array_map('trim', $this->input->post());
-        // pr($post); die;
         $msg = '';
         $data = array();
         $email = $post['email'];
@@ -51,7 +41,6 @@ class Users extends REST_Controller {
         if ($msg == '') 
         {
           $data = $this->user->check_user_api($email);
-          //pr($data); die;
           if($data!=FALSE)
           {
 	  	//   pr($data);     die;
@@ -109,53 +98,9 @@ class Users extends REST_Controller {
         $this->response($result);
     }
 
-    
-     public function user_city_get(){
-            
-         $msg = '';
-	$spcode  = $this->get('spcode');
-        if(!(isset($spcode)&& !empty($spcode)))
-        {
-        	$msg='User Id is required.';
-        }
-       	if ($msg == '') 
-        {
-              $data = get_all_city($spcode);
-              if ($data!=FALSE) 
-              { 
-                  $result = array(
-                      'Data' => $data,
-                      // 'Status' => true,
-                      'Message' => 'successfully',
-                      'Code' => 200
-                  );
-              }
-              else 
-              {
-                  $result = array(
-                      'Data' => new stdClass(),
-                      'Status' => false,
-                      'Message' => 'No City',
-                      'Code' => 404
-                  );
-              }
-              $this->response($result);
-        }else{
-             $result = array(
-                      'Data' => new stdClass(),
-                      'Status' => false,
-                      'Message' => 'No City',
-                      'Code' => 404
-                  );
-            
-        }
-                
-	}
-    
-  
  
      //get all state	
-     function all_state_get()
+   function all_state_get()
      {
         $data = $this->user->get_all_state();
 	if ($data!=FALSE) 
@@ -225,19 +170,10 @@ class Users extends REST_Controller {
 	                'Code' => 200
 	            );
 	        }
-                elseif ($data==FALSE) 
-		{ 
-	            $result = array(
-	                'Data' => array(),
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        }
 	        else 
 	        {
 	            $result = array(
-	                'Data' => array(),
+	                'Data' => new stdClass(),
 	                'Status' => false,
 	                'Message' => 'No Boss',
 	                'Code' => 404
@@ -256,59 +192,8 @@ class Users extends REST_Controller {
         $this->response($result);
    }
    
-   function users_subordinate_get()
-   {
-   	$msg = '';
-	$userid  = $this->get('userid');
-        if(!(isset($userid)&& !empty($userid)))
-        {
-        	$msg='User Id is required.';
-        }
-       	if ($msg == '') 
-        {
-	        $data = $this->user->get_users_subordinates($userid);
-		if ($data!=FALSE) 
-		{ 
-	            $result = array(
-	                'Data' => $data,
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        }
-                elseif($data==FALSE){ 
-		 
-	            $result = array(
-	                'Data' => array(),
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        
-                 }
-	        else 
-	        {
-	            $result = array(
-	                'Data' => array(),
-	                'Status' => false,
-	                'Message' => 'No Subordinate',
-	                'Code' => 404
-	            );
-	        }
-        }
-        else 
-        {
-            $result = array(
-                'Data' => new stdClass(),
-                'Status' => false,
-                'Message' => $msg,
-                'Code' => 404
-            );
-        }
-        $this->response($result);
-   }
-   
-   function email_ho_post() 
+  
+  function email_ho_post() 
    {
 	    $post= array_map('trim', $this->input->post());
             $msg ='';
@@ -334,20 +219,38 @@ class Users extends REST_Controller {
 		$recipient=$post['email'];
 		$message=$post['body'];
 		$subject=$post['subject'];
-		if(!empty($_FILES['file1']['name']))
-        	{
+
+
+		if (!empty($_FILES['file1']['name']))
+  		 {        		
 			$mimes = array('image/jpeg','image/png','image/jpg','image/JPG');
 			if(in_array($_FILES['file1']['type'],$mimes))
 			{
 				$new_name =time().'_'.$_FILES['file1']['name'];
-				$config['file_name'] = $new_name;
-				$config['upload_path']  = './assets/proof/';
-				$config['allowed_types']= 'jpg|jpeg|png';
-				$this->load->library('upload', $config);
+				/*Name of file should be single string & not contains _ and blank space*/
+				// $config['file_name'] = $new_name;
+				// $config['upload_path']  = './assets/proof/';
+				// $config['allowed_types']= 'jpg|jpeg|png';
+
+				$dir_r=__DIR__;
+				$dir_ar=array_slice(array_reverse(array_filter(explode('/',$dir_r))), 3);
+				$base_dir='/'.(implode('/',array_reverse($dir_ar))).'/';
+
+				$config = array( 'file_name'  => $new_name,
+				 				  'upload_path' => $base_dir.'assets/proof',
+                     			  'allowed_types' => "jpg|jpeg|png",
+                     			  'overwrite' => TRUE, );
+				get_instance()->load->library('upload', $this->config); 
+				$this->upload->initialize($config);
+				// $this->load->library('upload', $config);
 				$fnm='file1';
-				if (!$this->upload->do_upload($fnm))
+				if ($this->upload->do_upload($fnm))
 				{
-	    				$result = array(
+					echo $this->upload->display_errors();	  		  		
+				}
+				else{
+
+					$result = array(
 				            'Data' => new stdClass(),
 				            //'Status' => false,
 				            'Message' => "Something Went wrong. Try again !!",
@@ -381,11 +284,10 @@ class Users extends REST_Controller {
 		$this->email->message($message);
 		$result=$this->email->send();
 		if($result)
-		{       if(!empty($new_name)){
+		{
 			unlink( './assets/proof/'.$new_name);
-                           }
 			$result = array(
-		            //'Data' => new stdClass(),
+		            'Data' => new stdClass(),
 		            //'Status' => false,
 		            'Message' => "Email Sent Successfully.",
 		            'Code' => 200
@@ -393,11 +295,9 @@ class Users extends REST_Controller {
 		}
 		else
 		{
-                       if(!empty($new_name)){
 			unlink( './assets/proof/'.$new_name);
-                        }
 			$result = array(
-		           // 'Data' => new stdClass(),
+		            'Data' => new stdClass(),
 		            //'Status' => false,
 		            'Message' => "Email can't Sent Now.",
 		            'Code' => 404
@@ -408,7 +308,7 @@ class Users extends REST_Controller {
 	 else
 	 {
 	        $result = array(
-	           // 'Data' => new stdClass(),
+	            'Data' => new stdClass(),
 	            //'Status' => false,
 	            'Message' => $msg,
 	            'Code' => 404
@@ -416,76 +316,56 @@ class Users extends REST_Controller {
 	  }
 	$this->response($result);	
     }
-    
-    function users_assign_tp_get()
-   {
-   	$msg = '';
-	$userid  = $this->get('userid');
-        if(!(isset($userid)&& !empty($userid)))
-        {
-        	$msg='User Id is required.';
-        }
-       	if ($msg == '') 
-        {
-	        $data = $this->user->get_assign_task($userid);
-		if ($data!=FALSE) 
-		{ 
-	            $result = array(
-	                'Data' => $data,
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        }
-	        else 
-	        {
-	            $result = array(
-	                'Data' => new stdClass(),
-	                'Status' => false,
-	                'Message' => 'No Boss',
-	                'Code' => 404
-	            );
-	        }
-        }
-        else 
-        {
-            $result = array(
-                'Data' => new stdClass(),
-                'Status' => false,
-                'Message' => $msg,
-                'Code' => 404
-            );
-        }
-        $this->response($result);
-   }
-    
-    // doctor status
-   public function doctor_status_get()
-   {
-   	
-       
-	        $data = $this->user->get_doctor_status();
-		if ($data!=FALSE) 
-		{ 
-	            $result = array(
-	                'Data' => $data,
-			// 'Status' => true,
-	                'Message' => 'successfully',
-	                'Code' => 200
-	            );
-	        }
-	        else 
-	        {
-	            $result = array(
-	                'Data' => new stdClass(),
-	                'Status' => false,
-	                'Message' => 'No Boss',
-	                'Code' => 404
-	            );
-	        }
-       
-       
-        $this->response($result);
+
+
+function user_childs_get(){
+	   $msg = '';
+	   $userid  = $this->get('userid');
+	   if(!(isset($userid)&& !empty($userid)))
+	   {
+		   $msg='User Id is required.';
+	   }
+	   if ($msg == '')
+	   {
+//		   $data = get_check_active_users(get_user_child($userid));
+		   $userID = array_values(get_check_active_users(get_user_child($userid)));
+		   $usrData=array();
+		   foreach ($userID as $uid){
+		   		$name=get_user_name($uid);
+		   		$usrData[]=array('user_id' => $uid, 'username' => $name);
+		   }
+		   $data=$usrData;
+
+		   if ($data!=FALSE)
+		   {
+		   	   $blank[]=array('username' => 'Select Employee');
+			   $result = array(
+				   'Data' => array_merge($blank,$data),
+				   // 'Status' => true,
+				   'Message' => 'successfully',
+				   'Code' => 200
+			   );
+		   }
+		   else
+		   {
+			   $result = array(
+				   'Data' => new stdClass(),
+				   'Status' => false,
+				   'Message' => 'No Child',
+				   'Code' => 404
+			   );
+		   }
+	   }
+	   else
+	   {
+		   $result = array(
+			   'Data' => new stdClass(),
+			   'Status' => false,
+			   'Message' => $msg,
+			   'Code' => 404
+		   );
+	   }
+	   $this->response($result);
    }
 
 

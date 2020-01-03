@@ -15,6 +15,14 @@ function get_flash() {
 
 }
 
+function set_flash($msg) {
+
+    $ci = &get_instance();
+
+    $ci->session->set_flashdata('tmp_flash', $msg);
+
+}
+
 
 function logged_user_data() {  // for user id
     $ci = &get_instance();
@@ -30,7 +38,6 @@ function logged_user_data() {  // for user id
 
    
 }
-
 
 function is_admin() 
 {  // for user id
@@ -256,7 +263,8 @@ function del_deal_doc_rel_row ($id,$tablename){  // delete dealer/doctor relatio
  * Dated: 02-nov-2017
  */
 function send_msg($message='' , $num1='',$num2=''){
-  
+//  $message = "hello test msg";
+//  $num1 = 9718831223;
   
     $curl = curl_init();
 
@@ -491,10 +499,9 @@ function status_dealer_data($id,$tablename){
 		$arr="c.city_id,c.city_name,s.state_name";
 		$ci->db->select($arr);
 		$ci->db->from("city c");
-                $ci->db->join('state s','c.state_id=s.state_id');
+    $ci->db->join('state s','c.state_id=s.state_id');
 		$ci->db->where('c.status',1);
 		$query = $ci->db->get();
-                
 		if($ci->db->affected_rows()){
 			return $query->result_array();
 		}
@@ -1645,7 +1652,6 @@ function user_sp_code() {  // for user id
 }
 
 function check_user_sp($spcode) {  // for user id
-    
   if($spcode=='')
   {
     $spcode=0;

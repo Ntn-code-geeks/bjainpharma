@@ -543,6 +543,7 @@ class User extends Parent_admin_controller {
   
   
     public function Interaction_summary_report(){
+    	// phpinfo();
       $data['doc_data']=$this->user->interaction_doctor_report();
       $data['pharma_data']=$this->user->interaction_pharmacy_report();
       $data['dealer_data']=$this->user->interaction_dealer_report();

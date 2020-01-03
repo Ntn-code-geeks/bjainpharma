@@ -58,20 +58,57 @@ $customer_data =array();
          
          $customer_data[$k]['dealer_code'] = $rec->No;
          
-         if(isset($rec->Address_2) && !isset($rec->Address_3)){
-         $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2;
-         }elseif(isset($rec->Address_3)){
-              $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2.''.$rec->Address_3;
-         }else{
-             $customer_data[$k]['Address'] = $rec->Address;
-         }
-         
+         // if(isset($rec->Address_2) && !isset($rec->Address_3)){
+         // $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2;
+         // }elseif(isset($rec->Address_3)){
+         //      $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2.''.$rec->Address_3;
+         // }else{
+         //     $customer_data[$k]['Address'] = $rec->Address;
+         // }
+
+/*Nesting if else By: Nitin */
+
+if(!empty($rec->Address) && empty($rec->Address_2) && empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address;
+}
+else if(empty($rec->Address) && !empty($rec->Address_2) && empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address_2;
+}
+else if(empty($rec->Address) && empty($rec->Address_2) && !empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address_3;
+}
+else if(!empty($rec->Address) && !empty($rec->Address_2) && empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2;
+}
+else if(empty($rec->Address) && !empty($rec->Address_2) && !empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address_2.''.$rec->Address_3;
+}
+else if(!empty($rec->Address) && empty($rec->Address_2) && !empty($rec->Address_3) ){
+    $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_3;
+}
+else if(!empty($rec->Address) && !empty($rec->Address_2) && !empty($rec->Address_3) ){
+    /*all three*/
+    $customer_data[$k]['Address'] = $rec->Address.''.$rec->Address_2.''.$rec->Address_3;
+}else{
+    $customer_data[$k]['Address'] = "";
+}
+
+
+         if(!empty($rec->Post_Code)){
          $customer_data[$k]['city_pincode']  = $rec->Post_Code;
-         
+         }
+         if(!empty($rec->City)){
          $customer_data[$k]['city_name']  = $rec->City;
+         }
+
          $customer_data[$k]['state_short']  = $rec->State_Code;
-         $customer_data[$k]['Phone_No']  = $rec->Phone_No;
-         $customer_data[$k]['email']  = $rec->E_Mail;
+         if(!empty($rec->Phone_No)){
+            $customer_data[$k]['Phone_No']  = $rec->Phone_No;
+         }
+         if(!empty($rec->E_Mail)){
+            $customer_data[$k]['email']  = $rec->E_Mail;
+         }
+                  
          $customer_data[$k]['sp_code']  = $rec->Salesperson_Code;
          
          
@@ -81,7 +118,7 @@ $customer_data =array();
          
          
      }
-     //echo "<pre>";
+    //  echo "<pre>";
     // print_r($customer_data); die;
      print_r(json_encode($customer_data));
  }else{

@@ -1406,7 +1406,7 @@ public function generate_attendance_report($userid,$start,$end)
                  }
 
                 $data['tada_report'] =$this->report->genrated_tada_report($tada_id);
-              //  pr($data); die;
+               // pr($data); die;
          //             pr($data['tada_report'] ); die;
                       $data['action'] ="reports/reports/approved_by_admin/$id";
 

@@ -20,9 +20,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<?php
+$u_id=logged_user_data();
+$date_perm=get_date_permission($u_id);
+?>
 
-
-
+<input type="hidden" id="date_perm" name="date_perm" value="<?=$date_perm ?>" style="display: none;">
 <input type="hidden" id="user_IDD" name="user_IDD" value="<?=logged_user_data() ?>" style="display: none;">
 <div class="content-wrapper">
 
@@ -240,20 +243,13 @@
 
 <script type='text/javascript'>
 
-     // $('#doi').datepicker({
-     //        //format:'dd-mm-yyyy',
-     //         startDate: '-7d',
-     //        endDate: '+0d' ,
-     //        daysOfWeekDisabled: [0],   //Disable sunday
-     //        autoclose:true
-     //   })  ; 
+  var per_dt=$('#date_perm').val();
+  var perm_day= '-' + per_dt + 'd';
 
   var usID=$('#user_IDD').val();
+  var datearray = $('#yearly_holidays').val();
 
-   var datearray = $('#yearly_holidays').val();
-
-     // if(usID==150 || usID==67 || usID==121     || usID==173 || usID==195 || usID==200 || usID==175 || usID==128    || usID==127 || usID==97 || usID==171){
-   // if(usID){
+     
   if(usID==39 || usID==155 || usID==81 || usID==79 || usID==164 || usID==182 || usID==42 || usID==43 ||
 		usID==169 || usID==203 || usID==46 || usID==52|| usID==193 || usID==211 || usID==80 || usID==55 || usID==44 ||
 		usID==46 || usID==114 || usID==161 || usID==57|| usID==48 || usID==157 || usID==185 || usID==49 || usID==68 ||
@@ -264,46 +260,26 @@
 		var poped_val= dat_str.pop();
 		var new_dates=dat_str.join(',');
 
-
-		if(usID==161){
- 		
-	 		$('#doi').datepicker({
-	            startDate: '-20d',
-	            endDate: '+0d',   ////future dates
-	             datesDisabled: datearray,     ////Gazetted Holidays
-	            daysOfWeekDisabled: [0],   //Disable sunday
-	            autoclose: true
-	        });
-    	}else{
-    		$('#doi').datepicker({
-            startDate: '-8d',
+	$('#doi').datepicker({
+            startDate: perm_day,
             endDate: '+0d' ,   ////future dates
              datesDisabled: new_dates,     ////Gazetted Holidays
             daysOfWeekDisabled: [0],   //Disable sunday
             autoclose:true
         })  ;
-    	}
+
 		
         
     }else {
-    	if(usID==88  || usID==210 || usID==208 || usID==153){    	
- 		
-	 		$('#doi').datepicker({
-	            startDate: '-18d',
-	            endDate: '+0d',   ////future dates
-	             datesDisabled: datearray,     ////Gazetted Holidays
-	            daysOfWeekDisabled: [0],   //Disable sunday
-	            autoclose: true
-	        });
-    	}else{
-    		 $('#doi').datepicker({
-            startDate: '-8d',
-            endDate: '+0d',   ////future dates
-             datesDisabled: datearray,     ////Gazetted Holidays
+    	
+    		$('#doi').datepicker({
+            startDate: perm_day,
+            endDate: '+0d' ,   ////future dates
+             datesDisabled: new_dates,     ////Gazetted Holidays
             daysOfWeekDisabled: [0],   //Disable sunday
-            autoclose: true
-        });
-       }
+            autoclose:true
+        })  ;
+
        
     }
 

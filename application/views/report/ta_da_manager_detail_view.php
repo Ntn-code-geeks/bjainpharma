@@ -34,16 +34,19 @@ $tada_data = json_decode($tada_report);
 		if(sum > 0){
              $(".total").val(sum);
             var grnd_total=$('#gt_amt').text();
-            var overalltot=parseFloat(grnd_total)+parseFloat(total);
+            var overalltot=parseFloat(grnd_total)+parseFloat(total)+parseFloat(sum);
             $('#over_amt').val(parseFloat(overalltot));
 		}else if(sum == '0'){
+            $(".total").val(sum);
             var grnd_total=$('#gt_amt').text();
             var overalltot=parseFloat(grnd_total)+parseFloat(total);
             $('#over_amt').val(parseFloat(overalltot));
 		}
 		else{
+            $(".total").val(sum);
             var grnd_total=$('#gt_amt').text();
-            var overalltot=parseFloat(grnd_total)+parseFloat(total);
+            // var overalltot=parseFloat(grnd_total)+parseFloat(total);
+             var overalltot=parseFloat(grnd_total)+parseFloat(total)+parseFloat(sum);
             $('#over_amt').val(parseFloat(overalltot));
 		}
 
@@ -72,11 +75,13 @@ $tada_data = json_decode($tada_report);
         $(".total").val(sum);
         var totalval=$(".totval").val();
         var user_imp=$('#usr_total').text();
-        if(user_imp != ''){
-            var grandtotal= parseFloat(totalval)+parseFloat(user_imp)+parseFloat(sum);
-		}else{
+        // if(user_imp != ''){
+        if(user_imp > 0){
+            // var grandtotal= parseFloat(totalval)+parseFloat(user_imp)+parseFloat(sum);
             var grandtotal= parseFloat(totalval)+parseFloat(sum);
-		}
+    		}else{
+            var grandtotal= parseFloat(totalval)+parseFloat(sum);
+    		}
         $("#over_amt").val(grandtotal);
         // console.log(user_imp);
     });
@@ -339,8 +344,8 @@ $tada_data = json_decode($tada_report);
 				  <tr>
 				  <td colspan="12">
 					  <strong id="gt_amt" style="display: none;"><?=$metro_Allwnce + $gtrow ?></strong>
-					  <input type="text" id="over_amt" readonly value="" style="float: right; text-align: right; border: 0px;  font-weight: 700;">
-					  <input type="hidden" id="final_total" name="overall_total" value="">
+					  <input type="text" id="over_amt" readonly value="" style="float: right; text-align: right; border: 0px;  font-weight: 700;"><br>
+					  <input type="hidden" id="final_total" name="overall_total" value="" style="display: none;">
 				  </td>
 				  </tr>
                   <?php }

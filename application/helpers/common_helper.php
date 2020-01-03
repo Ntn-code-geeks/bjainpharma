@@ -1017,6 +1017,7 @@ function send_email_boss($recipient, $senderemail='', $message){
         $ci = &get_instance();
 
         $ci->load->library('email', email_setting());
+        
         $ci->email->to($recipient, 'Bjain Pharma Tour Plan');
 
         if($senderemail!='')
@@ -1039,8 +1040,8 @@ function send_email_boss($recipient, $senderemail='', $message){
         
     
 	$ci->email->subject('Tour Plan Change Request'); 
-
 	$ci->email->message($message);
+   
 	$result=$ci->email->send();
 	if($result){
 
@@ -1565,20 +1566,36 @@ function email_setting(){
    //  );
 
       $email_config = Array(
+       // 'useragent'=>'CodeIgniter',
+       // 'protocol'=>'SMTP',
+       // 'smtp_host' => 'ssl://smtp.googlemail.com',
+       // 'smtp_user'=>'info@bjain.com',
+       // 'smtp_pass'=>'happy@365',
+       // 'charset'=>'utf-8',
+       // 'smtp_port'=>587, // use 3535 for server, 25 and localhost, ssl: 587
+       // 'sendmail_path'=>'', ///usr/sbin/sendmail
+       // 'smtp_crypto'=>'none', //tls or ssl
+       // 'mailtype'=>'html',
+       // 'wordwrap'=>true,
+       // 'newline'=>'\r\n'
+
+
+
        'useragent'=>'CodeIgniter',
-       'protocol'=>'SMTP',
-      'smtp_host' => 'ssl://smtp.googlemail.com',
-       'smtp_user'=>'info@bjain.com',
-       'smtp_pass'=>'happy@365',
+       'protocol'=>'smtp',
+       'smtp_host'=>'bjainpharmacrm.com',
+       'smtp_user'=>'crm@bjainpharmacrm.com',
+       'smtp_pass'=>'![*f$Cpr{TYU',
        'charset'=>'utf-8',
-//        'smtp_port'=>25, // use 3535 for server, 25 and localhost 
-       'smtp_port'=>465, // use 3535 for server, 25 and localhost 
+       'smtp_port'=>465, // use 3535 for server, 25 and localhost
        'sendmail_path'=>'', ///usr/sbin/sendmail
-       'smtp_crypto'=>'none', //tls or ssl
+       'smtp_crypto'=>'ssl', //tls or ssl
        'mailtype'=>'html',
        'wordwrap'=>true,
-       'newline'=>'\r\n'
+       'newline'=>"\r\n"
    );
+
+
     return $email_config;
 
 }

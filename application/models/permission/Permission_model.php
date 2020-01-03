@@ -18,7 +18,10 @@
 
 class Permission_model extends CI_Model {
 
-
+public function __construct()
+        {
+                parent::__construct();
+        }
 
     // show list of user 
 
@@ -27,7 +30,7 @@ class Permission_model extends CI_Model {
         
 
         $arr = "pu.user_status as status,pu.hq_city as hq_city,c.city_name as hq_city_name,"
-                . "pu.hq_city_pincode as  hq_city_pincode,pu.emp_code,pu.sp_code,pu.id,pu.name,pu.email_id as email,pu.user_phone as phone,pu.user_address as address,pu.user_city_id as city_id,pu.user_designation_id as desig_id,ud.designation_name,(SELECT GROUP_CONCAT(`pharma_id` separator ', ') as pharma_id FROM `user_pharmacy_relation` `upr` WHERE `pu`.`id`=`upr`.`user_id`) as pharma_id,(SELECT GROUP_CONCAT(`doc_id` separator ', ') as doctor_id FROM `user_doctor_relation` `udoc` WHERE `pu`.`id`=`udoc`.`user_id`) as doctor_id,(SELECT GROUP_CONCAT(`boss_id` separator ', ') as bossid FROM `user_bossuser_relation` `ubr` WHERE `pu`.`id`=`ubr`.`user_id`) as bossid ";
+                . "pu.hq_city_pincode as  hq_city_pincode,pu.emp_code,pu.sp_code,pu.id,pu.name,pu.email_id as email,pu.user_phone as phone,pu.user_address as address,pu.user_city_id as city_id,pu.user_designation_id as desig_id,ud.designation_name,(SELECT GROUP_CONCAT(`pharma_id` separator ', ') as pharma_id FROM `user_pharmacy_relation` `upr` WHERE `pu`.`id`=`upr`.`user_id`) as pharma_id,(SELECT GROUP_CONCAT(`doc_id` separator ', ') as doctor_id FROM `user_doctor_relation` `udoc` WHERE `pu`.`id`=`udoc`.`user_id`) as doctor_id,(SELECT GROUP_CONCAT(`boss_id` separator ', ') as bossid FROM `user_bossuser_relation` `ubr` WHERE `pu`.`id`=`ubr`.`user_id`) as bossid, pu.date_perm as date_perm ";
 
         $this->db->select($arr);
 
@@ -161,6 +164,7 @@ class Permission_model extends CI_Model {
 
                    'emp_code'=>$data['emp_code'],
                    'sp_code'=>trim($data['sp_code'],","),
+                   'date_perm' => $data['date_perm'],
                     'create_date'=>savedate(),
 
                     'crm_user_id'=> logged_user_data(),
@@ -401,6 +405,7 @@ class Permission_model extends CI_Model {
 
                     'emp_code'=>trim($data['emp_code']),
                         'sp_code'=>trim($data['sp_code'],","),
+                        'date_perm' => $data['date_perm'],
                     'hq_city'=>$data['hq_city'],
                     'hq_city_pincode'=>$data['city_pin'],
 

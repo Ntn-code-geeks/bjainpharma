@@ -2528,7 +2528,7 @@ class Report_model extends CI_Model {
                           $genrated_ta_da_detail_data = array(
                                     'admin_remark'=>$val_tada,
                               
-                                    'crm_user_id'=> logged_user_data(),
+                                    //'crm_user_id'=> logged_user_data(),
 //                                    'create_date'=>savedate(),                  
                                     'last_update'=>savedate(),                  
 

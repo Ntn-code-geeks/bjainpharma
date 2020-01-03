@@ -82,7 +82,9 @@ $navinvoice = json_decode($nav_invoice);
 							<td><?=$val_c->Description;?></td>
 							<td><?=$val_c->Pack_Size;?></td>
 							<td><?=$val_c->Potency;?></td>
-                                                        <td><?php if($val_c->Inventory>0){
+                                                        <td><?php 
+                                                        if($val_c->Inventory>0 || $val_c->Product_Group_Code==102){
+                                                        // if($val_c->Inventory>0){
                                                             echo 'Yes';
                                                         }else{
                                                             echo 'No';

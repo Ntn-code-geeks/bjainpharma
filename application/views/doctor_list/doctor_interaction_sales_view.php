@@ -324,7 +324,7 @@ if($nete != '01-01-1970'){
 
                $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
 
-               $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+               //$("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
 
                   }
 
@@ -334,7 +334,7 @@ if($nete != '01-01-1970'){
 
                        $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
 
-                       $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
+                      // $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
 
                   }
 
@@ -354,12 +354,12 @@ if($nete != '01-01-1970'){
              if(notmeet_value === ''){
                $("#sale<?=$edit_doctor->doctor_id ?>").css("display","none");
                $("#sample<?=$edit_doctor->doctor_id ?>").css("display","none");
-               $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
+               //$("#jw_<?=$edit_doctor->doctor_id ?>").css("display","none");
               }
 			  else{
 				  $("#sale<?=$edit_doctor->doctor_id ?>").css("display","block");
 				  $("#sample<?=$edit_doctor->doctor_id ?>").css("display","block");
-				  $("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
+				  //$("#jw_<?=$edit_doctor->doctor_id ?>").css("display","block");
 			  }
 
            });
@@ -396,22 +396,22 @@ if($nete != '01-01-1970'){
 
     
 
-      $eventSelect3.on("change",function(e){
+      //$eventSelect3.on("change",function(e){
 
-         var sample_value = $(this).val();
+         // var sample_value = $(this).val();
 
-             if(sample_value != ''){
-               $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
-               $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
-                  }
-                  else{
-                     $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
-                     $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
-                  } 
+         //     if(sample_value != ''){
+         //       $("#meet<?=$edit_doctor->doctor_id ?>").css("display","none");
+         //       $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","none");
+         //          }
+         //          else{
+         //             $("#meet<?=$edit_doctor->doctor_id ?>").css("display","block");
+         //             $("#notmmeet<?=$edit_doctor->doctor_id ?>").css("display","block");
+         //          } 
 
 
 
-    });
+   // });
 
          
 

@@ -27,6 +27,84 @@ $tada_data = json_decode($tada_report);
         }
     }
 </style>
+<script>
+    jQuery(document).ready(function() {
+        var total = 0;
+        /*User's change*/
+        $('.other_amt').each(function() {
+            var other_amount=$(this).val();
+            if(other_amount !=''){
+                total += Number($(this).val());
+            }
+        });
+
+        var ttal = 0;
+        /* manager's change*/
+        $('.mgr_amot').each(function() {
+            var othr_amount=$(this).val();
+            if(othr_amount !=''){
+                ttal += Number($(this).val());
+            }
+        });
+
+        var af_total = 0;
+        /*Admin's change*/
+        $('.af_mg_amt').each(function() {
+            var oth_amount=$(this).val();
+            if(oth_amount != ''){
+                af_total += Number($(this).val());
+            }
+        });
+
+        var mng_commited= $('#over_amt').val();
+
+        var totamot = $('#mg_tot').text();
+//         console.log(total+' '+ttal+ ' ' +af_total );
+
+
+        if(total != '' && ttal == '' && af_total > 0){
+            var mg_total=parseFloat(totamot) + parseFloat(total) + parseFloat(af_total);
+            var dif_commit= mng_commited - mg_total + parseFloat(af_total);
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+        if(total == '' && ttal != '' && af_total > 0){
+            var mg_total=parseFloat(totamot) + parseFloat(ttal) + parseFloat(af_total);
+            var dif_commit= mng_commited - mg_total + parseFloat(af_total);
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+        if(total != '' && ttal != '' && af_total > 0){
+            var mg_total=parseFloat(totamot) + parseFloat(total) + parseFloat(ttal) + parseFloat(af_total);
+            var dif_commit= mng_commited - mg_total + parseFloat(af_total);
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+
+        if(total != '' && ttal =='' && af_total =='' ){
+            var mg_total=parseFloat(totamot) + parseFloat(total) ;
+            var dif_commit= mng_commited - mg_total;
+            if(dif_commit == 1000 ){
+                $('#tot_amot').text('1000 + '+mg_total);
+            }else{
+                $('#tot_amot').text(mg_total);
+            }
+        }
+
+        $('#aft_submit_adm').text(af_total);
+        $('#usr_amt').val(parseFloat(total));
+        $('#mngr_amt').val(parseFloat(ttal));
+    });
+</script>
 
 
 <div class="content-wrapper">
@@ -183,23 +261,24 @@ $tada_data = json_decode($tada_report);
                                     </td>
 
                                     <td>
-                                        <input readonly class="form-control pull-right" value="<?=$val_tada->aoc_amount;
-                                        ?>" style="width: 52px;     padding: 2px;">
+                                        <input readonly class="form-control pull-right other_amt"
+											   value="<?=$val_tada->aoc_amount;
+                                        ?>" style="padding: 2px;">
                                     </td>
 
 
                                     <td>
-                                        <input  class="form-control pull-right"
-                                                value="<?=$val_tada->manager_remark; ?>" style="width: 52px;     padding: 2px;">
+                                        <input readonly class="form-control pull-right mgr_amot"
+                                                value="<?=$val_tada->manager_remark; ?>" style="padding: 2px;">
 
                                     </td>
 
                                     <td>
                                         <?php if(isset($admin_total_amount) && !empty($admin_total_amount)){ ?>
-                                            <input readonly class="form-control pull-right"
-                                                   value="<?=$val_tada->admin_remark; ?>" style="width: 52px;     padding: 2px;">
+                                            <input readonly class="form-control pull-right af_mg_amt"
+                                                   value="<?=$val_tada->admin_remark; ?>" style="padding: 2px;">
                                         <?php  }else{ ?>
-                                            <input type="number" name="admin_remark[]" value="" style="width: 52px;     padding: 2px;">
+                                           <input readonly type="number" class="form-control pull-right af_mg_amt" name="admin_remark[]" value="" style="padding:2px;">
                                         <?php } ?>
 
                                     </td>
@@ -256,25 +335,26 @@ $tada_data = json_decode($tada_report);
                         <td><strong><?=$gtta?></strong></td>
                         <td><strong><?=$gtda?></strong></td>
                         <td style="text-align: center;"><strong><?=$gtpostage?></strong></td>
-                        <td colspan="3"><strong><?=$gtrow?></strong>
+                        <td colspan="2"><strong id="mg_tot" style="padding: 10px;"><?=$gtrow?></strong></td>
 
-                            <input type="hidden" name="user" value=" <?= logged_user_data()?>">
-                            <input type="hidden" name="grant_total" value=" <?=$gtrow; ?>" >
-                        </td>
-                        <td> <?php if(isset($manager_total_amount) && !empty($manager_total_amount) && !empty($gtrow)){
+						<td><input type="text" class="form-control pull-right" id="usr_amt" value="" style="border:
+						0; font-weight: 600;"></td>
+						<td> <?php if(isset($manager_total_amount) && !empty($manager_total_amount) && !empty($gtrow)){	?>
 
-                                ?>
-                                <strong><?=$manager_total_amount; ?> </strong>
-                            <?php }else{ ?>
-                                <input type="text" name="manager_grant_total" value="" required="" style="width:52px;    padding: 2px;">
-                            <?php } ?>
-                        </td>
-                        <td> <?php if(isset($admin_total_amount) && !empty($admin_total_amount) && !empty($gtrow)){ ?>
-                                <strong><?=$admin_total_amount; ?> </strong>
-                            <?php  }else{ ?>
-                                <input type="text" name="admin_grant_total" value="" required="" style="width:52px; padding: 2px;">
-                            <?php } ?>
-                        </td>
+								<input type="text" class="form-control pull-right" id="mngr_amt" value="" style="border:
+						0; font-weight: 600;">
+							<?php }else{ ?>
+								<input type="text" class="form-control pull-right" name="manager_grant_total" value="" style="border:	0; font-weight: 600;">
+							<?php } ?>
+						</td>
+						<td> <?php if(isset($admin_total_amount) && !empty($admin_total_amount) && !empty($gtrow)){ ?>
+								<strong class="form-control pull-right" id="aft_submit_adm"></strong>
+							<?php  }else{ ?>
+								<input type="text" class="form-control pull-right total" name="admin_grant_total"
+									   value="" style="border:0; padding:2px; text-align: center; font-weight: 600;">
+							<?php } ?>
+						</td>
+
 
                     </tr>
                     <tr>
@@ -283,15 +363,17 @@ $tada_data = json_decode($tada_report);
                         if($metro_Allwnce == 1000){
                         ?>
                         <td><strong>GRAND TOTAL</strong></td>
-                        <td colspan="11"><strong style="float: right;"><?=$metro_Allwnce ?> + <?=$gtrow ?></strong></td>
+<!--                        <td colspan="11"><strong style="float: right;">--><?//=$metro_Allwnce ?><!-- + --><?//=$gtrow
+//								?><!--</strong></td>-->
                         <tr>
-                            <td colspan="12">
-                                <strong style="float: right;"><?=$metro_Allwnce + $gtrow ?></strong></td>
+                        <td colspan="12"><strong id="tot_amot" style="float: right;"><?=$metro_Allwnce + $gtrow ?></strong></td>
+						<input type="hidden" name="overall_amt" id="over_amt" value="<?=$manager_total_amount ?>">
                         </tr>
                     <?php }
                     else{ ?>
                         <td><strong>GRAND TOTAL</strong></td>
-                        <td colspan="11"><strong style="float: right;"><?=$grand_total ?></strong></td>
+                        <td colspan="11"><strong id="tot_amot" style="float: right;"><?=$grand_total ?></strong></td>
+						<input type="hidden" name="overall_amt" id="over_amt" value="<?=$grand_total; ?>">
                     <?php }
                     ?>
                     </tr>

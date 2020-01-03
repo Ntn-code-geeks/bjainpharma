@@ -1,8 +1,7 @@
 <?php
 
 /* 
- * Developer:shailesh saraswat
- * Email:sss.shailesh@gmail.com
+ * Developer:NITIN KUMAR
  * Dated: 16-Aug-2018
  * 
  * For fetch my customer list of a user
@@ -12,6 +11,7 @@
  include("php_nav_lib/Navision.php");
  include("php_nav_lib/ntlm.php");
 
+ 
 if(isset($_GET['skucode'])){
     
   $spcode = $_GET['skucode'];
@@ -23,10 +23,11 @@ if(isset($_GET['skucode'])){
 // $page = new NTLMSoapClient('http://110.172.147.196:9048/bjainlive/WS/B.%20Jain%20Pharma-2017/Page/MyCustomer');
  
  $baseURL = 'http://139.5.19.140:9048/bjainlive/WS/';
-$CompanyName = 'B. Jain Pharma-2017';
-$pageURL = $baseURL.rawurlencode($CompanyName).'/Page/_x0031_mgitemservice';
+ $CompanyName = 'B. Jain Pharma-2017';
+ $pageURL = $baseURL.rawurlencode($CompanyName).'/Page/_x0031_mgitemservice';
  //echo "<br>URL of Customer page: $pageURL<br><br>"; 
-
+ // echo "<pre>";
+ // print_r($pageURL); die;
 
 try{
   
@@ -62,7 +63,12 @@ $invoice_data =array();
          
          $invoice_data[$k]['Product_Group_Code']  = $rec->Product_Group_Code;
          
-         $invoice_data[$k]['Potency']  = $rec->Potency;
+         if(!empty($rec->Potency)){
+            $invoice_data[$k]['Potency']  = $rec->Potency;
+         }else{
+            $invoice_data[$k]['Potency']  = "";
+         }
+
          $invoice_data[$k]['Pack_Size']  = $rec->Pack_Size;
          $invoice_data[$k]['_x0031_mg_Sku_Code']  = $rec->_x0031_mg_Sku_Code;
          

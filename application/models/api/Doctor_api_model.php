@@ -2,74 +2,33 @@
 
 
 /*
- * Developer: Niraj Sharma
- * Email: niraj@bjain.com
- * 
- * Dated: 28-08-2018
+
  * 
  */
 
 class Doctor_api_model extends CI_Model {
 
-    public function get_doctor_list($sp_code='',$pin_code='')
+    public function get_doctor_list($dataArr)
     {
     	$doc_list = array();
-        if(!empty($sp_code) && empty($pin_code)){
-           $sp=explode(',',$sp_code); 
-        
-            foreach($sp as $spcd)
-            {
-                    $arr = "doc.sp_code,doc.doctor_id as id,doc.d_id as dealers_id,doc.doc_name as d_name,"
-                            . "doc.doc_email as d_email,doc.doc_phone as d_ph,"
-                            . "doc.blocked,doc.city_id as city_id,doc.state_id as state_id,"
-                            . "doc_gender as gender,doc_married_status as married,doc_spouse_name as sp_name,"
-                            . "IF(doc_spouse_email is not NULL, doc_spouse_email, '') as sp_email,"
-                            . "IF(doctor_status_id is not NULL, doctor_status_id, '') as doc_status,doc_about as about,doc_address as address,"
-                            . "city_pincode as city_pin,IF(doc_dob is not NULL, doc_dob, '') as dob,c.city_name";
-                    $this->db->select($arr);
-                    $this->db->from("doctor_list doc");
-                    $this->db->join("city c","c.city_id=doc.city_id");
-                    $this->db->where('doc.sp_code',$spcd);
-                    $query= $this->db->get();
-                    //echo $this->db->last_query(); die;
-                    if($this->db->affected_rows())
-                    {
-                        foreach($query->result_array() as $docdata )
-                        {
-                            $doc_list[]=$docdata ;
-                        }
-                    }
-            }
-       
-        }elseif(!empty ($pin_code)){
-            
-            $sp=explode(',',$sp_code); 
-             foreach($sp as $spcd)
-            {
-                    $arr = "doc.sp_code,doc.doctor_id as id,doc.d_id as dealers_id,doc.doc_name as d_name,"
-                            . "doc.doc_email as d_email,doc.doc_phone as d_ph,"
-                            . "doc.blocked,doc.city_id as city_id,doc.state_id as state_id,"
-                            . "doc_gender as gender,doc_married_status as married,doc_spouse_name as sp_name,"
-                            . "IF(doc_spouse_email is not NULL, doc_spouse_email, '') as sp_email,"
-                            . "IF(doctor_status_id is not NULL, doctor_status_id, '') as doc_status,doc_about as about,doc_address as address,"
-                            . "city_pincode as city_pin,IF(doc_dob is not NULL, doc_dob, '') as dob,c.city_name";
-                    $this->db->select($arr);
-                    $this->db->from("doctor_list doc");
-                    $this->db->join("city c","c.city_id=doc.city_id");
-                    $this->db->where('doc.sp_code',$spcd);
-                    $this->db->where('doc.city_pincode',$pin_code);
-                    $query= $this->db->get();
-                    //echo $this->db->last_query(); die;
-                    if($this->db->affected_rows())
-                    {
-                        foreach($query->result_array() as $docdata )
-                        {
-                            $doc_list[]=$docdata ;
-                        }
-                    }
-            }
-             
-            
+    	$sp=explode(',',$dataArr['sp_code']);
+    	foreach($sp as $spcd)
+    	{
+	 	$arr = "doc.sp_code,doc.doctor_id as id,doc.d_id as dealers_id,doc.doc_name as d_name,doc.doc_email as d_email,doc.doc_phone as d_ph,doc.blocked,doc.city_id as city_id,doc.state_id as state_id,doc_gender as gender,doc_married_status as married,doc_spouse_name as sp_name,IF(doc_spouse_email is not NULL, doc_spouse_email, '') as sp_email,doctor_status_id as doc_status,doc_about as about,doc_address as address,city_pincode as city_pin,IF(doc_dob is not NULL, doc_dob, '') as dob,c.city_name";
+	        $this->db->select($arr);
+	        $this->db->from("doctor_list doc");
+	        $this->db->join("city c","c.city_id=doc.city_id");
+	        $this->db->where('doc.sp_code',$spcd);
+            $this->db->where('doc.city_id',$dataArr['city_id']);
+	        $query= $this->db->get();
+	        //echo $this->db->last_query(); die;
+	        if($this->db->affected_rows())
+	        {
+	            foreach($query->result_array() as $docdata )
+    		    {
+	            	$doc_list[]=$docdata ;
+	            }
+	        }
         }
         if(empty($doc_list))
         {
